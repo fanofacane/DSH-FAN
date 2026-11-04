@@ -1,0 +1,6326 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ keys aren’t supported yet. Use an Ed25519 or ECDSA key.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂不支持 %@ 私钥，请使用 Ed25519 或 ECDSA 私钥"
+          }
+        }
+      }
+    },
+    "%@:%@ isn’t responding": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@:%@ 没有响应"
+          }
+        }
+      }
+    },
+    "%@:%@ refused the connection": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@:%@ 拒绝了连接"
+          }
+        }
+      }
+    },
+    "%lld image(s)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 张图片"
+          }
+        }
+      }
+    },
+    "%lld lines": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 行"
+          }
+        }
+      }
+    },
+    "192.168.1.20 or example.com": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "192.168.1.20 或 example.com"
+          }
+        }
+      }
+    },
+    "A remote host can keep working, but a suspended iOS app cannot receive new events or issue completion alerts. DSH does not provide server push notifications.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远程主机可继续工作，但 iOS App 被挂起后无法接收新事件或发出完成通知。DSH 不提供服务端推送通知。"
+          }
+        }
+      }
+    },
+    "AI": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI"
+          }
+        }
+      }
+    },
+    "API base URL": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API 基础地址"
+          }
+        }
+      }
+    },
+    "API key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key"
+          }
+        }
+      }
+    },
+    "API key (leave blank to keep)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key（留空保留）"
+          }
+        }
+      }
+    },
+    "API key reference": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key 引用名称"
+          }
+        }
+      }
+    },
+    "Abilities": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "能力"
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于"
+          }
+        }
+      }
+    },
+    "About DSH": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于 DSH"
+          }
+        }
+      }
+    },
+    "Accent color": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "强调色"
+          }
+        }
+      }
+    },
+    "Account": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "账户"
+          }
+        }
+      }
+    },
+    "Account balance": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "账号余额"
+          }
+        }
+      }
+    },
+    "Account sign-in is available only on this phone’s engine.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "账号登录仅支持本机引擎。"
+          }
+        }
+      }
+    },
+    "Account tasks may stop. Your API keys are kept.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "账号相关任务可能停止。API Key 会保留。"
+          }
+        }
+      }
+    },
+    "Active": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用中"
+          }
+        }
+      }
+    },
+    "Add": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加"
+          }
+        }
+      }
+    },
+    "Add SSH host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加 SSH 主机"
+          }
+        }
+      }
+    },
+    "Add images": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加图片"
+          }
+        }
+      }
+    },
+    "Add item": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加项目"
+          }
+        }
+      }
+    },
+    "Add key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加 Key"
+          }
+        }
+      }
+    },
+    "Add provider": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加服务商"
+          }
+        }
+      }
+    },
+    "Add service from catalog": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从目录添加服务"
+          }
+        }
+      }
+    },
+    "Add your API key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "添加 API Key"
+          }
+        }
+      }
+    },
+    "Agent preset": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agent 预设"
+          }
+        }
+      }
+    },
+    "Agent presets": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agent 预设"
+          }
+        }
+      }
+    },
+    "Alarms": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "闹钟"
+          }
+        }
+      }
+    },
+    "Alerts contain no message text, tool arguments or credentials.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知不包含对话内容、工具参数或凭据。"
+          }
+        }
+      }
+    },
+    "Allow %@?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许使用 %@？"
+          }
+        }
+      }
+    },
+    "Allow DSH to add photos in Settings.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在设置中允许 DSH 添加照片。"
+          }
+        }
+      }
+    },
+    "Allow for this task": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本任务内允许"
+          }
+        }
+      }
+    },
+    "Allow microphone and speech recognition for DSH in Settings to dictate.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在系统设置里允许 DSH 使用麦克风和语音识别后才能语音输入。"
+          }
+        }
+      }
+    },
+    "Allow once": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许本次"
+          }
+        }
+      }
+    },
+    "Allow this action?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许这个操作吗？"
+          }
+        }
+      }
+    },
+    "Allow this command to run?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许运行这条命令？"
+          }
+        }
+      }
+    },
+    "Allow within a task": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同一任务内只问一次"
+          }
+        }
+      }
+    },
+    "Allowed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已允许"
+          }
+        }
+      }
+    },
+    "Allowed shortcuts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许运行的快捷指令"
+          }
+        }
+      }
+    },
+    "An AI agent on your iPhone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "装在 iPhone 里的 AI 智能体"
+          }
+        }
+      }
+    },
+    "Anytime, anywhere. Just go!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "随时随地，想go就Go！"
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外观"
+          }
+        }
+      }
+    },
+    "Applies to body text and code. Navigation controls keep their standard size.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调整正文和代码字号，导航控件保持标准大小。"
+          }
+        }
+      }
+    },
+    "Apply to draft": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "应用到草稿"
+          }
+        }
+      }
+    },
+    "Archive": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "归档"
+          }
+        }
+      }
+    },
+    "Archive and stop": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止并归档"
+          }
+        }
+      }
+    },
+    "Archive this chat?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "归档此对话？"
+          }
+        }
+      }
+    },
+    "Archived chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已归档"
+          }
+        }
+      }
+    },
+    "Archived chats can be restored.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已归档的对话可以恢复。"
+          }
+        }
+      }
+    },
+    "Ask DSH": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "问 DSH"
+          }
+        }
+      }
+    },
+    "Ask DSH to create a task": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让 DSH 创建任务"
+          }
+        }
+      }
+    },
+    "Ask anything. The model runs through the engine on this iPhone.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "随便问点什么。模型请求由这台 iPhone 上的引擎发出。"
+          }
+        }
+      }
+    },
+    "Ask every time": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每次都询问"
+          }
+        }
+      }
+    },
+    "Asks on first use": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次使用时询问"
+          }
+        }
+      }
+    },
+    "Authorize in Safari. The engine receives the callback at 127.0.0.1 and stores the account grant.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在 Safari 中授权。引擎通过 127.0.0.1 接收回调并保存账号授权。"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回"
+          }
+        }
+      }
+    },
+    "Basic information": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "基本信息"
+          }
+        }
+      }
+    },
+    "Bonus credit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "赠送余额"
+          }
+        }
+      }
+    },
+    "Branch from here": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从这里分叉"
+          }
+        }
+      }
+    },
+    "Bring a DeepSeek API key. It stays on this device.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用你自己的 DeepSeek API Key，它只保存在这台设备上。"
+          }
+        }
+      }
+    },
+    "Browse working directory": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浏览工作目录"
+          }
+        }
+      }
+    },
+    "DSH Fan is an independent project that learned from DSH Go (AGPL-3.0) and iSH (GPL-3.0). It is open source under AGPL-3.0; the source code is at github.com/fanofacane/dsh-fan.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH Fan 是参考学习 DSH Go（AGPL-3.0）与 iSH（GPL-3.0）后独立开发的项目，以 AGPL-3.0 开源，源代码见 github.com/fanofacane/dsh-fan。"
+          }
+        }
+      }
+    },
+    "Cache reads": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缓存读取"
+          }
+        }
+      }
+    },
+    "Cache writes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缓存写入"
+          }
+        }
+      }
+    },
+    "Calendar": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日历"
+          }
+        }
+      }
+    },
+    "Calls, messages, sharing, reading the clipboard and the first run of each shortcut always ask.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拨号、短信、分享、读取剪贴板，以及每个快捷指令的首次运行，始终会询问。"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        }
+      }
+    },
+    "Cancel sign-in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消登录"
+          }
+        }
+      }
+    },
+    "Change excerpts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改动片段"
+          }
+        }
+      }
+    },
+    "Change run time": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改执行时间"
+          }
+        }
+      }
+    },
+    "Chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话"
+          }
+        }
+      }
+    },
+    "Chat tools": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话工具"
+          }
+        }
+      }
+    },
+    "Chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话列表"
+          }
+        }
+      }
+    },
+    "Chats and settings inside the engine are removed. The runtime is installed again from the app.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎里的对话和设置都会被删除，运行环境会从 App 重新安装。"
+          }
+        }
+      }
+    },
+    "Check what files and projects are in the workspace and give me a brief overview.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "看看工作区里现在有哪些文件和项目，简单介绍一下。"
+          }
+        }
+      }
+    },
+    "Choose a folder": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择目录"
+          }
+        }
+      }
+    },
+    "Choose notification, photo, microphone and speech permissions in iOS Settings.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在 iOS 设置中管理通知、照片、麦克风与语音识别权限。"
+          }
+        }
+      }
+    },
+    "Clear goal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除目标"
+          }
+        }
+      }
+    },
+    "Close and reopen DSH to apply the language change.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭并重新打开 DSH 后生效。"
+          }
+        }
+      }
+    },
+    "Close the app from the app switcher and open it again to finish.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请从多任务界面关闭 App 后重新打开，以完成操作。"
+          }
+        }
+      }
+    },
+    "Commands": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "命令"
+          }
+        }
+      }
+    },
+    "Compact older conversation history": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "压缩较早的对话历史"
+          }
+        }
+      }
+    },
+    "Compaction ended": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "压缩结束"
+          }
+        }
+      }
+    },
+    "Compaction started": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "压缩开始"
+          }
+        }
+      }
+    },
+    "Complete goal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成目标"
+          }
+        }
+      }
+    },
+    "Configuration is managed by this engine plugin.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此配置由对应的引擎插件管理。"
+          }
+        }
+      }
+    },
+    "Configure referenced key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置引用的 Key"
+          }
+        }
+      }
+    },
+    "Configure this secret using its engine plugin.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请通过对应引擎插件设置此密钥。"
+          }
+        }
+      }
+    },
+    "Configured": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已配置"
+          }
+        }
+      }
+    },
+    "Configuring": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在配置"
+          }
+        }
+      }
+    },
+    "Confirmation": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认方式"
+          }
+        }
+      }
+    },
+    "Connect a computer or server": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接电脑或服务器"
+          }
+        }
+      }
+    },
+    "Connect to DSH on your computer or server": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接你电脑或服务器上的 DSH"
+          }
+        }
+      }
+    },
+    "Connect to server": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接服务器"
+          }
+        }
+      }
+    },
+    "Connect to the last host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接上次使用的主机"
+          }
+        }
+      }
+    },
+    "Connected · End-to-end encrypted": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已连接 · 端到端加密"
+          }
+        }
+      }
+    },
+    "Connected · SSH %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已连接 · SSH %@"
+          }
+        }
+      }
+    },
+    "Connecting": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在连接"
+          }
+        }
+      }
+    },
+    "Connecting to the engine…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在连接引擎…"
+          }
+        }
+      }
+    },
+    "Connection": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连接"
+          }
+        }
+      }
+    },
+    "Connects to one host at a time. Switching disconnects the previous host.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次只连一台主机，切换会断开上一台"
+          }
+        }
+      }
+    },
+    "Context": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上下文"
+          }
+        }
+      }
+    },
+    "Context window": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上下文窗口"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续"
+          }
+        }
+      }
+    },
+    "Continue with %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 %@ 登录"
+          }
+        }
+      }
+    },
+    "Controls which tool actions need your approval.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "决定哪些工具操作需要你批准。"
+          }
+        }
+      }
+    },
+    "Copied": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已复制"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制"
+          }
+        }
+      }
+    },
+    "Copy all": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部复制"
+          }
+        }
+      }
+    },
+    "Cost guard": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "费用保护"
+          }
+        }
+      }
+    },
+    "Could not delete the chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法删除对话"
+          }
+        }
+      }
+    },
+    "Could not save the key: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法保存 Key：%@"
+          }
+        }
+      }
+    },
+    "Could not update chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法更新对话"
+          }
+        }
+      }
+    },
+    "Couldn’t branch the chat here": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没能在这里分叉对话"
+          }
+        }
+      }
+    },
+    "Couldn’t connect over SSH": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SSH 连接失败"
+          }
+        }
+      }
+    },
+    "Couldn’t connect remotely": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远程连接失败"
+          }
+        }
+      }
+    },
+    "Couldn’t connect to DSH through the tunnel": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没能通过隧道连接 DSH"
+          }
+        }
+      }
+    },
+    "Couldn’t load hosts · Tap to retry": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没能获取主机列表 · 轻点重试"
+          }
+        }
+      }
+    },
+    "Couldn’t reach the model service. Check the network.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连不上模型服务，请检查网络。"
+          }
+        }
+      }
+    },
+    "Couldn’t read the private key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "私钥无法读取"
+          }
+        }
+      }
+    },
+    "Couldn’t sign in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没能登录"
+          }
+        }
+      }
+    },
+    "Couldn’t sign in to remote DSH": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没能登录远端 DSH"
+          }
+        }
+      }
+    },
+    "Couldn’t start remote DSH": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没能在远端启动 DSH"
+          }
+        }
+      }
+    },
+    "Count words": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写个词频统计脚本"
+          }
+        }
+      }
+    },
+    "Create a Node.js project in the workspace with TypeScript and a minimal unit test.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在工作区新建一个 Node.js 项目，配好 TypeScript 和一个最小的单元测试。"
+          }
+        }
+      }
+    },
+    "Create a scheduled task: describe when it should run and what it should do.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建定时任务：请填写执行时间和任务内容。"
+          }
+        }
+      }
+    },
+    "Create tunnel": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建立隧道"
+          }
+        }
+      }
+    },
+    "Credentials": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "凭据"
+          }
+        }
+      }
+    },
+    "Cron expression": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cron 表达式"
+          }
+        }
+      }
+    },
+    "Current chat only": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅当前对话"
+          }
+        }
+      }
+    },
+    "DSH does not automatically upload diagnostic logs. Review every export before sharing it.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH 不会自动上传诊断日志。每次分享前请检查导出内容。"
+          }
+        }
+      }
+    },
+    "DSH finished a reply": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH 回复已完成"
+          }
+        }
+      }
+    },
+    "DSH is waiting for you": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH 正在等待你"
+          }
+        }
+      }
+    },
+    "DSH not installed? Run %@ on the host.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没装 DSH？在主机上运行 %@"
+          }
+        }
+      }
+    },
+    "DSH on this phone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这台手机上的 DSH"
+          }
+        }
+      }
+    },
+    "DSH task finished": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH 任务已结束"
+          }
+        }
+      }
+    },
+    "DSH will refuse to connect if the fingerprint changes.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "之后指纹一旦变化，App 会拒绝连接。"
+          }
+        }
+      }
+    },
+    "Daily": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每天"
+          }
+        }
+      }
+    },
+    "Daily budget (CNY)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每日预算（人民币）"
+          }
+        }
+      }
+    },
+    "Dark": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深色"
+          }
+        }
+      }
+    },
+    "DeepSeek API key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DeepSeek API Key"
+          }
+        }
+      }
+    },
+    "DeepSeek Messages search": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DeepSeek 对话搜索"
+          }
+        }
+      }
+    },
+    "DeepSeek Search API": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DeepSeek 搜索 API"
+          }
+        }
+      }
+    },
+    "DeepSeek account": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DeepSeek 账号"
+          }
+        }
+      }
+    },
+    "Deeper thinking answers harder questions better but takes longer.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考越深，难题答得越好，但用时更长。"
+          }
+        }
+      }
+    },
+    "Deepy stands on the composer and reacts to what the agent is doing. Tap it to say hi.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deepy 站在输入框上，会随智能体的状态做出反应。点点它打个招呼吧。"
+          }
+        }
+      }
+    },
+    "Deepy the whale": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deepy 小鲸鱼"
+          }
+        }
+      }
+    },
+    "Default model": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认模型"
+          }
+        }
+      }
+    },
+    "Default model ID": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认模型标识"
+          }
+        }
+      }
+    },
+    "Default service ID": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认服务标识"
+          }
+        }
+      }
+    },
+    "Defaults": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认值"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
+        }
+      }
+    },
+    "Delete task": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除任务"
+          }
+        }
+      }
+    },
+    "Delete this chat permanently?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "永久删除这个对话？"
+          }
+        }
+      }
+    },
+    "Delete this host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除这台主机"
+          }
+        }
+      }
+    },
+    "Delete this task and its history?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除此任务及其历史？"
+          }
+        }
+      }
+    },
+    "Delete “%@”?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除「%@」？"
+          }
+        }
+      }
+    },
+    "Delivery history": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "投递历史"
+          }
+        }
+      }
+    },
+    "Denied": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已拒绝"
+          }
+        }
+      }
+    },
+    "Deny": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "拒绝"
+          }
+        }
+      }
+    },
+    "Diagnostics": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "诊断"
+          }
+        }
+      }
+    },
+    "Dictate": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音输入"
+          }
+        }
+      }
+    },
+    "Display name": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示名称"
+          }
+        }
+      }
+    },
+    "Do this yourself, then come back and choose Continue.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请你亲自完成这一步，然后回来点“继续”。"
+          }
+        }
+      }
+    },
+    "Don't ask": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不询问"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成"
+          }
+        }
+      }
+    },
+    "Earlier": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更早"
+          }
+        }
+      }
+    },
+    "Earlier delivery history was pruned by the host.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更早的投递历史已由主机清理。"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑"
+          }
+        }
+      }
+    },
+    "Edit and resend": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑后重发"
+          }
+        }
+      }
+    },
+    "Edit goal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑目标"
+          }
+        }
+      }
+    },
+    "Edit host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑主机"
+          }
+        }
+      }
+    },
+    "Email": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邮箱"
+          }
+        }
+      }
+    },
+    "Empty reply, retrying": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复为空，正在重试"
+          }
+        }
+      }
+    },
+    "Enabled": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启用"
+          }
+        }
+      }
+    },
+    "Engine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎"
+          }
+        }
+      }
+    },
+    "Engine default": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随引擎默认"
+          }
+        }
+      }
+    },
+    "Engine details": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎详情"
+          }
+        }
+      }
+    },
+    "Engine error: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎错误：%@"
+          }
+        }
+      }
+    },
+    "Engine parameters": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎参数"
+          }
+        }
+      }
+    },
+    "English": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "英语"
+          }
+        }
+      }
+    },
+    "Enter a host address (IP or domain)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填写主机地址（IP 或域名）"
+          }
+        }
+      }
+    },
+    "Enter a password": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有填写密码"
+          }
+        }
+      }
+    },
+    "Enter a private key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有填写私钥"
+          }
+        }
+      }
+    },
+    "Enter a username": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填写登录用户名"
+          }
+        }
+      }
+    },
+    "Enter a valid value.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请输入有效的值。"
+          }
+        }
+      }
+    },
+    "Enter an SSH password, or use a private key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填写 SSH 密码，或改用私钥"
+          }
+        }
+      }
+    },
+    "Enter the server address, email and password": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填写服务器地址、邮箱和密码"
+          }
+        }
+      }
+    },
+    "Error": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出错"
+          }
+        }
+      }
+    },
+    "Every interval": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "固定间隔"
+          }
+        }
+      }
+    },
+    "Everything stays on this device": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全程在本机完成"
+          }
+        }
+      }
+    },
+    "Explore workspace": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "看看工作区有什么"
+          }
+        }
+      }
+    },
+    "External image hosts receive your network request. Turn this off to load each external image only when you choose.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "外部图片主机会收到网络请求。关闭后，每张外部图片都需手动选择加载。"
+          }
+        }
+      }
+    },
+    "Extracting": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在解压"
+          }
+        }
+      }
+    },
+    "Failed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "失败"
+          }
+        }
+      }
+    },
+    "Fetch models": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "获取模型"
+          }
+        }
+      }
+    },
+    "Fetch provider": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网页读取服务商"
+          }
+        }
+      }
+    },
+    "Files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件"
+          }
+        }
+      }
+    },
+    "Finish signing in in your browser…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在浏览器里完成登录…"
+          }
+        }
+      }
+    },
+    "Finishing sign-in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在完成登录"
+          }
+        }
+      }
+    },
+    "First connection to “%@” (%@). Check the fingerprint to confirm it’s your host.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次连接「%@」（%@）。核对指纹，确认是你自己的主机。"
+          }
+        }
+      }
+    },
+    "First connection to “%@”. Check that the identity fingerprint matches the one shown by the host’s remote plugin before continuing.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次连接「%@」。核对身份指纹，与主机上远程插件显示的一致再继续。"
+          }
+        }
+      }
+    },
+    "Follow system": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随系统"
+          }
+        }
+      }
+    },
+    "For example: computer, home Mac": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "比如：电脑、家里的 Mac"
+          }
+        }
+      }
+    },
+    "Get started": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始"
+          }
+        }
+      }
+    },
+    "Goal phase: active": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标：进行中"
+          }
+        }
+      }
+    },
+    "Goal phase: blocked": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标：受阻"
+          }
+        }
+      }
+    },
+    "Goal phase: complete": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标：已完成"
+          }
+        }
+      }
+    },
+    "Goal phase: paused": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标：已暂停"
+          }
+        }
+      }
+    },
+    "Good afternoon": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下午好"
+          }
+        }
+      }
+    },
+    "Good evening": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "晚上好"
+          }
+        }
+      }
+    },
+    "Good morning": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "早上好"
+          }
+        }
+      }
+    },
+    "Good noon": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中午好"
+          }
+        }
+      }
+    },
+    "Group by workspace": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按工作区分组"
+          }
+        }
+      }
+    },
+    "High": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高"
+          }
+        }
+      }
+    },
+    "Host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机"
+          }
+        }
+      }
+    },
+    "Host %@ not found": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找不到主机 %@"
+          }
+        }
+      }
+    },
+    "Host declined the connection": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机拒绝了连接"
+          }
+        }
+      }
+    },
+    "Host default directory": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机默认目录"
+          }
+        }
+      }
+    },
+    "Host fingerprint": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机指纹"
+          }
+        }
+      }
+    },
+    "Host fingerprint changed. Disconnected.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机指纹和上次不一致，已断开"
+          }
+        }
+      }
+    },
+    "Host has no sh. Only Linux and macOS are supported.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机上没有 sh，只支持 Linux 和 macOS"
+          }
+        }
+      }
+    },
+    "Host identity fingerprint hasn’t been confirmed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有确认主机身份指纹"
+          }
+        }
+      }
+    },
+    "Host identity key has changed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机身份密钥和上次不一致"
+          }
+        }
+      }
+    },
+    "Host is offline": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机现在不在线"
+          }
+        }
+      }
+    },
+    "Host isn’t in your DSH Remote account": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机不在你的 DSH Remote 账号下"
+          }
+        }
+      }
+    },
+    "Host needs SSH enabled and DSH installed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要那台主机开着 SSH，并装好 DSH"
+          }
+        }
+      }
+    },
+    "Host trust cancelled": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已取消信任主机"
+          }
+        }
+      }
+    },
+    "I reviewed this text for secrets": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我已检查文本中没有凭据"
+          }
+        }
+      }
+    },
+    "If installed with nvm, you can enter the full path": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用 nvm 安装的可以填完整路径"
+          }
+        }
+      }
+    },
+    "If the host was reinstalled or replaced, reset its fingerprint in host settings.\nSaved: %@\nReceived: %@ (%@)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认主机重装或更换后，可在主机设置中重置指纹。\n已记住：%@\n这次收到：%@（%@）"
+          }
+        }
+      }
+    },
+    "Image": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片"
+          }
+        }
+      }
+    },
+    "Image saved": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片已保存"
+          }
+        }
+      }
+    },
+    "Images and video": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图像与视频"
+          }
+        }
+      }
+    },
+    "Import from file": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "从文件导入"
+          }
+        }
+      }
+    },
+    "Inactive": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已结束"
+          }
+        }
+      }
+    },
+    "Incorrect email or password": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邮箱或密码不对"
+          }
+        }
+      }
+    },
+    "Incorrect username or password": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用户名或密码不对"
+          }
+        }
+      }
+    },
+    "Input includes uncached input, cache reads and cache writes. No cost estimate is calculated.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入包含未缓存输入、缓存读取和缓存写入。不推算费用。"
+          }
+        }
+      }
+    },
+    "Install a media plugin on this host to configure generation.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请先在此主机上安装媒体插件，再设置图像与视频生成。"
+          }
+        }
+      }
+    },
+    "Install runtime": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安装运行环境"
+          }
+        }
+      }
+    },
+    "Install the remote plugin in the host’s DSH and sign in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在主机的 DSH 里装好远程插件并登录"
+          }
+        }
+      }
+    },
+    "Installed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装"
+          }
+        }
+      }
+    },
+    "Installing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在安装"
+          }
+        }
+      }
+    },
+    "Installs a small Linux runtime (about 750 MB) the first time.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次使用时安装一个小型 Linux 运行环境（约 750 MB）。"
+          }
+        }
+      }
+    },
+    "Interface": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "界面"
+          }
+        }
+      }
+    },
+    "Interrupt subtask": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中断子任务"
+          }
+        }
+      }
+    },
+    "Interval in seconds (at least 60)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "间隔秒数（至少 60）"
+          }
+        }
+      }
+    },
+    "Invalid server address": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务器地址无效"
+          }
+        }
+      }
+    },
+    "It’s late": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "夜深了"
+          }
+        }
+      }
+    },
+    "Keep using DSH from your computer or server on your phone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在手机上接着用电脑或服务器上的 DSH"
+          }
+        }
+      }
+    },
+    "Key configured": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key 已配置"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语言"
+          }
+        }
+      }
+    },
+    "Large": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大"
+          }
+        }
+      }
+    },
+    "Last request tokens": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上次请求 token"
+          }
+        }
+      }
+    },
+    "Latest trajectory": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮轨迹"
+          }
+        }
+      }
+    },
+    "Latest turn changes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮改动"
+          }
+        }
+      }
+    },
+    "Lets the model set alarms, add calendar events and reminders, navigate, send notifications and run shortcuts you allow. iOS does not allow reading the screen or tapping in other apps.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许模型设置闹钟、添加日程和提醒、导航、发送通知，以及运行你允许的快捷指令。iOS 不允许读取屏幕或在其他 App 中点击。"
+          }
+        }
+      }
+    },
+    "Light": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浅色"
+          }
+        }
+      }
+    },
+    "Limits": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "限制"
+          }
+        }
+      }
+    },
+    "Load external image": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加载外部图片"
+          }
+        }
+      }
+    },
+    "Load external message images": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动加载消息中的外部图片"
+          }
+        }
+      }
+    },
+    "Load more": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加载更多"
+          }
+        }
+      }
+    },
+    "Loading": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在加载"
+          }
+        }
+      }
+    },
+    "Local Engine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机引擎"
+          }
+        }
+      }
+    },
+    "Local engine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机引擎"
+          }
+        }
+      }
+    },
+    "Local tasks and schedules need this app’s engine to keep running. Keep DSH open for reliable local work.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机任务和定时任务依赖 App 内引擎持续运行。请保持 DSH 在前台以可靠执行本机工作。"
+          }
+        }
+      }
+    },
+    "Logs": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日志"
+          }
+        }
+      }
+    },
+    "Low": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "低"
+          }
+        }
+      }
+    },
+    "Maintenance": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "维护"
+          }
+        }
+      }
+    },
+    "Manage remote hosts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "管理远程主机"
+          }
+        }
+      }
+    },
+    "Max": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最高"
+          }
+        }
+      }
+    },
+    "Message": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入消息"
+          }
+        }
+      }
+    },
+    "Message DSH…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "给 DSH 发消息…"
+          }
+        }
+      }
+    },
+    "Message the subagent…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送消息给子代理…"
+          }
+        }
+      }
+    },
+    "Mist blue": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "雾蓝"
+          }
+        }
+      }
+    },
+    "Mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模式"
+          }
+        }
+      }
+    },
+    "Model": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型"
+          }
+        }
+      }
+    },
+    "Model attempt recorded": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型请求已记录"
+          }
+        }
+      }
+    },
+    "Model credentials stay in the selected engine’s credential store. Remote connection secrets are stored in iOS Keychain.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型凭据保留在所选引擎的凭据库中，远程连接凭据存储在 iOS 钥匙串中。"
+          }
+        }
+      }
+    },
+    "Model providers": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型服务商"
+          }
+        }
+      }
+    },
+    "Model reply stored": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型回复已保存"
+          }
+        }
+      }
+    },
+    "Model retry": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型重试"
+          }
+        }
+      }
+    },
+    "Model service busy, retrying": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型服务繁忙，正在重试"
+          }
+        }
+      }
+    },
+    "Model time": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型耗时"
+          }
+        }
+      }
+    },
+    "Models (one ID per line)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型（每行一个标识）"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称"
+          }
+        }
+      }
+    },
+    "Network problem, retrying": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网络有问题，正在重试"
+          }
+        }
+      }
+    },
+    "New chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新对话"
+          }
+        }
+      }
+    },
+    "New chat location": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新对话位置"
+          }
+        }
+      }
+    },
+    "New chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新对话"
+          }
+        }
+      }
+    },
+    "New secret value": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新的密钥值"
+          }
+        }
+      }
+    },
+    "Next request estimate": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下次请求估计"
+          }
+        }
+      }
+    },
+    "No chats yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有对话"
+          }
+        }
+      }
+    },
+    "No deliveries yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有投递记录"
+          }
+        }
+      }
+    },
+    "No editable parameters reported by this host.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "当前主机未报告可编辑参数。"
+          }
+        }
+      }
+    },
+    "No hosts yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有主机"
+          }
+        }
+      }
+    },
+    "No key yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有 Key"
+          }
+        }
+      }
+    },
+    "No logs yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂无日志"
+          }
+        }
+      }
+    },
+    "No matches": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有匹配的对话"
+          }
+        }
+      }
+    },
+    "No network setup. End-to-end encrypted connection.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无需配置网络，连接端到端加密"
+          }
+        }
+      }
+    },
+    "No reported file changes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有工具报告的文件改动"
+          }
+        }
+      }
+    },
+    "No run events yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有运行事件"
+          }
+        }
+      }
+    },
+    "No scheduled tasks": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有定时任务"
+          }
+        }
+      }
+    },
+    "No third-party server": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不经过第三方服务器"
+          }
+        }
+      }
+    },
+    "No workspaces yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有工作区"
+          }
+        }
+      }
+    },
+    "Not confirmed yet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还没有确认"
+          }
+        }
+      }
+    },
+    "Not enough free storage to install the runtime.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "存储空间不足，无法安装运行环境。"
+          }
+        }
+      }
+    },
+    "Not installed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未安装"
+          }
+        }
+      }
+    },
+    "Not reported": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未报告"
+          }
+        }
+      }
+    },
+    "Not requested": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "尚未申请"
+          }
+        }
+      }
+    },
+    "Not set": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未设置"
+          }
+        }
+      }
+    },
+    "Notifications": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知"
+          }
+        }
+      }
+    },
+    "Notifications and background": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通知与后台"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        }
+      }
+    },
+    "Objective": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标内容"
+          }
+        }
+      }
+    },
+    "Off": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭"
+          }
+        }
+      }
+    },
+    "Offline": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "离线"
+          }
+        }
+      }
+    },
+    "On": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开"
+          }
+        }
+      }
+    },
+    "On device": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机"
+          }
+        }
+      }
+    },
+    "On launch": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启动"
+          }
+        }
+      }
+    },
+    "Once": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次"
+          }
+        }
+      }
+    },
+    "Online": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在线"
+          }
+        }
+      }
+    },
+    "Only allow actions you expect. Denying stops this action.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只允许你预期中的操作。拒绝会终止这个操作。"
+          }
+        }
+      }
+    },
+    "Only changes reported by edit and write tools are shown.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅显示编辑和写入工具报告的改动。"
+          }
+        }
+      }
+    },
+    "Only do this if the host was reinstalled or replaced. You’ll be asked to check the fingerprint next time you connect.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只在确认这台主机重装或更换过时才这么做。下次连接会重新请你核对指纹。"
+          }
+        }
+      }
+    },
+    "Only local engine logs are included; remote host logs are not collected.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅包含本机引擎日志，不收集远程主机日志。"
+          }
+        }
+      }
+    },
+    "Open DSH to check its result.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 DSH 查看任务结果。"
+          }
+        }
+      }
+    },
+    "Open DSH to read the reply.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 DSH 查看回复。"
+          }
+        }
+      }
+    },
+    "Open DSH to respond.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 DSH 进行回应。"
+          }
+        }
+      }
+    },
+    "Open an app or link?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 App 或链接？"
+          }
+        }
+      }
+    },
+    "Open authorization page": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开授权页面"
+          }
+        }
+      }
+    },
+    "Open iOS Settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 iOS 设置"
+          }
+        }
+      }
+    },
+    "Open source": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开源"
+          }
+        }
+      }
+    },
+    "Open system settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开系统设置"
+          }
+        }
+      }
+    },
+    "Open the details to retry.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开详情重试。"
+          }
+        }
+      }
+    },
+    "Open workspace files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开工作区文件"
+          }
+        }
+      }
+    },
+    "Opens DSH and asks the local agent in a new chat.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 DSH，在新对话中向本机智能体提问。"
+          }
+        }
+      }
+    },
+    "Opens a new chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "会新开一个对话"
+          }
+        }
+      }
+    },
+    "Other answer": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他回答"
+          }
+        }
+      }
+    },
+    "Other chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他对话"
+          }
+        }
+      }
+    },
+    "Other model providers": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他模型服务商"
+          }
+        }
+      }
+    },
+    "Output": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输出"
+          }
+        }
+      }
+    },
+    "Paid credit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充值余额"
+          }
+        }
+      }
+    },
+    "Password": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "密码"
+          }
+        }
+      }
+    },
+    "Paste the full private key (starting with -----BEGIN)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "粘贴私钥（以 -----BEGIN 开头的整段文本）"
+          }
+        }
+      }
+    },
+    "Pause goal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂停目标"
+          }
+        }
+      }
+    },
+    "Permissions": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "权限"
+          }
+        }
+      }
+    },
+    "Personal instructions are stored in this phone’s shared AGENTS.md. Start a new conversation after saving. Do not enter credentials here.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "个人指令保存在本机共享的 AGENTS.md 中。保存后请新建对话，不要在此输入凭据。"
+          }
+        }
+      }
+    },
+    "Pet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "桌宠"
+          }
+        }
+      }
+    },
+    "Phone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手机"
+          }
+        }
+      }
+    },
+    "Phone control": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手机控制"
+          }
+        }
+      }
+    },
+    "Pin": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "置顶"
+          }
+        }
+      }
+    },
+    "Pinned": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "置顶"
+          }
+        }
+      }
+    },
+    "Plugins and phone control stay off in safe mode, including after restarts. Start normally when you're done troubleshooting." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安全模式下插件和手机控制保持关闭，重启后也一样。排查完毕后请以正常模式启动。"
+          }
+        }
+      }
+    },
+    "Plum": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "浅紫"
+          }
+        }
+      }
+    },
+    "Port": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端口"
+          }
+        }
+      }
+    },
+    "Port 3080 is in use by another app.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "端口 3080 已被其他 App 占用。"
+          }
+        }
+      }
+    },
+    "Prepare reviewed log": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "准备已检查的日志"
+          }
+        }
+      }
+    },
+    "Preparing sign-in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备登录"
+          }
+        }
+      }
+    },
+    "Preparing the runtime": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备运行环境"
+          }
+        }
+      }
+    },
+    "Preview: a clear answer with readable code.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "预览：清晰的回复与易读的代码。"
+          }
+        }
+      }
+    },
+    "Previous content is unavailable.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此前内容不可用。"
+          }
+        }
+      }
+    },
+    "Privacy": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐私"
+          }
+        }
+      }
+    },
+    "Private key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "私钥"
+          }
+        }
+      }
+    },
+    "Prompt stored": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提示词已保存"
+          }
+        }
+      }
+    },
+    "Protocol": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "协议"
+          }
+        }
+      }
+    },
+    "Provider ID": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务商标识"
+          }
+        }
+      }
+    },
+    "Provider settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务商设置"
+          }
+        }
+      }
+    },
+    "Put a DeepSeek agent\nin your pocket": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把 DeepSeek 智能体\n装进口袋"
+          }
+        }
+      }
+    },
+    "Question": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "问题"
+          }
+        }
+      }
+    },
+    "Quote": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引用"
+          }
+        }
+      }
+    },
+    "Rate limited, retrying": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求受限，正在重试"
+          }
+        }
+      }
+    },
+    "Read": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取"
+          }
+        }
+      }
+    },
+    "Read text from the clipboard": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读取剪贴板文字"
+          }
+        }
+      }
+    },
+    "Reading text size": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阅读字号"
+          }
+        }
+      }
+    },
+    "Rebase or merge": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "rebase 还是 merge"
+          }
+        }
+      }
+    },
+    "Recent": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近"
+          }
+        }
+      }
+    },
+    "Recent logs": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近日志"
+          }
+        }
+      }
+    },
+    "Reconnect": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新连接"
+          }
+        }
+      }
+    },
+    "Refresh": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刷新"
+          }
+        }
+      }
+    },
+    "Refresh balance": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刷新余额"
+          }
+        }
+      }
+    },
+    "Regenerate": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新回答"
+          }
+        }
+      }
+    },
+    "Register workspace": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "注册工作区"
+          }
+        }
+      }
+    },
+    "Reminders": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒事项"
+          }
+        }
+      }
+    },
+    "Remote": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远程"
+          }
+        }
+      }
+    },
+    "Remote DSH took too long to start": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远端 DSH 启动超时"
+          }
+        }
+      }
+    },
+    "Remote connection was replaced": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远程连接已被替换"
+          }
+        }
+      }
+    },
+    "Remote hosts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远程主机"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除"
+          }
+        }
+      }
+    },
+    "Remove image": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除图片"
+          }
+        }
+      }
+    },
+    "Remove key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除 Key"
+          }
+        }
+      }
+    },
+    "Remove the API key from this device?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要从这台设备上移除 API Key 吗？"
+          }
+        }
+      }
+    },
+    "Remove this provider key?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除此服务商的 Key？"
+          }
+        }
+      }
+    },
+    "Remove workspace": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除工作区"
+          }
+        }
+      }
+    },
+    "Remove workspace registration?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除工作区登记？"
+          }
+        }
+      }
+    },
+    "Rename": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名"
+          }
+        }
+      }
+    },
+    "Rename chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名对话"
+          }
+        }
+      }
+    },
+    "Rename workspace": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重命名工作区"
+          }
+        }
+      }
+    },
+    "Reopen browser": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新打开浏览器"
+          }
+        }
+      }
+    },
+    "Replace key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更换 Key"
+          }
+        }
+      }
+    },
+    "Reply preferences": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复偏好"
+          }
+        }
+      }
+    },
+    "Reply preferences are available for this phone’s engine only.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复偏好仅适用于本机引擎。"
+          }
+        }
+      }
+    },
+    "Replying": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复中"
+          }
+        }
+      }
+    },
+    "Request failed: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求失败：%@"
+          }
+        }
+      }
+    },
+    "Requires API key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 API Key"
+          }
+        }
+      }
+    },
+    "Reserve for unknown prices (CNY)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未知价格预留金额（人民币）"
+          }
+        }
+      }
+    },
+    "Reset": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置"
+          }
+        }
+      }
+    },
+    "Reset host fingerprint?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置主机指纹？"
+          }
+        }
+      }
+    },
+    "Reset runtime": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置运行环境"
+          }
+        }
+      }
+    },
+    "Reset the runtime?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置运行环境？"
+          }
+        }
+      }
+    },
+    "Response format": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "返回格式"
+          }
+        }
+      }
+    },
+    "Restart": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重启"
+          }
+        }
+      }
+    },
+    "Restart needed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要重启 App"
+          }
+        }
+      }
+    },
+    "Restarting the local engine…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在重启本机引擎…"
+          }
+        }
+      }
+    },
+    "Restore": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "恢复"
+          }
+        }
+      }
+    },
+    "Resume goal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "继续目标"
+          }
+        }
+      }
+    },
+    "Retry": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试"
+          }
+        }
+      }
+    },
+    "Review or change planning mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看或调整计划模式"
+          }
+        }
+      }
+    },
+    "Rounds: %lld/%lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轮次：%1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Run": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行"
+          }
+        }
+      }
+    },
+    "Run %@ on that host to see the same fingerprint. DSH will refuse to connect if it changes.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在那台主机上运行 %@ 能看到同样的指纹。之后指纹一旦变化，App 会拒绝连接。"
+          }
+        }
+      }
+    },
+    "Run a shortcut?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行快捷指令？"
+          }
+        }
+      }
+    },
+    "Run at": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行时间"
+          }
+        }
+      }
+    },
+    "Run info": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行信息"
+          }
+        }
+      }
+    },
+    "Running": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行中"
+          }
+        }
+      }
+    },
+    "Runs on device": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在本机运行"
+          }
+        }
+      }
+    },
+    "Runtime": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行环境"
+          }
+        }
+      }
+    },
+    "SSH connection interrupted": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SSH 连接已中断"
+          }
+        }
+      }
+    },
+    "SSH disconnected": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SSH 连接已断开"
+          }
+        }
+      }
+    },
+    "SSH handshake timed out": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SSH 握手超时"
+          }
+        }
+      }
+    },
+    "SSH hosts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SSH 主机"
+          }
+        }
+      }
+    },
+    "Safe mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安全模式"
+          }
+        }
+      }
+    },
+    "Safe mode automatically": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动进入安全模式"
+          }
+        }
+      }
+    },
+    "Safe mode is on" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "安全模式已开启"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存"
+          }
+        }
+      }
+    },
+    "Save and connect": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存并连接"
+          }
+        }
+      }
+    },
+    "Save and continue": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存并继续"
+          }
+        }
+      }
+    },
+    "Save changes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存更改"
+          }
+        }
+      }
+    },
+    "Save image": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存图片"
+          }
+        }
+      }
+    },
+    "Saved only on this phone, in the iOS Keychain": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只保存在这台手机上，存放在 iOS 钥匙串"
+          }
+        }
+      }
+    },
+    "Saved only on this phone, in the iOS Keychain. Supports Ed25519 and ECDSA keys without a passphrase.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只保存在这台手机上，存放在 iOS 钥匙串。支持不带密码的 Ed25519、ECDSA 私钥"
+          }
+        }
+      }
+    },
+    "Scheduled task": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时任务"
+          }
+        }
+      }
+    },
+    "Scheduled tasks": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定时任务"
+          }
+        }
+      }
+    },
+    "Search": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索"
+          }
+        }
+      }
+    },
+    "Search and fetch providers": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索与网页读取服务"
+          }
+        }
+      }
+    },
+    "Search chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索对话"
+          }
+        }
+      }
+    },
+    "Search limit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索次数上限"
+          }
+        }
+      }
+    },
+    "Search provider": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索服务商"
+          }
+        }
+      }
+    },
+    "Search, images and video": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索、图像与视频"
+          }
+        }
+      }
+    },
+    "Select text": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择文字"
+          }
+        }
+      }
+    },
+    "Selected model": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所选模型"
+          }
+        }
+      }
+    },
+    "Self-hosted server": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自建服务器"
+          }
+        }
+      }
+    },
+    "Self-hosted server · Email sign-in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自建服务器 · 邮箱登录"
+          }
+        }
+      }
+    },
+    "Send": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送"
+          }
+        }
+      }
+    },
+    "Send a notification?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送通知？"
+          }
+        }
+      }
+    },
+    "Server address": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务器地址"
+          }
+        }
+      }
+    },
+    "Server doesn’t accept this private key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务器不接受这把私钥"
+          }
+        }
+      }
+    },
+    "Service by %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务由 %@ 提供"
+          }
+        }
+      }
+    },
+    "Service by %@ · Current server: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务由 %@ 提供 · 当前服务器 %@"
+          }
+        }
+      }
+    },
+    "Services": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "服务"
+          }
+        }
+      }
+    },
+    "Session tokens": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本对话 token"
+          }
+        }
+      }
+    },
+    "Set or view the long-running goal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置或查看长期目标"
+          }
+        }
+      }
+    },
+    "Setting up the runtime. This happens once.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在设置运行环境，只需要做一次。"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
+        }
+      }
+    },
+    "Share": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享"
+          }
+        }
+      }
+    },
+    "Share reviewed log": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享已检查的日志"
+          }
+        }
+      }
+    },
+    "Shortcut name": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷指令名称"
+          }
+        }
+      }
+    },
+    "Shortcuts app": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快捷指令 App"
+          }
+        }
+      }
+    },
+    "Show": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示"
+          }
+        }
+      }
+    },
+    "Showing recent history only.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅显示最近的记录。"
+          }
+        }
+      }
+    },
+    "Showing recent subtask history.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在显示子任务的最近记录。"
+          }
+        }
+      }
+    },
+    "Sign in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录"
+          }
+        }
+      }
+    },
+    "Sign in again": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重新登录"
+          }
+        }
+      }
+    },
+    "Sign in to DSH Remote": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录 DSH Remote"
+          }
+        }
+      }
+    },
+    "Sign in to your own liguobao/ds-harness-remote with email and password": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用邮箱和密码登录自己部署的 liguobao/ds-harness-remote"
+          }
+        }
+      }
+    },
+    "Sign in with DeepSeek": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 DeepSeek 账号登录"
+          }
+        }
+      }
+    },
+    "Sign out": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出登录"
+          }
+        }
+      }
+    },
+    "Sign out of DSH Remote?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出 DSH Remote？"
+          }
+        }
+      }
+    },
+    "Sign out of the DeepSeek account?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出 DeepSeek 账号？"
+          }
+        }
+      }
+    },
+    "Sign-in method": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录方式"
+          }
+        }
+      }
+    },
+    "Sign-in timed out": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登录超时"
+          }
+        }
+      }
+    },
+    "Signed in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已登录"
+          }
+        }
+      }
+    },
+    "Signed out": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未登录"
+          }
+        }
+      }
+    },
+    "Simplified Chinese": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "简体中文"
+          }
+        }
+      }
+    },
+    "Size": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大小"
+          }
+        }
+      }
+    },
+    "Skip": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跳过"
+          }
+        }
+      }
+    },
+    "Small": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小"
+          }
+        }
+      }
+    },
+    "Speech recognition isn’t available right now.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别暂时不可用。"
+          }
+        }
+      }
+    },
+    "Standard": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标准"
+          }
+        }
+      }
+    },
+    "Start": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启动"
+          }
+        }
+      }
+    },
+    "Start DSH": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启动 DSH"
+          }
+        }
+      }
+    },
+    "Start Node.js": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建 Node.js 项目"
+          }
+        }
+      }
+    },
+    "Start command": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启动命令"
+          }
+        }
+      }
+    },
+    "Start engine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启动引擎"
+          }
+        }
+      }
+    },
+    "Start in safe mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以安全模式启动"
+          }
+        }
+      }
+    },
+    "Start normally" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以正常模式启动"
+          }
+        }
+      }
+    },
+    "Start when the app opens": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 App 时自动启动"
+          }
+        }
+      }
+    },
+    "Starting": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在启动"
+          }
+        }
+      }
+    },
+    "Starting remote DSH…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在远端启动 DSH…"
+          }
+        }
+      }
+    },
+    "Starting the engine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在启动引擎"
+          }
+        }
+      }
+    },
+    "Starting the engine. This usually takes under a minute.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在启动引擎，通常不到一分钟。"
+          }
+        }
+      }
+    },
+    "Startup": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启动"
+          }
+        }
+      }
+    },
+    "State": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行状态"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "状态"
+          }
+        }
+      }
+    },
+    "Step ended": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "步骤结束"
+          }
+        }
+      }
+    },
+    "Step started": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "步骤开始"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止"
+          }
+        }
+      }
+    },
+    "Stop dictation": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结束语音输入"
+          }
+        }
+      }
+    },
+    "Stop engine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止引擎"
+          }
+        }
+      }
+    },
+    "Stopping": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在停止"
+          }
+        }
+      }
+    },
+    "Subtask": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "子任务"
+          }
+        }
+      }
+    },
+    "Subtasks": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "子任务"
+          }
+        }
+      }
+    },
+    "Switch host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换主机"
+          }
+        }
+      }
+    },
+    "Switch the permission preset": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切换权限档位"
+          }
+        }
+      }
+    },
+    "System permission": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统权限"
+          }
+        }
+      }
+    },
+    "System permissions": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统权限"
+          }
+        }
+      }
+    },
+    "Task instruction": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "任务指令"
+          }
+        }
+      }
+    },
+    "Task notifications": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "任务通知"
+          }
+        }
+      }
+    },
+    "Tasks run on the connected host. This phone’s engine must stay running.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "任务由当前主机执行。本机任务需要引擎持续运行。"
+          }
+        }
+      }
+    },
+    "Tasks: %lld/%lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "待办：%1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Teal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "青绿"
+          }
+        }
+      }
+    },
+    "The API key was rejected. Check it in settings.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key 被拒绝，请检查后重新填写。"
+          }
+        }
+      }
+    },
+    "The DSH engine runs locally on this device. Only model requests leave it, sent directly to the provider you choose.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH 引擎在这台设备上本地运行，只有模型请求会发出去，直接发给你选择的服务商。"
+          }
+        }
+      }
+    },
+    "The chat and its history are removed from this device. This cannot be undone.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话及其记录会从这台设备上删除，无法恢复。"
+          }
+        }
+      }
+    },
+    "The engine could not start": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎无法启动"
+          }
+        }
+      }
+    },
+    "The engine could not start. Open the details to retry.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎无法启动，请打开详情重试。"
+          }
+        }
+      }
+    },
+    "The engine did not start in time.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎启动超时。"
+          }
+        }
+      }
+    },
+    "The engine ran out of memory.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎内存不足。"
+          }
+        }
+      }
+    },
+    "The engine runs on this iPhone. Only model requests leave it.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎在这台 iPhone 上运行，只有模型请求会发出去。"
+          }
+        }
+      }
+    },
+    "The engine's launch environment already provides this key.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎的启动环境已经提供了这个 Key。"
+          }
+        }
+      }
+    },
+    "The first setup takes a minute or two": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次准备约需一两分钟"
+          }
+        }
+      }
+    },
+    "The folder and its chats are kept. Chats become ungrouped.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目录和对话会保留，对话将不再分组。"
+          }
+        }
+      }
+    },
+    "The key is stored by DSH on the remote host and used only for model requests.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key 由远程主机上的 DSH 保存，只用于模型请求。"
+          }
+        }
+      }
+    },
+    "The key is stored by the engine on this device and used only for model requests.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Key 由本机引擎保存在这台设备上，只用于模型请求。"
+          }
+        }
+      }
+    },
+    "The local engine is in safe mode, so the model can't use phone control." : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本地引擎处于安全模式，模型暂时无法使用手机控制。"
+          }
+        }
+      }
+    },
+    "The model can only run shortcuts you add here, with the exact name. It cannot change this list.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型只能运行你在这里添加的快捷指令，名称必须完全一致；模型无法修改这个列表。"
+          }
+        }
+      }
+    },
+    "The model has a question": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型有个问题"
+          }
+        }
+      }
+    },
+    "The model request timed out. Try again.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型请求超时，请重试。"
+          }
+        }
+      }
+    },
+    "The model returned no reply.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型没有返回内容。"
+          }
+        }
+      }
+    },
+    "The model service is busy. Try again in a moment.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型服务繁忙，请稍后再试。"
+          }
+        }
+      }
+    },
+    "The reply hit the length limit.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复达到了长度上限。"
+          }
+        }
+      }
+    },
+    "There’s no earlier history to branch from": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前面没有可分叉的历史"
+          }
+        }
+      }
+    },
+    "These capabilities are not installed on this host.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此主机尚未安装这些能力。"
+          }
+        }
+      }
+    },
+    "Thinking": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考"
+          }
+        }
+      }
+    },
+    "This folder has more entries than the host can list.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此目录条目超过主机的列表上限。"
+          }
+        }
+      }
+    },
+    "This host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这台主机"
+          }
+        }
+      }
+    },
+    "This host can’t delete chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这台主机不支持删除对话"
+          }
+        }
+      }
+    },
+    "This host’s settings and the password and private key saved on this phone will be deleted. DSH and chats on the host stay.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这台主机的设置和保存在手机上的密码、私钥都会删除。主机上的 DSH 和对话不受影响。"
+          }
+        }
+      }
+    },
+    "This host’s settings are read-only.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此主机的设置为只读。"
+          }
+        }
+      }
+    },
+    "This is a redacted snapshot of local engine logs. Automatic redaction is not a guarantee. Remove secrets and personal information before exporting.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这是已脱敏的本机引擎日志快照。自动脱敏不能保证安全，请在导出前移除凭据与个人信息。"
+          }
+        }
+      }
+    },
+    "This isn’t a private key. Choose the file without .pub (such as id_ed25519).": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这不是私钥文件，请选不带 .pub 的那个（例如 id_ed25519）"
+          }
+        }
+      }
+    },
+    "This phone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机"
+          }
+        }
+      }
+    },
+    "This phone will be removed from your account. DSH and chats on the host stay. You can sign in again anytime.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这台手机会从账号中移除。主机上的 DSH 和对话不受影响，随时可以重新登录。"
+          }
+        }
+      }
+    },
+    "This private key needs a passphrase. Remove it with ssh-keygen -p, or use a password.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这把私钥设了密码，暂不支持。可用 ssh-keygen -p 去掉密码，或改用密码登录"
+          }
+        }
+      }
+    },
+    "This setting format is not supported.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂不支持此设置格式。"
+          }
+        }
+      }
+    },
+    "This subtask is read-only.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此子任务只能查看。"
+          }
+        }
+      }
+    },
+    "This usually takes under a minute.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通常不到一分钟。"
+          }
+        }
+      }
+    },
+    "This week": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本周"
+          }
+        }
+      }
+    },
+    "Time zone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时区"
+          }
+        }
+      }
+    },
+    "Times come from durable host events. Unfinished work has no invented end time.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "时间来自主机的持久事件。未完成的工作不填入结束时间。"
+          }
+        }
+      }
+    },
+    "Timing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行规则"
+          }
+        }
+      }
+    },
+    "Title": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "标题"
+          }
+        }
+      }
+    },
+    "Today": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天"
+          }
+        }
+      }
+    },
+    "Too many requests": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求太频繁"
+          }
+        }
+      }
+    },
+    "Too many requests. Try again shortly.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请求过于频繁，请稍后再试。"
+          }
+        }
+      }
+    },
+    "Tool": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具"
+          }
+        }
+      }
+    },
+    "Tool result stored": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具结果已保存"
+          }
+        }
+      }
+    },
+    "Tool started": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具开始"
+          }
+        }
+      }
+    },
+    "Tool time": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具耗时"
+          }
+        }
+      }
+    },
+    "Tools ask before doing anything sensitive.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具在执行敏感操作前会先征求你的同意。"
+          }
+        }
+      }
+    },
+    "Top up on DeepSeek": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前往 DeepSeek 充值"
+          }
+        }
+      }
+    },
+    "Total input": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "总输入"
+          }
+        }
+      }
+    },
+    "Trust and connect": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "信任并连接"
+          }
+        }
+      }
+    },
+    "Trust this host?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "信任这台主机？"
+          }
+        }
+      }
+    },
+    "Turn ended": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轮次结束"
+          }
+        }
+      }
+    },
+    "Turn started": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轮次开始"
+          }
+        }
+      }
+    },
+    "Turns": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轮次"
+          }
+        }
+      }
+    },
+    "Turns on after repeated start failures": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "连续启动失败时自动启用"
+          }
+        }
+      }
+    },
+    "Unavailable": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不可用"
+          }
+        }
+      }
+    },
+    "Uncached input": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未缓存输入"
+          }
+        }
+      }
+    },
+    "Unpin": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消置顶"
+          }
+        }
+      }
+    },
+    "Untitled chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未命名对话"
+          }
+        }
+      }
+    },
+    "Update DSH or the remote plugin on the host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机上的 DSH 或远程插件需要更新"
+          }
+        }
+      }
+    },
+    "Usage and run info": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用量与运行信息"
+          }
+        }
+      }
+    },
+    "Use a concrete example to explain the difference between git rebase and git merge, and when to use each.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用一个具体例子解释 git rebase 和 git merge 的区别，各自什么时候用。"
+          }
+        }
+      }
+    },
+    "Use a system feature?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用系统功能？"
+          }
+        }
+      }
+    },
+    "Use an API key instead": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改用 API Key"
+          }
+        }
+      }
+    },
+    "Use for new chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用于新对话"
+          }
+        }
+      }
+    },
+    "Use host default directory": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用主机默认目录"
+          }
+        }
+      }
+    },
+    "Use the clipboard?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用剪贴板？"
+          }
+        }
+      }
+    },
+    "Use this folder": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用此目录"
+          }
+        }
+      }
+    },
+    "Use this phone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "切回本机"
+          }
+        }
+      }
+    },
+    "Username": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用户名"
+          }
+        }
+      }
+    },
+    "Using “%@”": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在使用「%@」"
+          }
+        }
+      }
+    },
+    "Value": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "值"
+          }
+        }
+      }
+    },
+    "Verifying package": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在校验安装包"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "版本"
+          }
+        }
+      }
+    },
+    "Via SSH": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过 SSH"
+          }
+        }
+      }
+    },
+    "Via SSH or DSH Remote": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通过 SSH 或 DSH Remote"
+          }
+        }
+      }
+    },
+    "View engine features": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看引擎功能"
+          }
+        }
+      }
+    },
+    "View logs": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看日志"
+          }
+        }
+      }
+    },
+    "Waiting for browser authorization": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待浏览器授权"
+          }
+        }
+      }
+    },
+    "Waiting for you": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等你确认"
+          }
+        }
+      }
+    },
+    "Web": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网页"
+          }
+        }
+      }
+    },
+    "Web fetch": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "网页读取"
+          }
+        }
+      }
+    },
+    "Weekly": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每周"
+          }
+        }
+      }
+    },
+    "What do you want to ask?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你想问什么？"
+          }
+        }
+      }
+    },
+    "What would you like to do today?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天想做点什么？"
+          }
+        }
+      }
+    },
+    "When off, start on this phone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭后从本机开始"
+          }
+        }
+      }
+    },
+    "Without plugins, to troubleshoot startup": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不加载插件，排查启动问题"
+          }
+        }
+      }
+    },
+    "Working directory (optional)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作目录（可选）"
+          }
+        }
+      }
+    },
+    "Workspace files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作区文件"
+          }
+        }
+      }
+    },
+    "Workspaces": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作区"
+          }
+        }
+      }
+    },
+    "Wrap lines": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动换行"
+          }
+        }
+      }
+    },
+    "Write": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写入"
+          }
+        }
+      }
+    },
+    "Write a Python script that finds the 20 most frequent words in a text file, then run it and show me the results.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写一个 Python 脚本：统计一个文本文件里出现最多的 20 个词，并运行一次给我看结果。"
+          }
+        }
+      }
+    },
+    "Write text to the clipboard": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写入剪贴板文字"
+          }
+        }
+      }
+    },
+    "You approve actions": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由你批准操作"
+          }
+        }
+      }
+    },
+    "Your own key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用自己的 Key"
+          }
+        }
+      }
+    },
+    "Your turn": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轮到你了"
+          }
+        }
+      }
+    },
+    "You’ll be asked to check the fingerprint on first connection": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次连接时会请你核对指纹"
+          }
+        }
+      }
+    },
+    "dsh isn’t installed on the host. Install it and retry, or enter its full path as the start command.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机上没有 dsh，装好后重试，或在启动命令里填完整路径"
+          }
+        }
+      }
+    },
+    "iOS background limits": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS 后台限制"
+          }
+        }
+      }
+    },
+    "iOS has no command sandbox for the engine, so full access is the default here; the app itself stays inside the iOS sandbox. Choose a stricter preset to approve actions yourself.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS 上引擎没有命令沙箱，所以这里默认使用完全访问；App 本身始终在 iOS 沙箱之内。想自己批准每个操作，可以选择更严格的档位。"
+          }
+        }
+      }
+    },
+    "iOS may suspend DSH within seconds of leaving the app. A running turn can request a short extension, often around 30 seconds; the system decides the actual time.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "离开 App 后，iOS 可能在数秒内挂起 DSH。运行中的任务可申请短暂延长，通常约 30 秒，实际时间由系统决定。"
+          }
+        }
+      }
+    },
+    "result": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结果"
+          }
+        }
+      }
+    },
+    "“%@” not found on the host": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远端找不到「%@」"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

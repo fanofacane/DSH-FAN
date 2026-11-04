@@ -1,0 +1,19 @@
+diff --git a/kernel/log.c b/kernel/log.c
+--- a/kernel/log.c
++++ b/kernel/log.c
+@@ -100,6 +100,15 @@
+ }
+ static void log_line(const char *line);
+ static void output_line(const char *line) {
++    // RuntimeProbe privacy: retain only instruction metadata, never raw
++    // registers, stack bytes, argv, headers or arbitrary diagnostic bodies.
++    // Apply before BOTH NSLog and the guest-readable kernel ring buffer.
++    int pid, consumed = 0;
++    unsigned long long pc;
++    unsigned opcode;
++    if (sscanf(line, "%d illegal instruction at 0x%llx: insn=0x%x%n",
++               &pid, &pc, &opcode, &consumed) != 3 || line[consumed] != '\0')
++        return;
+     // send it to stdout or wherever
+     log_line(line);
+     // add it to the circular buffer

@@ -1,0 +1,134 @@
+diff --git a/asbestos/guest-arm64/gen.c b/asbestos/guest-arm64/gen.c
+--- a/asbestos/guest-arm64/gen.c
++++ b/asbestos/guest-arm64/gen.c
+@@ -4122,7 +4122,60 @@
+  * - STUR Qn, [Xbase, #imm]
+  * - STP Qn, Qm, [Xbase, #imm]
+  */
++
++// RuntimeProbe: scalar saturating shift-right-and-narrow, all immediates.
++extern void gadget_narrow_sqshrn_b(void);
++extern void gadget_narrow_sqshrn_h(void);
++extern void gadget_narrow_sqshrn_s(void);
++extern void gadget_narrow_uqshrn_b(void);
++extern void gadget_narrow_uqshrn_h(void);
++extern void gadget_narrow_uqshrn_s(void);
++extern void gadget_narrow_sqrshrn_b(void);
++extern void gadget_narrow_sqrshrn_h(void);
++extern void gadget_narrow_sqrshrn_s(void);
++extern void gadget_narrow_uqrshrn_b(void);
++extern void gadget_narrow_uqrshrn_h(void);
++extern void gadget_narrow_uqrshrn_s(void);
++extern void gadget_narrow_sqshrun_b(void);
++extern void gadget_narrow_sqshrun_h(void);
++extern void gadget_narrow_sqshrun_s(void);
++extern void gadget_narrow_sqrshrun_b(void);
++extern void gadget_narrow_sqrshrun_h(void);
++extern void gadget_narrow_sqrshrun_s(void);
++
+ static int gen_simd_fp(struct gen_state *state, uint32_t insn) {
++    // AdvSIMD scalar saturating shift-right-and-narrow. immh=0 is
++    // another instruction class; immh[3]=1 is reserved for narrowing.
++    uint32_t narrow_class = insn & 0xff80fc00;
++    int narrow_op = -1;
++    if (narrow_class == 0x5f009400) narrow_op = 0;
++    if (narrow_class == 0x7f009400) narrow_op = 1;
++    if (narrow_class == 0x5f009c00) narrow_op = 2;
++    if (narrow_class == 0x7f009c00) narrow_op = 3;
++    if (narrow_class == 0x7f008400) narrow_op = 4;
++    if (narrow_class == 0x7f008c00) narrow_op = 5;
++    if (narrow_op >= 0 && (insn & 0x00780000)) {
++        unsigned immh = (insn >> 19) & 15;
++        if (immh & 8) {
++            gen_interrupt(state, INT_UNDEFINED);
++            return 0;
++        }
++        unsigned shape = (immh & 4) ? 2 : (immh & 2) ? 1 : 0;
++        unsigned bits = 8 << shape;
++        unsigned shift = 2 * bits - ((insn >> 16) & 127);
++        static void (*const gadgets[6][3])(void) = {
++            {gadget_narrow_sqshrn_b, gadget_narrow_sqshrn_h, gadget_narrow_sqshrn_s},
++            {gadget_narrow_uqshrn_b, gadget_narrow_uqshrn_h, gadget_narrow_uqshrn_s},
++            {gadget_narrow_sqrshrn_b, gadget_narrow_sqrshrn_h, gadget_narrow_sqrshrn_s},
++            {gadget_narrow_uqrshrn_b, gadget_narrow_uqrshrn_h, gadget_narrow_uqrshrn_s},
++            {gadget_narrow_sqshrun_b, gadget_narrow_sqshrun_h, gadget_narrow_sqshrun_s},
++            {gadget_narrow_sqrshrun_b, gadget_narrow_sqrshrun_h, gadget_narrow_sqrshrun_s},
++        };
++        gen(state, (unsigned long)gadgets[narrow_op][shape]);
++        gen(state, (insn & 31) | (((insn >> 5) & 31) << 8) | (shift << 16));
++        return 1;
++    }
++
+     // AdvSIMD floating-point <-> fixed-point, immediate #fbits. These must
+     // precede generic shift-immediate decoding. S/D only; reject reserved
+     // encodings (scalar Q=0, vector .1D, or unsupported half precision).
+diff --git a/asbestos/guest-arm64/gadgets-aarch64/math.S b/asbestos/guest-arm64/gadgets-aarch64/math.S
+--- a/asbestos/guest-arm64/gadgets-aarch64/math.S
++++ b/asbestos/guest-arm64/gadgets-aarch64/math.S
+@@ -16215,3 +16215,66 @@
+ .fixed_convert ucvtf_2d, ucvtf, v0.2d, v1.2d, 64
+ .fixed_convert ucvtf_s, ucvtf, s0, s1, 32
+ .fixed_convert ucvtf_d, ucvtf, d0, d1, 64
++
++
++/* RuntimeProbe: exact scalar SQ/UQ shift-right-narrow family, including QC.
++ * Static instructions preserve rounding carry beyond the source lane width.
++ * Stream: [gadget][rd | rn<<8 | shift<<16].
++ */
++.macro .narrow_scalar name, op, dst, src, bits
++.gadget narrow_\name
++    ldr x8, [_pc], #8
++    and x9, x8, #31
++    ubfx x10, x8, #8, #5
++    ubfx x11, x8, #16, #8
++    add x13, _cpu, #CPU_fp
++    add x14, x13, x9, lsl #4
++    add x15, x13, x10, lsl #4
++    ldr q1, [x15]
++    mrs x17, fpsr
++    ldr w12, [_cpu, #CPU_fpsr]
++    msr fpsr, x12
++    sub x11, x11, #1
++    adr x12, .Lnarrow_table_\name
++    ldrsw x0, [x12, x11, lsl #2]
++    add x12, x12, x0
++    br x12
++.p2align 2
++.Lnarrow_table_\name:
++    .irp n, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32
++        .if \n <= \bits
++            .long .Lnarrow_\name\()_\n - .Lnarrow_table_\name
++        .endif
++    .endr
++    .irp n, 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32
++        .if \n <= \bits
++.Lnarrow_\name\()_\n:
++            \op \dst, \src, #\n
++            b .Lnarrow_done_\name
++        .endif
++    .endr
++.Lnarrow_done_\name:
++    mrs x12, fpsr
++    str w12, [_cpu, #CPU_fpsr]
++    msr fpsr, x17
++    str q0, [x14]
++    gret
++.endm
++.narrow_scalar sqshrn_b, sqshrn, b0, h1, 8
++.narrow_scalar sqshrn_h, sqshrn, h0, s1, 16
++.narrow_scalar sqshrn_s, sqshrn, s0, d1, 32
++.narrow_scalar uqshrn_b, uqshrn, b0, h1, 8
++.narrow_scalar uqshrn_h, uqshrn, h0, s1, 16
++.narrow_scalar uqshrn_s, uqshrn, s0, d1, 32
++.narrow_scalar sqrshrn_b, sqrshrn, b0, h1, 8
++.narrow_scalar sqrshrn_h, sqrshrn, h0, s1, 16
++.narrow_scalar sqrshrn_s, sqrshrn, s0, d1, 32
++.narrow_scalar uqrshrn_b, uqrshrn, b0, h1, 8
++.narrow_scalar uqrshrn_h, uqrshrn, h0, s1, 16
++.narrow_scalar uqrshrn_s, uqrshrn, s0, d1, 32
++.narrow_scalar sqshrun_b, sqshrun, b0, h1, 8
++.narrow_scalar sqshrun_h, sqshrun, h0, s1, 16
++.narrow_scalar sqshrun_s, sqshrun, s0, d1, 32
++.narrow_scalar sqrshrun_b, sqrshrun, b0, h1, 8
++.narrow_scalar sqrshrun_h, sqrshrun, h0, s1, 16
++.narrow_scalar sqrshrun_s, sqrshrun, s0, d1, 32

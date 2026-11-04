@@ -1,0 +1,29 @@
+# references cloned for study (not part of the project)
+.refs/
+# toolchain logs and screenshots
+tooling/*.log
+tooling/env.sh
+tooling/shots/
+# runtime build cache and outputs (large, reproducible via runtime/build-ios-runtime.sh)
+runtime/.cache/
+runtime/out*/
+runtime/.work/
+runtime/ios/.build/
+runtime/.build-*.log
+# build outputs never belong in git
+
+# local scratch (agent notes, review packets)
+.harness-tmp*/
+.claude/
+# the media plugin carries its own JS package
+runtime/media/dsh-media/node_modules/
+# Python bytecode from tooling/
+**/__pycache__/
+*.pyc
+
+# Local distribution artifacts
+/dist/
+
+# macOS metadata and private notes
+.DS_Store
+docs/design/ios-native-migration.md

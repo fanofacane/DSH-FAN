@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Rewritten at engine start through the mounted guest VFS, never in safe mode.
+- insert:
+    - id: dsh-app-phone
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: phone
+        transport: stdio
+        command: !!js process.execPath
+        args:
+          - /opt/dsh-app/phone/relay.cjs
+          - /var/lib/dsh-app/phone/bridge.json
+        toolCallTimeoutMs: 660000
+        failOnStartupError: false

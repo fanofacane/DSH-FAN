@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>io.github.fanofacane.dsh.phone</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>dshapp</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>iosamap</string>
+		<string>baidumap</string>
+		<string>shortcuts</string>
+		<string>maps</string>
+		<string>weixin</string>
+		<string>music</string>
+	</array>
+	<key>NSAlarmKitUsageDescription</key>
+	<string>Schedule alarms and timers you request.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>Add calendar events you ask DSH to create.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Dictate messages with your voice.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Save images you choose from a conversation.</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>Create and manage reminders you request.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Turn what you say into message text.</string>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DshIcons.ttf</string>
+		<string>JetBrainsMono-Regular.ttf</string>
+		<string>JetBrainsMono-Medium.ttf</string>
+		<string>JetBrainsMono-Bold.ttf</string>
+	</array>
+</dict>
+</plist>

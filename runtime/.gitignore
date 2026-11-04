@@ -1,0 +1,6 @@
+# downloads, staging trees and generated bundles (rebuild with ./build-ios-runtime.sh; old download caches stay ignored)
+.cache/
+.work/
+out/
+*.log
+__pycache__/

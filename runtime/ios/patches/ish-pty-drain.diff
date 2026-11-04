@@ -1,0 +1,52 @@
+diff --git a/fs/tty.c b/fs/tty.c
+--- a/fs/tty.c
++++ b/fs/tty.c
+@@ -444,7 +444,11 @@
+     struct tty *tty = fd->tty;
+     lock(&pids_lock);
+     lock(&tty->lock);
+-    if (tty->hung_up || pty_is_half_closed_master(tty)) {
++    bool closed_master = tty->driver == &pty_master &&
++        (tty->hung_up || pty_is_half_closed_master(tty));
++    if ((tty->hung_up || pty_is_half_closed_master(tty)) &&
++        !(closed_master && tty->bufsize > 0)) {
++        if (closed_master) err = _EIO;
+         unlock(&pids_lock);
+         goto error;
+     }
+@@ -476,6 +480,11 @@
+     if (tty->termios.lflags & ICANON_) {
+         size_t canon_size;
+         while ((canon_size = tty_canon_size(tty)) == (size_t) -1) {
++            if (tty->driver == &pty_master &&
++                (tty->hung_up || pty_is_half_closed_master(tty)) && tty->bufsize > 0) {
++                canon_size = tty->bufsize;
++                break;
++            }
+             err = _EIO;
+             if (pty_is_half_closed_master(tty))
+                 goto error;
+@@ -505,6 +514,13 @@
+             timeout_ptr = NULL;
+ 
+         while (tty->bufsize < min) {
++            // Drain a short final chunk even when it is below VMIN.
++            if (tty->driver == &pty_master &&
++                (tty->hung_up || pty_is_half_closed_master(tty))) {
++                if (tty->bufsize > 0) break;
++                err = _EIO;
++                goto error;
++            }
+             err = _EIO;
+             if (pty_is_half_closed_master(tty))
+                 goto error;
+@@ -724,7 +740,8 @@
+     int err = 0;
+     struct tty *tty = fd->tty;
+     lock(&tty->lock);
+-    if (tty->hung_up) {
++    // A hung-up master still exposes termios/winsize (Linux PTY semantics).
++    if (tty->hung_up && tty->driver != &pty_master) {
+         unlock(&tty->lock);
+         if (cmd == TIOCSPGRP_)
+             return _ENOTTY;

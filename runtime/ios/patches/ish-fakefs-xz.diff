@@ -1,0 +1,10 @@
+--- a/tools/fakefs.c
++++ b/tools/fakefs.c
+@@ -104,6 +104,7 @@
+     if (archive == NULL)
+         ARCHIVE_ERR(archive);
+     archive_read_support_filter_gzip(archive);
++    archive_read_support_filter_xz(archive);
+     archive_read_support_format_tar(archive);
+     if (archive_read_open_filename(archive, archive_path, 65536) != ARCHIVE_OK)
+         ARCHIVE_ERR(archive);

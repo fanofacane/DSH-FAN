@@ -1,0 +1,71 @@
+{
+  "baseRevision": "c5c264da19148512167aa493d7bd4e50aae1b74e",
+  "patches": [
+    {
+      "path": "ish-fixed-point-convert.diff",
+      "sha256": "4078b7b9cbb12df78addb64b988bc63025b4b36199ab493e0bfbc810a24c23da"
+    },
+    {
+      "path": "ish-scalar-narrow.diff",
+      "sha256": "27f3257aae70e13e848b9ff18e2f30551e27d881cc59a0030a5af189c8b29d18"
+    },
+    {
+      "path": "ish-simd-lane-index.diff",
+      "sha256": "f9fb3d2a5b93f66e136f03c45ea30fce1e7c5a03ff60e8e27139789f881d06bd"
+    },
+    {
+      "path": "ish-pty-drain.diff",
+      "sha256": "cab8e8aa0d0bd06a93c17aa0b212465c1b25e8575ee4defc30d660bcf91f920b"
+    },
+    {
+      "path": "ish-poll-exit-unlock.diff",
+      "sha256": "15b305f5a473191b8bc363b7657b749b7323d202d41f021b89b7685c802bb130"
+    },
+    {
+      "path": "ish-probe-log-privacy.diff",
+      "sha256": "c3a141f87e3a81235045be79d1bf31f2e637af8a1cbe98232b26ff0cb3b6653f"
+    },
+    {
+      "path": "ish-fakefs-xz.diff",
+      "sha256": "77e2872395ee02a0f739d6fb4c23adb21a5c4baf672dce70c0c082f2adec93f3"
+    }
+  ],
+  "files": {
+    "asbestos/guest-arm64/gen.c": {
+      "before": "fe3fd7e01b11ebf7ed45a8bdad3b19e0871fe84490d248842e116e5320d0520a",
+      "after": "ad0bd2cc5a1c457ede5a6b1c5625ed1ce51bcab5b108d41bd1873113c8ef6d81"
+    },
+    "asbestos/guest-arm64/gadgets-aarch64/math.S": {
+      "before": "b0022475fbf611a6aba2268d5d727ea44227d232a5055514e61810a0d7c70c29",
+      "after": "313552edd937c6b03c30ddc2f02de01fa35b70b1544aa8512d3e4c415fd9742e"
+    },
+    "fs/tty.c": {
+      "before": "1b4e4996a68a5db20c49f91ad1e33a013fd1e7a2e1278b0f6f59b2a43c8a7799",
+      "after": "fec6aab989e6578bbad427e2d8c32c2d96358f17a75fcd8c8089db6f9228f1a3"
+    },
+    "fs/poll.c": {
+      "before": "a4ccebc2b1e193784fe625396ce5282a1195073057baa4c2073b0eacedb3e5a4",
+      "after": "7bbb5088a2911edeadbd7420f855acd0c4f865fe2b5686dce43830fa1ae9861e"
+    },
+    "kernel/task.h": {
+      "before": "388826e81c59fa3e2edb9f9d11027f194f219cf40827f15f21dc7e9a39c15207",
+      "after": "aa6a981c6e8442d077d256b4eb5c4526ae195b48e50dd9be7a551178450e28bb"
+    },
+    "kernel/task.c": {
+      "before": "396a6c6629645023d566903cc264bb5fceedc6de1ca5bd9ce32bc65fdaab5205",
+      "after": "5be0227123ef3253fa76d2a6168d9c36929541f518213842878cc296eb39b846"
+    },
+    "kernel/calls.c": {
+      "before": "5f91acc0b832120be6203a08ac7eb67ce7213df069d63cdd4a28fdaa9ca317bb",
+      "after": "bbc3617c97d33e115e9acf94af0a39cf26fad501889a9d3ebd004f4a5fab8612"
+    },
+    "kernel/log.c": {
+      "before": "612a8e9b7f3e5cd2e95879bc67052cfe65fc0e5b506ce05dcbf18da9d88ddbe7",
+      "after": "c38a3ca3716b2c2e1be82300f963347fac2678a6665b90d08ec383bf535a2c05"
+    },
+    "tools/fakefs.c": {
+      "before": "37e3d6dc498d226e1739468fbaec2fa83af370bb4e9346b0ad51ac3c0740fcaf",
+      "after": "2a4a93d6234a8c59e8f372930418649c181bd2c8511f0e0448454546668c2176"
+    }
+  }
+}

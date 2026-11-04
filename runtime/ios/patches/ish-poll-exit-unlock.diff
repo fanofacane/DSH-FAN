@@ -1,0 +1,53 @@
+diff --git a/fs/poll.c b/fs/poll.c
+--- a/fs/poll.c
++++ b/fs/poll.c
+@@ -606,7 +606,12 @@
+                         if (ish_exec_trace())
+                             printk("SAFETY-VALVE[poll]: pid=%d idle %llds, %d threads → exit_group\n",
+                                    current->pid, (long long)idle_s, thread_count);
+-                        do_exit_group(0);
++                        // poll_->lock is held. Exiting here self-deadlocks
++                        // when fd teardown calls poll_cleanup_fd. Unwind the
++                        // wait AND its syscall-owned fd refs before exiting.
++                        current->poll_exit_pending = true;
++                        res = _EINTR;
++                        break;
+                     }
+                 }
+             }
+diff --git a/kernel/task.h b/kernel/task.h
+--- a/kernel/task.h
++++ b/kernel/task.h
+@@ -51,6 +51,7 @@
+     // Set when thread is in a blocking syscall (futex_wait, poll_wait, etc.)
+     // Used for deadlock detection: if all threads are blocking, it's a hang.
+     bool blocking;
++    bool poll_exit_pending; // private: deferred idle watchdog exit
+     // Per-thread pipe for futex_wait wakeup (reused across calls to avoid
+     // pipe creation overhead in Go runtime spin loops)
+     int futex_pipe[2]; // [0]=read, [1]=write; -1 if not yet created
+diff --git a/kernel/task.c b/kernel/task.c
+--- a/kernel/task.c
++++ b/kernel/task.c
+@@ -90,6 +90,7 @@
+ 
+     // Initialize blocking state for deadlock detection.
+     task->blocking = false;
++    task->poll_exit_pending = false;
+     {
+         struct timespec _ts;
+         clock_gettime(CLOCK_MONOTONIC, &_ts);
+diff --git a/kernel/calls.c b/kernel/calls.c
+--- a/kernel/calls.c
++++ b/kernel/calls.c
+@@ -270,6 +270,10 @@
+         if (current->group->doing_group_exit)
+             do_exit(current->group->group_exit_code);
+ #endif
++        if (current->poll_exit_pending) {
++            current->poll_exit_pending = false;
++            do_exit_group(0);
++        }
+         ISH_SIGNPOST_SCOPE_END(syscall, "syscall", _sc_spid);
+     } else if (interrupt == INT_GPF) {
+         if (ish_exec_trace())
