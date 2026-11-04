@@ -12,8 +12,8 @@ import { insidePackage, panelTitle } from "./manifest.js";
 import { acceptUpgrade } from "./ws.js";
 import { LOCALE, call, errorText, isPlainObject, normalizeScope, toJson, utf8Bytes, viewStats, withTimeout } from "./util.js";
 
-export const STREAM_PATH = "/dsh-go/v1/stream";
-const BASE = "/dsh-go/v1/";
+export const STREAM_PATH = "/dsh-fan/v1/stream";
+const BASE = "/dsh-fan/v1/";
 const SURFACE_KEYS = { "composer.actions": "composer.actions", "message.actions": "message.actions", "composer.strip": "composer.strip", panel: "panels" };
 const CONTEXT_FOR = { "composer.actions": ["draft", "clipboard"], "message.actions": ["message"] };
 const IMAGE_TYPES = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".gif": "image/gif" };
@@ -121,7 +121,7 @@ export function createNativeRoutes(core) {
 
   const pluginOrFail = (pkg, caps) => {
     const rec = core.plugin(pkg);
-    if (rec === undefined) fail(404, "not-found", `no enabled plugin ${pkg} declares dshGo`);
+    if (rec === undefined) fail(404, "not-found", `no enabled plugin ${pkg} declares dshFan`);
     const state = core.stateOf(rec, caps);
     if (state === "degraded") fail(409, "degraded", `${pkg} is degraded for this run`);
     if (state !== "ok") fail(409, "not-native", `${pkg} is ${state}`);
@@ -391,7 +391,7 @@ export function createNativeRoutes(core) {
       await gate;
       if (entry.settled) return;
       if (!current()) return settle(entry, { t: "void", reason: "cancelled" });
-      core.ctx.logger?.warn?.("dsh-go-bridge: deferred %s/%s failed: %s", pkg, id, errorText(error));
+      core.ctx.logger?.warn?.("dsh-fan-bridge: deferred %s/%s failed: %s", pkg, id, errorText(error));
       settle(entry, { t: "void", reason: "error" });
     });
     const pending = { id: entry.id, timeoutMs: deferred.timeoutMs };
@@ -588,7 +588,7 @@ export function createNativeRoutes(core) {
 
   // -------------------------------------------------------------- dispatch
 
-  /** Handles a /dsh-go/v1/<native route>; returns false for paths it does not own. */
+  /** Handles a /dsh-fan/v1/<native route>; returns false for paths it does not own. */
   async function handle(req, res, path, url) {
     let route;
     if (path === `${BASE}contributions`) route = () => contributions(req, res, url);

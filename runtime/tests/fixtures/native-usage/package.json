@@ -1,11 +1,11 @@
 {
-  "name": "dsh-go-fixture-usage",
+  "name": "dsh-fan-fixture-usage",
   "version": "1.2.3",
   "private": true,
   "type": "module",
   "main": "index.js",
   "description": "Test-only native plugin (never shipped): panel + data feed + strip, plus /native-fixture/* control routes for runtime/tests/native-bridge.mjs.",
-  "dshGo": {
+  "dshFan": {
     "v": 1,
     "title": { "zh": "用量", "en": "Usage" },
     "icon": "chart",

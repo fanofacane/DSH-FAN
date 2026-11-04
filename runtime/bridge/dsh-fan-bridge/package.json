@@ -1,7 +1,7 @@
 {
-  "name": "dsh-go-bridge",
+  "name": "dsh-fan-bridge",
   "version": "0.4.0",
-  "description": "dsh-go host bridge: plugin inventory for the dsh-go app, the native plugin protocol v1 (dshGo service, contributions, views, stream, invoke; v1.2 capabilities: media, micro, capability events), and a route guard on hosts whose webserver is not patched.",
+  "description": "dsh-fan host bridge: plugin inventory for the dsh-fan app, the native plugin protocol v1 (dshFan service, contributions, views, stream, invoke; v1.2 capabilities: media, micro, capability events), and a route guard on hosts whose webserver is not patched.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {

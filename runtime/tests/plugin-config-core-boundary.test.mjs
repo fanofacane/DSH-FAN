@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import {writeFileSync,mkdirSync,symlinkSync} from 'node:fs';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {createPluginConfig} from '../bridge/dsh-go-bridge/lib/plugin-config.js';
+import {createPluginConfig} from '../bridge/dsh-fan-bridge/lib/plugin-config.js';
 import {withSources} from './plugin-config-source-fixture.mjs';
-const base='/dsh-go/v1/plugin-config';
+const base='/dsh-fan/v1/plugin-config';
 const graph={uid:1,refs:{1:{type:'object',dict:{title:2}},2:{type:'string'}}};
 const schema=Object.assign(value=>value,{toJSON:()=>structuredClone(graph)});
 function entry(id,name='unit-plugin'){return {options:{id,name,config:{title:'original'}},fiber:{state:2,runtime:{Config:schema,callback(){}},config:{title:'original'}}};}

@@ -76,7 +76,7 @@ export async function generateMedia(request, context) {
       mime: request.model.kind === 'video' ? 'video/mp4' : 'image/jpeg', width: 16384, height: 16384, bytes: context.limits.maxVideoBytes ?? context.limits.maxImageBytes,
       ...(request.model.kind === 'video' ? { duration: 3600, codec: 'hevc' } : {}),
     }));
-    if (Buffer.byteLength(JSON.stringify({ 'dsh-go/media': { ...meta, items: maximumItems } })) > 8192) fail('metadata');
+    if (Buffer.byteLength(JSON.stringify({ 'dsh-fan/media': { ...meta, items: maximumItems } })) > 8192) fail('metadata');
     const refs = context.resumeTaskId ? [] : context.referenceSources ?? await readReferences(request.refs, { ...context, signal });
     secret = await context.resolveCredential();
     if (typeof secret !== 'string' || secret.length < 1 || secret.length > 8192 || /[\r\n]/.test(secret)) fail('credential');
@@ -139,7 +139,7 @@ export async function generateMedia(request, context) {
         await sleep(context.pollMs ?? 15_000, undefined, { signal });
       }
     }
-    if (Buffer.byteLength(JSON.stringify({ 'dsh-go/media': meta })) > 8192 || JSON.stringify(meta).includes(secret)) fail('metadata');
+    if (Buffer.byteLength(JSON.stringify({ 'dsh-fan/media': meta })) > 8192 || JSON.stringify(meta).includes(secret)) fail('metadata');
     await context.admission?.settle();
     await store.commit(meta, { sessionId: context.sessionId, createdAt });
     return { meta, text: 'AI 生成' + (request.model.kind === 'video' ? '视频' : '图片') + '已保存：\n' + meta.items.map(item => item.path).join('\n') };

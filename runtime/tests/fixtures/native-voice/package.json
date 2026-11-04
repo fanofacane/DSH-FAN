@@ -1,11 +1,11 @@
 {
-  "name": "dsh-go-fixture-voice",
+  "name": "dsh-fan-fixture-voice",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "main": "index.js",
   "description": "Test-only native plugin (never shipped): the v1.2 capabilities (audio, voice, micro, overlay) for runtime/tests/native-capabilities-live.mjs.",
-  "dshGo": {
+  "dshFan": {
     "v": 1,
     "title": "朗读",
     "icon": "speaker",

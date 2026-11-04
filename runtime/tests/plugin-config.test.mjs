@@ -2,9 +2,9 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
 import {once} from 'node:events';
-import {apply} from '../bridge/dsh-go-bridge/lib/index.js';
+import {apply} from '../bridge/dsh-fan-bridge/lib/index.js';
 import {withSources} from './plugin-config-source-fixture.mjs';
-const root='/dsh-go/v1/plugin-config';
+const root='/dsh-fan/v1/plugin-config';
 async function fixture(t,{connection=true,entries=[],addressable=entries}={}){
  const routes=[],dispose=[],hooks=new Map();let reads=0;
  const editor={canWrite:()=>true,entries:()=>addressable,configuration:()=>{reads++;return addressable.map(entry=>({entry,inherited:entry.options.config??{},override:entry.options.config??{}}));}};

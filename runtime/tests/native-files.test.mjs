@@ -1,4 +1,4 @@
-// v1.3 selected-file tests for dsh-go-bridge (git 55ca555:docs/design/native-plugins-protocol.md §12): real HTTP and
+// v1.3 selected-file tests for dsh-fan-bridge (git 55ca555:docs/design/native-plugins-protocol.md §12): real HTTP and
 // WebSocket through the bridge's apply(), with a fake loader. No DSH needed.
 //   node --test runtime/tests/native-files.test.mjs
 import assert from 'node:assert/strict';
@@ -10,10 +10,10 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { once } from 'node:events';
-import { apply } from '../bridge/dsh-go-bridge/lib/index.js';
-import { encodeFrame } from '../bridge/dsh-go-bridge/lib/native/ws.js';
-import { parseManifest } from '../bridge/dsh-go-bridge/lib/native/manifest.js';
-import { normalize } from '../bridge/dsh-go-bridge/lib/native/effects.js';
+import { apply } from '../bridge/dsh-fan-bridge/lib/index.js';
+import { encodeFrame } from '../bridge/dsh-fan-bridge/lib/native/ws.js';
+import { parseManifest } from '../bridge/dsh-fan-bridge/lib/native/manifest.js';
+import { normalize } from '../bridge/dsh-fan-bridge/lib/native/effects.js';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { apply as applyFileExample } from './fixtures/example-files/lib/index.js';
@@ -25,7 +25,7 @@ const manifest = { v: 1, capabilities: ['files'], contributes: {
 
 async function fixture(t, declaration = manifest, native = {}) {
   const dir = mkdtempSync(join(tmpdir(), 'dsh-cap-'));
-  writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'file-test', version: '1.0.0', dshGo: declaration }));
+  writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'file-test', version: '1.0.0', dshFan: declaration }));
   writeFileSync(join(dir, 'index.js'), '');
   const disposers = [], routes = [], upgrades = [], hooks = new Map(), services = {};
   const entry = { options: { name: pathToFileURL(join(dir, 'index.js')).href }, parent: { tree: { ctx: { baseUrl: pathToFileURL(dir + '/').href } } }, fiber: { uid: 7 } };
@@ -42,7 +42,7 @@ async function fixture(t, declaration = manifest, native = {}) {
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
   const port = server.address().port;
   const pluginCtx = { fiber: { entry }, effect: ctx.effect };
-  const service = Object.assign(Object.create(services.dshGo), { ctx: pluginCtx });
+  const service = Object.assign(Object.create(services.dshFan), { ctx: pluginCtx });
   const sockets = new Set();
   async function ws(features) {
     const socket = connect(port, '127.0.0.1'); sockets.add(socket); await once(socket, 'connect');
@@ -59,17 +59,17 @@ async function fixture(t, declaration = manifest, native = {}) {
         if (op === 1) deliver(JSON.parse(data.toString()));
       }
     });
-    socket.write('GET /dsh-go/v1/stream HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n');
+    socket.write('GET /dsh-fan/v1/stream HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n');
     const out = { socket, messages, send: m => socket.write(encodeFrame(1, JSON.stringify(m), { mask: true })), next(p) { const i = messages.findIndex(p); if (i >= 0) return Promise.resolve(messages.splice(i, 1)[0]); return new Promise((r, reject) => { const w = { p, r }; w.timer = setTimeout(() => reject(new Error('message timeout')), 1500); waiters.push(w); }); } };
     out.send({ t: 'hello', v: [1], ...(features === undefined ? {} : { features }) }); out.welcome = await out.next(m => m.t === 'welcome'); return out;
   }
-  const request = (path, options = {}) => fetch(`http://127.0.0.1:${port}/dsh-go/v1/${path}`, { ...options, headers: { authorization: 'Bearer test', ...options.headers } });
+  const request = (path, options = {}) => fetch(`http://127.0.0.1:${port}/dsh-fan/v1/${path}`, { ...options, headers: { authorization: 'Bearer test', ...options.headers } });
   const invoke = async (w, scope = { sessionId: 's1' }, pkg = 'file-test') => { const response = await request('invoke', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ v: 1, pkg, id: 'go', surface: 'composer.actions', scope, stream: w?.welcome.conn, userGesture: true }) }); return { status: response.status, ...await response.json() }; };
   t.after(async () => { for (const s of sockets) s.destroy(); while (disposers.length) disposers.pop()(); server.closeAllConnections(); await new Promise(r => server.close(r)); rmSync(dir, { recursive: true, force: true }); });
   function addPlugin(name) {
-    const folder = join(dir, name); mkdirSync(folder); writeFileSync(join(folder, 'index.js'), ''); writeFileSync(join(folder, 'package.json'), JSON.stringify({ name, version: '1.0.0', dshGo: declaration }));
+    const folder = join(dir, name); mkdirSync(folder); writeFileSync(join(folder, 'index.js'), ''); writeFileSync(join(folder, 'package.json'), JSON.stringify({ name, version: '1.0.0', dshFan: declaration }));
     const extra = { options: { name: pathToFileURL(join(folder, 'index.js')).href }, parent: entry.parent, fiber: { uid: entries.length + 10 } }; entries.push(extra); hooks.get('internal/plugin')();
-    return Object.assign(Object.create(services.dshGo), { ctx: { fiber: { entry: extra }, effect: ctx.effect } });
+    return Object.assign(Object.create(services.dshFan), { ctx: { fiber: { entry: extra }, effect: ctx.effect } });
   }
   return { service, ws, request, invoke, entry, hooks, addPlugin, port, guardCalls: () => guardCalls };
 }
@@ -230,7 +230,7 @@ test('files are optional, negotiated and only explicitly tapped, within finite b
   }
   for (const maxFiles of [0, 5, 1.5, '2']) assert.equal(normalize({ ...choice, maxFiles }, options).violation, true);
   assert.equal(normalize({ ...choice, request: 'forged', maxBytes: 999 }, options).effects[0].request, undefined);
-  const parsed = parseManifest({ name: 'file-test', dshGo: manifest }, '.');
+  const parsed = parseManifest({ name: 'file-test', dshFan: manifest }, '.');
   assert.deepEqual(parsed.capabilities, ['files']); assert.deepEqual(parsed.items['composer.actions'][0].requires, ['files']);
 });
 
@@ -384,9 +384,9 @@ test('callback cannot create deferred side effects, including an eager rejected 
 });
 
 test('runnable example consumes actual uploaded bytes through its registered panel callback', async t => {
-  const declaration = JSON.parse(readFileSync(new URL('./fixtures/example-files/package.json', import.meta.url))).dshGo;
+  const declaration = JSON.parse(readFileSync(new URL('./fixtures/example-files/package.json', import.meta.url))).dshFan;
   const f = await fixture(t, declaration);
-  applyFileExample({ inject: (deps, fn) => fn({ dshGo: f.service }) });
+  applyFileExample({ inject: (deps, fn) => fn({ dshFan: f.service }) });
   const w = await f.ws(['files']);
   const response = await f.request('invoke', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
     v: 1, pkg: 'file-test', id: 'files', surface: 'panel', action: 'chooseFiles', scope: { sessionId: 's1' }, stream: w.welcome.conn, userGesture: true,

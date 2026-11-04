@@ -18,7 +18,7 @@
 3. **图标**：`DshIcons.ttf` 是固定的 Phosphor 子集，`App/Design/Glyphs.swift` 里有的才能用。新图标一律用 SF Symbols。
 4. **文案**：界面文案用英文 key，并在 `apple/App/Localizable.xcstrings` 补 `zh-Hans`。小组件、分享扩展各有自己的 `Localizable.xcstrings`；权限说明在 `apple/App/InfoPlist.xcstrings`。xcstrings 的 key 按字母排序，用 `json.dumps(..., ensure_ascii=False, indent=2)` 写回，保持 diff 只有新增。
 5. **设计**：沿用雾蓝玻璃风格，组件在 `App/Design/Theme.swift`（`DS` 固定颜色、Environment 中的 `DesignTheme`（配色 / 阅读字号）、`Radius`、`Space`、`.type()`、`.glass()`、`GlassIconButton`、`Mono.font`；正文代码字体传 `scale: theme.readingScale`）和 `App/Design/SettingsKit.swift`（`SettingsPage`、`SettingsGroup`、`SettingsRow`、`SettingsLink`、`SettingsToggleRow`、`MistButton`）。名字、账号这类原文用 `SettingsRow(verbatim:)` 或 `Text(verbatim:)`，避免被当成 Markdown。
-6. **远程兼容**：新功能调用的 DSH 接口要在 `apple/Modules/DSHRemote/Relay/RemoteTunnelCarrier.swift` 的 `allowlist` 里，中继连接才可用。只有本机才有的 HTTP 桥接口（`/dsh-go/v1/*`，比如删除会话），遇到 `carrier != nil` 时要给出明确的「不支持」提示。
+6. **远程兼容**：新功能调用的 DSH 接口要在 `apple/Modules/DSHRemote/Relay/RemoteTunnelCarrier.swift` 的 `allowlist` 里，中继连接才可用。只有本机才有的 HTTP 桥接口（`/dsh-fan/v1/*`，比如删除会话），遇到 `carrier != nil` 时要给出明确的「不支持」提示。
 7. **凭据**：任何 API Key、令牌、Cookie、密码都不得写进代码、日志、提交或文件。提交前运行 `git diff --cached | grep -E "sk-[A-Za-z0-9]{16,}"`，确认没有输出。
 8. **旧端移除（2026-11-04 用户授权）**：Flutter / 安卓客户端及专用工具已按阶段 3 删除。历史源码在 上游 DSH Go 仓库，不重新引入旧端依赖；保留 SDK 与插件示例。
 9. **不做依赖原作者服务的功能**：社区 / 论坛、Star 引导、托管分享链接、分享码、DS Bot、DSH Remote 托管服务器（`dsh.r2049.cn`）等任何原作者服务，一律不做，也不要留入口。中继只支持用户自建的 ds-harness-remote 服务器。

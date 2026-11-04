@@ -426,7 +426,7 @@ async function runCase(root, cli, name, task) {
       && event.surfaceOp === 'append' && event.data.message.toolCallId === calls[0].data.callId);
     assert.equal(results.length, 1);
     assert.notEqual(results[0].data.message.isError, true);
-    const meta = results[0].data.meta?.['dsh-go/media'];
+    const meta = results[0].data.meta?.['dsh-fan/media'];
     assert.ok(meta, 'CLI projection is insufficient; raw tool/result must carry media meta');
     assert.equal(meta.v, 1);
     assert.equal(meta.kind, 'image');
@@ -579,7 +579,7 @@ assert.throws(() => Config({ services: [{
 await json(join(output, 'source-identity.json'), {
   node: process.version, cliPackage, cliVersion: cliMeta.version, timezone: process.env.TZ,
   source: 'npm @deepseek-ai/dsh@0.2.1-rc.4; package-lock identity recorded; no git commit inferred',
-  productBase: 'dsh-go/dsh-go-src@6b53cb1',
+  productBase: 'dsh-fan/dsh-fan-src@6b53cb1',
   sourceZipSha256: '1d4c9f438bdd2245e6a2cd98d37e62baae977db3a58856788becfd87a05c45dc',
   testLockPath, testLockSha256, engineFiles,
   enginePatches: [], candidates: identities, sharedDependencies,

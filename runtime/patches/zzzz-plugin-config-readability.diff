@@ -45,7 +45,7 @@
 +			const layers = loaded.layers.map((layer) => layer.patches);
 +			const higher = readProfilePatches("dsh", profile, loaded).slice(layers.reduce((n, rows) => n + rows.length, 0) + loaded.patches.length);
 +			for (const value of [0, 1]) {
-+				const config = { __dsh_go_write_probe__: value };
++				const config = { __dsh_fan_write_probe__: value };
 +				const patches = structuredClone(loaded.patches);
 +				const index = patches.findLastIndex((row) => row.id === entry.options.id && !Object.hasOwn(row, "insert") && (!Object.hasOwn(row, "name") || row.name === entry.options.name));
 +				if (index < 0) patches.push({ id: entry.options.id, name: entry.options.name, config });
@@ -63,20 +63,20 @@
 --- a/node_modules/@deepseek-ai/dsh-host-webserver/lib/index.js
 +++ b/node_modules/@deepseek-ai/dsh-host-webserver/lib/index.js
 @@ -512,12 +512,15 @@
- 	async dshGoRejectRequest(route, req, res) {
- 		const status = await this.dshGoRouteRejection(route.kind, route.path, req);
+ 	async dshFanRejectRequest(route, req, res) {
+ 		const status = await this.dshFanRouteRejection(route.kind, route.path, req);
  		if (status === void 0) return false;
 +		let pathname;
-+		try { pathname = new URL(req.url ?? "/", "http://dsh-go.invalid").pathname; } catch {}
-+		const configUnavailable = status === 503 && (pathname === "/dsh-go/v1/plugin-config" || pathname?.startsWith("/dsh-go/v1/plugin-config/"));
++		try { pathname = new URL(req.url ?? "/", "http://dsh-fan.invalid").pathname; } catch {}
++		const configUnavailable = status === 503 && (pathname === "/dsh-fan/v1/plugin-config" || pathname?.startsWith("/dsh-fan/v1/plugin-config/"));
  		res.writeHead(status, {
  			"cache-control": "no-store",
 -			"content-type": "text/plain; charset=utf-8",
 +			"content-type": configUnavailable ? "application/json; charset=utf-8" : "text/plain; charset=utf-8",
- 			"x-dsh-go-guard": "reject"
+ 			"x-dsh-fan-guard": "reject"
  		});
 -		res.end(req.method === "HEAD" ? void 0 : `${STATUS_CODES[status]}\n`);
 +		res.end(req.method === "HEAD" ? void 0 : configUnavailable ? JSON.stringify({ v: 1, code: "host-unavailable", message: "主机配置服务暂不可用，请稍后重试。" }) : `${STATUS_CODES[status]}\n`);
  		return true;
  	}
- 	async dshGoGuardUpgrade(route, req, socket, head) {
+ 	async dshFanGuardUpgrade(route, req, socket, head) {

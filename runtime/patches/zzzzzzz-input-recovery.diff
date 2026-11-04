@@ -99,8 +99,8 @@
  		return this.phase.kind === "idle" || this.phase.kind === "maintenance" ? "idle" : "running";
 @@ -800,6 +828,8 @@
  	send(message, target, wakeup) {
- 		if (this.dshGoDeleting) throw new Error("session is being deleted");
- 		this.loopCtx.get("sessionPersistence")?.dshGoDeletion?.assertAdmit(this.id);
+ 		if (this.dshFanDeleting) throw new Error("session is being deleted");
+ 		this.loopCtx.get("sessionPersistence")?.dshFanDeletion?.assertAdmit(this.id);
 +		// Reject admission before insertion if an older claim still cannot be restored.
 +		if (wakeup && this.phase.kind === "idle") this.inbox.recover();
  		const wakingAfterAbort = wakeup && this.phase.kind !== "idle" && this.phase.abort.signal.aborted;

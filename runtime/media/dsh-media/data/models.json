@@ -2,7 +2,7 @@
   "v": 1,
   "revision": "2026-11-01.0.3.0",
   "asOf": "2026-11-01",
-  "contract": "dsh-go/media/catalog",
+  "contract": "dsh-fan/media/catalog",
   "capabilities": {
     "tools": [
       "generate_image",

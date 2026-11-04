@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Native plugin protocol integration test against a real DSH (git 55ca555:docs/design/native-plugins-protocol.md):
-# boots `dsh web` from <dsh-prefix> with a throwaway HOME/DSH_HOME, runtime/bridge/dsh-go-bridge and
+# boots `dsh web` from <dsh-prefix> with a throwaway HOME/DSH_HOME, runtime/bridge/dsh-fan-bridge and
 # the test plugins in runtime/tests/fixtures (loaded by path), runs runtime/tests/native-bridge.mjs;
 # boots with the v1.2 fixture (fixtures/native-voice) for runtime/tests/native-capabilities-live.mjs;
 # then boots again without the fixtures and checks that nothing changes when no plugin declares
-# dshGo. Never touches ~/.dsh.
+# dshFan. Never touches ~/.dsh.
 #
 #   runtime/tests/run-native-tests.sh <dsh-prefix> [--port N]
 #
@@ -33,8 +33,8 @@ trap cleanup EXIT
 # The bridge with shortened timers (heartbeat 1 s, idle 4 s, feed linger 1.5 s); protocol limits unchanged.
 cat > "$TMP/bridge.patch.yml" <<YML
 - insert:
-    - id: dsh-go-bridge
-      name: $RUNTIME/bridge/dsh-go-bridge/lib/index.js
+    - id: dsh-fan-bridge
+      name: $RUNTIME/bridge/dsh-fan-bridge/lib/index.js
       config:
         native:
           heartbeatSeconds: 1

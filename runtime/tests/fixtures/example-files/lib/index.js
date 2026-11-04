@@ -2,7 +2,7 @@
 // Only digests enter the view model; this example does not persist file content.
 import { createHash } from 'node:crypto'
 
-export const name = 'dsh-go-example-files'
+export const name = 'dsh-fan-example-files'
 const english = locale => typeof locale === 'string' && locale.toLowerCase().startsWith('en')
 
 export function fileView(scope, caps) {
@@ -22,8 +22,8 @@ export function fileView(scope, caps) {
 }
 
 export function apply(ctx) {
-  ctx.inject(['dshGo'], ctx => {
-    ctx.dshGo.panel('files', {
+  ctx.inject(['dshFan'], ctx => {
+    ctx.dshFan.panel('files', {
       view: fileView,
       data: (scope, emit) => { emit({ count: 0, files: [] }) },
       actions: {
@@ -36,7 +36,7 @@ export function apply(ctx) {
           const files = selection.files.map(file => {
             // The service returns a copy. Retaining only the handle would be wrong:
             // it is revoked as soon as this callback settles.
-            const bytes = ctx.dshGo.readPickedFile(file.handle)
+            const bytes = ctx.dshFan.readPickedFile(file.handle)
             return {
               title: file.name,
               subtitle: createHash('sha256').update(bytes).digest('hex'),

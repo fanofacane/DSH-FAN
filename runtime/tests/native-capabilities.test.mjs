@@ -1,4 +1,4 @@
-// v1.2 capability tests for dsh-go-bridge (git 55ca555:docs/design/native-plugins-protocol.md §11): real HTTP and
+// v1.2 capability tests for dsh-fan-bridge (git 55ca555:docs/design/native-plugins-protocol.md §11): real HTTP and
 // WebSocket through the bridge's apply(), with a fake loader. No DSH needed.
 //   node --test runtime/tests/native-capabilities.test.mjs
 import assert from 'node:assert/strict';
@@ -10,19 +10,19 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { once } from 'node:events';
-import { apply } from '../bridge/dsh-go-bridge/lib/index.js';
-import { encodeFrame } from '../bridge/dsh-go-bridge/lib/native/ws.js';
-import { parseManifest } from '../bridge/dsh-go-bridge/lib/native/manifest.js';
-import { normalize } from '../bridge/dsh-go-bridge/lib/native/effects.js';
-import { microModel } from '../bridge/dsh-go-bridge/lib/native/capabilities.js';
-import { LIMITS } from '../bridge/dsh-go-bridge/lib/native/limits.js';
+import { apply } from '../bridge/dsh-fan-bridge/lib/index.js';
+import { encodeFrame } from '../bridge/dsh-fan-bridge/lib/native/ws.js';
+import { parseManifest } from '../bridge/dsh-fan-bridge/lib/native/manifest.js';
+import { normalize } from '../bridge/dsh-fan-bridge/lib/native/effects.js';
+import { microModel } from '../bridge/dsh-fan-bridge/lib/native/capabilities.js';
+import { LIMITS } from '../bridge/dsh-fan-bridge/lib/native/limits.js';
 const delay = ms => new Promise(r => setTimeout(r, ms));
 const manifest = { v: 1, capabilities: ['audio', 'voice', 'micro', 'overlay'], contributes: {
   'composer.actions': [{ id: 'go', label: 'Go' }], media: [{ id: 'clip' }], micro: [{ id: 'caption' }], overlays: [{ id: 'captionOverlay', channel: 'caption' }], panels: [{ id: 'panel', title: 'Panel', micro: 'caption' }] } };
 
 async function fixture(t, declaration = manifest) {
   const dir = mkdtempSync(join(tmpdir(), 'dsh-cap-'));
-  writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'voice-test', version: '1.0.0', dshGo: declaration }));
+  writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'voice-test', version: '1.0.0', dshFan: declaration }));
   writeFileSync(join(dir, 'index.js'), '');
   const disposers = [], routes = [], upgrades = [], hooks = new Map(), services = {};
   const entry = { options: { name: pathToFileURL(join(dir, 'index.js')).href }, parent: { tree: { ctx: { baseUrl: pathToFileURL(dir + '/').href } } }, fiber: { uid: 7 } };
@@ -35,12 +35,12 @@ async function fixture(t, declaration = manifest) {
     webServer: { register(r) { routes.push(r); return () => {}; }, registerUpgrade(r) { upgrades.push(r); return () => {}; } } };
   apply(ctx, { persist: false, guardRoutes: false });
   const responses = [];
-  const server = createServer((req, res) => { if (req.url.startsWith('/dsh-go/v1/media/')) responses.push(res); const r = routes.find(r => r.kind === 'prefix' && req.url.startsWith(r.path)); if (r) r.handler(req, res); else { res.writeHead(404); res.end(); } });
+  const server = createServer((req, res) => { if (req.url.startsWith('/dsh-fan/v1/media/')) responses.push(res); const r = routes.find(r => r.kind === 'prefix' && req.url.startsWith(r.path)); if (r) r.handler(req, res); else { res.writeHead(404); res.end(); } });
   server.on('upgrade', (req, socket, head) => upgrades[0].handler(req, socket, head));
   server.listen(0, '127.0.0.1'); await once(server, 'listening');
   const port = server.address().port;
   const pluginCtx = { fiber: { entry }, effect: ctx.effect };
-  const service = Object.assign(Object.create(services.dshGo), { ctx: pluginCtx });
+  const service = Object.assign(Object.create(services.dshFan), { ctx: pluginCtx });
   const sockets = new Set();
   async function ws(features) {
     const socket = connect(port, '127.0.0.1'); sockets.add(socket); await once(socket, 'connect');
@@ -57,24 +57,24 @@ async function fixture(t, declaration = manifest) {
         if (op === 1) deliver(JSON.parse(data.toString()));
       }
     });
-    socket.write('GET /dsh-go/v1/stream HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n');
+    socket.write('GET /dsh-fan/v1/stream HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Version: 13\r\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n');
     const out = { socket, messages, send: m => socket.write(encodeFrame(1, JSON.stringify(m), { mask: true })), next(p) { const i = messages.findIndex(p); if (i >= 0) return Promise.resolve(messages.splice(i, 1)[0]); return new Promise((r, reject) => { const w = { p, r }; w.timer = setTimeout(() => reject(new Error('message timeout')), 1500); waiters.push(w); }); } };
     out.send({ t: 'hello', v: [1], ...(features === undefined ? {} : { features }) }); out.welcome = await out.next(m => m.t === 'welcome'); return out;
   }
-  const request = (path, options = {}) => fetch(`http://127.0.0.1:${port}/dsh-go/v1/${path}`, { ...options, headers: { authorization: 'Bearer test', ...options.headers } });
+  const request = (path, options = {}) => fetch(`http://127.0.0.1:${port}/dsh-fan/v1/${path}`, { ...options, headers: { authorization: 'Bearer test', ...options.headers } });
   const invoke = async (w, scope = { sessionId: 's1' }, pkg = 'voice-test') => { const response = await request('invoke', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ v: 1, pkg, id: 'go', surface: 'composer.actions', scope, stream: w?.welcome.conn }) }); return { status: response.status, ...await response.json() }; };
   const mediaPath = (e, pkg = 'voice-test') => `media/${pkg}/clip?lease=${e.lease}${e.key === undefined ? '' : `&key=${e.key}`}`;
   t.after(async () => { for (const s of sockets) s.destroy(); while (disposers.length) disposers.pop()(); server.closeAllConnections(); await new Promise(r => server.close(r)); rmSync(dir, { recursive: true, force: true }); });
   function addPlugin(name) {
-    const folder = join(dir, name); mkdirSync(folder); writeFileSync(join(folder, 'index.js'), ''); writeFileSync(join(folder, 'package.json'), JSON.stringify({ name, version: '1.0.0', dshGo: declaration }));
+    const folder = join(dir, name); mkdirSync(folder); writeFileSync(join(folder, 'index.js'), ''); writeFileSync(join(folder, 'package.json'), JSON.stringify({ name, version: '1.0.0', dshFan: declaration }));
     const extra = { options: { name: pathToFileURL(join(folder, 'index.js')).href }, parent: entry.parent, fiber: { uid: entries.length + 10 } }; entries.push(extra); hooks.get('internal/plugin')();
-    return Object.assign(Object.create(services.dshGo), { ctx: { fiber: { entry: extra }, effect: ctx.effect } });
+    return Object.assign(Object.create(services.dshFan), { ctx: { fiber: { entry: extra }, effect: ctx.effect } });
   }
   return { service, ws, request, invoke, mediaPath, entry, hooks, addPlugin, port, responses, guardCalls: () => guardCalls };
 }
 
 test('old manifest/effect semantics and 4Hz budget remain unchanged', () => {
-  const parsed = parseManifest({ name: 'old', dshGo: { v: 1, contributes: {} } }, '.');
+  const parsed = parseManifest({ name: 'old', dshFan: { v: 1, contributes: {} } }, '.');
   assert.equal(parsed.capabilities, undefined); assert.deepEqual(Object.keys(parsed.items), ['composer.actions', 'message.actions', 'composer.strip', 'panels']); assert.equal(LIMITS.dataHz, 4); assert.equal(LIMITS.dataBytes, 32768);
   const e = { type: 'audio', op: 'play', instance: 'one', src: 'media:clip' };
   for (const opts of [{}, { static: true }, { deferred: true }]) assert.equal(normalize(e, { panels: new Set(), ...opts }).effects.length, 0);
@@ -159,9 +159,9 @@ test('speechStart clears audio role while voice survives; speech edges are paced
 });
 
 test('v1.1 plugins are untouched: undeclared capability effects and keys keep their old answers', async t => {
-  const legacy = parseManifest({ name: 'legacy', dshGo: { v: 1, contributes: { media: [{ id: 'x' }], 'composer.actions': [{ id: 'go', label: 'Go' }] } } }, '.');
+  const legacy = parseManifest({ name: 'legacy', dshFan: { v: 1, contributes: { media: [{ id: 'x' }], 'composer.actions': [{ id: 'go', label: 'Go' }] } } }, '.');
   assert.equal(legacy.capabilities, undefined); assert.equal(legacy.items.media, undefined);
-  assert.ok(legacy.issues.some(i => i.code === 'unknown-surface' && i.path === '/dshGo/contributes/media'));
+  assert.ok(legacy.issues.some(i => i.code === 'unknown-surface' && i.path === '/dshFan/contributes/media'));
   const e = { type: 'audio', op: 'play', instance: 'one', src: 'media:clip' };
   for (const opts of [{}, { deferred: true }]) {
     const norm = normalize(e, { panels: new Set(), ...opts });
@@ -264,7 +264,7 @@ async function until(predicate, message, timeout = 1500) {
 async function pausedMedia(t, f, effect) {
   const count = f.responses.length;
   const socket = connect(f.port, '127.0.0.1'); t.after(() => socket.destroy()); await once(socket, 'connect');
-  socket.pause(); socket.write(`GET /dsh-go/v1/${f.mediaPath(effect)} HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test\r\nConnection: close\r\n\r\n`);
+  socket.pause(); socket.write(`GET /dsh-fan/v1/${f.mediaPath(effect)} HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer test\r\nConnection: close\r\n\r\n`);
   await until(() => f.responses.length > count && f.responses[count].headersSent, 'media headers were not produced');
   const res = f.responses[count]; assert.equal(res.writableFinished, false, 'fixture must hold actual HTTP backpressure');
   return { socket, res };

@@ -17,7 +17,7 @@
 - **只写一份**。同一个插件在 DSH 网页版、dsh-TUI 里也能用。Agent 还能把生成的图接着用：放进网页、PPT，或者交给定时任务每天出一张。
 
 App 侧真正缺的有四样：
-1. 媒体卡：读工具结果里的 `dsh-go/media` 元数据。
+1. 媒体卡：读工具结果里的 `dsh-fan/media` 元数据。
 2. 视频：播放器，以及保存视频（现在的 `MediaPlugin` 只收图片字节）。
 3. 生成模式和参数弹层。
 4. 作品库。
@@ -52,7 +52,7 @@ App 侧真正缺的有四样：
 | 工具结果怎么带图片 | 工具的 `output.render` 返回 `ContentBlock[]`，可以带 `image` 块。块里只有附件引用 `{attachmentId, mediaType, bytes, width, height, name}`，字节存在附件服务里；客户端用 `session/attachment` 取字节。`read_image` 就是这么做的 | `dsh-tools/lib/types/schema.d.ts:186-193`；`dsh-tool-fs/lib/types/read-image.d.ts`；App 侧 `原 Flutter 版 dsh_client/lib/src/session_api.dart:446-456` |
 | 附件能放什么 | 图片只收 png / jpeg / webp / gif，**入库时会规整**，可能缩小（`originalDimensions` 只在缩过时出现）。文件原样存储，但 `file` 块只在用户消息里有效。**没有视频附件** | `dsh-attachment/lib/types/types.d.ts:5-42`；`dsh-llm/lib/types/types.d.ts:72-83` |
 | 工具结果里的图会不会进模型上下文 | 会。纯文字模型拿到的是占位文字；DeepSeek 路由支持图片输入，按图片计费 | `dsh-llm/lib/types/content.d.ts`（`textOnlyImageText`、`projectOffloadedImages`）；`dsh-llm-deepseek/lib/types/images.d.ts` |
-| 给 App 的展示元数据 | `output.presentationMeta(args, value)` 的返回值原样写进 `tool/result` 事件的 `data.meta`，随对话记录持久化，模型看不到。App 已经读其中的 `dsh-go/view` 键画工具卡 | `dsh-tools/lib/types/schema.d.ts:191-192`；`native-plugins-views.md` §8.2 |
+| 给 App 的展示元数据 | `output.presentationMeta(args, value)` 的返回值原样写进 `tool/result` 事件的 `data.meta`，随对话记录持久化，模型看不到。App 已经读其中的 `dsh-fan/view` 键画工具卡 | `dsh-tools/lib/types/schema.d.ts:191-192`；`native-plugins-views.md` §8.2 |
 | 官方展示类型里有没有媒体 | 没有。`ToolResultView` 只有 generic / terminal / diff / search / read / web。官方网页版的图片画廊只认 `read_image` | `dsh-tools/lib/types/presentation.d.ts:130`；`dsh-client-ui-tool/lib/client.js`（`name !== "read_image"`） |
 | 交付文件 | `present` 工具声明最终交付的文件，插件随后 `session.append("deliverables/presented", …)`。**插件可以往对话记录里追加自己的事件类型** | `dsh-tool-present/lib/index.js:119`；`dsh-tool-present/lib/types/types.d.ts` |
 | 后台任务 | `ctx.jobs` 是通用的后台任务注册表，插件可以加自己的 `kind`。状态有 `running / stopping / completed / killed / failed`，另有一行 `progress`（如「3/10」）。任务结束时，`tool-jobs` 把完成通知送给所属 Agent：Agent 空闲就开一轮（默认 `wakeup`），忙就塞进下一步。**有人 `wait` 过的任务不再通知** | `dsh-jobs/lib/types/view.d.ts:15,26,72`；`dsh-jobs/lib/types/index.d.ts:128`（`wait`）；`dsh-jobs/lib/types/types.d.ts:249-253`（`awaited`）；`dsh-tool-jobs/lib/index.js:73-91,255-295` |
@@ -67,7 +67,7 @@ App 侧真正缺的有四样：
 |---|---|---|
 | 回复里的图片 | `![…](chart.png)` 指向工作区文件时原生显示：本机原地读，远程主机下载一次进缓存。单图上限 20 MiB，最高画 480，点开全屏 | `原 Flutter 版 lib/ui/chat/render/markdown_image.dart:1-4,27-33` |
 | 工具结果里的图片 | `ToolView.images` 取结果里的 `ImagePart`（手机截图、`read_image` 都走这里），缩略图高 144，一张占满宽、多张两列，间距 8。**只在展开工具行的详情里显示** | `原 Flutter 版 lib/ui/chat/tool_view.dart:243-255`；`原 Flutter 版 lib/ui/chat/widgets/tool_images.dart:14-51` |
-| 插件工具卡 | `meta["dsh-go/view"]` → 原生卡片，默认展开，一轮折叠后卡片留在折叠外面。`image` 组件只收插件资源或 ≤ 64 KiB 的 `data:`，工具卡总预算 8 KiB，**放不下一张生成图** | `native-plugins-views.md` §2.2、§5、§8.3 |
+| 插件工具卡 | `meta["dsh-fan/view"]` → 原生卡片，默认展开，一轮折叠后卡片留在折叠外面。`image` 组件只收插件资源或 ≤ 64 KiB 的 `data:`，工具卡总预算 8 KiB，**放不下一张生成图** | `native-plugins-views.md` §2.2、§5、§8.3 |
 | 产物 | 有 `ArtifactKind.video` 和图标、MIME 表，但预览页没有视频播放。`pubspec.yaml` 里没有任何视频播放依赖 | `原 Flutter 版 lib/state/artifacts.dart:17-58`；`原 Flutter 版 lib/ui/chat/widgets/artifact_card.dart:388` |
 | 远程读文件 | `workspaceFiles/stat` + `workspaceFiles/readBytes` 分块读取，**所有通道都能用**（中转走 base64）。单个产物上限 300 MiB，缩略图上限 8 MiB | `原 Flutter 版 dsh_client/lib/src/files_api.dart:1-13`；`原 Flutter 版 lib/state/artifact_files.dart:19-22` |
 | 全屏看图 | 黑底，左上返回 + 标题，右上「保存到相册」，双指缩放到 8 倍。一次只看一张，不能左右滑 | `原 Flutter 版 lib/ui/chat/artifact_preview.dart:1372-1487` |
@@ -79,7 +79,7 @@ App 侧真正缺的有四样：
 | 本机引擎后台 | 前台服务 + 唤醒锁保住 DSH 进程。vivo 会在后台断网，要打开「允许后台高耗电」 | `runtime/DshService.kt`；记忆里的引擎怪癖 |
 | 插件自带能力和设置（先例） | 朗读插件：主机生成音频，App 从桥接的媒体路由取回后播放（≤ 16 MiB、30 秒）。`dsh-voice-scribe`：Key 存在主机的插件配置里，App 只看到 `hasKey`，原生设置页走插件自己的 `/voice-input` 路由，**中转主机不可用** | 插件文档 voice.md、native-plugins-protocol.md §11（已删除，见 旧仓库历史（未迁入 dsh-fan））；`原 Flutter 版 lib/state/voice_scribe_settings.dart:1-30,103-130`；`原 Flutter 版 lib/ui/plugins/voice_scribe_settings_page.dart:79` |
 | 引擎设置里的密钥字段 | `settings/describe` 的 schema 里有只写的密钥字段，App 原生画成「已配置 / 未配置」，替换或清除都走弹层 | `原 Flutter 版 lib/ui/engine_settings/schema_form.dart:296,406-457` |
-| 桥接覆盖 | 工具卡随对话记录走，哪里都有；面板、胶囊、媒体路由只在装了桥接的主机上有。现在只有本机引擎有桥接，中转主机不放行 `/dsh-go/*` | 插件文档 hosts.md（已删除，见 旧仓库历史（未迁入 dsh-fan）） |
+| 桥接覆盖 | 工具卡随对话记录走，哪里都有；面板、胶囊、媒体路由只在装了桥接的主机上有。现在只有本机引擎有桥接，中转主机不放行 `/dsh-fan/*` | 插件文档 hosts.md（已删除，见 旧仓库历史（未迁入 dsh-fan）） |
 
 **小结**：DSH 没有「生成」这个概念，但积木是全的：
 - 工具结果可以带图片块，也可以带展示元数据；
@@ -123,13 +123,13 @@ App（生成模式 / 对话）
                                 ├─ 图片：同步调用（≤ 3 分钟），文件写进工作区
                                 └─ 视频：ctx.jobs（kind = media），按任务有效期续查，断点可恢复
                                          │
-                 tool/result.meta["dsh-go/media"] · 事件 media/request、media/result · job/list 的 progress
+                 tool/result.meta["dsh-fan/media"] · 事件 media/request、media/result · job/list 的 progress
                                          │
 App：媒体卡（读工作区文件）· 全屏查看 · 作品库 · 保存到相册 · 完成通知
 ```
 
 **为什么不选 b**：
-- dsh-go 的身份是「Agent 的客户端」。把生成做成 App 里的一个孤岛，Agent 用不上，远程主机上的工作区也拿不到图。
+- dsh-fan 的身份是「Agent 的客户端」。把生成做成 App 里的一个孤岛，Agent 用不上，远程主机上的工作区也拿不到图。
 - 手机进程管不住几分钟的视频任务：vivo 后台断网的问题已经踩过。
 - 适配器要用 Dart 再写一遍，网页版和 TUI 又用不上。
 
@@ -150,7 +150,7 @@ App：媒体卡（读工作区文件）· 全屏查看 · 作品库 · 保存到
 | 环节 | 规定 |
 |---|---|
 | 填写 | 设置 › 能力 › 图像与视频 › 某个服务 › API Key。走插件设置的只写密钥字段（`settings/mutate`），App 画成「已配置 / 未配置」，复用 `SecretFieldTile` |
-| 传输 | 本机引擎：进程内。SSH：SSH 隧道。中转：DSH Remote 的 Noise 端到端加密（`原 Flutter 版 dsh_remote/`）。**都不经过 dsh-go 自己的服务器**（我们也没有这样的服务器） |
+| 传输 | 本机引擎：进程内。SSH：SSH 隧道。中转：DSH Remote 的 Noise 端到端加密（`原 Flutter 版 dsh_remote/`）。**都不经过 dsh-fan 自己的服务器**（我们也没有这样的服务器） |
 | 存放 | 主机的 `ctx.credentials`。App 不落盘、不缓存、读不回来 |
 | 绝不出现在 | 对话记录、工具参数、`presentationMeta`、命令参数、诊断包、分享链接、通知 |
 | 服务商的结果地址 | 方舟、百炼、BFL 返回的是带签名的临时地址（10 分钟到 30 天不等，附录 A）。插件**拿到就下载**，记录里只写工作区路径，不写地址 |
@@ -177,7 +177,7 @@ App：媒体卡（读工作区文件）· 全屏查看 · 作品库 · 保存到
 
 App 只认三样东西，全部随对话记录或 DSH 自带的 RPC 走，中转主机也有。不经桥接，所以不受 `hosts.md` 那张表的限制。
 
-**① 工具结果的 `meta["dsh-go/media"]`**（`presentationMeta` 写入，≤ 8 KiB，不含字节）
+**① 工具结果的 `meta["dsh-fan/media"]`**（`presentationMeta` 写入，≤ 8 KiB，不含字节）
 
 ```jsonc
 {
@@ -213,7 +213,7 @@ App 只认三样东西，全部随对话记录或 DSH 自带的 RPC 走，中转
 
 **工具的模型侧返回**只有文字：路径、尺寸、用时、改写后的描述。生成的图不进模型上下文，省掉图片输入费。模型要看，自己调 `read_image`。有一个可选的升级方向：把图以 `offloaded: true` 的图片块写进结果，这样能持久显示又不发给模型（§7 R1）。
 
-**网页版与旧 App**：网页版不认 `dsh-go/media`，显示通用工具卡。插件的技能同时让模型在回复里写 `![](路径)`，所以网页版和没有媒体卡的旧 App 一样能看到图。新 App 看到媒体卡后，回复里指向同一路径的图片会去重，不画第二遍（〔推断〕：按路径去重，规则同产物卡）。
+**网页版与旧 App**：网页版不认 `dsh-fan/media`，显示通用工具卡。插件的技能同时让模型在回复里写 `![](路径)`，所以网页版和没有媒体卡的旧 App 一样能看到图。新 App 看到媒体卡后，回复里指向同一路径的图片会去重，不画第二遍（〔推断〕：按路径去重，规则同产物卡）。
 
 ## 3. 服务与模型
 
@@ -455,8 +455,8 @@ App 只认三样东西，全部随对话记录或 DSH 自带的 RPC 走，中转
 
 App 读目录的方式（2026-10-28，与 `runtime/media/dsh-media/MEDIA-CATALOG-CONTRACT.md` 一致）：
 
-- **在哪**：`settings/describe` 里，某个 namespace 的 schema 中 `fields["services"].meta.extra["dsh-go/media/catalog"]`。按这个元数据找 namespace，不按名字找：主机可以给插件实例改名。目录不是配置值，`value.catalog` 不算数。
-- **认不认**：`v` 必须是 1，`contract` 有的话必须是 `dsh-go/media/catalog`，`models` 必须是列表，每个模型的 `id`、`label`、`kind` 类型要对。`kind` 不认识的模型跳过，留给以后的版本。
+- **在哪**：`settings/describe` 里，某个 namespace 的 schema 中 `fields["services"].meta.extra["dsh-fan/media/catalog"]`。按这个元数据找 namespace，不按名字找：主机可以给插件实例改名。目录不是配置值，`value.catalog` 不算数。
+- **认不认**：`v` 必须是 1，`contract` 有的话必须是 `dsh-fan/media/catalog`，`models` 必须是列表，每个模型的 `id`、`label`、`kind` 类型要对。`kind` 不认识的模型跳过，留给以后的版本。
   - 目录缺失、损坏或版本未知时，专用生成模式不可用：「生成」弹出说明，普通对话照常。
   - App 里没有内置的模型表可以兜底。
 - **能用哪些**：目录 ∩ `value.services` 里 `enabled` 为真、`keyRef` 的凭据在 `credentials/describe` 里为 configured 的服务各自允许的模型 ∩ `capabilities[kind]` 不为 false。
@@ -651,8 +651,8 @@ golden：runtime/media/dsh-media/test/fixtures/header_grammar_v1.json
 6. namespace：v1 的头不带。(serviceId, modelId) 在多个 namespace 里重名时，
    App 不提供这些条目。多实例真要并存，v2 再把 namespace 放进标记。
 7. App 读目录的方式
-   只认 schema.fields.services.meta.extra["dsh-go/media/catalog"]；
-   v 必须是 1；contract 有的话必须是 "dsh-go/media/catalog"。
+   只认 schema.fields.services.meta.extra["dsh-fan/media/catalog"]；
+   v 必须是 1；contract 有的话必须是 "dsh-fan/media/catalog"。
    目录缺失、损坏、v 未知 → 专用生成模式不可用，普通对话照常。
    可选项 = 目录 ∩ value.services
             （enabled=true、id 合法、keyRef 的 credentials/describe 为 configured、
@@ -1004,7 +1004,7 @@ n = 4：2 × 2
 | **成人内容** | App 不加开关，不替用户放宽服务商的审核（OpenAI 的 `moderation: low` 不开放）。服务商标为不安全的图不显示。App 自己不做识别 | 〔推断〕 |
 | **显式标识** | 每张卡的元信息都以「AI 生成」开头，查看器里有同样的角标。插件同时让模型在回复里写明是生成的图 | 《人工智能生成合成内容标识办法》第 4、6 条（V） |
 | **隐式标识与来源** | 保存、分享一律用原文件字节，不重新编码，所以 C2PA、SynthID、GB 45438 元数据都原样保留。插件在主机上检查有没有 C2PA 清单，写进 `provenance`，详情里显示「来源标识」 | Google：Gemini 图片和 Omni 视频都带 SynthID（V）；OpenAI：C2PA + SynthID（S）；智谱、SiliconFlow 加隐式标识（V）；`gallery.dart:101-125` 文件按原字节保存〔源码〕 |
-| **我们算不算服务提供者** | 用户自带 Key 直连服务商时，生成服务由服务商提供（备案和标识义务在它们）。dsh-go 是客户端，不托管用户内容。**一旦我们自己转售或托管生成，就成了服务提供者**，要走备案、实名、审核（§9 不做） | 〔推断，非法律意见〕 |
+| **我们算不算服务提供者** | 用户自带 Key 直连服务商时，生成服务由服务商提供（备案和标识义务在它们）。dsh-fan 是客户端，不托管用户内容。**一旦我们自己转售或托管生成，就成了服务提供者**，要走备案、实名、审核（§9 不做） | 〔推断，非法律意见〕 |
 | **应用商店** | 第 7 条：上架审核时，应用商店会问是否提供生成服务、看标识材料。要准备一段说明（用户自带 Key，标识由服务商加，App 内常显「AI 生成」）。第 8 条：用户协议要写明标识方式。上架 Google Play 的话，AI 生成内容政策要求有应用内举报入口 | 第 7、8 条（V）；Play 政策（U，本轮未核原文） |
 | **不帮人去标识** | 第 10 条禁止提供去除标识的工具。「服务商水印」开关只映射到服务商自己公开的参数；需要签免责协议才能关的服务（如智谱）不显示这个开关。App 不提供任何去水印、去元数据功能 | 第 10 条（V）；智谱、SiliconFlow 的水印参数（V） |
 | **参考图要先同意** | 第一次把参考图发给某个服务时弹确认，标题「发送参考图」，正文「参考图会发送给火山方舟，用于这次生成」，按钮「发送」「取消」。按主机 + 服务记住，在服务详情里可以撤回 | 〔推断〕 |
@@ -1020,7 +1020,7 @@ n = 4：2 × 2
 
 | 步 | 内容 | 主要文件 | 风险 | 测试 | 在哪 | 依赖 |
 |---|---|---|---|---|---|---|
-| **M0** 插件骨架 + 通用图像 | 新包 `runtime/media/dsh-media`（和 `runtime/bridge/dsh-go-bridge` 并列）。包含：<br>• 设置 schema（服务、只写密钥、默认值、上限）<br>• 模型目录（JSON 数据）<br>• OpenAI 兼容适配器<br>• `generate_image`（同步），文件写进 `<cwd>/generated/<日期>/`<br>• 作品索引，`presentationMeta` 写 `dsh-go/media`<br>• 系统提示段落：让模型在回复里写 `![](路径)`<br>**App 零改动** | 新目录 `runtime/media/` | 低 | Node 单测（模拟 HTTP 服务器）。用 `dsh headless` 跑一次，存一份对话记录夹具 `原 Flutter 版 test/media/fixtures/live_image.jsonl`，做法同 native-plugins-views §8.2 | 插件 | — |
+| **M0** 插件骨架 + 通用图像 | 新包 `runtime/media/dsh-media`（和 `runtime/bridge/dsh-fan-bridge` 并列）。包含：<br>• 设置 schema（服务、只写密钥、默认值、上限）<br>• 模型目录（JSON 数据）<br>• OpenAI 兼容适配器<br>• `generate_image`（同步），文件写进 `<cwd>/generated/<日期>/`<br>• 作品索引，`presentationMeta` 写 `dsh-fan/media`<br>• 系统提示段落：让模型在回复里写 `![](路径)`<br>**App 零改动** | 新目录 `runtime/media/` | 低 | Node 单测（模拟 HTTP 服务器）。用 `dsh headless` 跑一次，存一份对话记录夹具 `原 Flutter 版 test/media/fixtures/live_image.jsonl`，做法同 native-plugins-views §8.2 | 插件 | — |
 | **M1** 国内服务、视频、命令 | 方舟（Seedream、Seedance）和百炼（千问图像、万相）适配器。`ctx.jobs` 的 `kind: media`：任务落盘、重启续查。`/image`、`/video` 命令带附件；`media/request`、`media/result` 事件。另有每日上限、视频审批、参考图三类校验、错误统一、`edit_image` | `runtime/media/**` | 中：服务商接口常变 | 用录好的响应测各适配器；测任务恢复、额度、审核失败、参考图校验；出视频和命令两份夹具 | 插件 | M0 |
 | **M2** 图片卡 | 在 `dsh_client` 里解析 `MediaMeta`；`ToolView.media`。新增 `MediaCard`：网格、元信息、操作行。按 `cardOnly` 放进对话行；和回复里同一路径的图片去重。保存用原文件 | `原 Flutter 版 dsh_client/lib/src/models.dart`；`原 Flutter 版 lib/ui/chat/tool_view.dart`；新增 `原 Flutter 版 lib/ui/chat/media/media_card.dart`、`media_grid.dart`；`原 Flutter 版 lib/ui/chat/chat_rows.dart`；`render/markdown_image.dart` | 中：动到对话行 | 网格几何测试（320 / 390 / 横屏 915×412，n = 1–4，各种比例，`H` 上限）；浅色、深色 golden；用 M0 的夹具走 `ChatTranscript` → 卡片 | App | M0 |
 | **M3** 视频 | 加 `video_player` 依赖。视频卡、查看器里的播放器；封面（`MediaMetadataRetriever`）；按 `codec` 判断能不能播，播不了就退回外部应用。`MediaPlugin.kt` 新增 `saveVideo {path, name, mime}`：从文件流式写进 `Movies/DSH`，**不经 MethodChannel 传字节**；远程主机的视频先进缓存再存 | `原 Flutter 版 pubspec.yaml（上游 DSH Go 仓库）`；新增 `原 Flutter 版 lib/ui/chat/media/video_card.dart`、`media_viewer.dart`；`MediaPlugin.kt`；`原 Flutter 版 lib/media/gallery.dart` | 中高：新原生方法、新依赖、真机解码差异 | 播放器假实现的组件测试；`saveVideo` 在 Android 9 / 10+ 两条路径上的真机测试；真机放一段 10-bit HEVC | App | M2 |
@@ -1056,7 +1056,7 @@ n = 4：2 × 2
 >
 > §2.5 的约定冻结为 **v1**：App 按它开发，插件按它实现。确实要改时追加 `v: 2` 并写明迁移，不能悄悄改字段。
 >
-> **修订（2026-10-28，依据插件侧的实测）**：DSH rc.2 不支持插件写自定义对话事件（R3），中转主机上的命令也有 60 秒时限，所以 §2.5 ② 的 `media/request` / `media/result` **作废**，生成模式不走命令通道。生成模式改为发一条普通用户消息，第一行是参数头，例如「〔生成图像 · 3:4 · 2 张 · Seedream 5.0〕」，第二行起是描述（语法见 §4.6）。插件的系统提示让模型按参数头直接调用工具；如果 rc.2 能指定本轮必须调用某个工具，就优先用它。App 隐藏参数头，用户气泡下面显示参数小字。工具结果仍是 v1 的 `meta["dsh-go/media"]`，所有主机都能用，结果也留在对话记录里。代价是多一次很便宜的模型调用。
+> **修订（2026-10-28，依据插件侧的实测）**：DSH rc.2 不支持插件写自定义对话事件（R3），中转主机上的命令也有 60 秒时限，所以 §2.5 ② 的 `media/request` / `media/result` **作废**，生成模式不走命令通道。生成模式改为发一条普通用户消息，第一行是参数头，例如「〔生成图像 · 3:4 · 2 张 · Seedream 5.0〕」，第二行起是描述（语法见 §4.6）。插件的系统提示让模型按参数头直接调用工具；如果 rc.2 能指定本轮必须调用某个工具，就优先用它。App 隐藏参数头，用户气泡下面显示参数小字。工具结果仍是 v1 的 `meta["dsh-fan/media"]`，所有主机都能用，结果也留在对话记录里。代价是多一次很便宜的模型调用。
 
 
 | # | 问题 | 建议 | 反对它最有力的理由 |
@@ -1072,7 +1072,7 @@ n = 4：2 × 2
 
 ### 8.1 插件 0.2.0 实施记录（2026-10-31）
 
-`@ccch1mneyyy/dsh-media`（原计划名 `@dsh-go/media`）已实现原生方舟、百炼、硅基流动图片与视频，保留 OpenAI 兼容图片，支持已核模型的单图编辑。目录仍为 `dsh-go/media/catalog` v1，结果仍为冻结的媒体 v1；无新命令、自定义事件或 App 改动。按 10-30 市场任务决定，**不预装**，由市场安装；已按用户授权使用备用组织；旧 `0.2.0` 被 staging 占用，改以 `0.2.1` 正常自动直发，npm 正式版本与公开下载哈希已核验，原市场及其上线验收记录已随原作者服务删除；当前 iOS 不安装外部插件。
+`@ccch1mneyyy/dsh-media`（原计划名 `@dsh-fan/media`）已实现原生方舟、百炼、硅基流动图片与视频，保留 OpenAI 兼容图片，支持已核模型的单图编辑。目录仍为 `dsh-fan/media/catalog` v1，结果仍为冻结的媒体 v1；无新命令、自定义事件或 App 改动。按 10-30 市场任务决定，**不预装**，由市场安装；已按用户授权使用备用组织；旧 `0.2.0` 被 staging 占用，改以 `0.2.1` 正常自动直发，npm 正式版本与公开下载哈希已核验，原市场及其上线验收记录已随原作者服务删除；当前 iOS 不安装外部插件。
 
 视频采用 rc.4 的真实 `ctx.jobs`，完成后通过现有 tool-jobs 唤醒 Agent，再调用 `get_media_result` 输出终态媒体元数据。v1 取消以 failed/error.code=cancelled 表达；查询未确认取消时必须说明远端可能继续计费。方舟和百炼只支持排队取消，硅基流动无已核取消接口。
 
@@ -1086,16 +1086,16 @@ n = 4：2 × 2
 
 用户反馈集中在设置：自动表单把服务 ID、协议、API 根地址、模型 ID、凭据引用全摊开；4 个固定密钥槽和「已知引用」让人反复填 Key；图片和视频同服务商也要各配一次。0.3.0 与 App 策展页一起改：
 
-- 目录 `meta.extra["dsh-go/media/catalog"].presets[]` 新增 provider 模板：`id`、`label`/`labelEn`、`provider`、`profile`、`baseUrl`、`responseFormat`、`models`、`kind`、`keyGroup`。App 的「添加服务」直接用它们填好服务；旧目录没有这个字段时用 App 内置的同名兜底表，模型仍以目录为准。
+- 目录 `meta.extra["dsh-fan/media/catalog"].presets[]` 新增 provider 模板：`id`、`label`/`labelEn`、`provider`、`profile`、`baseUrl`、`responseFormat`、`models`、`kind`、`keyGroup`。App 的「添加服务」直接用它们填好服务；旧目录没有这个字段时用 App 内置的同名兜底表，模型仍以目录为准。
 - 服务的凭据名不再要求来自固定槽：任意 `[A-Za-z_][A-Za-z0-9_]{0,127}` 的已配置凭据都可以。App 给每个 provider 组自动生成 `DSH_MEDIA_<GROUP>_API_KEY`，同组图片/视频复用同一个；旧四槽继续可用，不迁移、不清除。
 - `value.defaults` 增加 `imageServiceId/imageModelId` 与 `videoServiceId/videoModelId`；插件按工具种类取默认，旧 `serviceId/modelId` 只作回落。App 设置页分别提供「图像」「视频」默认模型。
 - App 设置页改成策展形态：默认（图像/视频；旧插件只有一个通用默认）、服务列表（启用开关、模型摘要、Key 状态）、添加服务（provider presets）、服务详情（只写 Key、复用密钥、模型开关、高级、删除）、费用保护（每日预算与未知价预留）、请求上限子页（沿用旧自动表单的五项上限）。仍不提供「测试连接」和用量/作品：前者会真实计费且需要额外的主机通道，后者还没有可读的账本接口，不先用假数据填。
-- 目录仍是 `dsh-go/media/catalog` v1，媒体结果仍是冻结的 `meta["dsh-go/media"]` v1，生成模式和参数头不变。旧 App 读新插件时忽略 `presets` 和新 defaults 字段；新 App 读 0.2.x 插件时用兜底 presets、照常编辑旧服务，默认值退化成单个通用默认（不写旧 schema 没有的字段）。
+- 目录仍是 `dsh-fan/media/catalog` v1，媒体结果仍是冻结的 `meta["dsh-fan/media"]` v1，生成模式和参数头不变。旧 App 读新插件时忽略 `presets` 和新 defaults 字段；新 App 读 0.2.x 插件时用兜底 presets、照常编辑旧服务，默认值退化成单个通用默认（不写旧 schema 没有的字段）。
 
 ## 9. 不做
 
 - **App 直连服务商**（方案 b）、**一半直连一半插件**（方案 c）：理由见 §2.2。
-- **我们自己托管、转售生成额度**：那样 dsh-go 就成了生成式 AI 服务提供者，要走备案、实名、审核，和客户端「不托管用户内容」的定位相反。
+- **我们自己托管、转售生成额度**：那样 dsh-fan 就成了生成式 AI 服务提供者，要走备案、实名、审核，和客户端「不托管用户内容」的定位相反。
 - **蒙版涂抹式的局部重绘、图层、画布编辑**：编辑只做「用一句话改」。
 - **Midjourney**（没有官方 API）、**OpenRouter 的聊天出图**（DSH 的模型适配器只收文字输出）。
 - **App 内的成人内容开关**，以及任何放宽服务商审核的选项。

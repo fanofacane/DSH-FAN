@@ -1,13 +1,13 @@
 // Test-only native plugin (runtime/tests/native-bridge.mjs). Panel "usage" has a view function and
 // a data feed the test drives through /native-fixture/emit; strip "cost" mirrors it; panel "plain"
 // is a view without data. /native-fixture/* also toggles loader entries (cache invalidation test).
-export const name = "dsh-go-fixture-usage";
+export const name = "dsh-fan-fixture-usage";
 
 const state = { feeds: new Map(), dataStarts: 0, dataCancels: 0, viewCalls: 0, lastCaps: null };
 
 export function apply(ctx) {
-  ctx.inject(["dshGo"], (ctx) => {
-    ctx.dshGo.panel("usage", {
+  ctx.inject(["dshFan"], (ctx) => {
+    ctx.dshFan.panel("usage", {
       view: (scope, caps) => {
         state.viewCalls++;
         state.lastCaps = caps;
@@ -33,8 +33,8 @@ export function apply(ctx) {
         },
       },
     });
-    ctx.dshGo.panel("plain", { view: { type: "text", text: "plain" } });
-    ctx.dshGo.strip("cost", (scope, emit) => {
+    ctx.dshFan.panel("plain", { view: { type: "text", text: "plain" } });
+    ctx.dshFan.strip("cost", (scope, emit) => {
       emit({ text: `本对话 ¥0.42 · ${scope.sessionId ?? "-"} 这是一段超过二十四个字的状态条文字用来测试截断`, tone: "warn", extra: "dropped" });
     });
 
@@ -46,7 +46,7 @@ export function apply(ctx) {
         handler: async (req, res) => {
           const url = new URL(req.url, "http://x");
           const op = url.pathname.slice("/native-fixture/".length);
-          if (op === "state") return json(res, 200, { ...state, feeds: [...state.feeds.keys()], quick: globalThis.__dshGoFixtureQuick ?? null });
+          if (op === "state") return json(res, 200, { ...state, feeds: [...state.feeds.keys()], quick: globalThis.__dshFanFixtureQuick ?? null });
           if (op === "emit") {
             const feed = state.feeds.get(url.searchParams.get("scope") ?? "{}");
             if (!feed) return json(res, 404, { error: "no feed" });
@@ -61,7 +61,7 @@ export function apply(ctx) {
             feed.emit({ count: -1, blob: "x".repeat(size) });
             return json(res, 200, { ok: true });
           }
-          if (op === "refresh") { ctx.dshGo.refresh("usage", JSON.parse(url.searchParams.get("scope") ?? "{}")); return json(res, 200, { ok: true }); }
+          if (op === "refresh") { ctx.dshFan.refresh("usage", JSON.parse(url.searchParams.get("scope") ?? "{}")); return json(res, 200, { ok: true }); }
           if (op === "toggle") {
             const id = url.searchParams.get("entry");
             const entry = [...ctx.get("loader").entries()].find((e) => e.options.id === id);
@@ -71,7 +71,7 @@ export function apply(ctx) {
           }
           if (op === "attribution") {
             // Calling the service without a plugin context must throw, not mis-attribute.
-            const raw = ctx.get("dshGo");
+            const raw = ctx.get("dshFan");
             let error = null;
             try { const { panel } = raw; panel("usage", { view: {} }); } catch (e) { error = String(e.message ?? e); }
             return json(res, 200, { error });

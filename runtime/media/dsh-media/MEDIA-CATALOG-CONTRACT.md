@@ -1,12 +1,12 @@
 # MEDIA-CATALOG-CONTRACT · v1 / 插件 0.3.0
 
-本文件是 App 读取插件目录与配置的契约，不修改冻结的 tool/result.meta["dsh-go/media"] v1。状态：插件 0.3.0 的 Node 测试已通过；0.2.0 的真实 rc.4 headless 结果见 VERIFICATION.md，0.3.0 未重跑 headless。真实 settings RPC、App 与真机仍 UNRUN。§2、§5 的源码位置取自 DSH 0.2.1-rc.2（git 687f282e8625c6b8d11ff58211a90524be2e4317）和 2026-10-28 的 App 源码，行号以后可能偏移。
+本文件是 App 读取插件目录与配置的契约，不修改冻结的 tool/result.meta["dsh-fan/media"] v1。状态：插件 0.3.0 的 Node 测试已通过；0.2.0 的真实 rc.4 headless 结果见 VERIFICATION.md，0.3.0 未重跑 headless。真实 settings RPC、App 与真机仍 UNRUN。§2、§5 的源码位置取自 DSH 0.2.1-rc.2（git 687f282e8625c6b8d11ff58211a90524be2e4317）和 2026-10-28 的 App 源码，行号以后可能偏移。
 
 ## 1. 唯一目录位置
 
 目录位于插件 namespace schema 中 services 字段本身的：
 
-    schema.fields["services"].meta.extra["dsh-go/media/catalog"]
+    schema.fields["services"].meta.extra["dsh-fan/media/catalog"]
 
 这是 App 解析后的 SchemaNode 访问位置。原始 Schemastery JSON 采用 {uid,refs} 图结构，不能硬写 JSON 根 dict 路径或固定数字 uid。先解析 graph，再找 services。由于本候选 services 为 transform(array)，目录在外层 services.meta.extra，不能只读取 services.effective.meta.extra；effective array 不一定携带外层 metadata。
 
@@ -16,7 +16,7 @@
       v: 1,
       revision: "2026-11-01.0.3.0",
       asOf: "2026-11-01",
-      contract: "dsh-go/media/catalog",
+      contract: "dsh-fan/media/catalog",
       capabilities: {tools:["generate_image","edit_image","generate_video","get_media_result","resume_media"],commands:[],image:true,video:true,edit:true},
       limits: {maxN:4,promptUtf8Bytes:4096},
       availability: "...",

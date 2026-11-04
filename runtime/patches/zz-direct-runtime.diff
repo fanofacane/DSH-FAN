@@ -1,4 +1,4 @@
-# dsh-go direct engine: typed path boundaries, L2S refusal and node-pty invocation.
+# dsh-fan direct engine: typed path boundaries, L2S refusal and node-pty invocation.
 # No global fs or tool-output rewriting; absent preload leaves proot behavior unchanged.
 --- a/node_modules/@deepseek-ai/dsh-fs-local/lib/index.js
 +++ b/node_modules/@deepseek-ai/dsh-fs-local/lib/index.js

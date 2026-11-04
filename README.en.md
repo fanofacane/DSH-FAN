@@ -85,7 +85,7 @@ Do not post vulnerability details, keys or real user data in public issues. Repo
 
 DSH Fan learned from and builds on these projects. Thanks to their authors and contributors:
 
-- [DSH Go](https://github.com/ccch1mneyyy/dsh-go) (AGPL-3.0): an Android client for DeepSeek Harness. This project's visual style, the `dsh-go-bridge` plugin, engine patches and parts of the design come from studying it; bridge paths such as `/opt/dsh-go` and `/dsh-go/v1` keep their original names for engine compatibility.
+- [DSH Go](https://github.com/ccch1mneyyy/dsh-go) (AGPL-3.0): an Android client for DeepSeek Harness. This project's visual style, engine patches and parts of the design come from studying it; the bundled engine's bridge plugin `dsh-fan-bridge` (`/opt/dsh-fan`, `/dsh-fan/v1`) is renamed from DSH Go's `dsh-go-bridge`.
 - [iSH](https://github.com/ish-app/ish) (GPL-3.0) and [OpenMinis/ish-arm64](https://github.com/OpenMinis/ish-arm64): the kernel and interpreter that run Linux userland on iOS.
 - [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (MIT): the bundled agent engine.
 

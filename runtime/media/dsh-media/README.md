@@ -1,6 +1,6 @@
 # @ccch1mneyyy/dsh-media
 
-DSH Go 的主机侧媒体插件，版本 `0.3.0`。提供生成图片、用一句话编辑图片、后台生成视频；服务密钥留在 Host credentials，原件保存到当前工作区。设置命名空间保持 `dsh-media`，媒体结果使用冻结的 `meta["dsh-go/media"]` v1。
+DSH Go 的主机侧媒体插件，版本 `0.3.0`。提供生成图片、用一句话编辑图片、后台生成视频；服务密钥留在 Host credentials，原件保存到当前工作区。设置命名空间保持 `dsh-media`，媒体结果使用冻结的 `meta["dsh-fan/media"]` v1。
 
 0.2.0 已通过本地 HTTP mock 和真实 DSH `0.2.1-rc.4` headless 会话；0.3.0 通过完整 Node 测试，未重跑 headless。尚未调用付费服务或在 Android / PRoot 上验证。模型可用性、审核、配额和最终费用由供应商决定。此仓库准备了发布包，未发布到 npm，也未预装进 App 运行时；发布后由插件市场安装。
 

@@ -158,14 +158,14 @@ extension DSHClient {
         try await rpc("session/rename", ["request": ["sessionId": sessionId, "title": title]])
     }
 
-    /// Permanent deletion through the dsh-go bridge (`POST /dsh-go/v1/sessions/delete`).
+    /// Permanent deletion through the dsh-fan bridge (`POST /dsh-fan/v1/sessions/delete`).
     /// Never retried: after a lost reply the outcome is unknown.
     public func deleteSession(_ sessionId: String) async throws {
         guard !sessionId.isEmpty, sessionId.count <= 256,
               sessionId.range(of: #"[\x00-\x1f\x7f]"#, options: .regularExpression) == nil else { throw DSHError("E_SESSION_ID") }
-        // The dsh-go bridge is only on the phone's engine, not on remote Hosts.
+        // The dsh-fan bridge is only on the phone's engine, not on remote Hosts.
         if carrier != nil { throw DSHError("E_DELETE_UNSUPPORTED") }
-        var request = URLRequest(url: baseURL.appendingPathComponent("dsh-go/v1/sessions/delete"))
+        var request = URLRequest(url: baseURL.appendingPathComponent("dsh-fan/v1/sessions/delete"))
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(authCookie, forHTTPHeaderField: "Cookie")

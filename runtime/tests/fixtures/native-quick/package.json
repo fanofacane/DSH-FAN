@@ -1,11 +1,11 @@
 {
-  "name": "dsh-go-fixture-quick",
+  "name": "dsh-fan-fixture-quick",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "main": "index.js",
   "description": "Test-only native plugin (never shipped): composer / message actions, invoke handlers and deliberate misbehaviour for runtime/tests/native-bridge.mjs.",
-  "dshGo": {
+  "dshFan": {
     "v": 1,
     "title": "快捷",
     "icon": "bolt",

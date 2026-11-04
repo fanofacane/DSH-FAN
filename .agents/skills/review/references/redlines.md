@@ -1,4 +1,4 @@
-# dsh-Go 仓库红线
+# DSH Fan 仓库红线
 真源为当前目标分支的 AGENTS.md、README.md 全文；本表非穷举。严重度属本技能政策，仓库文本仅定义义务。
 
 ## 1. 源码与生成物分离｜❌
@@ -8,7 +8,7 @@
 `runtime/patches/` 的补丁文件与 `pins.json` 必须同步；不手改正被补丁覆盖的 vendor 产物；升级引擎版本时补丁必须仍可应用。查 pins、patch 内容、runtime 启动路径。
 
 ## 3. 桥接协议只有一个真源｜❌
-`/dsh-go/v1/*` 路由的请求/响应形状、错误码（如 `unavailable`）以 `runtime/bridge/dsh-go-bridge/` 为准；App 端（`apple/Modules/DSHClient`、`apple/App`）只消费，不另立平行定义。改一端必须同步另一端与测试。
+`/dsh-fan/v1/*` 路由的请求/响应形状、错误码（如 `unavailable`）以 `runtime/bridge/dsh-fan-bridge/` 为准；App 端（`apple/Modules/DSHClient`、`apple/App`）只消费，不另立平行定义。改一端必须同步另一端与测试。
 
 ## 4. 危险操作以主机回答为准｜❌
 删除会话、权限、凭据这类操作：能力/失败以主机/引擎实际回答为准，不用本地推断冒充；失败给稳定错误码，不静默吞。能力未知不得当作"不支持"。

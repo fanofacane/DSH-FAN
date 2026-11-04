@@ -3,7 +3,7 @@ import z from '@deepseek-ai/schemastery';
 import { cnyMicros } from './budget-ledger.js';
 import { formatGenerationMessage } from './header.js';
 
-export const CATALOG_META_KEY = 'dsh-go/media/catalog';
+export const CATALOG_META_KEY = 'dsh-fan/media/catalog';
 export const CREDENTIAL_SLOTS = Object.freeze([
   'DSH_MEDIA_SLOT_1_API_KEY',
   'DSH_MEDIA_SLOT_2_API_KEY',

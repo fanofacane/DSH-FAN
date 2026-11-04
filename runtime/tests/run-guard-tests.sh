@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Runs the route-guard regression test against a DSH npm prefix on the build host, without
 # assembling a rootfs: boots `dsh web` from <dsh-prefix> with a throwaway HOME/DSH_HOME, the
-# route-probe test plugin and (unless --no-bridge) runtime/bridge/dsh-go-bridge, then runs
+# route-probe test plugin and (unless --no-bridge) runtime/bridge/dsh-fan-bridge, then runs
 # runtime/tests/route-guard.mjs. Never touches ~/.dsh.
 #
 #   runtime/tests/run-guard-tests.sh <dsh-prefix> [--port N] [--no-bridge] [--guard patched|bridge|none]
@@ -37,7 +37,7 @@ mkdir -p "$TMP/home/.dsh"
 printf -- '- insert:\n    - id: dsh-app-route-probe\n      name: %s\n' "$HERE/route-probe/index.js" > "$TMP/probe.patch.yml"
 PATCHES=(--patch "$TMP/probe.patch.yml")
 if [[ "$BRIDGE" == 1 ]]; then
-  printf -- '- insert:\n    - id: dsh-go-bridge\n      name: %s\n' "$RUNTIME/bridge/dsh-go-bridge/lib/index.js" > "$TMP/bridge.patch.yml"
+  printf -- '- insert:\n    - id: dsh-fan-bridge\n      name: %s\n' "$RUNTIME/bridge/dsh-fan-bridge/lib/index.js" > "$TMP/bridge.patch.yml"
   if [[ " ${EXTRA[*]} " == *" --guard none "* ]]; then   # bridge without its fallback guard
     printf '      config:\n        guardRoutes: false\n' >> "$TMP/bridge.patch.yml"
   fi
@@ -60,8 +60,8 @@ done
 if [[ -z "$token" ]]; then echo "dsh web did not start:" >&2; tail -40 "$LOG" >&2; exit 1; fi
 rc=0
 "$NODE" "$HERE/route-guard.mjs" "http://127.0.0.1:$PORT" "$token" "${EXTRA[@]}" || rc=$?
-if grep -qiE 'dsh-go-bridge.*(error|fail)|route-probe.*(error|fail)' "$LOG"; then
-  echo "plugin errors in dsh web log:" >&2; grep -iE 'dsh-go-bridge|route-probe' "$LOG" | tail -20 >&2; rc=1
+if grep -qiE 'dsh-fan-bridge.*(error|fail)|route-probe.*(error|fail)' "$LOG"; then
+  echo "plugin errors in dsh web log:" >&2; grep -iE 'dsh-fan-bridge|route-probe' "$LOG" | tail -20 >&2; rc=1
 fi
 if [[ "$rc" == 0 && "$TITLE_TESTS" == 1 ]]; then
   "$NODE" "$HERE/title-cache-regression.mjs" "$PREFIX"

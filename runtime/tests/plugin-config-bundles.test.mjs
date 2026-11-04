@@ -4,9 +4,9 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {createPluginConfig} from '../bridge/dsh-go-bridge/lib/plugin-config.js';
+import {createPluginConfig} from '../bridge/dsh-fan-bridge/lib/plugin-config.js';
 import {withSources} from './plugin-config-source-fixture.mjs';
-const BASE='/dsh-go/v1/plugin-config';
+const BASE='/dsh-fan/v1/plugin-config';
 const schema=Object.assign(x=>x,{toJSON:()=>({uid:1,refs:{1:{type:'object',dict:{count:2}},2:{type:'number'}}})});
 function fixture(){
  const entry={options:{id:'one',name:'own-plugin',config:{count:1}},fiber:{state:2,runtime:{Config:schema,callback(){}},config:{count:1}}},entries=[entry];
@@ -87,6 +87,6 @@ test('missing manager or asynchronous read errors never grant access',async()=>{
   const out=await f.call();assert.equal(out.status,503);assert(!JSON.stringify(out).includes('SYNTHETIC_PRIVATE_ERROR'));}
 });
 test('older synchronous editor cannot receive an async callback',async()=>{
- const f=fixture();delete f.editor.dshGoAsyncChange;const before=await f.call();assert.equal(before.status,200);assert.equal(before.body.writable,false);
+ const f=fixture();delete f.editor.dshFanAsyncChange;const before=await f.call();assert.equal(before.status,200);assert.equal(before.body.writable,false);
  assert.equal((await f.call('one','POST',{...input,revision:before.body.revision})).status,503);assert.equal(f.writes(),0);
 });

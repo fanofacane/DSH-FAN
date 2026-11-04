@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {normalize} from '../bridge/dsh-go-bridge/lib/native/effects.js';
+import {normalize} from '../bridge/dsh-fan-bridge/lib/native/effects.js';
 
 for(const [label,check] of [['runtime',normalize]]) {
   test(`${label}: native commands cannot change or query permission presets`,()=>{

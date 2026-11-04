@@ -1,18 +1,18 @@
-// Native plugin protocol v1 against a running `dsh web` with dsh-go-bridge and the fixture plugins
+// Native plugin protocol v1 against a running `dsh web` with dsh-fan-bridge and the fixture plugins
 // (runtime/tests/run-native-tests.sh). Node built-ins only.
 //
 //   node runtime/tests/native-bridge.mjs <base-url> <launch-token> [--empty] [--shipped]
 //
 // --shipped: the bridge runs with its default timers (runtime/test-host.sh inside the rootfs), so
 // the heartbeat / idle / linger checks that need the shortened test timers are skipped.
-// DSH_GO_BRIDGE_LIB points at the bridge's lib/native directory when the repo is not around.
+// DSH_FAN_BRIDGE_LIB points at the bridge's lib/native directory when the repo is not around.
 import http from "node:http";
 import { randomBytes } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
-const WS = await import(process.env.DSH_GO_BRIDGE_LIB
-  ? pathToFileURL(`${process.env.DSH_GO_BRIDGE_LIB.replace(/\/$/, "")}/ws.js`).href
-  : new URL("../bridge/dsh-go-bridge/lib/native/ws.js", import.meta.url));
+const WS = await import(process.env.DSH_FAN_BRIDGE_LIB
+  ? pathToFileURL(`${process.env.DSH_FAN_BRIDGE_LIB.replace(/\/$/, "")}/ws.js`).href
+  : new URL("../bridge/dsh-fan-bridge/lib/native/ws.js", import.meta.url));
 const [baseArg, token, ...flags] = process.argv.slice(2);
 if (!baseArg || !token) {
   console.error("usage: native-bridge.mjs <base-url> <launch-token> [--empty]");
@@ -21,9 +21,9 @@ if (!baseArg || !token) {
 const EMPTY = flags.includes("--empty");
 const SHIPPED = flags.includes("--shipped");
 const base = new URL(baseArg);
-const USAGE = "dsh-go-fixture-usage";
-const QUICK = "dsh-go-fixture-quick";
-const STATIC = "@dsh-go-fixture/static";
+const USAGE = "dsh-fan-fixture-usage";
+const QUICK = "dsh-fan-fixture-quick";
+const STATIC = "@dsh-fan-fixture/static";
 const CAPS = "v=1&app=0.10.0&locale=zh-CN&surfaces=composer.actions,message.actions,composer.strip,panels&components=stack,row,text,metric";
 
 let failed = 0;
@@ -67,7 +67,7 @@ function request(method, path, { headers = {}, body } = {}) {
 function wsConnect(headers = {}, { answerPings = true } = {}) {
   return new Promise((resolve, reject) => {
     const req = http.request({
-      host: base.hostname, port: base.port, path: "/dsh-go/v1/stream",
+      host: base.hostname, port: base.port, path: "/dsh-fan/v1/stream",
       headers: { host: base.host, connection: "Upgrade", upgrade: "websocket", "sec-websocket-version": "13", "sec-websocket-key": randomBytes(16).toString("base64"), ...headers },
     });
     req.on("response", (res) => { res.resume(); resolve({ status: res.statusCode }); });
@@ -140,22 +140,22 @@ if (!setCookie) process.exit(1);
 const C = { cookie: setCookie.split(";")[0] };
 const get = (path, headers = {}) => request("GET", path, { headers: { ...C, ...headers } });
 const post = (path, body, headers = {}) => request("POST", path, { headers: { ...C, ...headers }, body });
-const invoke = (body, headers) => post("/dsh-go/v1/invoke", { v: 1, ...body }, headers);
-const contributions = async (q = CAPS, headers) => get(`/dsh-go/v1/contributions?${q}`, headers);
+const invoke = (body, headers) => post("/dsh-fan/v1/invoke", { v: 1, ...body }, headers);
+const contributions = async (q = CAPS, headers) => get(`/dsh-fan/v1/contributions?${q}`, headers);
 
 if (EMPTY) {
-  section("no plugin declares dshGo: nothing changes");
+  section("no plugin declares dshFan: nothing changes");
   const r = await contributions();
   check(r.status === 200 && Array.isArray(r.json?.plugins) && r.json.plugins.length === 0, `contributions -> ${r.status}, plugins ${JSON.stringify(r.json?.plugins)}`);
   check(r.json?.limits?.viewBytes === 32768 && r.json?.bridge, `limits and bridge ${r.json?.bridge} present`);
-  const v = await get(`/dsh-go/v1/views/${USAGE}/usage?${CAPS}`);
+  const v = await get(`/dsh-fan/v1/views/${USAGE}/usage?${CAPS}`);
   check(v.status === 404 && v.json?.error?.code === "not-found", `view of a missing plugin -> ${v.status} ${v.json?.error?.code}`);
   const ws = await wsConnect(C);
   ws.send({ t: "hello", v: [1] });
   const w = await ws.next((m) => m.t === "welcome");
   check(w?.v === 1, "stream still answers hello");
   ws.close();
-  const inv = await get("/dsh-go/v1/inventory");
+  const inv = await get("/dsh-fan/v1/inventory");
   check(inv.status === 200 && inv.json?.routeGuard === true, `inventory unaffected (routeGuard=${inv.json?.routeGuard})`);
   console.log(`== native (empty): ${passed} passed, ${failed} failed`);
   process.exit(failed ? 1 : 0);
@@ -163,7 +163,7 @@ if (EMPTY) {
 
 // ------------------------------------------------------------------ guard
 section("guard: every native route needs the cookie");
-for (const [method, path] of [["GET", `/dsh-go/v1/contributions?${CAPS}`], ["GET", `/dsh-go/v1/views/${USAGE}/usage`], ["POST", "/dsh-go/v1/invoke"], ["GET", `/dsh-go/v1/assets/${STATIC}/img/dot.png`]]) {
+for (const [method, path] of [["GET", `/dsh-fan/v1/contributions?${CAPS}`], ["GET", `/dsh-fan/v1/views/${USAGE}/usage`], ["POST", "/dsh-fan/v1/invoke"], ["GET", `/dsh-fan/v1/assets/${STATIC}/img/dot.png`]]) {
   const anon = await request(method, path, method === "POST" ? { body: { v: 1 } } : {});
   check(anon.status === 401, `${method} ${path.split("?")[0]} without cookie -> ${anon.status}`);
   const evil = await request(method, path, { headers: { ...C, origin: "http://evil.example" }, ...(method === "POST" ? { body: { v: 1 } } : {}) });
@@ -205,11 +205,11 @@ check(JSON.stringify(quick?.wants) === '["clipboard","message"]', `quick wants $
 const stat = plugins.find((p) => p.pkg === STATIC);
 const scodes = (stat?.issues ?? []).map((i) => `${i.code}@${i.path}`);
 check(stat?.state === "ok" && [...stat.title].length === 24, `static title truncated to 24: ${stat?.title}`);
-for (const want of ["unknown-field@/dshGo/future", "invalid-field@/dshGo/wants/1", "duplicate-id@/dshGo/contributes/composer.actions/1/id",
-  "invalid-field@/dshGo/contributes/composer.actions/2/id", "invalid-field@/dshGo/contributes/composer.actions/3/effect",
-  "missing-field@/dshGo/contributes/message.actions/0/label", "invalid-field@/dshGo/contributes/composer.strip/0/panel",
-  "invalid-field@/dshGo/contributes/panels/0/placement/1", "view-file@/dshGo/contributes/panels/1/view", "unknown-surface@/dshGo/contributes/pets",
-  "too-long@/dshGo/title", "no-handler@/dshGo/contributes/composer.actions/1"]) {
+for (const want of ["unknown-field@/dshFan/future", "invalid-field@/dshFan/wants/1", "duplicate-id@/dshFan/contributes/composer.actions/1/id",
+  "invalid-field@/dshFan/contributes/composer.actions/2/id", "invalid-field@/dshFan/contributes/composer.actions/3/effect",
+  "missing-field@/dshFan/contributes/message.actions/0/label", "invalid-field@/dshFan/contributes/composer.strip/0/panel",
+  "invalid-field@/dshFan/contributes/panels/0/placement/1", "view-file@/dshFan/contributes/panels/1/view", "unknown-surface@/dshFan/contributes/pets",
+  "too-long@/dshFan/title", "no-handler@/dshFan/contributes/composer.actions/1"]) {
   check(scodes.includes(want), `static issue ${want}`);
 }
 check(JSON.stringify(stat?.contributes["composer.actions"].map((a) => [a.id, a.ready])) === '[["hello",true],["weird",false]]', "static actions: hello ready (effect), weird not ready");
@@ -222,30 +222,30 @@ check(en.json?.plugins.find((p) => p.pkg === USAGE)?.title === "Usage" && enQuic
 check(en.json?.rev !== c1.json?.rev, "rev differs per locale");
 const v2 = await contributions("v=2");
 check(v2.status === 400 && v2.json?.error?.code === "unsupported-version", `v=2 -> ${v2.status} ${v2.json?.error?.code}`);
-const listsBridge = pkgs.includes("dsh-go-bridge") || pkgs.some((p) => p.startsWith("@deepseek-ai/"));
+const listsBridge = pkgs.includes("dsh-fan-bridge") || pkgs.some((p) => p.startsWith("@deepseek-ai/"));
 check(!listsBridge, "bridge and official packages are never listed");
 
 // ------------------------------------------------------------------ views
 section("views");
-const vu = await get(`/dsh-go/v1/views/${USAGE}/usage?${CAPS.replace("zh-CN", "en")}&sessionId=s1`);
+const vu = await get(`/dsh-fan/v1/views/${USAGE}/usage?${CAPS.replace("zh-CN", "en")}&sessionId=s1`);
 check(vu.status === 200 && vu.json?.title === "Usage" && vu.json.view?.type === "stack" && vu.json.view.title === "usage s1", `usage view -> ${vu.status} ${vu.json?.view?.title}`);
 check(JSON.stringify(vu.json?.data) === '{"count":0,"note":"start","nested":{"a":1,"b":2}}' && typeof vu.json?.rev === "string" && vu.json.live === true, `initial data ${JSON.stringify(vu.json?.data)} rev=${vu.json?.rev}`);
 check(vu.json?.stats?.nodes === 3 && vu.json.stats.depth === 2 && vu.json.stats.bytes > 0, `stats ${JSON.stringify(vu.json?.stats)}`);
 let fx = (await get("/native-fixture/state")).json;
 check(fx?.lastCaps?.locale === "en" && fx.lastCaps.protocol === 1 && fx.lastCaps.app === "0.10.0" && fx.lastCaps.components.includes("metric"), `caps passed to view(): ${JSON.stringify(fx?.lastCaps)}`);
-const vp = await get(`/dsh-go/v1/views/${USAGE}/plain?${CAPS}`);
+const vp = await get(`/dsh-fan/v1/views/${USAGE}/plain?${CAPS}`);
 check(vp.status === 200 && vp.json?.data === null && vp.json.rev === null && vp.json.live === false && vp.json.view?.text === "plain", "plain view: no data, not live");
-const vs = await get(`/dsh-go/v1/views/${STATIC}/about?${CAPS}`);
+const vs = await get(`/dsh-fan/v1/views/${STATIC}/about?${CAPS}`);
 check(vs.status === 200 && vs.json?.title === "关于" && vs.json.view?.children?.[1]?.type === "keyValue", `scoped package static view -> ${vs.status}`);
-const ve = await get(`/dsh-go/v1/views/${STATIC}/escape?${CAPS}`);
+const ve = await get(`/dsh-fan/v1/views/${STATIC}/escape?${CAPS}`);
 check(ve.status === 409 && ve.json?.error?.code === "no-handler", `panel with rejected view file -> ${ve.status} ${ve.json?.error?.code}`);
-const v404 = await get(`/dsh-go/v1/views/${USAGE}/nope?${CAPS}`);
+const v404 = await get(`/dsh-fan/v1/views/${USAGE}/nope?${CAPS}`);
 check(v404.status === 404 && v404.json?.error?.code === "not-found", `unknown panel -> ${v404.status}`);
-const v404b = await get(`/dsh-go/v1/views/no-such-plugin/usage?${CAPS}`);
+const v404b = await get(`/dsh-fan/v1/views/no-such-plugin/usage?${CAPS}`);
 check(v404b.status === 404, `unknown package -> ${v404b.status}`);
-const vbad = await get(`/dsh-go/v1/views/${USAGE}/usage?${CAPS}&sessionId=a%0Ab`);
+const vbad = await get(`/dsh-fan/v1/views/${USAGE}/usage?${CAPS}&sessionId=a%0Ab`);
 check(vbad.status === 400 && vbad.json?.error?.code === "bad-request", `control character in scope -> ${vbad.status}`);
-const vtools = await get(`/dsh-go/v1/views/${QUICK}/tools?${CAPS}`);
+const vtools = await get(`/dsh-fan/v1/views/${QUICK}/tools?${CAPS}`);
 check(vtools.status === 200 && vtools.json?.view?.children?.[0]?.text === "locale=zh-CN", "quick tools view");
 
 // ------------------------------------------------------------------ stream
@@ -385,11 +385,11 @@ for (const [label, body, status, code, headers] of [
   const r = await invoke(body, headers);
   check(r.status === status && r.json?.error?.code === code, `${label} -> ${r.status} ${r.json?.error?.code}`);
 }
-const huge = await post("/dsh-go/v1/invoke", JSON.stringify({ v: 1, pkg: QUICK, id: "translate", surface: "composer.actions", pad: "x".repeat(70000) }), { "content-type": "application/json" });
+const huge = await post("/dsh-fan/v1/invoke", JSON.stringify({ v: 1, pkg: QUICK, id: "translate", surface: "composer.actions", pad: "x".repeat(70000) }), { "content-type": "application/json" });
 check(huge.status === 413, `body over 64 KiB -> ${huge.status}`);
-const plain = await post("/dsh-go/v1/invoke", "{}", { "content-type": "text/plain" });
+const plain = await post("/dsh-fan/v1/invoke", "{}", { "content-type": "text/plain" });
 check(plain.status === 415, `text/plain -> ${plain.status}`);
-const getInv = await get("/dsh-go/v1/invoke");
+const getInv = await get("/dsh-fan/v1/invoke");
 check(getInv.status === 405, `GET invoke -> ${getInv.status}`);
 
 // ------------------------------------------------------------------ deferred results (§4.7)
@@ -480,12 +480,12 @@ bystander.close();
 
 // ------------------------------------------------------------------ assets
 section("assets");
-const dot = await get(`/dsh-go/v1/assets/${STATIC}/img/dot.png`);
+const dot = await get(`/dsh-fan/v1/assets/${STATIC}/img/dot.png`);
 check(dot.status === 200 && dot.headers["content-type"] === "image/png" && dot.raw.length === 69 && dot.headers.etag, `png -> ${dot.status} ${dot.headers["content-type"]} ${dot.raw.length} B`);
-const dot304 = await get(`/dsh-go/v1/assets/${STATIC}/img/dot.png`, { "if-none-match": dot.headers.etag });
+const dot304 = await get(`/dsh-fan/v1/assets/${STATIC}/img/dot.png`, { "if-none-match": dot.headers.etag });
 check(dot304.status === 304, `If-None-Match -> ${dot304.status}`);
 for (const p of [`${STATIC}/notes.txt`, `${STATIC}/img%2F..%2F..%2Fpackage.json`, `${STATIC}/%2E%2E/package.json`, `${QUICK}/x.png`, `${STATIC}/img/missing.png`]) {
-  const r = await get(`/dsh-go/v1/assets/${p}`);
+  const r = await get(`/dsh-fan/v1/assets/${p}`);
   check((r.status === 404 || r.status === 400) && !r.headers["content-type"]?.startsWith("image/"), `asset ${p} -> ${r.status} (refused)`);
 }
 
@@ -499,13 +499,13 @@ check(okFirst.status === 200, "a clean invoke resets the violation streak");
 watch.send({ t: "sub", sub: "boom", pkg: QUICK, id: "boom" });
 const boomEnd = await watch.next((m) => m.sub === "boom");
 check(boomEnd?.t === "end" && boomEnd.reason === "error", `data() throws -> end error (violation 1): ${JSON.stringify(boomEnd)}`);
-const vb = await get(`/dsh-go/v1/views/${QUICK}/boom?${CAPS}`);
+const vb = await get(`/dsh-fan/v1/views/${QUICK}/boom?${CAPS}`);
 check(vb.status === 500 && vb.json?.error?.code === "plugin-error", `view() throws -> ${vb.status} ${vb.json?.error?.code} (violation 2)`);
-const vh = await get(`/dsh-go/v1/views/${QUICK}/huge?${CAPS}`);
+const vh = await get(`/dsh-fan/v1/views/${QUICK}/huge?${CAPS}`);
 check(vh.status === 500 && vh.json?.error?.code === "invalid-view", `view over 32 KiB -> ${vh.status} ${vh.json?.error?.code} (violation 3)`);
 const th = await invoke({ pkg: QUICK, id: "tools", surface: "panel", action: "throws" });
 check(th.status === 500 && th.json?.error?.code === "plugin-error", `handler throws -> ${th.status} (violation 4)`);
-const usageMid = await get(`/dsh-go/v1/views/${USAGE}/plain?${CAPS}`);
+const usageMid = await get(`/dsh-fan/v1/views/${USAGE}/plain?${CAPS}`);
 check(usageMid.status === 200, "other plugins keep working meanwhile");
 const ga = await invoke({ pkg: QUICK, id: "tools", surface: "panel", action: "garbage" });
 check(ga.status === 200 && ga.json?.effects?.length === 0 && ga.json.issues[0]?.code === "bad-effect", "handler returns 42 -> no effects (violation 5)");
@@ -515,7 +515,7 @@ const cd = await contributions();
 const dq = cd.json?.plugins.find((p) => p.pkg === QUICK);
 check(dq?.state === "degraded" && dq.native === false && dq.contributes.panels.length === 0 && dq.issues.some((i) => i.code === "degraded"), `quick is degraded: state=${dq?.state} native=${dq?.native}`);
 check(dq?.issues.some((i) => i.code === "violation" && i.count >= 5), "violation issue carries the count");
-const dv = await get(`/dsh-go/v1/views/${QUICK}/tools?${CAPS}`);
+const dv = await get(`/dsh-fan/v1/views/${QUICK}/tools?${CAPS}`);
 check(dv.status === 409 && dv.json?.error?.code === "degraded", `degraded view -> ${dv.status} ${dv.json?.error?.code}`);
 const di = await invoke({ pkg: QUICK, id: "translate", surface: "composer.actions" });
 check(di.status === 409 && di.json?.error?.code === "degraded", `degraded invoke -> ${di.status}`);
@@ -523,7 +523,7 @@ watch.send({ t: "sub", sub: "dq", pkg: QUICK, id: "tools" });
 check((await watch.next((m) => m.sub === "dq"))?.reason === "degraded", "degraded sub -> end degraded");
 const uok = await invoke({ pkg: USAGE, id: "usage", surface: "panel", action: "bump", scope: { sessionId: "s1" } });
 check(uok.status === 200, "usage plugin unaffected");
-const inv = await get("/dsh-go/v1/inventory");
+const inv = await get("/dsh-fan/v1/inventory");
 check(inv.status === 200 && inv.json?.v === 1 && inv.json.routeGuard === true, `inventory still fine (routeGuard=${inv.json?.routeGuard})`);
 const attr = (await get("/native-fixture/attribution")).json;
 check(typeof attr?.error === "string" && attr.error.includes("plugin context"), `service used without a plugin context throws: ${attr?.error}`);

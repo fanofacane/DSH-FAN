@@ -5,7 +5,7 @@ test "$(uname -sm)" = 'Linux aarch64'
 test -f /.dockerenv
 test -d /out
 ios=/repo/runtime/ios
-mkdir -p /out/apk-cache /opt/dsh /opt/dsh-go /etc/dsh-app /root/.dsh /dev/pts /tmp
+mkdir -p /out/apk-cache /opt/dsh /opt/dsh-fan /etc/dsh-app /root/.dsh /dev/pts /tmp
 apk verify /out/nodejs-22.23.2-r0.apk /out/nodejs-dev-22.23.2-r0.apk /out/nodejs-libs-22.23.2-r0.apk /out/tzdata-2026e-r0.apk
 apk --cache-dir /out/apk-cache --update-cache add \
   /out/nodejs-22.23.2-r0.apk nodejs=22.23.2-r0 npm \
@@ -80,11 +80,11 @@ if [ "${RUNTIME_FLAVOR:-probe}" = production ]; then
   npm --prefix /opt/pnpm ci --ignore-scripts --cache=/out/npm-cache --no-audit --no-fund --registry=https://registry.npmmirror.com
   ln -s /opt/pnpm/node_modules/pnpm/bin/pnpm.cjs /usr/local/bin/pnpm
 fi
-cp -a /repo/runtime/bridge/dsh-go-bridge /opt/dsh-go/dsh-go-bridge
+cp -a /repo/runtime/bridge/dsh-fan-bridge /opt/dsh-fan/dsh-fan-bridge
 cat > /etc/dsh-app/dsh-web.patch.yml <<'YAML'
 - insert:
-    - id: dsh-go-bridge
-      name: /opt/dsh-go/dsh-go-bridge/lib/index.js
+    - id: dsh-fan-bridge
+      name: /opt/dsh-fan/dsh-fan-bridge/lib/index.js
 YAML
 ln -sf "$node_root/bin/node" /usr/local/bin/node
 if [ "${RUNTIME_FLAVOR:-probe}" = production ]; then

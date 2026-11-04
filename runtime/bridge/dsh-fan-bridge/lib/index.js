@@ -1,13 +1,13 @@
-// dsh-go-bridge, host half (git 55ca555:docs/design/plugin-seams.md §5.2, §9.2).
+// dsh-fan-bridge, host half (git 55ca555:docs/design/plugin-seams.md §5.2, §9.2).
 //
-//   GET  /dsh-go/v1/inventory   wire format v1: release, packages with browser halves, the last
+//   GET  /dsh-fan/v1/inventory   wire format v1: release, packages with browser halves, the last
 //                               slot occupancy report and `routeGuard`, measured on every
 //                               read (see probeGuard)
-//   POST /dsh-go/v1/occupancy   the browser half reports the live slot composition of its page
+//   POST /dsh-fan/v1/occupancy   the browser half reports the live slot composition of its page
 //
-//   /dsh-go/v1/{contributions,views,invoke,assets} + WS /dsh-go/v1/stream
+//   /dsh-fan/v1/{contributions,views,invoke,assets} + WS /dsh-fan/v1/stream
 //                               native plugin protocol v1 (git 55ca555:docs/design/native-plugins-protocol.md),
-//                               backed by the `dshGo` service plugins get with ctx.inject(['dshGo'])
+//                               backed by the `dshFan` service plugins get with ctx.inject(['dshFan'])
 //
 // All routes require what /api requires (Connection's Host/Origin fence plus the browser cookie
 // or an API credential), checked here as well as by the patched webserver. On a host whose
@@ -27,15 +27,15 @@ import { NativeCore } from "./native/core.js";
 import { effectiveLimits } from "./native/limits.js";
 import { STREAM_PATH, createNativeRoutes } from "./native/routes.js";
 
-export const name = "dsh-go-bridge";
+export const name = "dsh-fan-bridge";
 
-const PREFIX = "/dsh-go";
+const PREFIX = "/dsh-fan";
 /** Unauthenticated canary route: the guard self-test expects it to be refused without credentials. */
-const CANARY = "/dsh-go-guard-canary";
+const CANARY = "/dsh-fan-guard-canary";
 const GUARD_PROBE_TTL_MS = 10000;
 const VERSION = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")).version;
 const ORIGINAL = Symbol.for("cordis.original");
-const GUARDED = Symbol.for("dsh-go.guarded");
+const GUARDED = Symbol.for("dsh-fan.guarded");
 const DEFAULT_OPEN_ROUTES = ["exact /connect", "exact /oauth/callback"];
 const MAX_BODY = 512 * 1024;
 const MAX_SLOTS = 400;
@@ -57,7 +57,7 @@ function packageOf(specifier) {
 
 function cachePath() {
   const home = process.env.DSH_HOME?.trim() || join(homedir(), ".dsh");
-  return join(home, "cache", "dsh-go-bridge", "occupancy.json");
+  return join(home, "cache", "dsh-fan-bridge", "occupancy.json");
 }
 
 /** A right pane tab type (`sidebar.right.pane.tab(.title)` occupants): what it is called, how it opens. */
@@ -162,7 +162,7 @@ function rejectionOf(ctx, req) {
  */
 function installFallbackGuard(webCtx, open) {
   const raw = webCtx.webServer[ORIGINAL] ?? webCtx.webServer;
-  if (typeof raw.dshGoRouteRejection === "function") return "patched";
+  if (typeof raw.dshFanRouteRejection === "function") return "patched";
   if (raw[GUARDED]) return "bridge";
   const openSet = new Set(open);
   const wrapHttp = (route) => {
@@ -174,7 +174,7 @@ function installFallbackGuard(webCtx, open) {
         const status = rejectionOf(webCtx, req);
         if (status !== undefined) {
           const unavailable = status === 503 && (sessionDeletionUnavailable(req) || pluginConfigUnavailable(req));
-          res.writeHead(status, { "cache-control": "no-store", "content-type": unavailable ? "application/json; charset=utf-8" : "text/plain; charset=utf-8", "x-dsh-go-guard": "reject" });
+          res.writeHead(status, { "cache-control": "no-store", "content-type": unavailable ? "application/json; charset=utf-8" : "text/plain; charset=utf-8", "x-dsh-fan-guard": "reject" });
           res.end(req.method === "HEAD" ? undefined : unavailable ? JSON.stringify(unavailable) : `${STATUS_CODES[status]}\n`);
           return;
         }
@@ -190,7 +190,7 @@ function installFallbackGuard(webCtx, open) {
       handler: (req, socket, head) => {
         const status = rejectionOf(webCtx, req);
         if (status === undefined) return route.handler(req, socket, head);
-        socket.end(`HTTP/1.1 ${status} ${STATUS_CODES[status]}\r\nConnection: close\r\nContent-Length: 0\r\nX-Dsh-Go-Guard: reject\r\n\r\n`);
+        socket.end(`HTTP/1.1 ${status} ${STATUS_CODES[status]}\r\nConnection: close\r\nContent-Length: 0\r\nX-Dsh-Fan-Guard: reject\r\n\r\n`);
       },
     };
   };
@@ -217,7 +217,7 @@ function installFallbackGuard(webCtx, open) {
       unwrap(raw.prefixes);
       unwrap(raw.upgrades);
     };
-  }, "dsh-go-bridge: fallback route guard");
+  }, "dsh-fan-bridge: fallback route guard");
   return "bridge";
 }
 
@@ -264,8 +264,8 @@ export function apply(ctx, config) {
 
   // Native plugin protocol: the service exists whenever the bridge runs (no cost without plugins).
   const native = new NativeCore(ctx, effectiveLimits(options.native), VERSION);
-  ctx.effect(() => () => native.dispose(), "dsh-go-bridge: native core");
-  ctx.provide("dshGo", native.service);
+  ctx.effect(() => () => native.dispose(), "dsh-fan-bridge: native core");
+  ctx.provide("dshFan", native.service);
   ctx.on("internal/plugin", () => native.markDirty());
   let pluginConfig;
   ctx.on("internal/status", (fiber) => { native.markDirty(); pluginConfig?.statusChanged(fiber); });
@@ -285,7 +285,7 @@ export function apply(ctx, config) {
         canaryHits++;
         send(res, 204);
       },
-    }), "dsh-go-bridge: guard canary");
+    }), "dsh-fan-bridge: guard canary");
     const probeGuard = async () => {
       if (guardProbe !== undefined && Date.now() - guardProbe.at < GUARD_PROBE_TTL_MS) return guardProbe.ok;
       const before = canaryHits;
@@ -341,7 +341,7 @@ export function apply(ctx, config) {
     const nativeRoutes = createNativeRoutes(native);
     pluginConfig = createPluginConfig(webCtx, { readBody, send });
     const sessionDeletion = createSessionDeletion(webCtx, { readBody, send });
-    webCtx.effect(() => () => nativeRoutes.dispose(), "dsh-go-bridge: native routes");
+    webCtx.effect(() => () => nativeRoutes.dispose(), "dsh-fan-bridge: native routes");
     webCtx.effect(() => webCtx.webServer.registerUpgrade({
       path: STREAM_PATH,
       handler: (req, socket, head) => {
@@ -352,12 +352,12 @@ export function apply(ctx, config) {
         }
         nativeRoutes.upgrade(req, socket, head);
       },
-    }), "dsh-go-bridge: native stream");
+    }), "dsh-fan-bridge: native stream");
 
     const handler = async (req, res) => {
       const rejection = rejectionOf(webCtx, req);
       if (rejection !== undefined) return send(res, rejection, rejection === 503 && (sessionDeletionUnavailable(req) || pluginConfigUnavailable(req)) || STATUS_CODES[rejection]);
-      const url = new URL(req.url ?? "/", "http://dsh-go.invalid");
+      const url = new URL(req.url ?? "/", "http://dsh-fan.invalid");
       const path = url.pathname;
       if (await sessionDeletion.handle(req, res, path)) return;
       if (await pluginConfig.handle(req, res, path)) return;
@@ -392,6 +392,6 @@ export function apply(ctx, config) {
       return send(res, 404, "not found");
     };
 
-    webCtx.effect(() => webCtx.webServer.register({ kind: "prefix", path: PREFIX, handler }), "dsh-go-bridge: /dsh-go routes");
+    webCtx.effect(() => webCtx.webServer.register({ kind: "prefix", path: PREFIX, handler }), "dsh-fan-bridge: /dsh-fan routes");
   });
 }

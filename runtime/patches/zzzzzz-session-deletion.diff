@@ -2,7 +2,7 @@
 --- a/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/index.js
 +++ b/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/index.js
 @@ -1,3 +1,4 @@
-+import { createDeletionSeam } from "./dsh-go-deletion.mjs";
++import { createDeletionSeam } from "./dsh-fan-deletion.mjs";
  import z from "@deepseek-ai/schemastery";
  import { SessionFormatUnsupportedMigrationError, createSessionFormatCatalogWithChildren, historicalSessionFormatCatalog, sessionFormatCatalog } from "@deepseek-ai/dsh-session-format-catalog";
  import { readdirSync } from "node:fs";
@@ -10,7 +10,7 @@
  			isUnsupportedMigrationError: (error) => error instanceof SessionFormatUnsupportedMigrationError
  		};
  		this.assertUsableRoot();
-+		this.dshGoDeletion = createDeletionSeam(this, {
++		this.dshFanDeletion = createDeletionSeam(this, {
 +			acquire: (dir, id) => SessionWriteLease.acquire(dir, id),
 +			parseGeneration: parseGenerationLogFilename,
 +			notFound: (id) => new SessionPersistenceNotFoundError(id)
@@ -22,16 +22,16 @@
  	async create(header, options) {
  		options?.signal?.throwIfAborted();
  		const snapshot = materializeCreateHeader(header);
-+		this.dshGoDeletion.assertAdmit(snapshot.id);
-+		this.dshGoDeletion.assertParent(snapshot);
++		this.dshFanDeletion.assertAdmit(snapshot.id);
++		this.dshFanDeletion.assertParent(snapshot);
  		toHeaderLine(snapshot, options?.inheritedEventCount);
  		const inheritedEventCount = SessionLogOffset(options?.inheritedEventCount ?? 0);
  		await this.ensureRootEncoding();
  		options?.signal?.throwIfAborted();
  		if (this.tracker.hasPending(snapshot.id) || await this.findLog(snapshot.id, options?.signal) !== void 0) throw new SessionAlreadyExistsError(snapshot.id);
  		options?.signal?.throwIfAborted();
-+		this.dshGoDeletion.assertAdmit(snapshot.id);
-+		this.dshGoDeletion.assertParent(snapshot);
++		this.dshFanDeletion.assertAdmit(snapshot.id);
++		this.dshFanDeletion.assertParent(snapshot);
  		this.tracker.registerCreated(snapshot, inheritedEventCount);
  		return this.tracker.adopt(new JsonlSessionHandle(this, snapshot.id, snapshot, "write", {
  			cursor: 0,
@@ -39,7 +39,7 @@
  	* @returns the open handle.
  	*/
  	async open(id, access, options) {
-+		this.dshGoDeletion.assertAdmit(id);
++		this.dshFanDeletion.assertAdmit(id);
  		options?.signal?.throwIfAborted();
  		await this.ensureRootEncoding();
  		options?.signal?.throwIfAborted();
@@ -47,7 +47,7 @@
  	*   `undefined` when the session does not exist.
  	*/
  	async stat(id, options) {
-+		if (this.dshGoDeletion.deleted(id)) return void 0;
++		if (this.dshFanDeletion.deleted(id)) return void 0;
  		options?.signal?.throwIfAborted();
  		await this.ensureRootEncoding();
  		options?.signal?.throwIfAborted();
@@ -56,7 +56,7 @@
  		});
  		signal?.throwIfAborted();
 -		return snapshots;
-+		return snapshots.filter(({ header }) => !this.dshGoDeletion.deleted(header.id));
++		return snapshots.filter(({ header }) => !this.dshFanDeletion.deleted(header.id));
  	}
  	/** Resolve and read one stored log, refusing loudly when the artifact is absent. */
  	async requireStoredLog(id, signal) {
@@ -65,7 +65,7 @@
  	*/
  	acquireLease(id, cwd, dir = sessionDir(this.root, cwd, id)) {
 -		return SessionWriteLease.acquire(dir, id);
-+		return this.dshGoDeletion.acquireWriter(id, dir);
++		return this.dshFanDeletion.acquireWriter(id, dir);
  	}
  	/**
  	* Acquire the cross-process write lock for a materializing created session,
@@ -74,7 +74,7 @@
  	async acquireWriteLease(header) {
  		await this.rejectOppositeArtifact(header.cwd, header.id);
 -		return this.acquireLease(header.id, header.cwd);
-+		return this.dshGoDeletion.acquireWriter(header.id, sessionDir(this.root, header.cwd, header.id), header);
++		return this.dshFanDeletion.acquireWriter(header.id, sessionDir(this.root, header.cwd, header.id), header);
  	}
  	/** Decode complete frames and retain complete JSONL records from a torn final frame. */
  	async readZstdPrefix(buffer, signal) {
@@ -83,7 +83,7 @@
  			if (outcome.status === "rejected") throw outcome.reason;
  			const { selected, metadata } = outcome.value;
 -			if (metadata === void 0) continue;
-+			if (metadata === void 0 || this.dshGoDeletion.deleted(metadata.header.id)) continue;
++			if (metadata === void 0 || this.dshFanDeletion.deleted(metadata.header.id)) continue;
  			if (ids.has(metadata.header.id)) throw new Error(`duplicate JSONL session id "${metadata.header.id}" appears in multiple project directories`);
  			ids.add(metadata.header.id);
  			artifacts.push({
@@ -91,9 +91,9 @@
  	}
  	/** Atomically write the header line + first batch (temp-write, fsync, publish). */
  	async materialize(meta, inheritedEventCount, events) {
-+		return this.dshGoDeletion.materialize(meta, () => this.dshGoMaterialize(meta, inheritedEventCount, events));
++		return this.dshFanDeletion.materialize(meta, () => this.dshFanMaterialize(meta, inheritedEventCount, events));
 +	}
-+	async dshGoMaterialize(meta, inheritedEventCount, events) {
++	async dshFanMaterialize(meta, inheritedEventCount, events) {
  		const project = projectDir(this.root, meta.cwd);
  		const dir = sessionDir(this.root, meta.cwd, meta.id);
  		const finalPath = logPath(this.root, meta.cwd, meta.id, this.compression);
@@ -101,7 +101,7 @@
  	}
  	/** Find the unique authoritative generation for an id across project directories. */
  	async findLog(id, signal) {
-+		if (this.dshGoDeletion.deleted(id)) return void 0;
++		if (this.dshFanDeletion.deleted(id)) return void 0;
  		const matches = [];
  		for (const project of await this.listProjectDirs(signal)) {
  			signal?.throwIfAborted();
@@ -111,7 +111,7 @@
  	*/
  	enter(session) {
  		const id = session.id;
-+		this.ctx.get("sessionPersistence")?.dshGoDeletion?.assertAdmit(id);
++		this.ctx.get("sessionPersistence")?.dshFanDeletion?.assertAdmit(id);
  		const carrier = scopeTarget(session, scopeOf(this.ctx));
  		if (this.store.has(id)) throw new Error(`session "${id}" already exists`);
  		if (attachments.has(session)) throw new Error(`session "${id}" is already attached to a store`);
@@ -121,8 +121,8 @@
  		if (status !== previousStatus) this.dispatch.emit("agent/status", { status });
  	}
  	send(message, target, wakeup) {
-+		if (this.dshGoDeleting) throw new Error("session is being deleted");
-+		this.loopCtx.get("sessionPersistence")?.dshGoDeletion?.assertAdmit(this.id);
++		if (this.dshFanDeleting) throw new Error("session is being deleted");
++		this.loopCtx.get("sessionPersistence")?.dshFanDeletion?.assertAdmit(this.id);
  		const wakingAfterAbort = wakeup && this.phase.kind !== "idle" && this.phase.abort.signal.aborted;
  		const resolvedTarget = wakingAfterAbort ? "next-turn" : target;
  		this.inbox.splice(resolvedTarget, Infinity, 0, [message]);
@@ -130,8 +130,8 @@
  		if (this.phase.kind !== "idle") this.phase.abort.abort(cause);
  	}
  	runMaintenance(job) {
-+		if (this.dshGoDeleting) throw new Error("session is being deleted");
-+		this.loopCtx.get("sessionPersistence")?.dshGoDeletion?.assertAdmit(this.id);
++		if (this.dshFanDeleting) throw new Error("session is being deleted");
++		this.loopCtx.get("sessionPersistence")?.dshFanDeletion?.assertAdmit(this.id);
  		if (this.phase.kind !== "idle") throw new Error(`agent "${this.id}" already has active work`);
  		const done = Promise.withResolvers();
  		const maintenance = {
@@ -139,8 +139,8 @@
  	*   the inbox insertion so a reentrant cancel cannot reclassify it.
  	*/
  	wakeDriver(wakeAfterAbort = false) {
-+		if (this.dshGoDeleting) throw new Error("session is being deleted");
-+		this.loopCtx.get("sessionPersistence")?.dshGoDeletion?.assertAdmit(this.id);
++		if (this.dshFanDeleting) throw new Error("session is being deleted");
++		this.loopCtx.get("sessionPersistence")?.dshFanDeletion?.assertAdmit(this.id);
  		if (this.phase.kind !== "idle") {
  			if (abortedCancelCause(this.phase.abort.signal)?.kind !== "disposed" && (this.phase.kind === "maintenance" || wakeAfterAbort)) this.phase.wakeRequested = true;
  			return;
@@ -148,21 +148,21 @@
  	* BEFORE publication, so a mid-setup unload rolls everything back; `signal`
  	* fuses caller cancellation with lifecycle teardown for setup awaits.
  	*/
-+	dshGoDeletionVersion = 1;
-+	async dshGoDisposeForDeletion(id) {
++	dshFanDeletionVersion = 1;
++	async dshFanDisposeForDeletion(id) {
 +		const agent = this.runtime.ctx.agents.get(id);
 +		if (agent === void 0) return;
 +		if (agent.session.header.origin === "subagent" || (agent.session.header.delegationDepth ?? 0) > 0)
 +			throw Object.assign(new Error("related agent"), { code: "session-related" });
 +		if (agent.phase?.kind !== "idle" || agent.inbox.hasPending)
 +			throw Object.assign(new Error("active agent"), { code: "session-active" });
-+		if (typeof agent.dshGoDispose !== "function") throw Object.assign(new Error("writer held"), { code: "writer-held" });
-+		agent.dshGoDeleting = true;
-+		await agent.dshGoDispose();
++		if (typeof agent.dshFanDispose !== "function") throw Object.assign(new Error("writer held"), { code: "writer-held" });
++		agent.dshFanDeleting = true;
++		await agent.dshFanDispose();
 +	}
  	prepare(ownerCtx, id, options, session, callerSignal, handle, parentAgent) {
-+		ownerCtx.get("sessionPersistence")?.dshGoDeletion?.assertAdmit(id);
-+		if (parentAgent !== void 0) ownerCtx.get("sessionPersistence")?.dshGoDeletion?.assertAdmit(parentAgent.id);
++		ownerCtx.get("sessionPersistence")?.dshFanDeletion?.assertAdmit(id);
++		if (parentAgent !== void 0) ownerCtx.get("sessionPersistence")?.dshFanDeletion?.assertAdmit(parentAgent.id);
  		assertAgentOptions(options);
  		ownerCtx.fiber.assertActive();
  		/* v8 ignore next -- unreachable backstop, see above */
@@ -170,7 +170,7 @@
  			/* v8 ignore next -- a synchronous effect exhausts the generator before returning */
  			if (machine === void 0) throw new Error(`agent "${id}" lifecycle did not construct its driver`);
  			const agent = machine;
-+			agent.dshGoDispose = dispose;
++			agent.dshFanDispose = dispose;
  			assertLive();
  			return {
  				agent,
@@ -180,7 +180,7 @@
  	* @returns the identity-matching record, or `undefined` (absent or unrelated).
  	*/
  	recordFor(id, expected) {
-+		if (this.ctx.get("sessionPersistence")?.dshGoDeletion?.deleted(id)) return void 0;
++		if (this.ctx.get("sessionPersistence")?.dshFanDeletion?.deleted(id)) return void 0;
  		const record = this.requireTable().get(id);
  		if (record === void 0) return void 0;
  		return identityMatches(record.identity, expected) ? record : void 0;
@@ -188,7 +188,7 @@
  		await this.requireTable().refresh(id);
  	}
  	cachedSnapshot(meta, keys) {
-+		if (this.ctx.get("sessionPersistence")?.dshGoDeletion?.deleted(meta.id)) return void 0;
++		if (this.ctx.get("sessionPersistence")?.dshFanDeletion?.deleted(meta.id)) return void 0;
  		const expected = lifecycleIdentityOf(meta);
  		const record = this.requireTable().get(meta.id);
  		if (record === void 0 || !currentLifecycleMatches(record.identity, expected)) return void 0;
@@ -196,7 +196,7 @@
  	*   incompatible with the title unit.
  	*/
  	cachedPredecessorTitle(meta) {
-+		if (this.ctx.get("sessionPersistence")?.dshGoDeletion?.deleted(meta.id)) return void 0;
++		if (this.ctx.get("sessionPersistence")?.dshFanDeletion?.deleted(meta.id)) return void 0;
  		const expected = lifecycleIdentityOf(meta);
  		const record = this.requireTable().get(meta.id);
  		if (record === void 0 || !predecessorIdentityMatches(record.identity, expected)) return void 0;
@@ -204,8 +204,8 @@
  		}
  	}
  	/** Replace one session's stored record with its log identity and a detached snapshot of `rows`. */
-+	dshGoDeletionVersion = 1;
-+	async dshGoForget(id) {
++	dshFanDeletionVersion = 1;
++	async dshFanForget(id) {
 +		for (const session of this.dirty.keys()) if (session.id === id) {
 +			this.markClean(session);
 +			this.dirty.delete(session);
@@ -213,11 +213,11 @@
 +		await this.requireTable().delete(id);
 +	}
  	async put(id, identity, rows) {
-+		const seam = this.ctx.get("sessionPersistence")?.dshGoDeletion;
-+		if (seam !== void 0) return seam.cacheWrite(id, () => this.dshGoPut(id, identity, rows));
-+		return this.dshGoPut(id, identity, rows);
++		const seam = this.ctx.get("sessionPersistence")?.dshFanDeletion;
++		if (seam !== void 0) return seam.cacheWrite(id, () => this.dshFanPut(id, identity, rows));
++		return this.dshFanPut(id, identity, rows);
 +	}
-+	async dshGoPut(id, identity, rows) {
++	async dshFanPut(id, identity, rows) {
  		const detached = snapshotJsonValue(rows);
  		if (detached === void 0) throw new TypeError("projection checkpoint is not losslessly JSON-serializable (a unit state violates the plain-JSON contract)");
  		await this.requireTable().put(id, {
@@ -227,8 +227,8 @@
  	* @param options - cancellation and projection selection for this read.
  	* @returns a caller-owned observation lease.
  	*/
-+	dshGoDeletionVersion = 1;
-+	dshGoForget(id) {
++	dshFanDeletionVersion = 1;
++	dshFanForget(id) {
 +		this._observations.cache.delete(id);
 +	}
  	observeSession(sessionId, options = {}) {
@@ -240,8 +240,8 @@
  			release();
  		}
  	}
-+	async dshGoForget(id) {
-+		super.dshGoForget(id);
++	async dshFanForget(id) {
++		super.dshFanForget(id);
 +		if (this._ready !== void 0) await this._ready;
 +		if (this._db === void 0) return;
 +		this._db.exec("BEGIN IMMEDIATE");
@@ -254,10 +254,10 @@
 +		} catch (error) { this._db.exec("ROLLBACK"); throw error; }
 +	}
  	async _reconcile(signal) {
-+		const seam = this._persistenceBinding.service?.dshGoDeletion;
-+		return seam === void 0 ? this.dshGoReconcile(signal) : seam.withMutation(() => this.dshGoReconcile(signal));
++		const seam = this._persistenceBinding.service?.dshFanDeletion;
++		return seam === void 0 ? this.dshFanReconcile(signal) : seam.withMutation(() => this.dshFanReconcile(signal));
 +	}
-+	async dshGoReconcile(signal) {
++	async dshFanReconcile(signal) {
  		assertNotAborted(signal);
  		const db = this._requireDb();
  		const persistedRows = db.prepare("SELECT id, revision, generation FROM persisted_sessions").all();
@@ -275,7 +275,7 @@
  				if (refusal !== void 0) throw new ScheduleInputError("subagent_session", refusal.message);
  				const domain = await this.getDomain();
  				signal?.throwIfAborted();
-+				this.ctx.sessionPersistence.dshGoDeletion?.assertAdmit(sessionId);
++				this.ctx.sessionPersistence.dshFanDeletion?.assertAdmit(sessionId);
  				await domain.table("tasks").put(id, {
  					sessionId,
  					record,
@@ -283,7 +283,7 @@
  		* @returns The stable refusal for a delegated child's Session, or undefined when the Session is eligible.
  		*/
  		reminderTargetRefusal(sessionId) {
-+			this.ctx.sessionPersistence.dshGoDeletion?.assertAdmit(sessionId);
++			this.ctx.sessionPersistence.dshFanDeletion?.assertAdmit(sessionId);
  			const agent = this.ctx.agents.get(sessionId);
  			if (agent === void 0 || delegationDepthOf(agent) === 0) return void 0;
  			return {
@@ -291,8 +291,8 @@
  				if (failure !== void 0) throw failure;
  			});
  		}
-+		dshGoDeletionVersion = 1;
-+		async dshGoInspectDeletion(id) {
++		dshFanDeletionVersion = 1;
++		async dshFanInspectDeletion(id) {
 +			const domain = await this.getDomain();
 +			const unit = domain.unit;
 +			if (unit?.descriptor?.name !== "schedule" || typeof unit.path !== "string")
@@ -304,7 +304,7 @@
 +				throw Object.assign(new Error("invalid schedule storage"), { code: "unavailable" });
 +			return Object.values(document.tables.tasks).some((task) => task.sessionId === id);
 +		}
-+		async dshGoCanDelete() {
++		async dshFanCanDelete() {
 +			const unit = (await this.getDomain()).unit;
 +			return unit?.descriptor?.name === "schedule" && typeof unit.path === "string";
 +		}
@@ -312,7 +312,7 @@
  			if (this.stopping) return Promise.reject(/* @__PURE__ */ new Error("Schedule service is stopping"));
 -			const pending = this.chain.then(work);
 +			const pending = this.chain.then(() => {
-+				const seam = this.ctx.sessionPersistence.dshGoDeletion;
++				const seam = this.ctx.sessionPersistence.dshFanDeletion;
 +				return seam === void 0 ? work() : seam.withMutation(work);
 +			});
  			this.chain = pending.catch(() => void 0);
@@ -324,8 +324,8 @@
  			this.invalidSessionPaths.delete(id);
  		}
  	};
-+	dshGoDeletionVersion = 1;
-+	async dshGoForget(id) {
++	dshFanDeletionVersion = 1;
++	async dshFanForget(id) {
 +		return this.enqueueOperation(async () => {
 +			for (const entity of this.entities.values()) await entity.detachSession(id);
 +			const state = this.requireState();
@@ -346,7 +346,7 @@
  	* masquerade as an unknown session.
  	*/
  	async sessionKnown(id) {
-+		if (this.ctx.sessionPersistence.dshGoDeletion?.deleted(id)) return false;
++		if (this.ctx.sessionPersistence.dshFanDeletion?.deleted(id)) return false;
  		if (this.ctx.get("sessions")?.get(id) !== void 0) return true;
  		if (this.headers.has(id)) return true;
  		await this.indexHeaders(await this.listStoredHeaders());
@@ -356,7 +356,7 @@
  		return records;
  	}
  	publish() {
-+		const seam = this.dshGoDeletion?.();
++		const seam = this.dshFanDeletion?.();
 +		if (seam !== void 0) {
 +			if (this.descriptor.name === "schedule") {
 +				const tasks = this.state.tables.get("tasks");
@@ -376,7 +376,7 @@
  			await unit.close();
  			throw new StorageError("closed", "json backend is closed");
  		}
-+		unit.dshGoDeletion = () => this.dshGoDeletion?.();
++		unit.dshFanDeletion = () => this.dshFanDeletion?.();
  		this.open.set(descriptor.name, unit);
  		return unit;
  	}
@@ -384,7 +384,7 @@
  */
  function apply(ctx, config) {
  	const backend = new JsonStorageBackend(config.root);
-+	backend.dshGoDeletion = () => ctx.get("sessionPersistence")?.dshGoDeletion;
++	backend.dshFanDeletion = () => ctx.get("sessionPersistence")?.dshFanDeletion;
  	ctx.effect(() => {
  		const unregister = ctx.storage.backend.register("json", backend);
  		return async () => {

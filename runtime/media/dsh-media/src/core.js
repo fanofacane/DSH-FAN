@@ -121,7 +121,7 @@ function containsSecret(value, secret) {
 }
 
 function fitsMeta(meta) {
-  return encodedBytes(JSON.stringify({ 'dsh-go/media': meta })) <= 8192;
+  return encodedBytes(JSON.stringify({ 'dsh-fan/media': meta })) <= 8192;
 }
 
 function revisedText(data, secret) {

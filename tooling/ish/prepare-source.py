@@ -85,7 +85,7 @@ def main():
     export(module, module_rev, destination / "deps/libarchive")
     for patch in manifest["patches"]:
         path = str(patch_dir / patch["path"])
-        # An export inside dshgo must not discover the parent repository: git
+        # An export inside dsh-fan must not discover the parent repository: git
         # otherwise silently skips patches whose paths are outside that subdir.
         env = dict(os.environ, GIT_CEILING_DIRECTORIES=str(destination.parent))
         subprocess.run(["git", "-C", str(destination), "apply", "--check", path], check=True, env=env)

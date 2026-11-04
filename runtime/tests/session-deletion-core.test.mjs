@@ -99,7 +99,7 @@ test('removes every stored generation, clears derived state, and leaves a durabl
   assert.equal(seam.deleted('s1'), true);
   assert.throws(() => seam.assertAdmit('s1'), (error) => error.code === 'not-found');
   // The tombstone records where the logs were so a retry can finish safely.
-  assert.equal(existsSync(join(root, '.dsh-go-lifecycle')), true);
+  assert.equal(existsSync(join(root, '.dsh-fan-lifecycle')), true);
   // A stale id is not admitted into a new materialisation either.
   assert.throws(() => seam.assertParent({ id: 'child', origin: 'subagent', parentSession: 's1' }), (e) => e.code === 'not-found');
 });

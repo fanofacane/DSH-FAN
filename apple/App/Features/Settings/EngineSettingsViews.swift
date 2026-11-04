@@ -106,7 +106,9 @@ struct EngineFormPage: View {
     private var title: String { path.last.map(fieldTitle) ?? displayTitle ?? model.section.id }
     private var mediaPresets: [[String: Any]] { // 引擎 schema 表单定义任意字段，保留其动态值。
         let extra = (resolved["meta"] as? [String: Any])?["extra"] as? [String: Any] // 引擎 schema 表单定义任意字段，保留其动态值。
-        return (extra?["dsh-go/media/catalog"] as? [String: Any])?["presets"] as? [[String: Any]] ?? [] // 引擎 schema 表单定义任意字段，保留其动态值。
+        // 远程主机可能仍装着上游 dsh-media（旧命名空间 dsh-go），新名优先、旧名兜底。
+        let catalog = (extra?["dsh-fan/media/catalog"] ?? extra?["dsh-go/media/catalog"]) as? [String: Any]
+        return catalog?["presets"] as? [[String: Any]] ?? [] // 引擎 schema 表单定义任意字段，保留其动态值。
     }
     var body: some View {
         SettingsPage(title: LocalizedStringKey(title)) {

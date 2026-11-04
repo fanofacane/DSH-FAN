@@ -7,18 +7,18 @@ import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 
 const { createSessionDeletion } = await import(
-  pathToFileURL(resolve('runtime/bridge/dsh-go-bridge/lib/session-deletion.js'))
+  pathToFileURL(resolve('runtime/bridge/dsh-fan-bridge/lib/session-deletion.js'))
 );
 
-const CAP = '/dsh-go/v1/sessions/deletion';
-const DEL = '/dsh-go/v1/sessions/delete';
+const CAP = '/dsh-fan/v1/sessions/deletion';
+const DEL = '/dsh-fan/v1/sessions/delete';
 
 function harness({ active = [], fail, scheduleOk = true } = {}) {
   const calls = [];
   const logs = [];
   const services = {
     sessionPersistence: {
-      dshGoDeletion: {
+      dshFanDeletion: {
         version: 1,
         async delete(id, hooks) {
           calls.push(['delete', id, hooks]);
@@ -30,19 +30,19 @@ function harness({ active = [], fail, scheduleOk = true } = {}) {
       },
     },
     agentLoop: {
-      dshGoDeletionVersion: 1,
-      async dshGoDisposeForDeletion(id) {
+      dshFanDeletionVersion: 1,
+      async dshFanDisposeForDeletion(id) {
         calls.push(['dispose', id]);
       },
     },
-    sessionProjectionCache: { dshGoDeletionVersion: 1, async dshGoForget(id) { calls.push(['cache', id]); } },
-    sessionQuery: { dshGoDeletionVersion: 1, async dshGoForget(id) { calls.push(['query', id]); } },
+    sessionProjectionCache: { dshFanDeletionVersion: 1, async dshFanForget(id) { calls.push(['cache', id]); } },
+    sessionQuery: { dshFanDeletionVersion: 1, async dshFanForget(id) { calls.push(['query', id]); } },
     schedule: {
-      dshGoDeletionVersion: 1,
-      async dshGoCanDelete() { return scheduleOk; },
-      async dshGoInspectDeletion(id) { calls.push(['tasks', id]); return active.includes(id); },
+      dshFanDeletionVersion: 1,
+      async dshFanCanDelete() { return scheduleOk; },
+      async dshFanInspectDeletion(id) { calls.push(['tasks', id]); return active.includes(id); },
     },
-    workspaceRegistry: { dshGoDeletionVersion: 1, async dshGoForget(id) { calls.push(['workspace', id]); } },
+    workspaceRegistry: { dshFanDeletionVersion: 1, async dshFanForget(id) { calls.push(['workspace', id]); } },
   };
   const ctx = {
     get: (name) => services[name],
@@ -77,7 +77,7 @@ function harness({ active = [], fail, scheduleOk = true } = {}) {
 
 test('unknown paths are not handled', async () => {
   const h = harness();
-  assert.equal((await h.request('GET', '/dsh-go/v1/other')).handled, false);
+  assert.equal((await h.request('GET', '/dsh-fan/v1/other')).handled, false);
   assert.deepEqual(h.logs, []);
 });
 

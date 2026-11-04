@@ -98,7 +98,7 @@
 
 - [ ] 使用独立 `runtime/build-ios-runtime.sh`，产出 `runtime/out/ios-arm64/assets/runtime/rootfs-ios-arm64.tar.xz` 和 `manifest.json`。正式实现采用 Alpine / Node 24，原安卓构建入口已删除。
 - [ ] `runtime/patches/` 的补丁和 `pins.json` 的校验照常执行，DSH 版本没有校验过就让构建失败，规则和 Android 一致。
-- [ ] 桥接插件 `runtime/bridge/dsh-go-bridge` 照常安装。
+- [ ] 桥接插件 `runtime/bridge/dsh-fan-bridge` 照常安装。
 - [ ] 去掉 proot 相关的 `lib*.so`（iOS 用不到）。
 - [ ] 把 rootfs 打进 App 包（`Runner` 的资源）。如果包体超过 App Store 的限制，改用按需资源（On-Demand Resources）或首次启动时下载。下载的话必须校验 `manifest.json` 里的哈希。
 
@@ -261,7 +261,7 @@ App（Swift）：AlarmKit / EventKit / URL Scheme / MessageUI / 快捷指令 / �
 
 - [ ] **6.1** SSH 主机（`原 Flutter 版 lib/remote/ssh/`）和 DSH Remote（`原 Flutter 版 dsh_remote`、`原 Flutter 版 lib/remote/relay/`）在 iOS 上跑通。局域网直连会弹"本地网络"权限，拒绝后要能自动走中继。
 - [ ] **6.2** 回到前台后自动重连，补齐消息。
-- [ ] **6.3（可选）远程时的手机控制**：只支持 SSH 主机。通过 SSH 反向端口转发（先确认 `dartssh2` 的 `forwardRemote` 能用），把远程 `dsh web` 的 relay 接回手机上的 `phone_ios_server.dart`。覆盖层文件写到远程的 `~/.cache/dsh-go/phone/`，不要改远程用户的 `~/.dsh/AGENTS.md`，使用说明放在 MCP `initialize` 的 `instructions` 字段里。DSH Remote 主机不支持手机控制：它的 Host 插件有固定白名单（`tunnel_carrier.dart` 的 `harnessRemoteAllowlist`），界面要显示原因。
+- [ ] **6.3（可选）远程时的手机控制**：只支持 SSH 主机。通过 SSH 反向端口转发（先确认 `dartssh2` 的 `forwardRemote` 能用），把远程 `dsh web` 的 relay 接回手机上的 `phone_ios_server.dart`。覆盖层文件写到远程的 `~/.cache/dsh-fan/phone/`，不要改远程用户的 `~/.dsh/AGENTS.md`，使用说明放在 MCP `initialize` 的 `instructions` 字段里。DSH Remote 主机不支持手机控制：它的 Host 插件有固定白名单（`tunnel_carrier.dart` 的 `harnessRemoteAllowlist`），界面要显示原因。
 - [ ] 验证：`(cd 原 Flutter 版 dsh_client && dart test)`、`(cd 原 Flutter 版 dsh_remote && dart test)`；真机上两种远程方式各完成一次对话。
 
 ## 阶段 7：发布准备

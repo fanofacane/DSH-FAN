@@ -30,7 +30,7 @@ export function apply(ctx) {
       handler: (req, res) => {
         res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" });
         res.end(JSON.stringify({
-          guard: typeof raw.dshGoRouteRejection === "function" ? "patched" : raw[Symbol.for("dsh-go.guarded")] ? "bridge" : "none",
+          guard: typeof raw.dshFanRouteRejection === "function" ? "patched" : raw[Symbol.for("dsh-fan.guarded")] ? "bridge" : "none",
           exact: [...raw.exact.keys()].sort(),
           prefix: [...raw.prefixes.keys()].sort(),
           upgrade: [...raw.upgrades.keys()].sort(),

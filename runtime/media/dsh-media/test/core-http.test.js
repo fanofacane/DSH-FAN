@@ -89,7 +89,7 @@ test('base64 bytes, actual dimensions, v1 meta, private index and safe output', 
   assert.deepEqual(await readFile(result.meta.items[0].path), PNG);
   assert.equal(result.meta.cost, undefined);
   assert.equal(result.meta.provenance, undefined);
-  assert.ok(Buffer.byteLength(JSON.stringify({ 'dsh-go/media': result.meta })) <= 8192);
+  assert.ok(Buffer.byteLength(JSON.stringify({ 'dsh-fan/media': result.meta })) <= 8192);
   const indexFiles = (await filesBelow(f.hostStateDir)).filter(path => path.endsWith('.json'));
   assert.equal(indexFiles.length, 1);
   const index = await readFile(indexFiles[0], 'utf8');

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {resolve,join} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {createPluginConfig} from '../bridge/dsh-go-bridge/lib/plugin-config.js';
+import {createPluginConfig} from '../bridge/dsh-fan-bridge/lib/plugin-config.js';
 import {withSources} from './plugin-config-source-fixture.mjs';
 import {makeCases,makeHostSchema,INPUT,SOURCE,ERROR,POST} from './secret-callback-cases.mjs';
 const {default:z}=await import(pathToFileURL(join(resolve(process.env.DSH_PREFIX),'node_modules/@deepseek-ai/schemastery/lib/index.mjs')));
@@ -16,7 +16,7 @@ async function model(schema,raw){
  editor.edit=async(_entry,change)=>{current=await change(structuredClone(current),structuredClone(current));entry.options.config=current;entry.fiber.config=schema(structuredClone(current));};
  const ctx={get:key=>key==='configEditor'?editor:key==='loader'?{entries:()=>[entry]}:undefined};withSources(ctx,[entry]);
  let answer;const api=createPluginConfig(ctx,{send(_res,status,body){answer={status,body};},readBody:async req=>Buffer.from(JSON.stringify(req.input))});
- const request=async(method,input)=>{await api.handle({method,input,headers:{'content-type':'application/json'},resume(){}},{},'/dsh-go/v1/plugin-config/callback-fixture');return answer;};
+ const request=async(method,input)=>{await api.handle({method,input,headers:{'content-type':'application/json'},resume(){}},{},'/dsh-fan/v1/plugin-config/callback-fixture');return answer;};
  return {request,entry,editor};
 }
 for(const scenario of makeCases(z))test(scenario.name+' source is redacted only in secret context',async()=>{

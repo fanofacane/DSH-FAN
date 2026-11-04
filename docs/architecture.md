@@ -61,7 +61,7 @@ ChatView 仅组装页面与保留原有局部状态，顶栏、消息列表、�
 
 `runtime/build-ios-runtime.sh` 通过 `runtime/ios/scripts/` 配方构建 Alpine、Node 24 与固定 DSH，并生成归档和 manifest。`apple/Modules/DSHRuntime/Native` 中的 Objective-C 桥由独立脚本编入 ish.xcframework，Swift target 只引用其模块，避免重复编译和泄露内核私有头。`tooling/build-ish.sh` 使用 `runtime/ios/patches/series.json` 固定的唯一补丁链构建 iSH 静态框架；工程生成器把它与归档装入 App，不依赖旧客户端目录。`runtime/lib/rtbuild.py` 仅保留固定 DSH 补丁的严格解析、哈希检查和应用；安卓 Termux / PRoot 构建入口及 Debian / ELF / JNI 组包分支已删除。`runtime/direct/paths.mjs` 和 `runtime/boot/` 仍被跨运行时基线测试使用，保留为测试支持，不进入 iOS rootfs。
 
-安装器核对归档大小 / 哈希后导入私有 fakefs。启动 `dsh web` 监听 `127.0.0.1:3080`；客户端以启动令牌交换内存 Cookie，凭据不进入公开状态或日志。客体路径 `/etc/dsh-app`、`/opt/dsh-app`、`/var/lib/dsh-app`、`/opt/dsh-go` 和 `dsh-web.patch.yml` 属于引擎布局，继续保留。
+安装器核对归档大小 / 哈希后导入私有 fakefs。启动 `dsh web` 监听 `127.0.0.1:3080`；客户端以启动令牌交换内存 Cookie，凭据不进入公开状态或日志。客体路径 `/etc/dsh-app`、`/opt/dsh-app`、`/var/lib/dsh-app`、`/opt/dsh-fan` 和 `dsh-web.patch.yml` 属于引擎布局，继续保留。
 
 iSH 在进程内只 boot 一次。停止时回收 PID 1 以外的客体进程并确认端口释放；已挂载 rootfs 的重装 / 重置写待处理标记并返回 `E_RESTART_REQUIRED`，用户关闭并重新打开 App 后处理，不主动退出进程。
 

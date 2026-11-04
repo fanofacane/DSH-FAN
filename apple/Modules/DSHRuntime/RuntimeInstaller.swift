@@ -135,7 +135,7 @@ final class RuntimeInstaller {
     }
     static func keepPaths(_ groups: [String]) throws -> [String] {
         guard groups.allSatisfy({ ["uiAndSkills", "pluginsAndSettings"].contains($0) }) else { throw RuntimeError("E_RESET_KEEP") }
-        return (groups.contains("uiAndSkills") ? ["root/.dsh/dsh-go", "root/.dsh/skills", "root/.agents/skills", "root/.agents/AGENTS.md"] : []) +
+        return (groups.contains("uiAndSkills") ? ["root/.dsh/dsh-fan", "root/.dsh/skills", "root/.agents/skills", "root/.agents/AGENTS.md"] : []) +
             (groups.contains("pluginsAndSettings") ? ["root/.dsh/profiles", "root/.dsh/cordis.patch.yml", "root/.dsh/.env"] : [])
     }
 }

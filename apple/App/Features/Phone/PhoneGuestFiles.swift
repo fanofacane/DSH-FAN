@@ -10,8 +10,10 @@ enum PhoneGuestFiles {
     static let config = "/var/lib/dsh-app/phone/bridge.json"
     private static let relayPath = "/opt/dsh-app/phone/relay.cjs"
     private static let agents = "/root/.dsh/AGENTS.md"
-    private static let begin = "<!-- dsh-go:phone-ios:start -->"
-    private static let end = "<!-- dsh-go:phone-ios:end -->"
+    private static let begin = "<!-- dsh-fan:phone-ios:start -->"
+    private static let end = "<!-- dsh-fan:phone-ios:end -->"
+    /// Markers written before the DSH Fan rename; still removed so no stale section remains.
+    private static let legacy = ("<!-- dsh-go:phone-ios:start -->", "<!-- dsh-go:phone-ios:end -->")
 
     struct Launch: Sendable {
         let configJSON: String
@@ -38,8 +40,10 @@ enum PhoneGuestFiles {
         // Never replace an unreadable or oversize user file with an empty one.
         if old == nil && GuestFiles.mode(agents) >= 0 { throw RuntimeError("E_PHONE_AGENTS_READ") }
         var text = old ?? ""
-        if let start = text.range(of: begin), let finish = text.range(of: end, range: start.upperBound..<text.endIndex) {
-            text.removeSubrange(start.lowerBound..<finish.upperBound)
+        for (open, close) in [(begin, end), legacy] {
+            if let start = text.range(of: open), let finish = text.range(of: close, range: start.upperBound..<text.endIndex) {
+                text.removeSubrange(start.lowerBound..<finish.upperBound)
+            }
         }
         if launch != nil {
             text += "\n" + begin + "\n## iOS 手机控制\n\n- 用 mcp__phone__open / intent / notify / clipboard / shortcut / handoff 调用系统能力。iOS 不支持读屏和点击其他 App。\n- 快捷指令只能运行用户在设置里手动加入白名单的名称。拒绝或权限不足时请说明原因，不能绕过确认。\n- open、navigate、shortcut 会进入后台，应放在任务最后一步；结果先返回，再跳转。需要登录、支付、验证码或手动操作时用 handoff。\n- 时间按手机本地时区。不要臆测成功，以工具返回的系统结果为准。\n" + end + "\n"

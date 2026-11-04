@@ -27,13 +27,13 @@ export async function apply(ctx){
    const fiber=e.fiber;await e.update({disabled:true});await fiber.dispose();
    res.writeHead(200,{'content-type':'application/json'});res.end(JSON.stringify({connectionAbsent:ctx.get('connection')===undefined,entryDisabled:e.disabled,entryState:fiber.state,privateProfileDisabled:true}));return;
   }
-  const bridgeEntry=[...ctx.loader.entries()].find(e=>e.options.id==='dsh-go-bridge');
+  const bridgeEntry=[...ctx.loader.entries()].find(e=>e.options.id==='dsh-fan-bridge');
   const moduleFiles=Object.fromEntries(['@deepseek-ai/dsh-app-boot','@deepseek-ai/dsh-config-editor','@deepseek-ai/dsh-host-webserver'].map(name=>{
    const file=realpathSync(fileURLToPath(import.meta.resolve(name)));return [name,{file,sha256:sha(file)}];
   }));
   const media=[...ctx.loader.entries()].find(e=>e.options.id==='dsh-media');
   const answer={pid:process.pid,profileInstallAnchor:ctx.profileContext.installAnchor,moduleFiles,
-   guardKind:typeof ctx.webServer.dshGoRouteRejection==='function'?'patched':'bridge-fallback',
+   guardKind:typeof ctx.webServer.dshFanRouteRejection==='function'?'patched':'bridge-fallback',
    actualEditorPrototype:Object.getPrototypeOf(ctx.configEditor)===ConfigEditor.prototype,
    actualWebServerPrototype:Object.getPrototypeOf(ctx.webServer)===WebServer.prototype,
    actualBridgeCallback:bridgeEntry?.fiber?.runtime?.callback===bridgeModule.apply,

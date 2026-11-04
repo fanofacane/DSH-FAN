@@ -2,7 +2,7 @@
 export const inject = ['sessionPersistence', 'webServer', 'agents', 'sessions'];
 export function apply(ctx) {
   const storage = ctx.sessionPersistence;
-  const seam = storage.dshGoDeletion;
+  const seam = storage.dshFanDeletion;
   const original = seam.delete;
   const create = storage.create;
   storage.create = async function (...args) {
@@ -18,7 +18,7 @@ export function apply(ctx) {
     const writer = storage.tracker.writers.get(id);
     const agent = ctx.agents.get(id);
     return {pending: seam.pending.has(id), deleted: seam.deleted(id), agent: !!agent,
-      deleting: agent?.dshGoDeleting === true, session: !!ctx.sessions.get(id), writer: !!writer,
+      deleting: agent?.dshFanDeleting === true, session: !!ctx.sessions.get(id), writer: !!writer,
       buffered: writer?.buffered.length ?? 0, materialized: writer?.state.materialized ?? false};
   };
   seam.delete = async (id, hooks) => {
@@ -38,7 +38,7 @@ export function apply(ctx) {
     } finally {
       attempts.set(id, {before, after: snapshot(id), capturedWriter: writer && {
         buffered: writer.buffered.length, materialized: writer.state.materialized, closing: !!writer.closing,
-      }, capturedAgent: agent && {deleting: agent.dshGoDeleting === true, phase: agent.phase.kind}});
+      }, capturedAgent: agent && {deleting: agent.dshFanDeleting === true, phase: agent.phase.kind}});
       gates.delete(id);
     }
   };

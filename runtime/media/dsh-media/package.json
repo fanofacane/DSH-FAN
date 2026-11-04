@@ -65,7 +65,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dshGo": {
+  "dshFan": {
     "v": 1,
     "minApp": "1.0.2",
     "contributes": {}

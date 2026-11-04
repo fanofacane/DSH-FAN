@@ -4,14 +4,14 @@
 
 > 历史设计记录：其中的原 Flutter / 安卓实现已删除，可在 上游 DSH Go 仓库 查看。当前 iOS 状态以 `docs/design/ios-native-parity.md` 为准。
 
-> 2026-10-29。App 端完成，已对接 dsh-go bridge 的 `/dsh-go/v1/plugin-config`（接口见 §2）。bridge 路由由后端实现，App 侧以假服务器测试。
+> 2026-10-29。App 端完成，已对接 dsh-fan bridge 的 `/dsh-fan/v1/plugin-config`（接口见 §2）。bridge 路由由后端实现，App 侧以假服务器测试。
 
 ## 0. 结论
 
 - **DSH 0.2.1-rc.4 自身没有能写非 volatile 字段的接口**，读也读不到：`settings/describe` 只投影 `.volatile()` 字段，一个 volatile 字段都没有的插件整条不返回；`settings/mutate` / `update` / `replace` 写非 volatile 路径一律拒绝。网页版同样只有 volatile（Pro 的约定 §1 用真机复核过）。
-- 完整配置走 **dsh-go bridge 的 v1 路由**，内部调用主机已有的 `ConfigEditor`（校验、落盘 profile `cordis.patch.yml`、Loader 协调、失败恢复）。不改 DSH 内核的 `settings/*`。
+- 完整配置走 **dsh-fan bridge 的 v1 路由**，内部调用主机已有的 `ConfigEditor`（校验、落盘 profile `cordis.patch.yml`、Loader 协调、失败恢复）。不改 DSH 内核的 `settings/*`。
 - App 有两个数据源，自动选用：
-  - **bridge**（`BridgePluginConfigApi`）：主机提供 `/dsh-go/v1/plugin-config` 时用，普通字段和 volatile 字段都能改；
+  - **bridge**（`BridgePluginConfigApi`）：主机提供 `/dsh-fan/v1/plugin-config` 时用，普通字段和 volatile 字段都能改；
   - **volatile**（`EngineSettingsPluginConfigApi`）：路由 404（没有 bridge 或 bridge 版本旧）、或连接到不了 bridge（relay）时用，就是之前的行为：`settings/describe` + `settings/mutate`，全部即改即生效。
 - **只有插件进这个页（白名单，默认拒绝，§7）**。bridge 列出的是整个 profile，DSH 核心也在里面且都能写；App 只放行「用户选中的 bundle 的行」——市场 / 本地安装的、打开了的官方可选插件——依据是 `pluginManager/listBundles` 的字段，不是命名空间名单。列表、状态、页面、写入层四处都按这一条，核心条目不显示、不读、不写。
 
@@ -27,13 +27,13 @@
 
 ## 2. 对接的接口（以 Pro 的约定为准）
 
-基路径 `/dsh-go/v1/plugin-config`，沿用 bridge 的鉴权与路由守卫（不进 openRoutes）。
+基路径 `/dsh-fan/v1/plugin-config`，沿用 bridge 的鉴权与路由守卫（不进 openRoutes）。
 
 | 路由 | App 用法 |
 |---|---|
-| `GET /dsh-go/v1/plugin-config` | 能力探测兼目录：200 → bridge 模式；**无 code 的 404** → 退回 volatile。条目带 `entryId`、`package`、`label`、`state`、`configurable`、`reason`。`configurable: false` 的不出入口；直接打开时按 `state` / `reason` 说明原因（未启用 → 「插件没有在运行」；failed → 「插件没有启动」；其余 → 「暂不支持在这里设置」） |
-| `GET /dsh-go/v1/plugin-config/<entryId>` | 页面打开时才读（一次一个条目，不在列表时批量拉）。schema 是 `uid/refs` 图，live 节点带 `meta.volatile`；`revision` 是不透明字符串，原样回送 |
-| `POST /dsh-go/v1/plugin-config/<entryId>` | `{revision, ops}`，ops 同 `settings/mutate` 的 set / unset。live 字段即改即发一次；普通字段攒到「保存」一次发出。成功回包即新条目（含新 revision），以回包为准 |
+| `GET /dsh-fan/v1/plugin-config` | 能力探测兼目录：200 → bridge 模式；**无 code 的 404** → 退回 volatile。条目带 `entryId`、`package`、`label`、`state`、`configurable`、`reason`。`configurable: false` 的不出入口；直接打开时按 `state` / `reason` 说明原因（未启用 → 「插件没有在运行」；failed → 「插件没有启动」；其余 → 「暂不支持在这里设置」） |
+| `GET /dsh-fan/v1/plugin-config/<entryId>` | 页面打开时才读（一次一个条目，不在列表时批量拉）。schema 是 `uid/refs` 图，live 节点带 `meta.volatile`；`revision` 是不透明字符串，原样回送 |
+| `POST /dsh-fan/v1/plugin-config/<entryId>` | `{revision, ops}`，ops 同 `settings/mutate` 的 set / unset。live 字段即改即发一次；普通字段攒到「保存」一次发出。成功回包即新条目（含新 revision），以回包为准 |
 | `credentials/describe` · `set` · `unset` | 有 `credentialRef` 绑定的密钥走这里，和配置保存是两个事务；unset 后重新 describe（可能还有环境变量回退） |
 
 错误码与 App 的处理：
@@ -57,7 +57,7 @@
 
 能力探测细节：每次连接首次读目录时探测一次；404 后本连接一直用 volatile，主机重启（`HostReady`）后再探测。目录读失败（非 404，如 503）显示读取失败并可重试，不静默降级。
 
-relay：`/dsh-go/*` 是 HTTP 路由，只有本机和 SSH 隧道（`DshHttpCarrier`）够得着；relay 只转发放行表里的 RPC，碰不到这些路由，所以**不需要也无法登记**，relay 连接直接用 volatile。
+relay：`/dsh-fan/*` 是 HTTP 路由，只有本机和 SSH 隧道（`DshHttpCarrier`）够得着；relay 只转发放行表里的 RPC，碰不到这些路由，所以**不需要也无法登记**，relay 连接直接用 volatile。
 
 ## 3. 被替换掉的草案
 
@@ -111,7 +111,7 @@ relay：`/dsh-go/*` 是 HTTP 路由，只有本机和 SSH 隧道（`DshHttpCarri
 
 ### 7.1 实测
 
-r13 运行时（DSH 0.2.1-rc.4 + dsh-go-bridge 0.4.0，取自 r13 的 x86_64 rootfs），按 App 的方式启动 `dsh web`：r13 自己的 `dsh-web.patch.yml`，加上语音、登录（`dsh-app-auth`）、消息搜索、手机操控四个 `--patch`。经 `pluginManager` 打开官方的语音输入套件、从本地路径装一个第三方插件（`local-notes`，包名 `dsh-go-fixture-local-notes`）后，只读 GET：
+r13 运行时（DSH 0.2.1-rc.4 + dsh-fan-bridge 0.4.0，取自 r13 的 x86_64 rootfs），按 App 的方式启动 `dsh web`：r13 自己的 `dsh-web.patch.yml`，加上语音、登录（`dsh-app-auth`）、消息搜索、手机操控四个 `--patch`。经 `pluginManager` 打开官方的语音输入套件、从本地路径装一个第三方插件（`local-notes`，包名 `dsh-fan-fixture-local-notes`）后，只读 GET：
 
 | | 条目 | 可配置 |
 |---|---|---|
@@ -128,7 +128,7 @@ r13 运行时（DSH 0.2.1-rc.4 + dsh-go-bridge 0.4.0，取自 r13 的 x86_64 roo
 
 | 来源 | 字段 | 能不能区分插件和核心 |
 |---|---|---|
-| `GET /dsh-go/v1/plugin-config` | `entryId`、`package`、`label`（就是 `entryId`）、`state`、`configurable`、`reason` | **不能**。`package` 只说模块来自哪个包：核心、官方可选插件、App 的 `dsh-app-phone`（`@deepseek-ai/dsh-mcp-client`）都是 `@deepseek-ai/*`；按路径加载的（bridge 自己、`dsh-app-auth`）是 `null`。没有来源、owner、bundle 字段 |
+| `GET /dsh-fan/v1/plugin-config` | `entryId`、`package`、`label`（就是 `entryId`）、`state`、`configurable`、`reason` | **不能**。`package` 只说模块来自哪个包：核心、官方可选插件、App 的 `dsh-app-phone`（`@deepseek-ai/dsh-mcp-client`）都是 `@deepseek-ai/*`；按路径加载的（bridge 自己、`dsh-app-auth`）是 `null`。没有来源、owner、bundle 字段 |
 | `pluginManager/listPlugins` | `entryId`（`include:<id>`）、`moduleName`、`enabled`、`fiberPhase`、`patchId`、`readOnlyReason` | **不能**。`readOnlyReason: management-required` 只标了部分核心（`webserver`、`connection` 有，`sandbox-policy` 没有） |
 | `pluginManager/listBundles` | `name`、`official`、`optional`、`installed`、`availability`、`source`、`enabled`、`error`、`readOnlyReason`、`rows[]`（`rowId`、`moduleName`、`entryId`）、`overrides` | **能**。核心 = 安装自带的层（`dsh-base`、`dsh-web-app`：`official` / `optional` / `installed` 都是 false，`availability: installation`，`management-required`）；官方可选 = `official && optional`；用户安装（市场、本地、按需安装的官方包）= `installed` 且有 `source`（「安装本身不提供的 profile 依赖」） |
 
@@ -174,7 +174,7 @@ r13 夹具上的结果：显示 `speech-to-text`、`speech-to-text-sensevoice`�
 
 ### 7.4 建议 bridge 补的
 
-1. **服务端也做白名单（最要紧）**。现在 App 只是客户端防线：任何拿得到 `/api` 凭据的客户端（DSH Web 页面里的脚本、别的插件页）都能直接 `POST /dsh-go/v1/plugin-config/webserver` 改核心配置、放宽 `sandbox-policy`、改 `dsh-app-phone` 的 `command`。建议 bridge 对不属于「已选中的官方可选 bundle 或 profile 自装 bundle」的条目一律 `configurable: false`（新 reason，如 `core`），GET 详情和 POST 都回 404 `entry-unavailable`（或新 code `not-a-plugin`）。判定可直接复用 plugin manager 的 `listBundles` 数据，和 App 的规则一致。
+1. **服务端也做白名单（最要紧）**。现在 App 只是客户端防线：任何拿得到 `/api` 凭据的客户端（DSH Web 页面里的脚本、别的插件页）都能直接 `POST /dsh-fan/v1/plugin-config/webserver` 改核心配置、放宽 `sandbox-policy`、改 `dsh-app-phone` 的 `command`。建议 bridge 对不属于「已选中的官方可选 bundle 或 profile 自装 bundle」的条目一律 `configurable: false`（新 reason，如 `core`），GET 详情和 POST 都回 404 `entry-unavailable`（或新 code `not-a-plugin`）。判定可直接复用 plugin manager 的 `listBundles` 数据，和 App 的规则一致。
 2. **列表直接带来源**：每项加 `owner`（`core` / `optional` / `installed` / `overlay` / `unknown`）和所属 `bundle` 名。`overlay` 指 `--patch` 插入的行（App 的 `dsh-app-*`、bridge 自己）。有了它 App 不必再交叉对照 `listBundles`。
 3. **`label` 给真名**：现在 `label` 恒等于 `entryId`；`listBundles` 的 `rows[].meta.title` 已有中英文标题，建议直接带上。
 4. **统一 id**：`listBundles` / `listPlugins` 的 `entryId` 是 `include:<id>`，plugin-config 的 `entryId` 是 `<id>`，两边只能靠 `rowId` 对照，建议在约定里写明或统一。

@@ -3,7 +3,7 @@ import {createHmac, randomBytes} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {isDeepStrictEqual} from 'node:util';
 import {bundleEntrySources} from './config-source.js';
-const BASE='/dsh-go/v1/plugin-config';
+const BASE='/dsh-fan/v1/plugin-config';
 const BAD=new Set(['__proto__','prototype','constructor','__jsExpr']);
 const TYPES=new Set(['object','dict','array','string','number','boolean','const','union','intersect','transform']);
 const VOLATILE=Symbol.for('cosmokit.volatile.write');
@@ -32,7 +32,7 @@ function validationPath(error,ops){
  for(const op of ops){const known=publicPath(op.path);if(known&&known.slice(0,Math.min(known.length,path.length)).every((x,i)=>x===path[i]))return known;}
 }
 export function pluginConfigUnavailable(req){
- let path;try{path=new URL(req.url??'/', 'http://dsh-go.invalid').pathname;}catch{return;}
+ let path;try{path=new URL(req.url??'/', 'http://dsh-fan.invalid').pathname;}catch{return;}
  if(path===BASE||path.startsWith(BASE+'/'))return {v:1,code:'host-unavailable',message:MESSAGES['host-unavailable']};
 }
 function labelOf(title,entry){
@@ -252,8 +252,8 @@ export function createPluginConfig(ctx,{readBody,send}){
   else if(record(entry.options.config)&&own(entry.options.config,'__jsExpr'))reason='unsupported-schema';
   else try{graph=graphOf(schema);}catch{reason='unsupported-schema';}
   if(reason&&state==='active')state='unsupported';
-  let writable=false;if(!reason&&origin.kind==='plugin')try{writable=service().dshGoAsyncChange===true&&service().canWrite?.(entry)===true;}catch{}
-  return {summary:{entryId:entry.options.id,package:origin.package,owner:origin.owner,bundle:origin.bundle,kind:origin.kind,source:origin.source,label:labelOf(origin.label,entry),state,configurable:!reason,writable,...reason?{reason}:!writable?{reason:service().dshGoAsyncChange===true?'overridden':'host-unavailable'}:{}},schema,graph,origin};
+  let writable=false;if(!reason&&origin.kind==='plugin')try{writable=service().dshFanAsyncChange===true&&service().canWrite?.(entry)===true;}catch{}
+  return {summary:{entryId:entry.options.id,package:origin.package,owner:origin.owner,bundle:origin.bundle,kind:origin.kind,source:origin.source,label:labelOf(origin.label,entry),state,configurable:!reason,writable,...reason?{reason}:!writable?{reason:service().dshFanAsyncChange===true?'overridden':'host-unavailable'}:{}},schema,graph,origin};
  }
  async function rows(){
   const editor=service(),manager=ctx.get('pluginManager');if(typeof manager?.listBundles!=='function')throw fault(503,'host-unavailable');
@@ -271,7 +271,7 @@ export function createPluginConfig(ctx,{readBody,send}){
  async function update(id,input){
   if(!record(input)||Object.keys(input).some(k=>!['revision','ops'].includes(k))||typeof input.revision!=='string'||input.revision.length>256||!Array.isArray(input.ops)||!input.ops.length||input.ops.length>128)throw fault(400,'invalid-operation');
   const before=await snapshot(id),editor=service(),bytes=fileBytes(editor.documentPath),oldRaw=structuredClone(before.row.entry.options.config??{});let changed=false;
-  if(editor.dshGoAsyncChange!==true)throw fault(503,'host-unavailable');
+  if(editor.dshFanAsyncChange!==true)throw fault(503,'host-unavailable');
   if(!before.body.writable)throw fault(409,'overridden');
   try{await editor.edit(before.row.entry,async(raw,inherited)=>{
    const current=await snapshot(id);if(!current.body.writable)throw fault(409,'overridden');if(current.row.entry!==before.row.entry||current.body.revision!==input.revision)throw fault(409,'conflict');
@@ -297,7 +297,7 @@ export function createPluginConfig(ctx,{readBody,send}){
    else if(req.method==='POST'){
     // Refuse protected/unverified targets before parsing a client operation;
     // update() checks again, including inside ConfigEditor's exclusive edit.
-    const row=await locate(id);if(service().dshGoAsyncChange!==true)throw fault(503,'host-unavailable');if(!row.summary.writable)throw fault(409,'overridden');
+    const row=await locate(id);if(service().dshFanAsyncChange!==true)throw fault(503,'host-unavailable');if(!row.summary.writable)throw fault(409,'overridden');
     if(String(req.headers['content-type']).split(';')[0].trim().toLowerCase()!=='application/json'){req.resume();throw fault(400,'invalid-operation');}
     let input;try{input=JSON.parse((await readBody(req,512*1024)).toString('utf8'));}catch{throw fault(400,'invalid-operation');}
     send(res,200,await update(id,input));

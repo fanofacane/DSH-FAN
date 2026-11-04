@@ -229,11 +229,11 @@ export function installMedia(ctx, config, { generate, admit = admitGeneration, e
   const output = {
     schema: { type: 'object', additionalProperties: false, properties: { meta: { type: 'json', required: true }, text: { type: 'string', required: true } } },
     render: (_args, value) => [{ type: 'text', text: value.text }],
-    presentationMeta: (_args, value) => ({ 'dsh-go/media': value.meta }),
+    presentationMeta: (_args, value) => ({ 'dsh-fan/media': value.meta }),
   };
   function validateResult(value) {
     if (!value || typeof value.text !== 'string' || !value.meta
-      || Buffer.byteLength(JSON.stringify({ 'dsh-go/media': value.meta }), 'utf8') > 8192) throw new MediaError('metadata');
+      || Buffer.byteLength(JSON.stringify({ 'dsh-fan/media': value.meta }), 'utf8') > 8192) throw new MediaError('metadata');
     return value;
   }
   function track(operation) {

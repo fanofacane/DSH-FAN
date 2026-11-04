@@ -16,7 +16,7 @@ import { syncBuiltinESMExports } from 'node:module';
 import { resolve } from 'node:path';
 import { isMainThread } from 'node:worker_threads';
 
-export const ROOTS = ['/opt/dsh/', '/opt/node/', '/opt/dsh-go/'];
+export const ROOTS = ['/opt/dsh/', '/opt/node/', '/opt/dsh-fan/'];
 
 /** Answer for "not cacheable here": the caller uses node:fs. */
 export const PASS = Symbol('pass');
@@ -192,7 +192,7 @@ export function install({ roots = ROOTS, fsImpl = fs, stdout = process.stdout, m
 }
 
 // Preloaded by the shim for `dsh web` only; inert anywhere else (workers, other commands).
-if (isMainThread && process.argv[2] === 'web' && process.env.DSH_GO_BOOT_CACHE !== '0') {
+if (isMainThread && process.argv[2] === 'web' && process.env.DSH_FAN_BOOT_CACHE !== '0') {
   try {
     const root = globalThis[Symbol.for('dsh.go.direct')]?.root;
     install({ roots: root ? ROOTS.map((path) => root + path) : ROOTS });

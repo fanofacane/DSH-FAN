@@ -48,8 +48,8 @@ export async function apply(ctx){
   }
   const moduleFiles=Object.fromEntries(['@deepseek-ai/dsh-config-editor','@deepseek-ai/dsh-plugin-manager','@deepseek-ai/dsh-app-boot','@deepseek-ai/dsh-host-webserver'].map(name=>{const file=fileURLToPath(import.meta.resolve(name));return [name,{file,sha256:sha(file)}];}));
   answer({pid:process.pid,moduleFiles,actualEditorPrototype:Object.getPrototypeOf(ctx.configEditor)===ConfigEditor.prototype,
-   actualManagerPrototype:Object.getPrototypeOf(ctx.pluginManager)===PluginManager.prototype,asyncChange:ctx.configEditor.dshGoAsyncChange===true,
-   actualBridgeCallback:entries.find(e=>e.options.id==='dsh-go-bridge')?.fiber?.runtime?.callback===bridgeModule.apply,
+   actualManagerPrototype:Object.getPrototypeOf(ctx.pluginManager)===PluginManager.prototype,asyncChange:ctx.configEditor.dshFanAsyncChange===true,
+   actualBridgeCallback:entries.find(e=>e.options.id==='dsh-fan-bridge')?.fiber?.runtime?.callback===bridgeModule.apply,
    sameManagerReference:ctx.get('pluginManager')===ctx.get('pluginManager'),sameEditorReference:ctx.get('configEditor')===ctx.get('configEditor'),
    sameManagerOriginal:ctx.get('pluginManager')[Symbol.for('cordis.original')]===ctx.get('pluginManager')[Symbol.for('cordis.original')],sameEditorOriginal:ctx.get('configEditor')[Symbol.for('cordis.original')]===ctx.get('configEditor')[Symbol.for('cordis.original')],
    bridgeFiles:Object.fromEntries(['lib/index.js','lib/plugin-config.js','lib/config-source.js'].map(file=>[file,sha(join(bridge,file))])),

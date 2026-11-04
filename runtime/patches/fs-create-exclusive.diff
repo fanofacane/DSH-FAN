@@ -1,4 +1,4 @@
-# dsh-go: retain no-clobber creation when Android shared storage rejects hard links.
+# dsh-fan: retain no-clobber creation when Android shared storage rejects hard links.
 # Pinned to the published @deepseek-ai/dsh-fs-local 0.2.1-rc.2 bytes.
 # Exclusive direct creation can expose partial content; failures retain the target.
 # Node open("wx") includes O_CREAT | O_EXCL; rename would clobber a competitor.

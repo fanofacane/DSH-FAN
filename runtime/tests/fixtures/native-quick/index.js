@@ -1,21 +1,21 @@
 // Test-only native plugin (runtime/tests/native-bridge.mjs): invoke handlers and every kind of
 // misbehaviour the bridge must contain (throws, timeouts, bad effects, oversize views, bad data).
-export const name = "dsh-go-fixture-quick";
+export const name = "dsh-fan-fixture-quick";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 export const seen = [];
 // Shared with native-usage's /native-fixture/state so the test can see aborts.
-const Q = (globalThis.__dshGoFixtureQuick ??= { aborted: [] });
+const Q = (globalThis.__dshFanFixtureQuick ??= { aborted: [] });
 
 export function apply(ctx) {
-  ctx.inject(["dshGo"], (ctx) => {
-    ctx.dshGo.on("translate", async (scope, event) => {
+  ctx.inject(["dshFan"], (ctx) => {
+    ctx.dshFan.on("translate", async (scope, event) => {
       seen.push({ id: "translate", scope, event });
       return { insert: `EN(${scope.clipboard ?? ""})|draft=${scope.draft === undefined ? "absent" : "present"}`, toast: "已翻译" };
     });
-    ctx.dshGo.on("speak", (scope) => ({ copy: `msg:${scope.message ?? "absent"}:${scope.messageId}` }));
-    ctx.dshGo.on("slow", async () => { await sleep(5000); return { toast: "too late" }; });
-    ctx.dshGo.panel("tools", {
+    ctx.dshFan.on("speak", (scope) => ({ copy: `msg:${scope.message ?? "absent"}:${scope.messageId}` }));
+    ctx.dshFan.on("slow", async () => { await sleep(5000); return { toast: "too late" }; });
+    ctx.dshFan.panel("tools", {
       view: (scope, caps) => ({ type: "stack", children: [{ type: "text", text: `locale=${caps.locale}` }, { type: "actions", items: [{ label: "好", action: "good" }] }] }),
       actions: {
         good: () => [{ type: "open", page: "panel:tools" }, { link: "https://example.com/a?b=1" }, { command: { name: "compact", args: "now" } }, { refresh: true }],
@@ -57,9 +57,9 @@ export function apply(ctx) {
         eager: () => ({ pending: true, result: sleep(300).then(() => ({ insert: "eager" })), toast: "ignored" }),
       },
     });
-    ctx.dshGo.panel("boom", { view: () => { throw new Error("view boom"); }, data: () => { throw new Error("data boom"); } });
-    ctx.dshGo.panel("huge", { view: () => ({ type: "text", text: "y".repeat(40000) }) });
-    ctx.dshGo.panel("late", { view: async () => { await sleep(4000); return { type: "text", text: "late" }; } });
-    ctx.dshGo.panel("undeclared-panel", { view: { type: "text", text: "never shown" } });
+    ctx.dshFan.panel("boom", { view: () => { throw new Error("view boom"); }, data: () => { throw new Error("data boom"); } });
+    ctx.dshFan.panel("huge", { view: () => ({ type: "text", text: "y".repeat(40000) }) });
+    ctx.dshFan.panel("late", { view: async () => { await sleep(4000); return { type: "text", text: "late" }; } });
+    ctx.dshFan.panel("undeclared-panel", { view: { type: "text", text: "never shown" } });
   });
 }

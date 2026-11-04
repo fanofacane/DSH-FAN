@@ -22,7 +22,7 @@ export function withSources(ctx,entries){
   entry.id??=`include:${entry.options.id}`;entry.parent.tree.ctx.fiber??={entry:{id:'include'}};
  }
  const get=ctx.get,loader=get('loader'),resolution={entries:[{name:'unit-host',packageDir:install,scope:'installation'}]};
- const editor=get('configEditor');if(editor)editor.dshGoAsyncChange??=true;
+ const editor=get('configEditor');if(editor)editor.dshFanAsyncChange??=true;
  const service={resolution,packageOf:name=>packages.get(name)};
  const bundle={name:'fixture-bundle',enabled:true,installed:true,source:'file:synthetic',official:false,optional:false,rows:entries.map(entry=>({rowId:entry.options.id,entryId:entry.id,moduleName:entry.options.name}))};
  const bundles=[{name:'unit-host',enabled:true,installed:false,official:false,optional:false,rows:[{rowId:'core-defined',moduleName:'unit-host'}]},bundle];

@@ -6,7 +6,7 @@
  var ConfigEditor = class extends Service {
  	ownerContext;
 +	// Bridge feature gate: older editors must never consume an async change as data.
-+	dshGoAsyncChange = true;
++	dshFanAsyncChange = true;
  	static inject = ["loader", "profileContext"];
  	constructor(ownerContext) {
  		super(ownerContext, "configEditor");

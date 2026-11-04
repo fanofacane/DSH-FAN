@@ -1,5 +1,5 @@
 // Native plugin core (git 55ca555:docs/design/native-plugins-protocol.md): which enabled plugins declare
-// `dshGo`, what they registered through the `dshGo` service, their health (violations ->
+// `dshFan`, what they registered through the `dshFan` service, their health (violations ->
 // degraded), and the data feeds shared by GET views and stream subscriptions.
 import { randomBytes } from "node:crypto";
 import { existsSync, readFileSync, statSync } from "node:fs";
@@ -16,7 +16,7 @@ import {
 const TRACKER = Symbol.for("cordis.tracker");
 const SCAN_MAX_AGE_MS = 2000;
 const CHANGED_DEBOUNCE_MS = 300;
-const SELF = "dsh-go-bridge";
+const SELF = "dsh-fan-bridge";
 const REG_NAMES = { panels: "panel", strips: "strip", handlers: "on", media: "media", micro: "micro", capability: "onCapability" };
 
 /** Loader entry owning a fiber (walks up through `ctx.inject` sub-fibers). */
@@ -133,7 +133,7 @@ export class NativeCore {
     let parsed = null;
     try {
       const pkgJson = JSON.parse(readFileSync(loc.pkgJsonPath, "utf8"));
-      if (isPlainObject(pkgJson) && pkgJson.dshGo !== undefined) parsed = parseManifest(pkgJson, loc.dir);
+      if (isPlainObject(pkgJson) && pkgJson.dshFan !== undefined) parsed = parseManifest(pkgJson, loc.dir);
     } catch {
       parsed = null;
     }
@@ -142,7 +142,7 @@ export class NativeCore {
     return value;
   }
 
-  /** Enabled plugins that declare dshGo: Map pkg -> {pkg, dir, uid, parsed, stamp}. */
+  /** Enabled plugins that declare dshFan: Map pkg -> {pkg, dir, uid, parsed, stamp}. */
   scan() {
     const now = Date.now();
     if (!this.dirty && this.scanState && now - this.scanState.at < SCAN_MAX_AGE_MS) return this.scanState;
@@ -296,7 +296,7 @@ export class NativeCore {
     const h = this.#health(pkg);
     h.consecutive++;
     h.total++;
-    this.ctx.logger?.warn?.("dsh-go-bridge: plugin %s violation %s: %s", pkg, code, message);
+    this.ctx.logger?.warn?.("dsh-fan-bridge: plugin %s violation %s: %s", pkg, code, message);
     h.issues.set("violation", { path: "/runtime/violation", code: "violation", severity: "warn", message: `${code}: ${message}`, count: h.total });
     this.healthVersion++;
     if (h.consecutive >= LIMITS.violationsToDegrade && !h.degraded) {
@@ -350,28 +350,28 @@ export class NativeCore {
   #register(callerCtx, kind, id, def) {
     const entry = entryOf(callerCtx?.fiber);
     const loc = entry === undefined ? undefined : this.locate(entry);
-    if (loc === undefined) throw new Error("dshGo: call ctx.dshGo.* as a method from a plugin context (ctx.inject(['dshGo'], ...))");
-    if (typeof id !== "string" || !ID.test(id)) throw new TypeError(`dshGo.${kind}: id must match ${ID}`);
+    if (loc === undefined) throw new Error("dshFan: call ctx.dshFan.* as a method from a plugin context (ctx.inject(['dshFan'], ...))");
+    if (typeof id !== "string" || !ID.test(id)) throw new TypeError(`dshFan.${kind}: id must match ${ID}`);
     const pkg = loc.pkg;
     let value;
     if (kind === "panels") {
-      if (!isPlainObject(def) || !(isPlainObject(def.view) || typeof def.view === "function")) throw new TypeError("dshGo.panel: { view } is required (an object or a function)");
-      if (def.data !== undefined && typeof def.data !== "function") throw new TypeError("dshGo.panel: data must be a function (scope, emit) => cancel");
-      if (def.actions !== undefined && (!isPlainObject(def.actions) || Object.values(def.actions).some((f) => typeof f !== "function"))) throw new TypeError("dshGo.panel: actions must map names to functions");
+      if (!isPlainObject(def) || !(isPlainObject(def.view) || typeof def.view === "function")) throw new TypeError("dshFan.panel: { view } is required (an object or a function)");
+      if (def.data !== undefined && typeof def.data !== "function") throw new TypeError("dshFan.panel: data must be a function (scope, emit) => cancel");
+      if (def.actions !== undefined && (!isPlainObject(def.actions) || Object.values(def.actions).some((f) => typeof f !== "function"))) throw new TypeError("dshFan.panel: actions must map names to functions");
       value = { view: def.view, data: def.data, actions: def.actions };
     } else if (kind === "strips" || kind === "micro") {
       const data = typeof def === "function" ? def : def?.data;
-      if (typeof data !== "function") throw new TypeError(`dshGo.${kind === "micro" ? "micro" : "strip"}: pass (scope, emit) => cancel or { data }`);
+      if (typeof data !== "function") throw new TypeError(`dshFan.${kind === "micro" ? "micro" : "strip"}: pass (scope, emit) => cancel or { data }`);
       value = { data };
     } else {
-      if (typeof def !== "function") throw new TypeError(`dshGo.${REG_NAMES[kind]}: handler must be a function`);
+      if (typeof def !== "function") throw new TypeError(`dshFan.${REG_NAMES[kind]}: handler must be a function`);
       value = def;
     }
     const token = {};
     return callerCtx.effect(() => {
       this.#add(pkg, kind, id, value, token);
       return () => this.#remove(pkg, kind, id, token);
-    }, `dshGo.${kind}(${id})`);
+    }, `dshFan.${kind}(${id})`);
   }
 
   #add(pkg, kind, id, def, token) {
@@ -392,7 +392,7 @@ export class NativeCore {
       : kind === "handlers" ? declared !== undefined
       : kind === "panels" ? declared === "panels" : declared === "composer.strip";
     if (!ok) {
-      const what = kind === "capability" ? "onCapability() needs dshGo.capabilities" : `${REG_NAMES[kind]}("${id}") is not declared in dshGo.contributes`;
+      const what = kind === "capability" ? "onCapability() needs dshFan.capabilities" : `${REG_NAMES[kind]}("${id}") is not declared in dshFan.contributes`;
       this.runtimeIssue(pkg, `undeclared:${kind}:${id}`, { path: `/runtime/${id}`, code: "undeclared", severity: "warn", message: `${what}; ignored` });
     }
     this.regsVersion++;
@@ -413,9 +413,9 @@ export class NativeCore {
   #refresh(callerCtx, id, partial) {
     const entry = entryOf(callerCtx?.fiber);
     const loc = entry === undefined ? undefined : this.locate(entry);
-    if (loc === undefined) throw new Error("dshGo: call ctx.dshGo.refresh as a method from a plugin context");
+    if (loc === undefined) throw new Error("dshFan: call ctx.dshFan.refresh as a method from a plugin context");
     const scope = normalizeScope(partial ?? {});
-    if (scope === undefined) throw new TypeError("dshGo.refresh: invalid scope");
+    if (scope === undefined) throw new TypeError("dshFan.refresh: invalid scope");
     for (const feed of this.feeds.values()) {
       if (feed.pkg === loc.pkg && feed.id === id && scopeMatches(feed.scope, scope.scope)) feed.notifyStale();
     }
@@ -440,7 +440,7 @@ export class NativeCore {
         return core.pickedFileRead(loc.pkg, handle);
       },
     };
-    Object.defineProperty(service, TRACKER, { value: { associate: "dshGo", property: "ctx" }, enumerable: false });
+    Object.defineProperty(service, TRACKER, { value: { associate: "dshFan", property: "ctx" }, enumerable: false });
     return service;
   }
 

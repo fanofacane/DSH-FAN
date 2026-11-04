@@ -108,7 +108,7 @@ async function runCase(root, kind) {
     events.forEach((event, i) => assert.equal(event.seq, i));
     assert.equal(events.filter(e => e.type === 'approval/asked').length, 1);
     assert.equal(events.find(e => e.type === 'approval/decided').data.outcome, 'allowed-once');
-    const media = events.filter(e => e.type === 'tool/result' && e.data.meta?.['dsh-go/media']).map(e => e.data.meta['dsh-go/media']);
+    const media = events.filter(e => e.type === 'tool/result' && e.data.meta?.['dsh-fan/media']).map(e => e.data.meta['dsh-fan/media']);
     const done = media.find(m => m.status === 'done'); assert.ok(done); assert.equal(done.kind, kind);
     assert.deepEqual(await readFile(done.items[0].path), kind === 'image' ? PNG : MP4);
     if (kind === 'video') {

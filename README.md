@@ -85,7 +85,7 @@ xcodebuild -project apple/DSH.xcodeproj -scheme DSH \
 
 DSH Fan 参考并学习了以下项目，感谢它们的作者与贡献者：
 
-- [DSH Go](https://github.com/ccch1mneyyy/dsh-go)（AGPL-3.0）：Android 端 DeepSeek Harness 客户端。本项目的界面风格、桥接插件 `dsh-go-bridge`、引擎补丁与部分设计参考了它；为了与引擎兼容，`/opt/dsh-go`、`/dsh-go/v1` 等桥接路径保留原名。
+- [DSH Go](https://github.com/ccch1mneyyy/dsh-go)（AGPL-3.0）：Android 端 DeepSeek Harness 客户端。本项目的界面风格、引擎补丁与部分设计参考了它；内置引擎的桥接插件 `dsh-fan-bridge`（`/opt/dsh-fan`、`/dsh-fan/v1`）由 DSH Go 的 `dsh-go-bridge` 改名而来。
 - [iSH](https://github.com/ish-app/ish)（GPL-3.0）及 [OpenMinis/ish-arm64](https://github.com/OpenMinis/ish-arm64)：在 iOS 上运行 Linux 用户态的内核与解释器。
 - [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（MIT）：捆绑运行的智能体引擎。
 

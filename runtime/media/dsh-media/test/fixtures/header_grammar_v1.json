@@ -1,5 +1,5 @@
 {
-  "grammar": "dsh-go/media generation header v1",
+  "grammar": "dsh-fan/media generation header v1",
   "spec": "docs/design/media-generation.md §4.6",
   "base": "dsh-media M0 candidate R1 (runtime/media/dsh-media/test/fixtures/header-v1.json); every candidate case is here with the same result",
   "shape": "valid[].expected and format[].value use the candidate parser's shape: kind, prompt, aspect, n, seconds, quality (a video's resolution too), model {label, serviceId, id}; an absent key is an absent field",

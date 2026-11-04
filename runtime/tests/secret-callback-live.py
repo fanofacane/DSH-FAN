@@ -25,10 +25,10 @@ bundle=private/'bundle';bundle.mkdir();(bundle/'node_modules').symlink_to(profil
 bundle_patch=bundle/'cordis.patch.yml';bundle_patch.write_text(json.dumps([{'insert':[{'id':'callbacks','name':'wave10-secret-callback','config':inputs['raw']}]}]))
 (profile/'node_modules/wave10-secret-callback-bundle').symlink_to(bundle,target_is_directory=True)
 manifest=profile/'package.json';manifest.write_text(json.dumps({'name':'own-callback-profile','version':'1.0.0','private':True,'dependencies':{'wave10-secret-callback-bundle':'file:'+str(bundle),'wave10-secret-callback':'file:'+str(fixture)},'dsh':{'profile':{'bundles':['@deepseek-ai/dsh-base','@deepseek-ai/dsh-web-app','wave10-secret-callback-bundle']}}}))
-patch=profile/'cordis.patch.yml';patch.write_text(json.dumps([{'id':name,'disabled':True}for name in ['session-title-llm','llm-pi-ai','llm-deepseek-account','session-telemetry-otel','web-search-deepseek','web-deepseek-api','web-fetch-http','tool-web']]+[{'insert':[{'id':'callback-observer','name':str(observer/'index.mjs')},{'id':'dsh-go-bridge','name':str(bridge/'lib/index.js')}]}]))
+patch=profile/'cordis.patch.yml';patch.write_text(json.dumps([{'id':name,'disabled':True}for name in ['session-title-llm','llm-pi-ai','llm-deepseek-account','session-telemetry-otel','web-search-deepseek','web-deepseek-api','web-fetch-http','tool-web']]+[{'insert':[{'id':'callback-observer','name':str(observer/'index.mjs')},{'id':'dsh-fan-bridge','name':str(bridge/'lib/index.js')}]}]))
 env={key:os.environ[key]for key in ['PATH','LANG','LC_ALL','TMPDIR']if key in os.environ}
 env.update({'TZ':'Asia/Shanghai','DSH_HOME':str(home),'DSH_AGENTS_HOME':str(agents),'DSH_TELEMETRY_DISABLED':'1','UV_USE_IO_URING':'0','CALLBACK_BRIDGE':str(bridge),'CALLBACK_FIXTURE':str(fixture/'secret-callback-fixture.mjs')})
-base='http://127.0.0.1:'+str(a.port);route='/dsh-go/v1/plugin-config';audit=[];snapshots=[]
+base='http://127.0.0.1:'+str(a.port);route='/dsh-fan/v1/plugin-config';audit=[];snapshots=[]
 sha=lambda data:hashlib.sha256(data).hexdigest()
 def save(name,value):(evidence/name).write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
 def identity(pid):
@@ -47,7 +47,7 @@ def request(op,path,data=None,headers=None):
   with op.open(req,timeout=30)as res:status=res.status;text=res.read().decode();meta=dict(res.headers)
  except urllib.error.HTTPError as res:status=res.code;text=res.read().decode();meta=dict(res.headers)
  body=json.loads(text)if text.startswith('{')else text
- audit.append({'method':'GET'if data is None else'POST','path':path,'request':data,'status':status,'response':body,'headers':{k:v for k,v in meta.items()if k.lower()in ['content-type','cache-control','x-dsh-go-guard']},'elapsedSeconds':time.monotonic()-started});save('http-audit.json',audit)
+ audit.append({'method':'GET'if data is None else'POST','path':path,'request':data,'status':status,'response':body,'headers':{k:v for k,v in meta.items()if k.lower()in ['content-type','cache-control','x-dsh-fan-guard']},'elapsedSeconds':time.monotonic()-started});save('http-audit.json',audit)
  return status,body
 def clean(body):
  serialized=json.dumps(body);found=[marker for marker in inputs['hidden']if marker in serialized]

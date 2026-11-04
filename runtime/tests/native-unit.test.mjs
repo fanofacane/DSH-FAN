@@ -1,4 +1,4 @@
-// Unit tests for the dsh-go-bridge native plugin modules (no DSH needed).
+// Unit tests for the dsh-fan-bridge native plugin modules (no DSH needed).
 //   node --test runtime/tests/native-unit.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -7,7 +7,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Duplex } from "node:stream";
 
-const LIB = new URL("../bridge/dsh-go-bridge/lib/native/", import.meta.url);
+const LIB = new URL("../bridge/dsh-fan-bridge/lib/native/", import.meta.url);
 const { checkManifest, parseManifest, renderPlugin } = await import(new URL("manifest.js", LIB));
 const { checkEffects, normalize, splitPending, validate } = await import(new URL("effects.js", LIB));
 const util = await import(new URL("util.js", LIB));
@@ -17,18 +17,18 @@ const { WsConnection, encodeFrame } = await import(new URL("ws.js", LIB));
 
 const CAPS = { versions: [1], app: "0.10.0", locale: "zh-CN", key: "k" };
 const LIVE0 = { panels: new Map(), strips: new Set(), handlers: new Set(), degraded: false, runtimeIssues: [] };
-const tmp = mkdtempSync(join(tmpdir(), "dsh-go-native-unit-"));
+const tmp = mkdtempSync(join(tmpdir(), "dsh-fan-native-unit-"));
 process.on("exit", () => rmSync(tmp, { recursive: true, force: true }));
 const codes = (issues) => issues.map((i) => `${i.code}@${i.path}`);
 
-function pkgDir(name, dshGo, extra = {}) {
+function pkgDir(name, dshFan, extra = {}) {
   const dir = join(tmp, name.replace("/", "__"));
   mkdirSync(dir, { recursive: true });
   for (const [rel, content] of Object.entries(extra)) {
     mkdirSync(join(dir, rel, ".."), { recursive: true });
     writeFileSync(join(dir, rel), content);
   }
-  const pkg = { name, version: "1.0.0", dshGo };
+  const pkg = { name, version: "1.0.0", dshFan };
   writeFileSync(join(dir, "package.json"), JSON.stringify(pkg));
   writeFileSync(join(dir, "index.js"), "export function apply() {}\n");
   return { dir, pkg };
@@ -156,7 +156,7 @@ test("manifest: valid manifest renders with locale and ready flags", () => {
   assert.equal(row.title, "用量");
   assert.deepEqual(row.contributes["composer.actions"][0], { id: "a", label: "甲", effect: [{ type: "insert", text: "x" }], ready: true });
   assert.equal(row.contributes["composer.actions"][1].ready, false);
-  assert.ok(codes(row.issues).includes("no-handler@/dshGo/contributes/composer.actions/1"));
+  assert.ok(codes(row.issues).includes("no-handler@/dshFan/contributes/composer.actions/1"));
   assert.deepEqual(row.contributes.panels[0], { id: "p", title: "面板", placement: ["session.tab"], ready: false, live: false });
   assert.equal(row.contributes["composer.strip"][0].tappable, true);
   const live = { ...LIVE0, panels: new Map([["p", { data: true }]]), handlers: new Set(["b"]) };
@@ -189,25 +189,25 @@ test("manifest: per-item validation, caps, truncation and issues", () => {
   const parsed = parseManifest(pkg, dir);
   const got = codes(parsed.issues);
   for (const want of [
-    "unknown-field@/dshGo/extra",
-    "invalid-field@/dshGo/wants/1",
-    "duplicate-id@/dshGo/contributes/composer.actions/1/id",
-    "invalid-field@/dshGo/contributes/composer.actions/2/id",
-    "invalid-field@/dshGo/contributes/composer.actions/3/effect",
-    "too-many@/dshGo/contributes/composer.actions/4",
-    "missing-field@/dshGo/contributes/message.actions/0/label",
-    "invalid-field@/dshGo/contributes/composer.strip/0/panel",
-    "too-many@/dshGo/contributes/composer.strip/1",
-    "invalid-field@/dshGo/contributes/panels/0/placement/1",
-    "view-file@/dshGo/contributes/panels/0/view",
-    "unknown-surface@/dshGo/contributes/pets",
+    "unknown-field@/dshFan/extra",
+    "invalid-field@/dshFan/wants/1",
+    "duplicate-id@/dshFan/contributes/composer.actions/1/id",
+    "invalid-field@/dshFan/contributes/composer.actions/2/id",
+    "invalid-field@/dshFan/contributes/composer.actions/3/effect",
+    "too-many@/dshFan/contributes/composer.actions/4",
+    "missing-field@/dshFan/contributes/message.actions/0/label",
+    "invalid-field@/dshFan/contributes/composer.strip/0/panel",
+    "too-many@/dshFan/contributes/composer.strip/1",
+    "invalid-field@/dshFan/contributes/panels/0/placement/1",
+    "view-file@/dshFan/contributes/panels/0/view",
+    "unknown-surface@/dshFan/contributes/pets",
   ]) assert.ok(got.includes(want), `${want} in ${got.join(", ")}`);
   assert.deepEqual(parsed.items["composer.actions"].map((x) => x.id), ["a", "c"]);
   assert.equal(parsed.items["composer.actions"][1].effect, undefined, "invalid static effect dropped, item kept");
   assert.deepEqual(parsed.wants, ["draft"]);
   const row = renderPlugin(parsed, CAPS, LIVE0);
   assert.equal(row.contributes["composer.actions"][0].label, "一二三四五六七八九十");
-  assert.ok(codes(row.issues).includes("too-long@/dshGo/contributes/composer.actions/0/label"));
+  assert.ok(codes(row.issues).includes("too-long@/dshFan/contributes/composer.actions/0/label"));
   assert.deepEqual(row.contributes.panels[0].placement, ["features"]);
   assert.equal(row.contributes["composer.strip"][0].ready, true, "static text makes a strip ready");
 });
@@ -268,7 +268,7 @@ test("core: scan, cache invalidation by toggle and package.json edit", async () 
   assert.notEqual(c2.rev, c1.rev);
   host.entries[1].disabled = false;
   core.markDirty();
-  writeFileSync(join(b.dir, "package.json"), JSON.stringify({ ...b.pkg, dshGo: { v: 1, title: "B2", contributes: {} } }));
+  writeFileSync(join(b.dir, "package.json"), JSON.stringify({ ...b.pkg, dshFan: { v: 1, title: "B2", contributes: {} } }));
   utimesSync(join(b.dir, "package.json"), new Date(), new Date(Date.now() + 5000));
   core.markDirty();
   const c3 = core.contributions(CAPS);
@@ -447,9 +447,9 @@ test("checkManifest: SDK entry (assumed handlers, static view files)", () => {
   const r = checkManifest(pkg, dir);
   assert.equal(r.state, "ok");
   assert.equal(r.plugin.contributes["composer.actions"][0].ready, true, "handlers assumed");
-  assert.deepEqual(codes(r.issues), ["view-file@/dshGo/contributes/panels/0/view", "too-many@/dshGo/contributes/panels/1/view"]);
+  assert.deepEqual(codes(r.issues), ["view-file@/dshFan/contributes/panels/0/view", "too-many@/dshFan/contributes/panels/1/view"]);
   const strict = checkManifest(pkg, dir, { handlers: [], locale: "en" });
-  assert.ok(codes(strict.issues).includes("no-handler@/dshGo/contributes/composer.actions/0"));
+  assert.ok(codes(strict.issues).includes("no-handler@/dshFan/contributes/composer.actions/0"));
   assert.deepEqual(checkManifest({ name: "x" }, dir), { state: "absent", plugin: null, issues: [] });
   assert.equal(checkEffects({ insert: "x" }, { panels: new Set() }).effects[0].type, "insert");
 });

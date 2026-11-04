@@ -18,10 +18,10 @@ for name,target in [('wave10-core-boundary-plugin',third),('wave10-core-media-wr
 (profile/'package.json').write_text(json.dumps({'name':'own-r5-core-profile','version':'1.0.0','private':True,'dependencies':{'wave10-core-boundary-plugin':'1.0.0','wave10-core-media-wrapper':'1.0.0'},'dsh':{'profile':{'bundles':['@deepseek-ai/dsh-base','@deepseek-ai/dsh-web-app','wave10-core-boundary-plugin','wave10-core-media-wrapper','@deepseek-ai/dsh-experimental-session-search']}}}))
 active=private/'active-bridge';active.symlink_to(a.old_bridge.resolve(),target_is_directory=True)
 patches=[{'id':x,'disabled':True} for x in ['session-title-llm','llm-pi-ai','llm-deepseek-account','session-telemetry-otel','web-search-deepseek','web-deepseek-api','web-fetch-http','tool-web']]
-patches += [{'insert':[{'id':'dsh-go-bridge','name':str(active/'lib/index.js')},{'id':'r5-core-observer','name':str(observer/'observer.mjs')}]}]
+patches += [{'insert':[{'id':'dsh-fan-bridge','name':str(active/'lib/index.js')},{'id':'r5-core-observer','name':str(observer/'observer.mjs')}]}]
 (profile/'cordis.patch.yml').write_text(json.dumps(patches))
 env={k:os.environ[k] for k in ['PATH','LANG','LC_ALL','TMPDIR'] if k in os.environ};env.update({'TZ':'Asia/Shanghai','DSH_HOME':str(home),'DSH_AGENTS_HOME':str(agents),'DSH_TELEMETRY_DISABLED':'1','UV_USE_IO_URING':'0','CORE_FIXTURE_BRIDGE':str(active)})
-base='http://127.0.0.1:'+str(a.port);route='/dsh-go/v1/plugin-config';audit=[];snapshots=[];cleanup=[];core=['webserver','connection','credentials','sandbox-policy','fs-sandbox','approval','system-prompt'];old={}
+base='http://127.0.0.1:'+str(a.port);route='/dsh-fan/v1/plugin-config';audit=[];snapshots=[];cleanup=[];core=['webserver','connection','credentials','sandbox-policy','fs-sandbox','approval','system-prompt'];old={}
 sha=lambda data:hashlib.sha256(data).hexdigest()
 def identity(pid):
  try:
@@ -70,7 +70,7 @@ def before(op,stage,proof):
  save('baseline.json',{'catalogEntries':len(catalog['entries']),'configurable':sum(bool(x['configurable']) for x in catalog['entries']),'coreStatus':{k:v['status'] for k,v in old.items()},'readOnly':True})
 def after(op,stage,proof):
  baseline=snapshot('before-r5-denials');status,catalog=request(op,stage,route);assert status==200;ids={x['entryId'] for x in catalog['entries']}
- assert not (set(core)|{'optional-session-query-sqlite','optional-tool-session-query','dsh-go-bridge','r5-core-observer'})&ids,ids
+ assert not (set(core)|{'optional-session-query-sqlite','optional-tool-session-query','dsh-fan-bridge','r5-core-observer'})&ids,ids
  assert {'own-config-plugin','dsh-media'}<=ids,ids
  assert all(x['kind']=='plugin' and x['owner'] and x['source']=='external-package' for x in catalog['entries'])
  for id in core+['optional-session-query-sqlite','optional-tool-session-query','r5-core-observer']:
@@ -84,7 +84,7 @@ def after(op,stage,proof):
  status,changed=request(op,stage,route+'/own-config-plugin',{'revision':own['revision'],'ops':[{'op':'set','path':['title'],'value':'saved externally owned plugin'},{'op':'set','path':['count'],'value':2}]});assert status==200 and changed['value']['count']==2
  assert request(op,stage,route+'/own-config-plugin',{'revision':own['revision'],'ops':[{'op':'set','path':['count'],'value':3}]})[0]==409
  assert request(op,stage,route+'/own-config-plugin',{'revision':changed['revision'],'ops':[{'op':'set','path':['secret'],'value':'SYNTHETIC_DENIED'}]})[0]==400
- status,media=request(op,stage,route+'/dsh-media');assert status==200 and media['owner']=='dsh-media' and 'dsh-go/media/catalog' in json.dumps(media['schema'])
+ status,media=request(op,stage,route+'/dsh-media');assert status==200 and media['owner']=='dsh-media' and 'dsh-fan/media/catalog' in json.dumps(media['schema'])
  status,media2=request(op,stage,route+'/dsh-media',{'revision':media['revision'],'ops':[{'op':'set','path':['limits','maxImages'],'value':1}]});assert status==200 and media2['value']['limits']['maxImages']==1
  assert request(op,stage,route+'/dsh-media',{'revision':media2['revision'],'ops':[{'op':'set','path':['credentials','slot1','apiKey'],'value':'SYNTHETIC_DENIED'}]})[0]==400
  assert request(op,stage,route,headers={'Origin':'https://evil.invalid'})[0]==403

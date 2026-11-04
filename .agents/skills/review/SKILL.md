@@ -3,7 +3,7 @@ name: review
 description: "Review or de-slop concrete changes in fanofacane/dsh-fan at maintainer level: branches, commit ranges, patch files, staged or unstaged worktrees, and scoped repository-hygiene requests. Use for evidence-first correctness, contract, repository-rule, process, and behavior-preserving cleanup review, including debug residue, dead or duplicate code, speculative abstractions, stale comments or tests, and unrelated diff churn. Do not use for abstract designs with no concrete repository artifact; use audit for repository-wide assessments and vuln-check for security-only checks."
 ---
 
-# dsh-Go Deslop 与维护者审查
+# DSH Fan Deslop 与维护者审查
 按规则 → 独立取证 → 叙事对账 → 验证 → 裁决工作。文件引用一律仓库根相对；不得跳过脚本或伪称运行。
 
 ## 全局不变量与模式

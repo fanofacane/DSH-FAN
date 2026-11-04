@@ -3,7 +3,7 @@ ap=argparse.ArgumentParser();ap.add_argument("--prefix",type=pathlib.Path,requir
 a.repo=pathlib.Path(__file__).resolve().parents[2];a.prefix=a.prefix.resolve();a.output=a.output.resolve();a.output.mkdir(parents=True,exist_ok=True)
 with tempfile.TemporaryDirectory(prefix="delete-live-") as tmp:
  home=pathlib.Path(tmp);diag=a.repo/"runtime/tests/fixtures/session-deletion-observer.mjs"
- patch=home/"bridge.yml";patch.write_text("- insert:\n    - id: dsh-go-bridge\n      name: "+str(a.repo/"runtime/bridge/dsh-go-bridge/lib/index.js")+"\n    - id: diagnostic\n      name: "+str(diag)+"\n")
+ patch=home/"bridge.yml";patch.write_text("- insert:\n    - id: dsh-fan-bridge\n      name: "+str(a.repo/"runtime/bridge/dsh-fan-bridge/lib/index.js")+"\n    - id: diagnostic\n      name: "+str(diag)+"\n")
  sock=socket.socket();sock.bind(("127.0.0.1",0));port=sock.getsockname()[1];sock.close()
  log=a.output/"host.log"
  with log.open("w") as f:
@@ -28,8 +28,8 @@ with tempfile.TemporaryDirectory(prefix="delete-live-") as tmp:
     status,body=rpc("session/create",{"request":{"sessionId":id,"cwd":tmp}})
     assert status==200 and body["result"]["ok"] is True
    def observe(action,id,extra=""):return request("/local-deletion-test/"+action+"?id="+id+extra)
-   def delete(id):return request("/dsh-go/v1/sessions/delete",{"sessionId":id})
-   assert request("/dsh-go/v1/sessions/deletion")== (200,{"supported":True,"version":1})
+   def delete(id):return request("/dsh-fan/v1/sessions/delete",{"sessionId":id})
+   assert request("/dsh-fan/v1/sessions/deletion")== (200,{"supported":True,"version":1})
    create("fresh")
    fresh=delete("fresh")
    state=observe("snapshot","fresh")[1]

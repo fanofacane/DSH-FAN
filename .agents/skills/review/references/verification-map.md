@@ -1,4 +1,4 @@
-# dsh-Go 验证映射
+# DSH Fan 验证映射
 先读当前任务清单第 4 节、tooling 脚本与 .github/workflows；本表仅选择方法，漂移依仓库真源并记报告。
 
 ## 禁止虚构

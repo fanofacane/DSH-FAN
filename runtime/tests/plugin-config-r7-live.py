@@ -38,11 +38,11 @@ if a.mode=='optional-profile':
  optional_name='@deepseek-ai/dsh-experimental-api-speech-to-text';optional_copy=private/'optional-profile-copy';shutil.copytree(prefix/'node_modules'/optional_name,optional_copy,ignore=shutil.ignore_patterns('node_modules'));(optional_copy/'node_modules').symlink_to(prefix/'node_modules',target_is_directory=True)
  (profile/'node_modules/@deepseek-ai').mkdir();(profile/'node_modules'/optional_name).symlink_to(optional_copy,target_is_directory=True);manifest_value['dependencies'][optional_name]='file:'+str(optional_copy);manifest.write_text(json.dumps(manifest_value))
 phone={'id':'dsh-app-phone','name':'@deepseek-ai/dsh-mcp-client','config':{'transport':'stdio','serverName':'wave10_phone','command':shutil.which('node'),'args':[str(mcp)],'cwd':str(workspace),'env':{'R7_MCP_RECORD':str(mcp_record)},'failOnStartupError':True,'reconnect':{'enabled':False}}}
-rows=[{'id':x,'disabled':True}for x in ['session-title-llm','llm-pi-ai','llm-deepseek-account','session-telemetry-otel','web-search-deepseek','web-deepseek-api','web-fetch-http','tool-web']]+[{'insert':[phone,{'id':'bare-overlay','name':'wave10-r7-fixture','config':{'count':1}},{'id':'disabled-owner','name':'wave10-r7-fixture','config':{'count':1}},{'id':'r7-observer','name':str(observer/'index.mjs')},{'id':'dsh-go-bridge','name':str(a.bridge.resolve()/'lib/index.js')}]}]
+rows=[{'id':x,'disabled':True}for x in ['session-title-llm','llm-pi-ai','llm-deepseek-account','session-telemetry-otel','web-search-deepseek','web-deepseek-api','web-fetch-http','tool-web']]+[{'insert':[phone,{'id':'bare-overlay','name':'wave10-r7-fixture','config':{'count':1}},{'id':'disabled-owner','name':'wave10-r7-fixture','config':{'count':1}},{'id':'r7-observer','name':str(observer/'index.mjs')},{'id':'dsh-fan-bridge','name':str(a.bridge.resolve()/'lib/index.js')}]}]
 patch=profile/'cordis.patch.yml';patch.write_text(json.dumps(rows));home_patch=home/'cordis.patch.yml';home_patch.write_text(json.dumps([{'id':'home-covered','config':{'count':2}},{'id':'home-same','config':{'count':1}},{'id':'flag-only','disabled':False},{'insert':[{'id':'home-insert','name':'wave10-r7-fixture','config':{'count':1}}]}]))
 overlay=private/'overlay.yml';overlay.write_text(json.dumps([{'id':'cli-covered','config':{'count':3}},{'id':'speech-to-text-sensevoice','config':{'dataRoot':str(private/'sensevoice'),'modelDirectory':str(private/'offline-models'),'vadModelPath':str(private/'offline-vad.onnx')}},{'insert':[{'id':'cli-insert','name':'wave10-r7-fixture','config':{'count':1}}]}]))
 env={k:os.environ[k]for k in ['PATH','LANG','LC_ALL','TMPDIR']if k in os.environ};env.update({'TZ':'Asia/Shanghai','DSH_HOME':str(home),'DSH_AGENTS_HOME':str(agents),'DSH_TELEMETRY_DISABLED':'1','UV_USE_IO_URING':'0','R7_BRIDGE':str(a.bridge.resolve())})
-base='http://127.0.0.1:'+str(a.port);route='/dsh-go/v1/plugin-config';audit=[];snapshots=[];cleanup=[];sha=lambda b:hashlib.sha256(b).hexdigest()
+base='http://127.0.0.1:'+str(a.port);route='/dsh-fan/v1/plugin-config';audit=[];snapshots=[];cleanup=[];sha=lambda b:hashlib.sha256(b).hexdigest()
 def save(name,value):(evidence/name).write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
 def identity(pid):
  try:
@@ -61,7 +61,7 @@ def request(op,stage,path,data=None,method=None,headers=None):
  except urllib.error.HTTPError as r:status=r.code;text=r.read().decode();meta=dict(r.headers)
  body=json.loads(text)if text.startswith('{')else text
  assert not any(x in text for x in ['SYNTHETIC_R6_EXPLICIT','SYNTHETIC_R6_DEFAULT','SYNTHETIC_R6_EXCEPTION','SYNTHETIC_R6_DENIED']),text[:200]
- rec={'stage':stage,'method':method or('GET'if data is None else'POST'),'path':path,'request':data,'status':status,'headers':{k:v for k,v in meta.items()if k.lower()in['content-type','cache-control','x-dsh-go-guard']},'response':body,'elapsedSeconds':time.monotonic()-started};audit.append(rec);save('http-audit.json',audit);return status,body,meta
+ rec={'stage':stage,'method':method or('GET'if data is None else'POST'),'path':path,'request':data,'status':status,'headers':{k:v for k,v in meta.items()if k.lower()in['content-type','cache-control','x-dsh-fan-guard']},'response':body,'elapsedSeconds':time.monotonic()-started};audit.append(rec);save('http-audit.json',audit);return status,body,meta
 def get(op,stage,id='normal'):
  status,body,_=request(op,stage,route+'/'+id);assert status==200,(id,status,body);return body
 def post(op,stage,id,view,ops):return request(op,stage,route+'/'+id,{'revision':view['revision'],'ops':ops})

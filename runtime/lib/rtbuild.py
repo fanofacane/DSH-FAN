@@ -148,7 +148,7 @@ def cmd_patch_dsh(args):
     if "zzzzzz-session-deletion.diff" in applied:
         # Source-owned companion module, installed only alongside the vetted rc4 seam.
         source = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "session-deletion", "core.mjs")
-        target = os.path.join(args.prefix, "node_modules", "@deepseek-ai", "dsh-session-persistence-jsonl", "lib", "dsh-go-deletion.mjs")
+        target = os.path.join(args.prefix, "node_modules", "@deepseek-ai", "dsh-session-persistence-jsonl", "lib", "dsh-fan-deletion.mjs")
         tmp = target + ".dsh-app-patch"
         with open(source, "rb") as src, open(tmp, "wb") as dst:
             dst.write(src.read())

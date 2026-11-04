@@ -1,8 +1,8 @@
-# dsh-Go 契约门禁
-真源：`runtime/bridge/dsh-go-bridge/`（HTTP 路由）、`apple/Modules/DSHClient` 的公开 API、`apple/App` 的能力状态、`runtime/patches/pins.json`、`apple/App/Localizable.xcstrings`、`apple/Resources/Phone/phone-ios-tools.json`、README.md「开发约定」。本文件仅检查顺序，不存日期化常量；契约变更缺兼容策略/迁移/验证默认阻断。
+# DSH Fan 契约门禁
+真源：`runtime/bridge/dsh-fan-bridge/`（HTTP 路由）、`apple/Modules/DSHClient` 的公开 API、`apple/App` 的能力状态、`runtime/patches/pins.json`、`apple/App/Localizable.xcstrings`、`apple/Resources/Phone/phone-ios-tools.json`、README.md「开发约定」。本文件仅检查顺序，不存日期化常量；契约变更缺兼容策略/迁移/验证默认阻断。
 
 ## 门 1｜桥接 HTTP 契约
-`/dsh-go/v1/*` 路由：路径、方法、鉴权（`connection.requestRejection` 之类的请求拒绝）、状态码、JSON 形状与版本字段、错误码（如 `unavailable`）。
+`/dsh-fan/v1/*` 路由：路径、方法、鉴权（`connection.requestRejection` 之类的请求拒绝）、状态码、JSON 形状与版本字段、错误码（如 `unavailable`）。
 阻断：单端改路由/形状/错误码而另一端未同步；无版本迁移；测试未覆盖拒绝、未连接与主机拒绝路径。
 
 ## 门 2｜客户端公开 API

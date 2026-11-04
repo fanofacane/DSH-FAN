@@ -257,7 +257,7 @@ test('chosen service identity and credential stay bound; output exposes only med
     hostStateDir: join(f.home, 'media', 'dsh-media'), sessionId: 'session-A',
   });
   assert.deepEqual(definition.output.render(args, result), [{ type: 'text', text: result.text }]);
-  assert.deepEqual(definition.output.presentationMeta(args, result), { 'dsh-go/media': result.meta });
+  assert.deepEqual(definition.output.presentationMeta(args, result), { 'dsh-fan/media': result.meta });
   assert.equal(JSON.stringify(result).includes('unit-test-key'), false);
   assert.ok(f.policyReads() > 1);
 });

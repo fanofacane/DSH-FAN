@@ -27,7 +27,7 @@ inputs = [repo / x for x in [
     'runtime/ios/guest/fetch-polyfill.js',
 ]]
 inputs += sorted((repo / 'runtime/patches').glob('*.diff'))
-inputs += sorted(p for p in (repo / 'runtime/bridge/dsh-go-bridge').rglob('*') if p.is_file())
+inputs += sorted(p for p in (repo / 'runtime/bridge/dsh-fan-bridge').rglob('*') if p.is_file())
 inputs_hash = hashlib.sha256(b''.join(p.read_bytes() for p in inputs)).hexdigest()
 with tarfile.open(archive) as tar:
     entries = tar.getmembers()
@@ -36,7 +36,7 @@ with tarfile.open(archive) as tar:
     if any(any(x in name for x in forbidden) for name in names):
         raise SystemExit('probe-only file found in production rootfs')
     for name in ('opt/node/bin/node', 'lib/zero_free.so', 'lib/wasm-polyfill.js',
-                 'lib/fetch-polyfill.js', 'opt/dsh-go/dsh-go-bridge/lib/index.js',
+                 'lib/fetch-polyfill.js', 'opt/dsh-fan/dsh-fan-bridge/lib/index.js',
                  'usr/share/zoneinfo/Asia/Shanghai', 'usr/share/zoneinfo/America/Los_Angeles'):
         if name not in names:
             raise SystemExit('missing production file: ' + name)

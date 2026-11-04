@@ -226,7 +226,7 @@ test('as a preload: active for `web` only, inert for other commands', () => {
   assert.match(other.stdout, /^patched false$/m);
   const off = spawnSync(process.execPath, ['--import', MODULE, file, 'web'], {
     encoding: 'utf8',
-    env: { ...process.env, DSH_GO_BOOT_CACHE: '0' },
+    env: { ...process.env, DSH_FAN_BOOT_CACHE: '0' },
   });
   assert.match(off.stdout, /^patched false$/m);
 });
@@ -314,7 +314,7 @@ console.log(JSON.stringify({ value, first, final: stats }));
 console.log('dsh web: http://127.0.0.1:1/?token=test');
 `);
   try {
-    const result = spawnSync(process.execPath, [file, 'web'], { encoding: 'utf8', env: { ...process.env, DSH_GO_BOOT_CACHE: '1' } });
+    const result = spawnSync(process.execPath, [file, 'web'], { encoding: 'utf8', env: { ...process.env, DSH_FAN_BOOT_CACHE: '1' } });
     assert.equal(result.status, 0, result.stderr); const data = JSON.parse(result.stdout.split('\n')[0]);
     assert.equal(data.value, t.nm + '/dep/package.json'); assert.ok(data.first > 0); assert.equal(data.final, data.first);
   } finally { fs.rmSync(t.base, { recursive: true, force: true }); }

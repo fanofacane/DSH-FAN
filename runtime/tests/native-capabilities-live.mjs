@@ -1,25 +1,25 @@
 // Native plugins v1.2 (git 55ca555:docs/design/native-plugins-protocol.md §11) against a running `dsh web` with
-// dsh-go-bridge and runtime/tests/fixtures/native-voice (runtime/tests/run-native-tests.sh).
+// dsh-fan-bridge and runtime/tests/fixtures/native-voice (runtime/tests/run-native-tests.sh).
 // Node built-ins only.
 //
 //   node runtime/tests/native-capabilities-live.mjs <base-url> <launch-token>
 //
-// DSH_GO_BRIDGE_LIB points at the bridge's lib/native directory when the repo is not around
+// DSH_FAN_BRIDGE_LIB points at the bridge's lib/native directory when the repo is not around
 // (runtime/test-host.sh runs it inside the rootfs).
 import http from "node:http";
 import { randomBytes } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
-const WS = await import(process.env.DSH_GO_BRIDGE_LIB
-  ? pathToFileURL(`${process.env.DSH_GO_BRIDGE_LIB.replace(/\/$/, "")}/ws.js`).href
-  : new URL("../bridge/dsh-go-bridge/lib/native/ws.js", import.meta.url));
+const WS = await import(process.env.DSH_FAN_BRIDGE_LIB
+  ? pathToFileURL(`${process.env.DSH_FAN_BRIDGE_LIB.replace(/\/$/, "")}/ws.js`).href
+  : new URL("../bridge/dsh-fan-bridge/lib/native/ws.js", import.meta.url));
 const [baseArg, token] = process.argv.slice(2);
 if (!baseArg || !token) {
   console.error("usage: native-capabilities-live.mjs <base-url> <launch-token>");
   process.exit(2);
 }
 const base = new URL(baseArg);
-const PKG = "dsh-go-fixture-voice";
+const PKG = "dsh-fan-fixture-voice";
 const CAPS = "v=1&app=0.10.0&locale=zh-CN";
 const ALL = ["audio", "voice", "micro", "overlay"];
 
@@ -57,7 +57,7 @@ function request(method, path, { headers = {}, body } = {}) {
 function wsConnect(headers) {
   return new Promise((resolve, reject) => {
     const req = http.request({
-      host: base.hostname, port: base.port, path: "/dsh-go/v1/stream",
+      host: base.hostname, port: base.port, path: "/dsh-fan/v1/stream",
       headers: { host: base.host, connection: "Upgrade", upgrade: "websocket", "sec-websocket-version": "13", "sec-websocket-key": randomBytes(16).toString("base64"), ...headers },
     });
     req.on("response", (res) => { res.resume(); resolve({ status: res.statusCode }); });
@@ -113,11 +113,11 @@ check(login.status === 303 && setCookie, `GET /?token -> ${login.status}`);
 if (!setCookie) process.exit(1);
 const C = { cookie: setCookie.split(";")[0] };
 const get = (path, headers = {}) => request("GET", path, { headers: { ...C, ...headers } });
-const invoke = (body) => request("POST", "/dsh-go/v1/invoke", { headers: C, body: { v: 1, locale: "zh-CN", ...body } });
+const invoke = (body) => request("POST", "/dsh-fan/v1/invoke", { headers: C, body: { v: 1, locale: "zh-CN", ...body } });
 await sleep(400);
 
 section("declarations: kept for every app, ready only for an app that has the feature");
-const plain = await get(`/dsh-go/v1/contributions?${CAPS}`);
+const plain = await get(`/dsh-fan/v1/contributions?${CAPS}`);
 const row = plain.json?.plugins?.find((p) => p.pkg === PKG);
 check(row?.state === "ok" && JSON.stringify(row.capabilities) === JSON.stringify(ALL), `capabilities ${JSON.stringify(row?.capabilities)}`);
 check(JSON.stringify(row?.contributes.media) === '[{"id":"speech"}]' && JSON.stringify(row?.contributes.micro) === '[{"id":"caption"}]', "media and micro declared");
@@ -125,7 +125,7 @@ check(JSON.stringify(row?.contributes.overlays) === '[{"id":"line","channel":"ca
 const readPlain = row?.contributes["message.actions"].find((a) => a.id === "read");
 check(readPlain?.ready === false && JSON.stringify(readPlain.requires) === '["audio"]', "read: requires audio, not ready without it");
 check(row?.contributes.panels[0]?.micro === "caption", "panel names its caption channel");
-const featured = await get(`/dsh-go/v1/contributions?${CAPS}&features=${ALL.join(",")}`);
+const featured = await get(`/dsh-fan/v1/contributions?${CAPS}&features=${ALL.join(",")}`);
 const readReady = featured.json?.plugins?.find((p) => p.pkg === PKG)?.contributes["message.actions"].find((a) => a.id === "read");
 check(readReady?.ready === true, "read is ready for an app with audio");
 check(plain.json?.rev !== featured.json?.rev || plain.headers.etag !== undefined, "separate cache entries per feature set");
@@ -150,7 +150,7 @@ const tap = await invoke({ pkg: PKG, id: "read", surface: "message.actions", sco
 const [play, voice, overlay] = tap.json?.effects ?? [];
 check(tap.status === 200 && play?.type === "audio" && play.op === "play" && play.src === "media:speech" && play.key === "m_m42", `play effect ${JSON.stringify(play)}`);
 check(typeof play?.lease === "string" && play.lease.length >= 32 && voice?.lease === play.lease && overlay?.lease === play.lease, "one unguessable lease for the three roles");
-const mediaPath = `/dsh-go/v1/media/${PKG}/speech?lease=${encodeURIComponent(play?.lease ?? "")}&key=m_m42`;
+const mediaPath = `/dsh-fan/v1/media/${PKG}/speech?lease=${encodeURIComponent(play?.lease ?? "")}&key=m_m42`;
 const anon = await request("GET", mediaPath);
 check(anon.status === 401, `media without the cookie -> ${anon.status}`);
 const evil = await get(mediaPath, { origin: "http://evil.example" });
@@ -205,7 +205,7 @@ const tap2 = await invoke({ pkg: PKG, id: "read", surface: "message.actions", sc
 const lease2 = tap2.json?.effects?.[0]?.lease;
 ws.close();
 await sleep(200);
-const gone = await get(`/dsh-go/v1/media/${PKG}/speech?lease=${encodeURIComponent(lease2 ?? "")}&key=m_m43`);
+const gone = await get(`/dsh-fan/v1/media/${PKG}/speech?lease=${encodeURIComponent(lease2 ?? "")}&key=m_m43`);
 check(lease2 && gone.status === 404, `media after the socket closed -> ${gone.status}`);
 
 console.log(`== native v1.2 (live): ${passed} passed, ${failed} failed`);

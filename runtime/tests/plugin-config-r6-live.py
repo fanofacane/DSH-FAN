@@ -15,12 +15,12 @@ for name,target in [('wave10-r6-fixture',fixture),('dsh-media',media)]:(profile/
 manifest=profile/'package.json';manifest.write_text(json.dumps({'name':'own-r6-profile','version':'1.0.0','private':True,'dependencies':{'wave10-r6-fixture':'1.0.0','dsh-media':'0.1.0-m0.2'},'dsh':{'profile':{'bundles':['@deepseek-ai/dsh-base','@deepseek-ai/dsh-web-app']}}}))
 raw={'title':'normal','count':1,'explicit':'SYNTHETIC_R6_EXPLICIT','nil':None,'empty':'','bool':False,'zero':0,'equal':'SYNTHETIC_R6_DEFAULT','boundary':'','structEmpty':{},'structArray':[],'structUnknown':{'unused':'public'},'structNonempty':{'token':'SYNTHETIC_R6_EXPLICIT'}}
 inserts=[{'id':id,'name':'wave10-r6-fixture','config':raw if id=='normal' else {'count':1}} for id in ['normal','home-covered','home-same','cli-covered','flag-only']]
-inserts += [{'id':'fallback-label','name':'wave10-r6-fixture/plain'},{'id':'dsh-media','name':'dsh-media','config':{'credentials':{'slot1':{'apiKey':''}}}},{'id':'r6-observer','name':str(observer/'index.mjs')},{'id':'dsh-go-bridge','name':str(a.bridge.resolve()/'lib/index.js')}]
+inserts += [{'id':'fallback-label','name':'wave10-r6-fixture/plain'},{'id':'dsh-media','name':'dsh-media','config':{'credentials':{'slot1':{'apiKey':''}}}},{'id':'r6-observer','name':str(observer/'index.mjs')},{'id':'dsh-fan-bridge','name':str(a.bridge.resolve()/'lib/index.js')}]
 rows=[{'id':x,'disabled':True} for x in ['session-title-llm','llm-pi-ai','llm-deepseek-account','session-telemetry-otel','web-search-deepseek','web-deepseek-api','web-fetch-http','tool-web']]+[{'insert':inserts}]
 patch=profile/'cordis.patch.yml';patch.write_text(json.dumps(rows));(home/'cordis.patch.yml').write_text(json.dumps([{'id':'home-covered','config':{'count':2}},{'id':'home-same','config':{'count':1}},{'id':'flag-only','disabled':False},{'insert':[{'id':'home-insert','name':'wave10-r6-fixture','config':{'count':1}}]}]))
 overlay=private/'overlay.yml';overlay.write_text(json.dumps([{'id':'cli-covered','config':{'count':3}},{'insert':[{'id':'cli-insert','name':'wave10-r6-fixture','config':{'count':1}}]}]))
 env={k:os.environ[k] for k in ['PATH','LANG','LC_ALL','TMPDIR'] if k in os.environ};env.update({'TZ':'Asia/Shanghai','DSH_HOME':str(home),'DSH_AGENTS_HOME':str(agents),'DSH_TELEMETRY_DISABLED':'1','UV_USE_IO_URING':'0','R6_BRIDGE':str(a.bridge.resolve()),'R6_MEDIA':str(media)})
-base='http://127.0.0.1:'+str(a.port);route='/dsh-go/v1/plugin-config';audit=[];snapshots=[];cleanup=[];restore_patch=None;sha=lambda b:hashlib.sha256(b).hexdigest()
+base='http://127.0.0.1:'+str(a.port);route='/dsh-fan/v1/plugin-config';audit=[];snapshots=[];cleanup=[];restore_patch=None;sha=lambda b:hashlib.sha256(b).hexdigest()
 def save(name,value):(evidence/name).write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
 def identity(pid):
  try:
@@ -39,7 +39,7 @@ def request(op,stage,path,data=None,method=None,headers=None):
  except urllib.error.HTTPError as r:status=r.code;text=r.read().decode();meta=dict(r.headers)
  body=json.loads(text) if text.startswith('{') else text
  assert not any(x in text for x in ['SYNTHETIC_R6_EXPLICIT','SYNTHETIC_R6_DEFAULT','SYNTHETIC_R6_EXCEPTION','SYNTHETIC_R6_DENIED']),text[:200]
- record={'stage':stage,'method':method or ('GET' if data is None else 'POST'),'path':path,'request':data,'status':status,'headers':{k:v for k,v in meta.items() if k.lower() in ['content-type','cache-control','x-dsh-go-guard']},'response':body,'elapsedSeconds':time.monotonic()-started};audit.append(record);save('http-audit.json',audit);return status,body,meta
+ record={'stage':stage,'method':method or ('GET' if data is None else 'POST'),'path':path,'request':data,'status':status,'headers':{k:v for k,v in meta.items() if k.lower() in ['content-type','cache-control','x-dsh-fan-guard']},'response':body,'elapsedSeconds':time.monotonic()-started};audit.append(record);save('http-audit.json',audit);return status,body,meta
 def get(op,stage,id='normal'):
  status,body,_=request(op,stage,route+'/'+id);assert status==200,(id,status,body);return body
 def post(op,stage,view,ops,id='normal'):return request(op,stage,route+'/'+id,{'revision':view['revision'],'ops':ops})
@@ -102,7 +102,7 @@ def first(op,stage):
  status,disposed,_=request(op,stage,'/r6-observer',{},method='POST');assert status==200 and disposed['connectionAbsent'] and disposed['entryDisabled'] and disposed['privateProfileDisabled'],disposed
  # The real upstream named-route guard now lacks its actual service. It remains closed.
  for path in [route,route+'/normal']:
-  status,body,headers=request(op,stage,path);assert status==503 and body['code']=='host-unavailable' and body['message']!=body['code'] and headers.get('content-type','').startswith('application/json') and headers.get('x-dsh-go-guard')=='reject'
+  status,body,headers=request(op,stage,path);assert status==503 and body['code']=='host-unavailable' and body['message']!=body['code'] and headers.get('content-type','').startswith('application/json') and headers.get('x-dsh-fan-guard')=='reject'
  status,body,headers=request(op,stage,route,method='HEAD');assert status==503 and body=='' and headers.get('content-type','').startswith('application/json')
  snapshot('connection-disabled-only-in-private-fixture')
 def restart(op,stage):
@@ -116,7 +116,7 @@ def fallback(op,stage):
  restore_patch=patch.read_bytes()
  status,disposed,_=request(op,stage,'/r6-observer',{},method='POST');assert status==200 and disposed['connectionAbsent'] and disposed['entryDisabled'] and disposed['privateProfileDisabled']
  for path in [route,route+'/normal']:
-  status,body,headers=request(op,stage,path);assert status==503 and body['code']=='host-unavailable' and body['message']!=body['code'] and headers.get('content-type','').startswith('application/json') and headers.get('x-dsh-go-guard')=='reject'
+  status,body,headers=request(op,stage,path);assert status==503 and body['code']=='host-unavailable' and body['message']!=body['code'] and headers.get('content-type','').startswith('application/json') and headers.get('x-dsh-fan-guard')=='reject'
  status,body,headers=request(op,stage,route,method='HEAD');assert status==503 and body=='' and headers.get('content-type','').startswith('application/json')
 try:
  if a.mode=='patched':

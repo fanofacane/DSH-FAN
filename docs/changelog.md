@@ -11,6 +11,9 @@ DSH Fan is a new project built after studying DSH Go and iSH; its history starts
 - 项目命名为 DSH Fan，迁入新仓库 https://github.com/fanofacane/dsh-fan ，继续以 AGPL-3.0-or-later 开源；README 说明参考了 DSH Go 与 iSH，并写明后续方向：手机端助手与可交互的情绪伴侣。
 - The project is now DSH Fan, maintained at https://github.com/fanofacane/dsh-fan and still open source under AGPL-3.0-or-later. The README credits DSH Go and iSH and sets the direction: a phone assistant and an interactive emotional companion.
 
+- 内置引擎桥接改名：`dsh-go-bridge` → `dsh-fan-bridge`，客体路径 `/opt/dsh-go` → `/opt/dsh-fan`，接口 `/dsh-go/v1` → `/dsh-fan/v1`，媒体目录键 `dsh-fan/media/catalog`；引擎补丁重新固定哈希，运行时重新构建。旧版手机说明标记会被自动清理；远程主机上的旧媒体目录键仍可读取。
+- Renamed the bundled engine bridge: `dsh-go-bridge` → `dsh-fan-bridge`, guest path `/opt/dsh-go` → `/opt/dsh-fan`, routes `/dsh-go/v1` → `/dsh-fan/v1`, media catalog key `dsh-fan/media/catalog`. Engine patch pins were re-recorded and the runtime rebuilt. Old phone-instruction markers are cleaned up automatically, and remote hosts' old media catalog key is still read.
+
 - 修复手机控制失效：本机引擎进入安全模式后再也回不到正常模式，安全模式不挂载手机工具，模型因此看不到 `mcp__phone__*`。引擎页和手机控制页现在会提示安全模式，并提供「以正常模式启动」。
 - Fixed phone control: once the local engine entered safe mode it never returned to normal mode, and safe mode leaves out the phone tools, so the model could not see `mcp__phone__*`. The Engine page and Phone control page now show when safe mode is on and offer "Start normally".
 

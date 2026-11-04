@@ -7,15 +7,15 @@ import {mkdtempSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {NativeCore} from '../bridge/dsh-go-bridge/lib/native/core.js';
-import {createNativeRoutes} from '../bridge/dsh-go-bridge/lib/native/routes.js';
-import {effectiveLimits} from '../bridge/dsh-go-bridge/lib/native/limits.js';
-import {normalizeScope} from '../bridge/dsh-go-bridge/lib/native/util.js';
+import {NativeCore} from '../bridge/dsh-fan-bridge/lib/native/core.js';
+import {createNativeRoutes} from '../bridge/dsh-fan-bridge/lib/native/routes.js';
+import {effectiveLimits} from '../bridge/dsh-fan-bridge/lib/native/limits.js';
+import {normalizeScope} from '../bridge/dsh-fan-bridge/lib/native/util.js';
 const hold=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}};
 const panel=(generation,save=()=>({patch:{generation:'done'}}))=>({view:{type:'text',text:generation},data(scope,emit){emit({generation});return()=>{}},actions:{save}});
 async function fixture(t){
  const dir=mkdtempSync(join(tmpdir(),'native-generation-'));
- writeFileSync(join(dir,'package.json'),JSON.stringify({name:'generation-test',version:'1.0.0',dshGo:{v:1,contributes:{panels:[{id:'panel',title:'Panel'},{id:'other',title:'Other'}],'composer.actions':[{id:'go',label:'Go'}]}}}));writeFileSync(join(dir,'index.js'),'');
+ writeFileSync(join(dir,'package.json'),JSON.stringify({name:'generation-test',version:'1.0.0',dshFan:{v:1,contributes:{panels:[{id:'panel',title:'Panel'},{id:'other',title:'Other'}],'composer.actions':[{id:'go',label:'Go'}]}}}));writeFileSync(join(dir,'index.js'),'');
  const entry={options:{name:pathToFileURL(join(dir,'index.js')).href},parent:{tree:{ctx:{baseUrl:pathToFileURL(dir+'/').href}}},fiber:{uid:7}};
  const entries=[entry],disposers=[],warnings=[];
  const core=new NativeCore({get:n=>n==='loader'?{entries:()=>entries}:undefined,logger:{warn(...x){warnings.push(x)}}},effectiveLimits({}),'test');
@@ -25,7 +25,7 @@ async function fixture(t){
  server.on('upgrade',(req,socket,head)=>routes.upgrade(req,socket,head));server.listen(0,'127.0.0.1');await once(server,'listening');
  const port=server.address().port,sockets=[];
  async function stream(){
-  const ws=new WebSocket(`ws://127.0.0.1:${port}/dsh-go/v1/stream`);sockets.push(ws);
+  const ws=new WebSocket(`ws://127.0.0.1:${port}/dsh-fan/v1/stream`);sockets.push(ws);
   const messages=[],waiters=[];
   ws.addEventListener('message',e=>{const m=JSON.parse(e.data),i=waiters.findIndex(w=>w.p(m));if(i<0)messages.push(m);else{const [w]=waiters.splice(i,1);clearTimeout(w.timer);w.resolve(m)}});
   await once(ws,'open');
@@ -34,7 +34,7 @@ async function fixture(t){
   return {welcome,next,send:m=>ws.send(JSON.stringify(m))};
  }
  async function invoke(w,composer=false){
-  const response=await fetch(`http://127.0.0.1:${port}/dsh-go/v1/invoke`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({v:1,pkg:'generation-test',id:composer?'go':'panel',surface:composer?'composer.actions':'panel',...(composer?{}:{action:'save'}),scope:{sessionId:'s'},stream:w?.welcome.conn})});return {status:response.status,...await response.json()};
+  const response=await fetch(`http://127.0.0.1:${port}/dsh-fan/v1/invoke`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({v:1,pkg:'generation-test',id:composer?'go':'panel',surface:composer?'composer.actions':'panel',...(composer?{}:{action:'save'}),scope:{sessionId:'s'},stream:w?.welcome.conn})});return {status:response.status,...await response.json()};
  }
  async function feed(id='panel'){const f=core.feed('generation-test',id,'panel',normalizeScope({sessionId:'s'}),'');f.pin();await f.waitFirst(1000);return f}
  t.after(async()=>{for(const w of sockets)w.close();routes.dispose();core.dispose();while(disposers.length)disposers.pop()();server.closeAllConnections();await new Promise(r=>server.close(r));rmSync(dir,{recursive:true,force:true})});

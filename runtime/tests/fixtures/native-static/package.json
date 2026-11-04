@@ -1,11 +1,11 @@
 {
-  "name": "@dsh-go-fixture/static",
+  "name": "@dsh-fan-fixture/static",
   "version": "2.0.0",
   "private": true,
   "type": "module",
   "main": "index.js",
   "description": "Test-only native plugin (never shipped): manifest only (static effects, static view, assets) plus deliberate manifest mistakes.",
-  "dshGo": {
+  "dshFan": {
     "v": 1,
     "title": { "en": "Static", "zh": "静态插件名字特别特别特别特别特别特别特别特别特别长" },
     "assets": "./assets",

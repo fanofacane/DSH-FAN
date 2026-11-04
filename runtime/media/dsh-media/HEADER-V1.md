@@ -1,6 +1,6 @@
 # dsh-media 参数头 v1
 
-权威规格为 `docs/design/media-generation.md` §4.6，权威共享样例为 `runtime/media/dsh-media/test/fixtures/header_grammar_v1.json`，插件的 `src/header.js` 与它对齐。本文只处理普通用户消息的参数头与安装目录的语法一致性；工具结果继续使用既有 `dsh-go/media` v1。
+权威规格为 `docs/design/media-generation.md` §4.6，权威共享样例为 `runtime/media/dsh-media/test/fixtures/header_grammar_v1.json`，插件的 `src/header.js` 与它对齐。本文只处理普通用户消息的参数头与安装目录的语法一致性；工具结果继续使用既有 `dsh-fan/media` v1。
 
 ## 入口与三种结果
 

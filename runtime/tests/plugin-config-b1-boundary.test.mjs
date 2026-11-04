@@ -6,11 +6,11 @@ import {test} from 'node:test';
 import {readFileSync,readdirSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {createPluginConfig} from '../bridge/dsh-go-bridge/lib/plugin-config.js';
+import {createPluginConfig} from '../bridge/dsh-fan-bridge/lib/plugin-config.js';
 import {withSources} from './plugin-config-source-fixture.mjs';
 const fixtures=fileURLToPath(new URL('./fixtures/plugin-config/schemas/',import.meta.url));
 const marker='B1_SYNTHETIC_INHERITED_SECRET';
-const base='/dsh-go/v1/plugin-config/fixture';
+const base='/dsh-fan/v1/plugin-config/fixture';
 function fixture(graph,{inherited={},user={},resolved,validate=x=>x}={}){
  const raw={...structuredClone(inherited),...structuredClone(user)};
  const schema=Object.assign(validate,{toJSON:()=>structuredClone(graph)});
