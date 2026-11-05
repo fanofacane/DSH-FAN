@@ -27,3 +27,6 @@ runtime/media/dsh-media/node_modules/
 # macOS metadata and private notes
 .DS_Store
 docs/design/ios-native-migration.md
+
+# Local pet artwork is for simulator comparisons only.
+/apple/Resources/PetsLocal/

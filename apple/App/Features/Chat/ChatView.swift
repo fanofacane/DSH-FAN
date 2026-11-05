@@ -108,7 +108,18 @@ struct ChatDetailView: View {
                 }
             }
         }
-        .onAppear { pet.run(with: chat); takeSharedDraft() }
+        .overlayPreferenceValue(PetPerchAnchor.self) { anchor in
+            if let anchor {
+                GeometryReader { geometry in
+                    PetStage(perch: geometry[anchor]) { id in
+                        Task { await chat.transcript.openNotificationSession(id) }
+                    }
+                }
+            }
+        }
+        .simultaneousGesture(SpatialTapGesture().onEnded { _ in pet.touch() })
+        .onAppear { pet.composerVisible = true; takeSharedDraft() }
+        .onChange(of: draft) { pet.touch() }
         .onChange(of: chat.transcript.composerInsertion) {
             if let quote = chat.transcript.composerInsertion {
                 draft += (draft.isEmpty ? "" : "\n\n") + quote
@@ -117,7 +128,7 @@ struct ChatDetailView: View {
         }
         .onChange(of: chat.transcript.incomingDraft) { takeSharedDraft() }
         .onChange(of: chat.transcript.focusRequest) { composerFocused = true }
-        .onDisappear { pet.stop() }
+        .onDisappear { pet.composerVisible = false }
         .sheet(isPresented: $schedules) { NavigationStack { SchedulesPage() } }
         .sheet(isPresented: $insights) { NavigationStack { RunInsightsPage() } }
         .sheet(isPresented: $agents) { NavigationStack { AgentPresetsPage() } }
@@ -157,6 +168,8 @@ struct ChatDetailView: View {
 
     private func load(_ items: [PhotosPickerItem]) async {
         guard !items.isEmpty else { return }
+        pet.carrying = true
+        defer { pet.carrying = false }
         for item in items {
             if let data = try? await item.loadTransferable(type: Data.self), let picked = PickedImage(data: data) {
                 images.append(picked)

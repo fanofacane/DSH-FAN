@@ -38,7 +38,7 @@ import Testing
     }
 
     @Test func petManifestKeepsFoundationNumericValues() throws {
-        let directory = try #require(Bundle.main.url(forResource: "deepy-whale", withExtension: nil))
+        let directory = try #require(Bundle.main.url(forResource: "deepy-whale", withExtension: nil, subdirectory: "Pets"))
         let raw = try #require(JSONSerialization.jsonObject(with: Data(contentsOf: directory.appendingPathComponent("pack.json"))) as? [String: Any])
         let pack = try PetPack(directory: directory)
         let canvas = raw["canvas"] as? [String: Any]

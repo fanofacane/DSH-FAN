@@ -31,6 +31,46 @@
         }
       }
     },
+    "%lld chats failed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个对话出错了"
+          }
+        }
+      }
+    },
+    "%lld chats finished": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个对话做完了"
+          }
+        }
+      }
+    },
+    "%lld chats need approval": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个对话等你确认"
+          }
+        }
+      }
+    },
+    "%lld chats need your answer": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个对话等你回答"
+          }
+        }
+      }
+    },
     "%lld host(s)": {
       "localizations": {
         "zh-Hans": {
@@ -401,6 +441,16 @@
         }
       }
     },
+    "Allow Live Activities?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许实时活动？"
+          }
+        }
+      }
+    },
     "Allow for this task": {
       "localizations": {
         "zh-Hans": {
@@ -481,12 +531,32 @@
         }
       }
     },
+    "Always": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一直显示"
+          }
+        }
+      }
+    },
     "An AI agent on your iPhone": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "装在 iPhone 里的 AI 智能体"
+          }
+        }
+      }
+    },
+    "Animations only, no bubbles": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只做动作，不冒气泡"
           }
         }
       }
@@ -841,6 +911,16 @@
         }
       }
     },
+    "Change pet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "换宠物"
+          }
+        }
+      }
+    },
     "Change run time": {
       "localizations": {
         "zh-Hans": {
@@ -927,6 +1007,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择目录"
+          }
+        }
+      }
+    },
+    "Choose a pet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择宠物"
           }
         }
       }
@@ -2301,6 +2391,16 @@
         }
       }
     },
+    "From DSH-TUI": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "来自 DSH-TUI"
+          }
+        }
+      }
+    },
     "General": {
       "localizations": {
         "zh-Hans": {
@@ -2427,6 +2527,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "帮助与关于"
+          }
+        }
+      }
+    },
+    "Hidden for today": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天不再显示"
+          }
+        }
+      }
+    },
+    "Hide for 1 hour": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "藏起来 1 小时"
           }
         }
       }
@@ -3241,6 +3361,26 @@
         }
       }
     },
+    "Needs approval": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等你确认"
+          }
+        }
+      }
+    },
+    "Needs your answer": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等你回答"
+          }
+        }
+      }
+    },
     "Network problem, retrying": {
       "localizations": {
         "zh-Hans": {
@@ -3447,6 +3587,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "还没有工作区"
+          }
+        }
+      }
+    },
+    "None": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不显示"
+          }
+        }
+      }
+    },
+    "Not allowed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未授权"
           }
         }
       }
@@ -3941,6 +4101,36 @@
         }
       }
     },
+    "Pet settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宠物设置"
+          }
+        }
+      }
+    },
+    "Pet size": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宠物大小"
+          }
+        }
+      }
+    },
+    "Pets": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宠物"
+          }
+        }
+      }
+    },
     "Phone": {
       "localizations": {
         "zh-Hans": {
@@ -4167,6 +4357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "问题"
+          }
+        }
+      }
+    },
+    "Quiet mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安静模式"
           }
         }
       }
@@ -4771,6 +4971,16 @@
         }
       }
     },
+    "Running a command": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在执行命令"
+          }
+        }
+      }
+    },
     "Runs on device": {
       "localizations": {
         "zh-Hans": {
@@ -5221,6 +5431,26 @@
         }
       }
     },
+    "Show now": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "立即显示"
+          }
+        }
+      }
+    },
+    "Show outside the app": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 外显示"
+          }
+        }
+      }
+    },
     "Showing recent history only.": {
       "localizations": {
         "zh-Hans": {
@@ -5397,6 +5627,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "小"
+          }
+        }
+      }
+    },
+    "Something went wrong": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出错了"
           }
         }
       }
@@ -6711,6 +6951,16 @@
         }
       }
     },
+    "Whale Girl": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鲸娘"
+          }
+        }
+      }
+    },
     "What do you want to ask?": {
       "localizations": {
         "zh-Hans": {
@@ -6741,12 +6991,32 @@
         }
       }
     },
+    "When active": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有事时显示"
+          }
+        }
+      }
+    },
     "When off, start on this phone": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "关闭后从本机开始"
+          }
+        }
+      }
+    },
+    "When to show": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示时机"
           }
         }
       }
@@ -6977,6 +7247,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "iOS 可能会在后台挂起 App。"
+          }
+        }
+      }
+    },
+    "iOS shows your pet on the Lock Screen and Dynamic Island while a Live Activity is available.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "实时活动可用时，iOS 会在锁定屏幕和灵动岛上显示宠物。"
           }
         }
       }

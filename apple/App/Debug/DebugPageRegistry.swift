@@ -57,6 +57,8 @@ import SwiftUI
         "model": { AnyView(NavigationStack { ModelSettingsPage() }) },
         "permissions": { AnyView(NavigationStack { PermissionSettingsPage() }) },
         "phone": { AnyView(NavigationStack { PhoneSettingsView() }) },
+        "pet-preview": { AnyView(DebugPetPage()) },
+        "pet-overlay": { AnyView(AppBackdrop().overlay(alignment: .top) { PetOutsideSection().padding(Space.lg) }) },
         "pet": { AnyView(NavigationStack { PetSettingsPage() }) },
         "about": { AnyView(NavigationStack { AboutPage() }) },
         "engine": { AnyView(EngineView()) },
@@ -88,10 +90,11 @@ private struct DebugScreenshotPage: View {
     var body: some View {
         if let viewport = DebugPageRegistry.viewport {
             let scheme = DebugPageRegistry.captureScheme
+            let safeInsets = DebugPageRegistry.argument("-dsh-screen-safe") != "none"
             let capturedTypeSize = DebugPageRegistry.argument("-dsh-screen-text") == "large" ? DynamicTypeSize.accessibility2 : typeSize
             DebugPageCapture(name: name, size: viewport, scheme: scheme, content: AnyView(
                 content
-                    .safeAreaPadding(.top, 32).safeAreaPadding(.bottom, 24)
+                    .safeAreaPadding(.top, safeInsets ? 32 : 0).safeAreaPadding(.bottom, safeInsets ? 24 : 0)
                     .ignoresSafeArea(.container)
                     .background { AppBackdrop() }
                     .environment(session).environment(engine).environment(hosts)
@@ -101,6 +104,7 @@ private struct DebugScreenshotPage: View {
                     .environment(\.appReduceMotion, true)
                     .environment(\.dynamicTypeSize, capturedTypeSize)
                     .environment(\.colorScheme, scheme)
+                    .environment(\.displayScale, 2)
             ))
             .ignoresSafeArea()
         } else {

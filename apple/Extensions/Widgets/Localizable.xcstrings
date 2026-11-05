@@ -61,6 +61,16 @@
         }
       }
     },
+    "Pet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "宠物"
+          }
+        }
+      }
+    },
     "Reply": {
       "localizations": {
         "zh-Hans": {

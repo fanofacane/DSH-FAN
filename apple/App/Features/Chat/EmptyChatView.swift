@@ -9,7 +9,7 @@ struct EmptyChatView: View {
         VStack(spacing: 0) {
             Spacer(minLength: 40)
             // One mascot a screen: the still tail fades while the pet stands on the composer.
-            WhaleTail(height: 40).opacity(pet.enabled ? 0 : 0.4).padding(.bottom, 12)
+            WhaleTail(height: 40).opacity(pet.visible ? 0 : 0.4).padding(.bottom, 12)
             Text(greeting).type(.display).foregroundStyle(DS.ink)
             Text("What would you like to do today?").type(.body).foregroundStyle(DS.inkFaint).padding(.top, 4)
             LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {

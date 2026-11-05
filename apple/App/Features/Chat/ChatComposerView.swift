@@ -65,7 +65,7 @@ struct ChatComposerView: View {
         }
         // Deepy stands on the topmost capsule above the input: the approval card
         // when one is showing, otherwise the composer (pet_perch.dart).
-        .overlay(alignment: .topLeading) { PetPerch() }
+        .anchorPreference(key: PetPerchAnchor.self, value: .bounds) { $0 }
         .padding(.horizontal, Space.floatInset)
         .padding(.bottom, 8)
         .frame(maxWidth: Space.readingWidth)

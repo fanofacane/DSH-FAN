@@ -111,7 +111,7 @@ struct TurnLiveActivity: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Image(systemName: phaseIcon(context.state.phase)).foregroundStyle(phaseTint(context.state.phase)).font(.title3)
+                    activityGlyph(context.state, size: 32)
                 }
                 DynamicIslandExpandedRegion(.center) {
                     VStack(spacing: 2) {
@@ -125,11 +125,11 @@ struct TurnLiveActivity: Widget {
                     }
                 }
             } compactLeading: {
-                Image(systemName: phaseIcon(context.state.phase)).foregroundStyle(phaseTint(context.state.phase))
+                activityGlyph(context.state, size: 19)
             } compactTrailing: {
                 Text(phaseShort(context.state.phase)).font(.caption2).foregroundStyle(phaseTint(context.state.phase))
             } minimal: {
-                Image(systemName: phaseIcon(context.state.phase)).foregroundStyle(phaseTint(context.state.phase))
+                activityGlyph(context.state, size: 19)
             }
             .widgetURL(URL(string: "dshapp://open"))
         }
@@ -140,8 +140,7 @@ struct LockScreenTurnView: View {
     let context: ActivityViewContext<DSHActivityAttributes>
     var body: some View {
         HStack(spacing: 14) {
-            Image(systemName: phaseIcon(context.state.phase))
-                .font(.system(size: 20, weight: .semibold)).foregroundStyle(phaseTint(context.state.phase))
+            activityGlyph(context.state, size: 32)
                 .frame(width: 44, height: 44).background(DesignTheme().accentContainer, in: Circle())
             VStack(alignment: .leading, spacing: 3) {
                 Text(context.attributes.title).font(.system(size: 16, weight: .semibold)).foregroundStyle(DS.ink).lineLimit(1)
@@ -157,8 +156,14 @@ struct LockScreenTurnView: View {
     }
 }
 
+@ViewBuilder private func activityGlyph(_ state: DSHActivityAttributes.ContentState, size: CGFloat) -> some View {
+    if let pet = state.pet { PetActivityArtwork(state: pet, size: size) }
+    else { Image(systemName: phaseIcon(state.phase)).foregroundStyle(phaseTint(state.phase)) }
+}
+
 private func phaseIcon(_ phase: DSHActivityAttributes.ContentState.Phase) -> String {
     switch phase {
+    case .idle: "pawprint"
     case .thinking: "brain"
     case .working: "terminal"
     case .waiting: "hand.raised.fill"
@@ -179,6 +184,7 @@ private func phaseTint(_ phase: DSHActivityAttributes.ContentState.Phase) -> Col
 
 private func phaseTitle(_ phase: DSHActivityAttributes.ContentState.Phase) -> LocalizedStringKey {
     switch phase {
+    case .idle: "Pet"
     case .thinking: "Thinking…"
     case .working: "Running tools…"
     case .waiting: "Waiting for you"
@@ -190,6 +196,7 @@ private func phaseTitle(_ phase: DSHActivityAttributes.ContentState.Phase) -> Lo
 
 private func phaseShort(_ phase: DSHActivityAttributes.ContentState.Phase) -> LocalizedStringKey {
     switch phase {
+    case .idle: "Pet"
     case .thinking: "Think"
     case .working: "Run"
     case .waiting: "Wait"

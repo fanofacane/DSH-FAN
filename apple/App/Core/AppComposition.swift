@@ -15,7 +15,7 @@ import UserNotifications
     let engine: EngineModel
     private(set) lazy var chat = AppSession(hosts: hosts, phone: phone, notifications: notifications, intents: intents)
     let phone: PhoneController
-    let pet = PetModel()
+    let pet: PetModel
     private(set) lazy var hosts = HostStore(runtime: runtime, relay: relay, events: self)
     let relay: RelayStore
     let notifications: TaskNotifications
@@ -28,11 +28,22 @@ import UserNotifications
         if DebugPageRegistry.usesFixture, let defaults = UserDefaults(suiteName: "DSHGoldenFixture") {
             defaults.removePersistentDomain(forName: "DSHGoldenFixture")
             preferences = AppPreferences(defaults: defaults)
+            pet = PetModel(defaults: defaults)
+            if let pack = DebugPageRegistry.argument("-dsh-screen-pet") { pet.select(pack) }
+            if let size = DebugPageRegistry.argument("-dsh-screen-pet-size").flatMap(PetSize.init(rawValue:)) {
+                pet.preferences.size = size
+            }
+            if DebugPageRegistry.argument("-dsh-screen-fixture") == "overlay" {
+                pet.preferences.outside = true
+                pet.outsideSnoozedUntil = .now.addingTimeInterval(3600)
+            }
         } else {
             preferences = AppPreferences()
+            pet = PetModel()
         }
         #else
         preferences = AppPreferences()
+        pet = PetModel()
         #endif
         // iSH owns one process-wide kernel; only composition selects its concrete runtime.
         let runtime = RuntimeEngine.shared

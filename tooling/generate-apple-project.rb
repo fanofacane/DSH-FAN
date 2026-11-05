@@ -172,8 +172,8 @@ resources = project.main_group.new_group('Resources', 'Resources')
  'Fonts/JetBrainsMono-Bold.ttf', 'Images/whale_1.png'].each do |path|
   app.resources_build_phase.add_file_reference(resources.new_reference(path), true)
 end
-# The Deepy pet pack as a folder (pack.json + sprite sheets).
-pet_pack = resources.new_reference('Pets/deepy-whale')
+# Pack manifests and sheets stay together so both targets can discover packs.
+pet_pack = resources.new_reference('Pets')
 pet_pack.last_known_file_type = 'folder'
 app.resources_build_phase.add_file_reference(pet_pack, true)
 license_pack = resources.new_reference('Licenses')
@@ -233,6 +233,26 @@ def extension(project, name, folder, plist, bundle_suffix, entitlements, extra_r
 end
 theme_refs = shared_refs + %w[Theme.swift Glyphs.swift].map { |name| app_refs.find { |ref| ref.path == name } }
 widgets = extension(project, 'DSHWidgets', 'Extensions/Widgets', 'Extensions/Widgets/Info.plist', 'widgets', nil, theme_refs)
+widgets.resources_build_phase.add_file_reference(pet_pack, true)
+
+# Local reference art is optional and excluded from Release and source control.
+# Evaluate it at build time so a local preview does not change the project.
+[app, widgets].each do |target|
+  target.build_configurations.each { |config| config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO' }
+  local_pets = target.new_shell_script_build_phase('Copy local pet previews')
+  local_pets.always_out_of_date = '1'
+  local_pets.shell_script = <<~'SH'
+    set -eu
+    source="$SRCROOT/Resources/PetsLocal"
+    destination="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/PetsLocal"
+    if [ "$CONFIGURATION" = Debug ] && [ -d "$source" ]; then
+      rm -rf "$destination"
+      ditto "$source" "$destination"
+    elif [ -d "$destination" ]; then
+      rm -rf "$destination"
+    fi
+  SH
+end
 share = extension(project, 'DSHShare', 'Extensions/Share', 'Extensions/Share/Info.plist', 'share', 'Extensions/Share/DSHShare.entitlements', theme_refs)
 plugins = app.new_copy_files_build_phase('Embed App Extensions')
 plugins.symbol_dst_subfolder_spec = :plug_ins

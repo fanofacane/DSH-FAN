@@ -50,6 +50,7 @@ struct DSHApp: App {
 /// chat appears once it is running.
 struct RootView: View {
     @Environment(EngineModel.self) private var engine
+    @Environment(PetModel.self) private var pet
     @Environment(AppSession.self) private var chat
     @Environment(PhoneController.self) private var phone
     @Environment(HostStore.self) private var hosts
@@ -59,6 +60,7 @@ struct RootView: View {
     @Environment(\.photoLibrary) private var photoLibrary
     let activity: TurnActivityController
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.appReduceMotion) private var reduceMotion
     @AppStorage("app.onboarded") private var onboarded = false
     @State private var settingsLink: SettingsLocation?
 
@@ -128,6 +130,7 @@ struct RootView: View {
             #if DEBUG
             guard !DebugPageRegistry.usesFixture else { return }
             #endif
+            pet.foreground = value == .active
             phone.setForeground(value == .active)
             notifications.setForeground(value, allowGrace: chat.hasRunningTasks)
             // iOS drops sockets in the background; bring a remote link back on return.
@@ -139,7 +142,19 @@ struct RootView: View {
                 chat.transcript.newChat(); chat.transcript.incomingDraft = draft
             }
         }
-        .task { activity.run(with: chat) }
+        .task {
+            #if DEBUG
+            guard !DebugPageRegistry.usesFixture else { return }
+            #endif
+            await activity.run(with: chat, pet: pet)
+        }
+        .task {
+            #if DEBUG
+            guard !DebugPageRegistry.usesFixture else { return }
+            #endif
+            await pet.run(with: chat)
+        }
+        .onChange(of: reduceMotion, initial: true) { _, reduced in pet.reducesMotion = reduced }
         .sheet(item: Binding(get: { phone.prompt }, set: { _ in })) { prompt in PhoneConfirmSheet(prompt: prompt) }
         .onChange(of: engine.status.phase) { _, phase in
             // A remote host does not depend on this phone's engine.

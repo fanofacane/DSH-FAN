@@ -6,11 +6,16 @@ import Foundation
 /// Live Activity for a running turn (lock screen + Dynamic Island).
 struct DSHActivityAttributes: ActivityAttributes {
     struct ContentState: Codable, Hashable {
-        enum Phase: String, Codable, Hashable { case thinking, working, waiting, replying, done, failed }
+        enum Phase: String, Codable, Hashable { case idle, thinking, working, waiting, replying, done, failed }
         var phase: Phase
         /// Short detail, e.g. the running tool ("ls -la /root"). Never message text.
         var detail: String
         var tools: Int
+        struct Pet: Codable, Hashable {
+            let pack: String
+            let animation: String
+        }
+        var pet: Pet? = nil
     }
     /// The chat title when the turn started.
     var title: String

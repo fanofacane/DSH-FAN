@@ -86,7 +86,7 @@ struct SettingsView: View {
                                presetName: chat.control.permissionPresets.first { $0.id == preset }?.name,
                                presetRisk: ["auto", "danger-full-access"].contains(preset),
                                personalPreferencesSet: hosts.isRemote ? nil : personalPreferencesSet,
-                               phoneEnabled: phone.enabled, petName: pet.enabled ? String(localized: "Deepy the whale") : nil,
+                               phoneEnabled: phone.enabled, petName: pet.pack?.displayName,
                                appearanceName: appearanceName, notificationsEnabled: notifications.enabled,
                                version: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String)
     }
@@ -236,25 +236,6 @@ struct PermissionSettingsPage: View {
                     }
                 }
             }.settingAnchor("default-permission")
-        }
-    }
-}
-
-struct PetSettingsPage: View {
-    @Environment(PetModel.self) private var pet
-    var body: some View {
-        @Bindable var pet = pet
-        SettingsPage(title: "Pet") {
-            SettingsGroup(footer: "Deepy stands on the composer and reacts to what the agent is doing. Tap it to say hi.") {
-                SettingsToggleRow(glyph: AppIcon.pet, tone: .ability, title: "Deepy the whale", isOn: $pet.enabled)
-            }
-            if pet.enabled {
-                SettingsGroup(header: "Size") {
-                    SettingsChoiceRow(title: String(localized: "Small"), selected: pet.bodyHeight == 22) { pet.bodyHeight = 22 }
-                    SettingsChoiceRow(title: String(localized: "Standard"), selected: pet.bodyHeight == 30) { pet.bodyHeight = 30 }
-                    SettingsChoiceRow(title: String(localized: "Large"), selected: pet.bodyHeight == 40) { pet.bodyHeight = 40 }
-                }
-            }
         }
     }
 }

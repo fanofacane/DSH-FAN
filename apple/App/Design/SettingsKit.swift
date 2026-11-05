@@ -269,10 +269,9 @@ struct SettingsRow<Trailing: View>: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .layoutPriority(1)
             if let value, !value.isEmpty {
                 Text(value).monospacedDigit().settingsType(.bodyMedium).foregroundStyle(valueColor)
-                    .multilineTextAlignment(.trailing).lineLimit(2).padding(.leading, Space.md)
+                    .multilineTextAlignment(.trailing).lineLimit(2).padding(.leading, Space.md).layoutPriority(1)
             }
             trailing()
                 .padding(.leading, Trailing.self == SettingsChevron.self ? Space.xs : Space.sm)
