@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// DSH Go app/lib/ui/chat/{chat_rows,tool_view}.dart.
 import DSHClient
 import Foundation
 

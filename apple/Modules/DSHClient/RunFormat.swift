@@ -50,7 +50,9 @@ public enum RunFormat {
     private static func padded(_ value: Int) -> String { value < 10 ? "0\(value)" : String(value) }
 
     private static func decimal(_ value: Double, digits: Int) -> String {
-        value.formatted(.number.precision(.fractionLength(0...digits)).grouping(.never).locale(Locale(identifier: "en_US_POSIX")))
+        let text = String(format: "%.*f", digits, value)
+        guard digits > 0 else { return text }
+        return text.replacingOccurrences(of: #"\.?0+$"#, with: "", options: .regularExpression)
     }
 }
 
@@ -70,7 +72,7 @@ public enum RunPricing {
     ]
 
     public static func estimate(_ trace: TurnTrace) -> Double? {
-        let requests = trace.spans.compactMap(\.model).filter { $0.usage != nil }
+        let requests = trace.spans.filter { $0.kind == .model && $0.seq >= 0 }.compactMap(\.model)
         guard !requests.isEmpty else { return nil }
         var total = 0.0
         for request in requests {
@@ -81,4 +83,16 @@ public enum RunPricing {
         }
         return total
     }
+    /// A partial history or a request billed at an unknown rate cannot
+    /// establish a whole-session estimate.
+    public static func sessionEstimate(_ turns: [TurnTrace], metrics: SessionMetrics) -> Double? {
+        let billed = turns.filter { !$0.running || $0.steps > 0 }
+        let totals = billed.compactMap(\.usage.total)
+        guard let reported = metrics.total, !totals.isEmpty, totals.count == billed.count,
+              metrics.turns == turns.filter({ !$0.running }).count,
+              sumTokens(totals) == reported else { return nil }
+        let amounts = billed.compactMap(estimate)
+        return amounts.count == billed.count ? amounts.reduce(0, +) : nil
+    }
+
 }

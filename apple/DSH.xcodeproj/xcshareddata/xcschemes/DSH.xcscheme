@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E18035C9BA75D60EF391AC8A94FBCF63"
+               BlueprintIdentifier = "C578FE9B0D93D5F3023F2FAB535494A7"
                BuildableName = "DSH.app"
                BlueprintName = "DSH"
                ReferencedContainer = "container:DSH.xcodeproj">
@@ -44,7 +44,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E18035C9BA75D60EF391AC8A94FBCF63"
+            BlueprintIdentifier = "C578FE9B0D93D5F3023F2FAB535494A7"
             BuildableName = "DSH.app"
             BlueprintName = "DSH"
             ReferencedContainer = "container:DSH.xcodeproj">
@@ -84,7 +84,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E18035C9BA75D60EF391AC8A94FBCF63"
+            BlueprintIdentifier = "C578FE9B0D93D5F3023F2FAB535494A7"
             BuildableName = "DSH.app"
             BlueprintName = "DSH"
             ReferencedContainer = "container:DSH.xcodeproj">
@@ -101,7 +101,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E18035C9BA75D60EF391AC8A94FBCF63"
+            BlueprintIdentifier = "C578FE9B0D93D5F3023F2FAB535494A7"
             BuildableName = "DSH.app"
             BlueprintName = "DSH"
             ReferencedContainer = "container:DSH.xcodeproj">

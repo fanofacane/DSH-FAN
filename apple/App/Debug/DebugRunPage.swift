@@ -6,7 +6,7 @@ import SwiftUI
 
 struct DebugRunPage: View {
     let route: Route
-    enum Route { case chat, diff, dock, goal }
+    enum Route { case chat, diff, dock, goal, usage, trajectory, modelStep, toolStep }
     @Environment(AppSession.self) private var chat
     @State private var loaded = false
     @State private var draft = ""
@@ -20,6 +20,21 @@ struct DebugRunPage: View {
             if loaded {
                 switch route {
                 case .chat: conversation
+                case .usage:
+                    panel(height: 604) {
+                        UsagePanel(metrics: chat.control.projection.metrics, turns: chat.transcript.turnTraces,
+                                   historyHasMore: false, host: "本机", model: "deepseek-v4-pro", engine: nil,
+                                   balance: previewBalance, balanceLimit: .constant(5), openTrace: { _ in })
+                    }
+                case .trajectory:
+                    panel(height: 498) {
+                        TrajectoryPanel(trace: chat.transcript.turnTraces.last, skew: 0) { _ in }
+                    }
+                case .modelStep, .toolStep:
+                    if let turn = chat.transcript.turnTraces.first,
+                       let span = turn.spans.first(where: { route == .modelStep ? $0.kind == .model : $0.callId == "c-test" && $0.kind == .tool }) {
+                        RunStepPage(step: TraceStep(span), trace: turn, items: chat.transcript.items)
+                    }
                 case .dock:
                     VStack(spacing: Space.md) {
                         Spacer()
@@ -58,7 +73,7 @@ struct DebugRunPage: View {
             ZStack(alignment: .top) {
                 ChatMessageList(width: geometry.size.width, initiallyOpen: fixture == "finished-open") { _ in }
                 ChatHeaderView(openDrawer: {}, files: .constant(false), agents: .constant(false),
-                               insights: .constant(false), schedules: .constant(false))
+                               schedules: .constant(false), openUsage: {})
             }
             .safeAreaInset(edge: .bottom, spacing: 0) { composer }
         }
@@ -67,7 +82,27 @@ struct DebugRunPage: View {
     private var composer: some View {
         ChatComposerView(draft: $draft, images: $images, composerFocused: $focused, voice: voice,
                          openWorkspace: {}, openImages: {}, startDictation: {}, submit: {}, openTrace: { _ in },
+                         lowBalance: fixture == "low-balance" ? previewBalance : nil,
                          showsWorkspace: false, previewFolded: fixture == "dock-folded", previewTodoOpen: fixture == "dock-open")
+    }
+
+    private var previewBalance: RunBalance {
+        if fixture == "low-balance" { return RunBalance(currency: "CNY", paid: Decimal(string: "3.20"), bonus: nil) }
+        return RunBalance(currency: "CNY", paid: 100, bonus: 10)
+    }
+
+    private func panel<Content: View>(height: CGFloat, @ViewBuilder content: () -> Content) -> some View {
+        ZStack(alignment: .bottom) {
+            conversation.padding(.top, 22).padding(.bottom, 24)
+            DS.scrim
+            VStack(spacing: 0) {
+                Capsule().fill(DS.inkGhost).frame(width: 36, height: 4).padding(.vertical, Space.sm)
+                content()
+            }
+            .frame(height: height)
+            .background(DS.surface)
+            .clipShape(.rect(topLeadingRadius: Radius.xl, topTrailingRadius: Radius.xl))
+        }
     }
 
     private func load() {
@@ -76,12 +111,13 @@ struct DebugRunPage: View {
         chat.transcript.currentSessionId = id
         chat.sessionList.insert(SessionSummary(id: id, title: "修复登录重复提交", updatedAt: .now,
                                                running: fixture == "running", blank: false, agentAvailable: false))
-        let input = fixture == "changes" ? DebugRunFrames.fileChanges : DebugRunFrames.runInfo
+        let changesFixture = fixture == "changes" || fixture == "usage" || fixture == "low-balance"
+        let input = changesFixture ? DebugRunFrames.fileChanges : DebugRunFrames.runInfo
         let limit: Int
         switch fixture {
         case "approval": limit = 24
         case "streaming": limit = 42
-        case "running", "changes", "dock-stack", "dock-folded", "dock-spread", "dock-open": limit = Int.max
+        case "running", "changes", "usage", "low-balance", "dock-stack", "dock-folded", "dock-spread", "dock-open": limit = Int.max
         default: limit = 39
         }
         var records: [LogEvent] = []
@@ -98,6 +134,17 @@ struct DebugRunPage: View {
         }
         chat.transcript.handle(.timeline(facts, replace: true))
         chat.transcript.handle(.snapshot(records, hasMore: false))
+        if fixture == "approval" {
+            let frame: JSONValue = ["type": "waterfall", "eventId": "debug-approval", "agentId": .string(id), "event": "approval/request",
+                                    "request": ["toolName": "bash", "callId": "c-test", "displayReason": ["zh-CN": "运行登录测试需要确认"]]]
+            if let data = try? JSONEncoder().encode(frame), let request = HostRequest.decodeFixture(data) {
+                chat.requests.receive(request)
+            }
+        }
+        if fixture == "compaction",
+           let fact = RunFact(["type": "compaction/start", "seq": 61, "time": DebugDockFixtures.now.timeIntervalSince1970 * 1000 - 1800]) {
+            chat.transcript.handle(.timeline([fact], replace: false))
+        }
         if fixture == "streaming" {
             chat.transcript.handle(.reasoningDelta("先检查控制器和调用点，确定重复提交发生在哪里。"))
             chat.transcript.handle(.textDelta("我先看一下登录控制器。正在检查 submit() 里的异步调用。"))
@@ -108,10 +155,16 @@ struct DebugRunPage: View {
             TodoItem(content: $0.element.content, status: $0.offset < 4 ? "completed" : "in_progress")
         } : todos
         var values: [String: JSONValue] = [:]
-        if fixture != "changes" && fixture != "streaming" && fixture != "approval" {
+        if !changesFixture && fixture != "streaming" && fixture != "approval" {
             values["todos"] = .array(normalized.map { ["content": .string($0.content), "status": .string($0.status ?? "")] })
         }
         if fixture.hasPrefix("dock-") { values["goal"] = DebugDockFixtures.goalValue() }
+        if fixture == "usage" || fixture == "low-balance" {
+            values["tokenUsage"] = ["uncachedInputTokens": 18_240, "cacheReadTokens": 52_736, "cacheWriteTokens": 0, "outputTokens": 3_410]
+            values["contextPressure"] = ["pressureTokens": 61_800, "projectedTokens": 62_100, "contextWindow": 1_000_000]
+            values["contextBreakdown"] = ["systemTokens": 1_467, "toolsTokens": 5_157, "messageTokens": 54_876]
+            values["sessionStats"] = ["turns": 2]
+        }
         let frame: JSONValue = ["type": "baseline", "value": ["projections": .object([id: ["values": .object(values)]])]]
         if let data = try? JSONEncoder().encode(frame) { chat.control.state.applyFixture(data) }
     }

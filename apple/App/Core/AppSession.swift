@@ -18,6 +18,9 @@ import Observation
     private let phone: any PhoneControlling
     private let notifications: any TaskNotifying
     private let intents: IntentInbox
+    #if DEBUG
+    var runCapturePanel: RunPanelRoute?
+    #endif
     var hasRunningTasks: Bool { context.hasRunningTasks }
 
     init(hosts: any HostProviding, phone: any PhoneControlling, notifications: any TaskNotifying, intents: IntentInbox) {

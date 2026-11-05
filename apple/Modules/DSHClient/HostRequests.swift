@@ -59,6 +59,13 @@ public enum HostRequest: Sendable, Equatable {
     /// `api-session/status` emit: a session started or stopped running.
     case sessionStatus(sessionId: String, running: Bool)
 
+    #if DEBUG
+    public static func decodeFixture(_ data: Data) -> HostRequest? {
+        guard let frame = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return nil }
+        return parse(frame)
+    }
+    #endif
+
     static func parse(_ frame: [String: Any]) -> HostRequest? {
         switch frame["type"] as? String {
         case "waterfall":

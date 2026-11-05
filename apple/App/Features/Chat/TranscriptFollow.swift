@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// DSH Go packages/dsh_client/lib/src/transcript.dart.
 import DSHClient
 import Foundation
 import Observation
@@ -39,12 +40,10 @@ import Observation
             followReady = true; releaseSnapshotWaiter()
         case .timeline(let facts, let replace):
             if replace {
-                runFacts = facts.sorted { $0.id < $1.id }
                 traceFold = TurnTraceFold()
-                for fact in runFacts { traceFold.apply(fact) }
+                for fact in facts.sorted(by: { $0.id < $1.id }) { traceFold.apply(fact) }
             } else {
-                for fact in facts where fact.id > (runFacts.last?.id ?? -1) {
-                    runFacts.append(fact)
+                for fact in facts {
                     traceFold.apply(fact)
                     if hosts.isRemote {
                         let sample = Date.now.timeIntervalSince(fact.time)
@@ -140,7 +139,7 @@ import Observation
         followTask?.cancel(); followTask = nil
         releaseSnapshotWaiter()
         currentSessionId = nil; sessionModel = nil; sessionEffort = nil; followReady = false
-        runFacts = []; traceFold = TurnTraceFold(); historyHasMore = false
+        traceFold = TurnTraceFold(); historyHasMore = false
         turnRunning = false; sending = false; stopping = false; clockSkew = nil; tokenRate = RunTokenRate()
         lastSeq = -1; lastFailure = nil; events = []; retrying = nil
     }

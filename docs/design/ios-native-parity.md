@@ -36,7 +36,7 @@
 | **消息菜单**（复制、重试、分支、编辑） | message_menu | ✅ | — | T3：增加引用（保留输入草稿）、系统 ShareLink、会话附件图片预览 / 保存相册；独立一行的 HTTPS Markdown 图片支持预览 / 保存。主机文件图片留给 T8 |
 | **产物预览**（PDF / Office / 网页）、diff 页 | artifact_preview 1.7k、diff_page | 🟡 | M | T8：Quick Look 文档预览、关闭脚本的网页预览、Markdown 文件 / 图片路径、工具改动片段页；Office 优先原生预览，不支持时尝试主机转换。真实 Office 文件未验证；仅显示 edit / write 报告的差异，不声称覆盖 bash 改动或完整仓库 diff |
 | **定时任务** | header_schedule | ✅ | — | T13：全主机 / 当前对话列表、指令 / 标题 / 执行规则编辑、分页历史、删除确认；创建交给模型工具，更新携带原记录做比较。iOS 本机需持续运行引擎 |
-| **用量 / 轨迹 / 运行信息** | usage_sheet、trajectory_sheet、run_info | ✅ 基础轨迹 | — | T12：上下文占用 / 下次请求估计、未缓存与缓存 token、模型 / 工具耗时、主机 / 模型与最近持久事件时间线；缺失数据标为未报告，不推算费用。未复刻瀑布图与首 token 分解 |
+| **用量 / 轨迹 / 运行信息** | usage_sheet、trajectory_sheet、run_info、turn_summary | ✅ | — | T12 逐轮脚注、过程摘要与工具分组、文件卡和只读 diff。生成活动与待办、目标同列。上下文圆环打开统一用量面板，轨迹按主机时间展示首 token、生成与工具片段。已知官方模型显示费用估算，本机账号可用时显示余额。 |
 | **联网搜索、图像与视频生成设置** | settings/web_search、media | 🟡 | S–M | T6：按引擎 schema 提供搜索 / 媒体设置、目录预设、集合与凭据引用表单；带 revision 保存。搜索往返验证通过；测试引擎未安装媒体插件，未验证真实图像 / 视频调用，复杂非枚举 union 明确提示不支持 |
 | **引擎参数**（子代理、Agent 循环、命令执行） | engine_settings | ✅ | — | T15：列出当前主机可用的子代理、模型选择、循环、命令沙箱设置，复用 schema / revision 表单 |
 | **分享链接**（托管分享、分享码） | share_hosted、share_code | ⛔ 不做 | — | 依赖原作者服务 |
@@ -80,7 +80,7 @@
 | T9 终端 | ❌ 用户确认暂缓 | 已检查捆绑运行时的 terminal controller README 与 typert.remote-client.d.ts，以及 Dart terminal_api.dart 和 Swift 中继载体；旧接口已移除，现行协议需双向流。用户选择暂缓后继续 T10。本项仅文档变更，沿用 T8 已通过的构建，未新增依赖或入口。 |
 | T10 子代理 / 预设 | ✅ | 构建通过，无新增源码警告；`-dsh-feature-smoke t10` PASS（真实模型创建 continuable 子代理，按父地址读回复、追问、中断，预设读取 / 选择）；Swift 路由测试 PASS（父子地址、一次性只读、外部任务不可打开）。按用户确认使用 subagentCatalog 投影，后续冲突仍逐项确认。团队任务板与长历史分页未覆盖。 |
 | T11 会话归档 / 置顶 | ✅ | 构建通过，无新增源码警告；`-dsh-feature-smoke t11` PASS（真实短回复后置顶、归档自动清除置顶、恢复、再次置顶 / 取消）。侧栏置顶与归档列表依据 workspace/follow 和操作返回；运行中的会话归档前明确确认停止。中继删除仍不支持，可使用归档。 |
-| T12 用量 / 轨迹 | ✅ 基础轨迹 | 构建通过，无新增源码警告；`-dsh-feature-smoke t12` PASS（真实模型 token、contextPressure、sessionStats、持久事件时间线）；Swift 缓存计数、缺失值、溢出与事件时间测试 PASS。轨迹为真实事件时间列表，未实现瀑布图 / 首 token 分解；未知价格不计算费用。 |
+| T12 用量 / 轨迹 | ✅ | 2026-11-05 在指定 iPhone 18 Pro 模拟器上验收。Debug / Release 零错误、零警告，Swift Testing 61/61，九项通用冒烟全 PASS。`-dsh-feature-smoke t12` PASS（真实模型 54,412 tokens 与主机用量一致、1 轮、11 个轨迹片段闭合、1 个文件改动、圆环比例与 `contextPressure` 一致）。真实回合和 DEBUG 浅深色对照图保存在本机 `~/.local/share/dsh-fan-compare/run-info/`。余额以 DEBUG 夹具验证。 |
 | T13 定时任务 | ✅ | 构建通过，无新增源码警告；`-dsh-feature-smoke t13` PASS：真实模型创建远期测试任务，catalog / history / 标题与指令编辑 / every 规则更新 / 删除并确认清理；Swift expected 记录与日期测试 PASS。未等待真实定时投递，后台执行限制在 T14 说明；创建入口追加到现有输入草稿。 |
 | T14 通知 / 后台 | ✅ 模拟器验证 | 构建通过，无新增源码警告；`-dsh-feature-smoke t14` PASS：允许系统通知后真实投递、前台抑制、事件去重、通用文案检查，测试后恢复开关并清理通知；中文设置页截图。冒烟模拟后台门控，没有模拟真实系统挂起；真机锁屏、后台期限、点击返回与冷启动仍需人工确认。 |
 | T15 设置补全 | ✅ | 构建通过，无新增源码警告；`-dsh-feature-smoke t15` PASS：真实模型在新会话读取回复偏好、过期版本拒绝并恢复原文件、外观持久化与恢复、未检查日志拒绝导出、合成日志导出 / 清理。中文深色 / 青绿即时切换截图核对后恢复。正文 / 代码缩放不改变导航控件；语言需重开；日志导出必须手动检查，不把自动脱敏当保证。 |

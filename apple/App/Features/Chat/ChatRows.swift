@@ -81,23 +81,22 @@ struct ChatItemView: View {
 
     private var assistant: some View {
         VStack(alignment: .leading, spacing: 0) {
-            process
+            if !item.reasoning.isEmpty {
+                ThinkingRow(text: item.reasoning, streaming: item.state == .streaming && item.text.isEmpty)
+            }
             attachmentImages
             if !item.text.isEmpty {
-                MarkdownView(source: item.text)
-                    .padding(.top, !item.reasoning.isEmpty || !item.tools.isEmpty ? Space.sm : 0)
-                if showsActions || footnote != nil {
-                    ReplyActions(text: item.text, trace: footnote, open: openTrace) { menu }
-                }
+                MarkdownView(source: item.text).padding(.top, item.reasoning.isEmpty ? 0 : Space.xs)
+            }
+            toolProcess
+            if !item.text.isEmpty, showsActions || footnote != nil {
+                ReplyActions(text: item.text, trace: footnote, open: openTrace) { menu }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    @ViewBuilder private var process: some View {
-        if !item.reasoning.isEmpty {
-            ThinkingRow(text: item.reasoning, streaming: item.state == .streaming && item.text.isEmpty)
-        }
+    @ViewBuilder private var toolProcess: some View {
         let groups = toolGroups
         ForEach(groups, id: \.first?.id) { group in
             if group.count >= 3 {

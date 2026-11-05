@@ -142,7 +142,23 @@ struct TurnTraceTests {
         #expect(RunFormat.tokens(1_050_000) == "1.05M")
         #expect(RunFormat.percent(0.004) == "<1%")
         #expect(RunFormat.duration(0.04) == String(localized: "<0.1 s"))
+        #expect(RunFormat.duration(0.95) == String(localized: "\("0.9") s"))
         #expect(RunFormat.cost(0.004) == String(localized: "Under ¥0.01"))
+    }
+
+    @Test func estimateRequiresCompleteKnownSessionUsage() throws {
+        var fold = TurnTraceFold()
+        record(&fold, 1, 1000, "turn/start")
+        message(&fold, 2, 2000, step: 1, input: 100, output: 2, hit: 50, first: 1200)
+        record(&fold, 3, 2010, "turn/end")
+        let metrics = SessionMetrics(["tokenUsage": ["uncachedInputTokens": 100, "cacheReadTokens": 50, "outputTokens": 2],
+                                      "sessionStats": ["turns": 1]])
+        #expect(metrics.total == 152)
+        #expect(RunPricing.sessionEstimate(fold.turns, metrics: metrics) != nil)
+        #expect(RunPricing.sessionEstimate(fold.turns, metrics: SessionMetrics([:])) == nil)
+        record(&fold, 4, 3000, "turn/start")
+        message(&fold, 5, 4000, step: 1, input: 100, output: 2, hit: 50, first: 3200, provider: "custom")
+        #expect(RunPricing.sessionEstimate(fold.turns, metrics: metrics) == nil)
     }
 
     private func record(_ fold: inout TurnTraceFold, _ seq: Int, _ time: Double, _ type: String, _ data: [String: Any] = [:]) {

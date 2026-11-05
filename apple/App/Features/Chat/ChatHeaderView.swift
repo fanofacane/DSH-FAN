@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// DSH Go app/lib/ui/chat/chat_screen.dart.
 import DSHClient
 import SwiftUI
 
@@ -9,8 +10,8 @@ struct ChatHeaderView: View {
     let openDrawer: () -> Void
     @Binding var files: Bool
     @Binding var agents: Bool
-    @Binding var insights: Bool
     @Binding var schedules: Bool
+    let openUsage: () -> Void
     var body: some View {
         HStack(spacing: 8) {
             GlassIconButton(glyph: AppIcon.menu, label: "Chats", action: openDrawer)
@@ -20,7 +21,7 @@ struct ChatHeaderView: View {
             Menu {
                 Button("Files") { files = true }
                 Button("Agent presets") { agents = true }
-                Button("Usage and run info") { insights = true }
+                Button("Usage and run info", action: openUsage)
                 Button("Scheduled tasks") { schedules = true }
             } label: { Image(systemName: "ellipsis").frame(width: 36, height: 40).foregroundStyle(DS.ink) }
                 .accessibilityLabel(Text("Chat tools"))

@@ -16,6 +16,10 @@ struct ChatComposerView: View {
     let startDictation: () -> Void
     let submit: () -> Void
     var openTrace: (TurnTrace) -> Void
+    var openUsage: () -> Void = {}
+    var lowBalance: RunBalance?
+    var balanceLimit: Double = RunBalance.defaultLimit
+    var dismissBalance: () -> Void = {}
     var showsWorkspace = true
     var previewFolded: Bool?
     var previewTodoOpen = false
@@ -36,6 +40,7 @@ struct ChatComposerView: View {
             ComposerPalette(text: $draft)
             SubagentDock()
             TaskDock(openTrace: openTrace, previewFolded: previewFolded, previewTodoOpen: previewTodoOpen)
+            if let lowBalance { LowBalanceBanner(balance: lowBalance, limit: balanceLimit, dismiss: dismissBalance) }
             if let approval = chat.requests.currentApproval {
                 ApprovalCard(approval: approval)
             }
@@ -60,7 +65,8 @@ struct ChatComposerView: View {
                     .disabled(chat.transcript.busy && !chat.transcript.canSteer)
                     .accessibilityLabel(Text("Add images"))
 
-                    TextField(placeholder, text: $draft, axis: .vertical)
+                    TextField("", text: $draft, prompt: Text(placeholder).foregroundStyle(DS.inkFaint), axis: .vertical)
+                        .accessibilityLabel(Text(placeholder))
                         .type(.body)
                         .foregroundStyle(DS.ink)
                         .lineLimit(1...6)
@@ -68,6 +74,9 @@ struct ChatComposerView: View {
                         .padding(.vertical, 8)
                         .frame(minHeight: RunLayout.composerButton)
 
+                    if let fraction = chat.control.projection.metrics.fraction, !voice.isActive {
+                        ContextRing(fraction: fraction, open: openUsage)
+                    }
                     sendKey
                 }
             }

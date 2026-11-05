@@ -223,9 +223,14 @@ private struct ChangeTool {
             let old = block.before.map { $0.components(separatedBy: "\n") } ?? []
             let new = block.after.components(separatedBy: "\n")
             if var window = known, let at = window.uniqueIndex(of: old) {
-                let newStart = window.firstLine + at
-                hunk.oldStart = newStart - delta
-                hunk.newStart = newStart
+                let newStart = window.firstLine.addingReportingOverflow(at)
+                if !newStart.overflow {
+                    let oldStart = newStart.partialValue.subtractingReportingOverflow(delta)
+                    if !oldStart.overflow, oldStart.partialValue > 0 {
+                        hunk.oldStart = oldStart.partialValue
+                        hunk.newStart = newStart.partialValue
+                    }
+                }
                 window.lines.replaceSubrange(at..<(at + old.count), with: new)
                 delta += new.count - old.count
                 known = window

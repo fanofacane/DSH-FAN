@@ -103,6 +103,14 @@ enum DS {
     static let diffDeleteFill = Color(light: 0xFFFFE4E2, dark: 0xFF422423)
     static let diffDeleteInk = Color(light: 0xFF923A37, dark: 0xFFF2A7A1)
     static let lineNumber = Color(light: 0xFF7D8088, dark: 0xFF71747D)
+    // Tool tone fills blended with their on-colors, as in trajectory_sheet.dart.
+    static let traceTool = Color(light: 0xFF9BA1AE, dark: 0xFF747985)
+    static let traceRead = Color(light: 0xFF88A3BE, dark: 0xFF647C95)
+    static let traceEdit = Color(light: 0xFFB49C77, dark: 0xFF8A7558)
+    static let traceSearch = Color(light: 0xFFA69ABC, dark: 0xFF7D7492)
+    static let traceWeb = Color(light: 0xFF7EAB96, dark: 0xFF608270)
+    static let traceAgent = Color(light: 0xFFB595AA, dark: 0xFF8C6F82)
+    static let traceTodo = Color(light: 0xFF79AAA9, dark: 0xFF548282)
     static let codeComment = Color(light: 0xFF636975, dark: 0xFF868C97)
 
     /// Shadow base: cool ink in light, near-black in dark.
@@ -203,6 +211,10 @@ struct DesignTheme {
               dark: OKLabTone.retint(dark, hue: colors.hue, chroma: colors.chroma))
     }
     var accent: Color { Color(light: colors.seed.0, dark: colors.seed.1) }
+    func contextTone(_ fraction: Double) -> Color {
+        if fraction >= 0.85 { return DS.danger }
+        return fraction >= 0.6 ? DS.warn : accent
+    }
     var onAccent: Color { Color(light: 0xFFFFFFFF, dark: colors.onSeedDark) }
     var accentCheck: Color { Color(argb: colors.seed.0) }
     var accentContainer: Color { Color(light: colors.container.0, dark: colors.container.1) }
@@ -263,6 +275,14 @@ enum RunLayout {
     static let dockSwipe: CGFloat = 48
     static let todoListMax: CGFloat = 196
     static let composerButton: CGFloat = 36
+    // Usage sheet and trajectory geometry from DSH Go ui/chat/.
+    static let contextRing: CGFloat = 22
+    static let panelInset: CGFloat = 20
+    static let usageHeadline: CGFloat = 28
+    static let usageValue: CGFloat = 20
+    static let usageBarHeight: CGFloat = 6
+    static let traceBarHeight: CGFloat = 4
+    static let stepFactHeight: CGFloat = 36
 }
 
 // MARK: Typography (typography.dart): system sans, two weights, mono for code only

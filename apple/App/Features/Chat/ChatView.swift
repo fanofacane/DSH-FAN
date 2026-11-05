@@ -81,7 +81,10 @@ struct ChatDetailView: View {
     @State private var workspacePicker = false
     @State private var files = false
     @State private var agents = false
-    @State private var insights = false
+    @State private var runPanel: RunPanelRoute?
+    @State private var balance = RunBalanceStore()
+    @State private var balanceDismissed = false
+    @AppStorage("chat.lowBalanceThreshold") private var balanceLimit = RunBalance.defaultLimit
     @State private var schedules = false
     @FocusState private var composerFocused: Bool
     @State private var voice = VoiceInput()
@@ -90,6 +93,13 @@ struct ChatDetailView: View {
     @State private var voiceBase = ""
 
     var body: some View {
+        balanceLifecycle
+        #if DEBUG
+            .onChange(of: chat.runCapturePanel) { _, route in runPanel = route }
+        #endif
+    }
+
+    private var layout: some View {
         GeometryReader { geometry in
             ZStack(alignment: .top) {
                 if let host = hosts.activeHost, chat.connection.state != .ready {
@@ -97,15 +107,17 @@ struct ChatDetailView: View {
                 } else if chat.connection.models.isEmpty {
                     ScrollView { KeySetupCard().padding(.horizontal, Space.gutter).padding(.top, 88) }
                 } else {
-                    ChatMessageList(width: geometry.size.width) { _ in insights = true }
+                    ChatMessageList(width: geometry.size.width, openTrace: openTrace)
                 }
-                ChatHeaderView(openDrawer: openDrawer, files: $files, agents: $agents, insights: $insights, schedules: $schedules)
+                ChatHeaderView(openDrawer: openDrawer, files: $files, agents: $agents, schedules: $schedules, openUsage: openUsage)
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if !chat.connection.models.isEmpty && (!hosts.isRemote || chat.connection.state == .ready) {
                     ChatComposerView(draft: $draft, images: $images, composerFocused: $composerFocused, voice: voice,
                         openWorkspace: { workspacePicker = true }, openImages: { showPicker = true },
-                        startDictation: startDictation, submit: submit, openTrace: { _ in insights = true })
+                        startDictation: startDictation, submit: submit, openTrace: openTrace, openUsage: openUsage,
+                        lowBalance: visibleLowBalance, balanceLimit: balanceLimit, dismissBalance: { balanceDismissed = true },
+                        previewFolded: captureDockFold)
                 }
             }
         }
@@ -119,6 +131,10 @@ struct ChatDetailView: View {
             }
         }
         .simultaneousGesture(SpatialTapGesture().onEnded { _ in pet.touch() })
+    }
+
+    private var editingLifecycle: some View {
+        layout
         .onAppear { pet.composerVisible = true; takeSharedDraft() }
         .onChange(of: draft) { pet.touch() }
         .onChange(of: chat.transcript.composerInsertion) {
@@ -130,14 +146,70 @@ struct ChatDetailView: View {
         .onChange(of: chat.transcript.incomingDraft) { takeSharedDraft() }
         .onChange(of: chat.transcript.focusRequest) { composerFocused = true }
         .onDisappear { pet.composerVisible = false }
+    }
+
+    private var balanceLifecycle: some View {
+        sheets
+        .task(id: "\(chat.connection.generation)-\(chat.connection.state == .ready)") {
+            await balance.refresh(chat.connection, isRemote: hosts.isRemote)
+        }
+        .onChange(of: chat.transcript.turnRunning) { _, running in
+            if !running { refreshBalance() }
+        }
+        .onChange(of: balanceLimit) { balanceDismissed = false }
+        .onChange(of: chat.connection.generation) { balanceDismissed = false }
+    }
+
+    private var sheets: some View {
+        editingLifecycle
         .sheet(isPresented: $schedules) { NavigationStack { SchedulesPage() } }
-        .sheet(isPresented: $insights) { NavigationStack { RunInsightsPage() } }
+        .sheet(item: $runPanel) { route in
+            switch route {
+            case .usage: usagePanel
+            case .trajectory(let reference): RunTrajectoryRoute(reference: reference)
+            }
+        }
         .sheet(isPresented: $agents) { NavigationStack { AgentPresetsPage() } }
         .sheet(isPresented: $files) { NavigationStack { WorkspaceFilesHome() } }
         .sheet(isPresented: $workspacePicker) { NavigationStack { WorkspacesPage(selecting: true) } }
         .photosPicker(isPresented: $showPicker, selection: $picks, maxSelectionCount: 4, matching: .images)
         .onChange(of: picks) { _, items in Task { await load(items) } }
         .sheet(item: Binding(get: { chat.requests.currentQuestion }, set: { _ in })) { request in QuestionSheet(request: request) }
+    }
+
+    private var captureDockFold: Bool? {
+        #if DEBUG
+        if AppSession.captureRunInfo { return false }
+        #endif
+        return nil
+    }
+
+    private var localBalance: RunBalance? { balance.value(for: chat.connection, isRemote: hosts.isRemote) }
+    private var visibleLowBalance: RunBalance? {
+        guard !balanceDismissed, let localBalance, localBalance.isLow(balanceLimit) else { return nil }
+        return localBalance
+    }
+
+    private var usagePanel: some View {
+        RunUsageRoute(balance: balance, openTrace: openTrace)
+            .presentationDetents([.fraction(0.72), .large])
+            .presentationDragIndicator(.visible)
+            .presentationCornerRadius(Radius.xl)
+    }
+
+    private func openUsage() {
+        composerFocused = false
+        runPanel = .usage
+        refreshBalance()
+    }
+
+    private func openTrace(_ trace: TurnTrace) {
+        composerFocused = false
+        runPanel = .trajectory(TraceReference(session: chat.transcript.currentSessionId, startSeq: trace.startSeq))
+    }
+
+    private func refreshBalance() {
+        Task { await balance.refresh(chat.connection, isRemote: hosts.isRemote) }
     }
 
     private func startDictation() {

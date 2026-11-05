@@ -34,3 +34,9 @@ DSH Fan is a new project built after studying DSH Go and iSH; its history starts
 
 - 更新模型渠道、Agent 预设和引擎表单。引擎设置支持按字段类型编辑、校验和恢复默认值，保存沿用主机 revision。手机操控增加首次启用披露、快捷指令规则和本次运行的操作记录。
 - Updated model providers, agent presets and engine forms. Engine settings offer typed editing, validation and reset to inherited values with host revision checks. Phone control adds a first-use disclosure, shortcut rules and an activity history for the current app session.
+
+- 聊天内新增逐轮过程摘要、工具分组、回复脚注和文件改动卡。只读 diff 依据本轮已知内容标注行号。生成期间可查看活动和待办进度，并向模型的下一步插话。
+- Chat now includes collapsible turn summaries, grouped tools, reply footnotes, and file changes. Read-only diffs derive line numbers from file content seen during the turn. The composer shows activity and task progress while generating and can steer the model’s next step.
+
+- 输入框的上下文圆环打开统一的用量面板。本轮轨迹按主机时间戳展示模型、工具和等待时段，支持查看首 token、生成时间和单步详情。已知 DeepSeek 官方模型按公布的人民币峰值费率估算，本机账号可用时显示余额与低余额提醒。
+- The composer’s context ring opens a single usage panel. Turn trajectories plot host timestamps and show first-token latency, generation time, and step details. Known official DeepSeek routes use published peak CNY estimates. Local DeepSeek accounts can show balances and low-balance reminders.

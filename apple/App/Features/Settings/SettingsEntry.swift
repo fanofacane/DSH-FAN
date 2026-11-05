@@ -167,7 +167,7 @@ enum SettingsSection: String, CaseIterable, Identifiable {
         SettingsEntry("skills", "Skills", parent: "features", terms: .init("slash commands,skills", "技能,斜杠命令")) { FeatureCatalogPage(kind: .skills) },
         SettingsEntry("jobs", "Background jobs", parent: "features", terms: .init("jobs,commands", "后台任务,后台作业,命令")) { FeatureCatalogPage(kind: .jobs) },
         SettingsEntry("schedules", "Scheduled tasks", parent: "features", terms: .init("cron,automation,reminder", "计划,定时,提醒")) { SchedulesPage() },
-        SettingsEntry("usage", "Run insights", parent: "features", terms: .init("tokens,usage", "令牌,用量,运行信息")) { RunInsightsPage() },
+        SettingsEntry("usage", "Run insights", parent: "features", terms: .init("tokens,usage", "令牌,用量,运行信息")) { RunUsageRoute() },
     ]
 
     static func entry(_ id: String) -> SettingsEntry? { entries.first { $0.id == id } }

@@ -128,6 +128,10 @@ public struct SessionMetrics {
         return counts.isEmpty ? nil : sumTokens(counts)
     }
     public var output: Int? { tokenCount(tokens["outputTokens"]) }
+    public var total: Int? {
+        guard let input, let output else { return nil }
+        return sumTokens([input, output])
+    }
     public var uncached: Int? { tokenCount(tokens["uncachedInputTokens"]) }
     public var cacheRead: Int? { tokenCount(tokens["cacheReadTokens"]) }
     public var cacheWrite: Int? { tokenCount(tokens["cacheWriteTokens"]) }

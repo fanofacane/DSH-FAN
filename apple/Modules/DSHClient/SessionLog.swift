@@ -92,8 +92,9 @@ public enum LogEvent: Sendable, Equatable {
         case "tool/result":
             let message = LogMessage(data["message"])
             let callId = message.toolCallId ?? data["callId"] as? String ?? ""
+            let hasError = data["error"].map { !($0 is NSNull) } ?? false
             return .toolResult(seq: seq, callId: callId, text: message.text,
-                               failed: data["error"] != nil || message.isError, presentation: ToolPresentation(data["meta"]))
+                               failed: hasError || message.isError, presentation: ToolPresentation(data["meta"]))
         case "turn/start":
             return .turnStarted(seq: seq, turn: turn)
         case "turn/end":

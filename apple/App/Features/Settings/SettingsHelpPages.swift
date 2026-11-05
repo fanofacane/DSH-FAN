@@ -33,7 +33,7 @@ struct AllSettingsFeaturesPage: View {
             SettingsGroup(header: "Work") {
                 SettingsLink(glyph: .folder, title: "Workspaces", tinted: tinted) { WorkspacesPage() }
                 SettingsLink(glyph: .calendar, title: "Scheduled tasks", tinted: tinted) { SchedulesPage() }
-                SettingsLink(glyph: AppIcon.history, title: "Run insights", tinted: tinted) { RunInsightsPage() }
+                SettingsLink(glyph: AppIcon.history, title: "Run insights", tinted: tinted) { RunUsageRoute() }
                 SettingsLink(glyph: AppIcon.profile, title: "Agent presets", tinted: tinted) { AgentPresetsPage() }
             }
             SettingsGroup(header: "Capabilities") {

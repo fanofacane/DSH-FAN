@@ -121,7 +121,8 @@ private struct TurnTracer: Sendable {
         }
         inFlight += stepStarts.map { modelSpan(step: $0.key, start: $0.value) }
         if end == nil, inFlight.isEmpty {
-            let step = max(lastStep + 1, retries.keys.max() ?? 0, attemptFirstToken.keys.max() ?? 0)
+            let next = lastStep < Int.max ? lastStep + 1 : lastStep
+            let step = max(next, retries.keys.max() ?? 0, attemptFirstToken.keys.max() ?? 0)
             inFlight.append(modelSpan(step: step, start: boundary))
         }
         let unfinished = inFlight.map { span in

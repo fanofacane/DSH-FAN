@@ -74,7 +74,10 @@ import SwiftUI
         },
         "engine-parameters": { AnyView(NavigationStack { EngineParametersPage() }) },
         "schedules": { AnyView(NavigationStack { SchedulesPage() }) },
-        "usage": { AnyView(NavigationStack { RunInsightsPage() }) },
+        "usage": { AnyView(DebugRunPage(route: .usage)) },
+        "run-trajectory": { AnyView(DebugRunPage(route: .trajectory)) },
+        "run-step-model": { AnyView(DebugRunPage(route: .modelStep)) },
+        "run-step-tool": { AnyView(DebugRunPage(route: .toolStep)) },
         "agent-preset": { AnyView(NavigationStack {
             AgentPresetPage(preset: AgentPreset(id: "default", name: "Standard agent", isDefault: true),
                             defaults: nil, generation: 0, onChange: {})

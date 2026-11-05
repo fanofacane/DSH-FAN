@@ -31,6 +31,16 @@
         }
       }
     },
+    "%@ tokens/s": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ tokens/秒"
+          }
+        }
+      }
+    },
     "%@:%@ isn’t responding": {
       "localizations": {
         "zh-Hans": {
@@ -309,6 +319,34 @@
         }
       }
     },
+    "%lld retries": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试 %lld 次"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld retry"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld retries"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld running": {
       "localizations": {
         "zh-Hans": {
@@ -444,6 +482,34 @@
                 "stringUnit": {
                   "state": "translated",
                   "value": "%lld tool calls"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld turns in total": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "共 %lld 轮"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld turn in total"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld turns in total"
                 }
               }
             }
@@ -1347,6 +1413,16 @@
         }
       }
     },
+    "Allowed once": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许了"
+          }
+        }
+      }
+    },
     "Allowed shortcuts": {
       "localizations": {
         "zh-Hans": {
@@ -1457,6 +1533,16 @@
         }
       }
     },
+    "Answer": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回答"
+          }
+        }
+      }
+    },
     "Any moment now": {
       "localizations": {
         "zh-Hans": {
@@ -1537,6 +1623,16 @@
         }
       }
     },
+    "Approval wait": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待确认"
+          }
+        }
+      }
+    },
     "Architecture": {
       "localizations": {
         "zh-Hans": {
@@ -1593,6 +1689,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "已归档的对话可以恢复。"
+          }
+        }
+      }
+    },
+    "Arguments": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "参数"
           }
         }
       }
@@ -1807,6 +1913,16 @@
         }
       }
     },
+    "Balance low": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "余额不足"
+          }
+        }
+      }
+    },
     "Balance unavailable": {
       "localizations": {
         "zh-Hans": {
@@ -1823,6 +1939,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "基本信息"
+          }
+        }
+      }
+    },
+    "Below %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "低于 %@"
           }
         }
       }
@@ -1853,6 +1979,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "模糊"
+          }
+        }
+      }
+    },
+    "Bonus %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "赠送 %@"
           }
         }
       }
@@ -1967,6 +2103,26 @@
         }
       }
     },
+    "Cache hit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缓存命中"
+          }
+        }
+      }
+    },
+    "Cache miss": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未命中"
+          }
+        }
+      }
+    },
     "Cache reads": {
       "localizations": {
         "zh-Hans": {
@@ -1983,6 +2139,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "缓存写入"
+          }
+        }
+      }
+    },
+    "Cache writes %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缓存写入 %@"
+          }
+        }
+      }
+    },
+    "Cached input": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "命中缓存"
           }
         }
       }
@@ -2043,6 +2219,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "取消登录"
+          }
+        }
+      }
+    },
+    "Cancelled": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已取消"
           }
         }
       }
@@ -2351,6 +2537,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "字斟句酌"
+          }
+        }
+      }
+    },
+    "Chose to call %lld tools": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "决定调用 %lld 个工具"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Chose to call %lld tool"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Chose to call %lld tools"
+                }
+              }
+            }
           }
         }
       }
@@ -2881,6 +3095,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "上下文"
+          }
+        }
+      }
+    },
+    "Context nearly full. Send /compact to compress it.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上下文将满，发送 /compact 可压缩"
+          }
+        }
+      }
+    },
+    "Context usage not reported": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上下文用量未报告"
+          }
+        }
+      }
+    },
+    "Context used: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上下文占用 %@"
           }
         }
       }
@@ -3445,6 +3689,16 @@
         }
       }
     },
+    "Declined": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已拒绝"
+          }
+        }
+      }
+    },
     "DeepSeek API key": {
       "localizations": {
         "zh-Hans": {
@@ -3481,6 +3735,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "DeepSeek 账号"
+          }
+        }
+      }
+    },
+    "DeepSeek balance": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DeepSeek 余额"
           }
         }
       }
@@ -3745,6 +4009,16 @@
         }
       }
     },
+    "Dispatched": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发出"
+          }
+        }
+      }
+    },
     "Display name": {
       "localizations": {
         "zh-Hans": {
@@ -3841,6 +4115,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "龙"
+          }
+        }
+      }
+    },
+    "Duration": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用时"
           }
         }
       }
@@ -4261,6 +4545,16 @@
         }
       }
     },
+    "Execution": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行"
+          }
+        }
+      }
+    },
     "Execution mode": {
       "localizations": {
         "zh-Hans": {
@@ -4287,6 +4581,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "已展开"
+          }
+        }
+      }
+    },
+    "Explanation": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "说明"
           }
         }
       }
@@ -4541,6 +4845,16 @@
         }
       }
     },
+    "First token": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首字"
+          }
+        }
+      }
+    },
     "Fit": {
       "localizations": {
         "zh-Hans": {
@@ -4631,6 +4945,16 @@
         }
       }
     },
+    "Forked": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已分叉"
+          }
+        }
+      }
+    },
     "From DSH-TUI": {
       "localizations": {
         "zh-Hans": {
@@ -4671,6 +4995,16 @@
         }
       }
     },
+    "Full screen": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全屏查看"
+          }
+        }
+      }
+    },
     "General": {
       "localizations": {
         "zh-Hans": {
@@ -4707,6 +5041,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "生成中 · 可直接插话"
+          }
+        }
+      }
+    },
+    "Generation time": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "生成"
           }
         }
       }
@@ -5411,6 +5755,16 @@
         }
       }
     },
+    "Human wait": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等你"
+          }
+        }
+      }
+    },
     "Hunk %lld": {
       "localizations": {
         "zh-Hans": {
@@ -5571,12 +5925,22 @@
         }
       }
     },
-    "Input includes uncached input, cache reads and cache writes. No cost estimate is calculated.": {
+    "Input": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "输入包含未缓存输入、缓存读取和缓存写入。不推算费用。"
+            "value": "输入"
+          }
+        }
+      }
+    },
+    "Input includes cache hits": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输入含缓存命中"
           }
         }
       }
@@ -5677,6 +6041,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "中断子任务"
+          }
+        }
+      }
+    },
+    "Interrupted": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已中断"
           }
         }
       }
@@ -6261,6 +6635,16 @@
         }
       }
     },
+    "Low balance alert": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "低余额提醒"
+          }
+        }
+      }
+    },
     "Luck is on your side": {
       "localizations": {
         "zh-Hans": {
@@ -6421,6 +6805,16 @@
         }
       }
     },
+    "Messages %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "消息 %@"
+          }
+        }
+      }
+    },
     "Microphone": {
       "localizations": {
         "zh-Hans": {
@@ -6511,6 +6905,16 @@
         }
       }
     },
+    "Model is processing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型正在处理"
+          }
+        }
+      }
+    },
     "Model providers": {
       "localizations": {
         "zh-Hans": {
@@ -6527,6 +6931,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "模型回复已保存"
+          }
+        }
+      }
+    },
+    "Model request": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次模型请求"
           }
         }
       }
@@ -7021,6 +7435,16 @@
         }
       }
     },
+    "No output": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有输出"
+          }
+        }
+      }
+    },
     "No phone actions yet": {
       "localizations": {
         "zh-Hans": {
@@ -7037,6 +7461,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "主机未报告预设"
+          }
+        }
+      }
+    },
+    "No reminder": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不提醒"
           }
         }
       }
@@ -7107,6 +7541,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "不经过第三方服务器"
+          }
+        }
+      }
+    },
+    "No timed steps in this turn": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮没有可计时的步骤"
           }
         }
       }
@@ -7421,6 +7865,16 @@
         }
       }
     },
+    "Only %@ left": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "余额仅剩 %@"
+          }
+        }
+      }
+    },
     "Only action types, times and outcomes are kept for this app session.": {
       "localizations": {
         "zh-Hans": {
@@ -7731,6 +8185,16 @@
         }
       }
     },
+    "Output limit reached": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "输出达到上限"
+          }
+        }
+      }
+    },
     "Ox": {
       "localizations": {
         "zh-Hans": {
@@ -7747,6 +8211,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "打包旧对话"
+          }
+        }
+      }
+    },
+    "Paid %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "充值 %@"
           }
         }
       }
@@ -8107,6 +8581,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "端口 3080 已被其他 App（例如旧版 DSH）占用。请先关闭那个 App，再启动引擎。"
+          }
+        }
+      }
+    },
+    "Position": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所在"
           }
         }
       }
@@ -8567,6 +9051,36 @@
         }
       }
     },
+    "Reasoning": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "推理"
+          }
+        }
+      }
+    },
+    "Reasoning trace": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考过程"
+          }
+        }
+      }
+    },
+    "Reasoning: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其中推理 %@"
+          }
+        }
+      }
+    },
     "Rebase or merge": {
       "localizations": {
         "zh-Hans": {
@@ -8743,6 +9257,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "记住上次使用的模型"
+          }
+        }
+      }
+    },
+    "Reminder threshold": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒阈值"
           }
         }
       }
@@ -8957,12 +9481,32 @@
         }
       }
     },
+    "Reply": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复"
+          }
+        }
+      }
+    },
     "Reply finished": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "回复完成"
+          }
+        }
+      }
+    },
+    "Reply interrupted": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复中断"
           }
         }
       }
@@ -9137,6 +9681,16 @@
         }
       }
     },
+    "Result": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结果"
+          }
+        }
+      }
+    },
     "Resume goal": {
       "localizations": {
         "zh-Hans": {
@@ -9303,6 +9857,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "执行时间"
+          }
+        }
+      }
+    },
+    "Run blocked": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已被拦截"
+          }
+        }
+      }
+    },
+    "Run details": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行信息"
           }
         }
       }
@@ -10355,6 +10929,16 @@
         }
       }
     },
+    "Speed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "速度"
+          }
+        }
+      }
+    },
     "Spill file limit": {
       "localizations": {
         "zh-Hans": {
@@ -10475,6 +11059,16 @@
         }
       }
     },
+    "Started": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始"
+          }
+        }
+      }
+    },
     "Starting": {
       "localizations": {
         "zh-Hans": {
@@ -10555,6 +11149,16 @@
         }
       }
     },
+    "Step details": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "步骤详情"
+          }
+        }
+      }
+    },
     "Step ended": {
       "localizations": {
         "zh-Hans": {
@@ -10571,6 +11175,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "步骤开始"
+          }
+        }
+      }
+    },
+    "Step timing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "计时"
           }
         }
       }
@@ -10713,6 +11327,16 @@
         }
       }
     },
+    "Stopped": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已停止"
+          }
+        }
+      }
+    },
     "Stopping": {
       "localizations": {
         "zh-Hans": {
@@ -10773,6 +11397,16 @@
         }
       }
     },
+    "Succeeded": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "成功"
+          }
+        }
+      }
+    },
     "Swipe left from the right edge of the chat.": {
       "localizations": {
         "zh-Hans": {
@@ -10819,6 +11453,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统"
+          }
+        }
+      }
+    },
+    "System %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统 %@"
           }
         }
       }
@@ -11433,6 +12077,16 @@
         }
       }
     },
+    "This chat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本对话"
+          }
+        }
+      }
+    },
     "This folder has more entries than the host can list.": {
       "localizations": {
         "zh-Hans": {
@@ -11593,12 +12247,32 @@
         }
       }
     },
+    "This step isn’t in the loaded records": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这一步不在已加载的记录里"
+          }
+        }
+      }
+    },
     "This subtask is read-only.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "此子任务只能查看。"
+          }
+        }
+      }
+    },
+    "This turn hasn’t been loaded": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮记录尚未加载"
           }
         }
       }
@@ -11689,16 +12363,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "时区"
-          }
-        }
-      }
-    },
-    "Times come from durable host events. Unfinished work has no invented end time.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "时间来自主机的持久事件。未完成的工作不填入结束时间。"
           }
         }
       }
@@ -11833,6 +12497,26 @@
         }
       }
     },
+    "Tools": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具"
+          }
+        }
+      }
+    },
+    "Tools %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具 %@"
+          }
+        }
+      }
+    },
     "Tools ask before doing anything sensitive.": {
       "localizations": {
         "zh-Hans": {
@@ -11849,6 +12533,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "当前对话和本 App 的功能"
+          }
+        }
+      }
+    },
+    "Tools in this step": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本步调用的工具"
           }
         }
       }
@@ -11879,6 +12573,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "工具 x50，劳模本模"
+          }
+        }
+      }
+    },
+    "Top up": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "去充值"
           }
         }
       }
@@ -11963,6 +12667,26 @@
         }
       }
     },
+    "Turn %lld · Step %lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %1$lld 轮 · 第 %2$lld 步"
+          }
+        }
+      }
+    },
+    "Turn count not reported": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轮数未报告"
+          }
+        }
+      }
+    },
     "Turn ended": {
       "localizations": {
         "zh-Hans": {
@@ -11999,6 +12723,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "轮次开始"
+          }
+        }
+      }
+    },
+    "Turn trajectory": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮轨迹"
+          }
+        }
+      }
+    },
+    "Turn trajectory  %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮轨迹  %@"
           }
         }
       }
@@ -12169,6 +12913,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "向 DeepSeek 上传对话日志？"
+          }
+        }
+      }
+    },
+    "Usage": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用量"
           }
         }
       }
@@ -12499,6 +13253,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "等下，有画面了"
+          }
+        }
+      }
+    },
+    "Waited for an answer": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待回答"
+          }
+        }
+      }
+    },
+    "Waited for approval": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待确认"
           }
         }
       }

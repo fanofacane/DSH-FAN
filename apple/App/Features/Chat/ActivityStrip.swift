@@ -64,6 +64,7 @@ struct ActivityStrip: View {
                 Text(verbatim: detail)
                     .font(activity.code && !showsStats ? Mono.font(12) : .system(size: 12))
                     .lineLimit(1)
+                    .foregroundStyle(activity.code ? DS.inkMuted : DS.inkFaint)
                     .contentTransition(.opacity)
             }
         }
@@ -122,7 +123,7 @@ struct ActivityWhale: View {
                         let index = Int(position) % frames.count
                         let blend = position - position.rounded(.down)
                         ZStack {
-                            frame(frames[index])
+                            frame(frames[index]).opacity(1 - blend)
                             frame(frames[(index + 1) % frames.count]).opacity(blend)
                         }
                         .onChange(of: context.date, initial: true) {
