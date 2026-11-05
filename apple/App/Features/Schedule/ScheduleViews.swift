@@ -64,7 +64,6 @@ private struct ScheduleEditor: View {
         SettingsPage(title: "Scheduled task") {
             SettingsGroup {
                 TextField("Title", text: $title).padding(16)
-                RowDivider()
                 TextField("Task instruction", text: $prompt, axis: .vertical).lineLimit(3...12).padding(16)
             }
             SettingsGroup {

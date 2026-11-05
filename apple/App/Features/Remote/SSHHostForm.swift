@@ -35,9 +35,7 @@ struct SSHHostForm: View {
                 .type(.bodyMedium).foregroundStyle(DS.inkMuted).padding(.horizontal, 8).padding(.bottom, 18)
             SettingsGroup(header: "Basic information") {
                 field("Name", hint: String(localized: "For example: computer, home Mac"), text: $name)
-                RowDivider()
                 field("Host", hint: String(localized: "192.168.1.20 or example.com"), text: $address, keyboard: .URL)
-                RowDivider()
                 HStack(spacing: 0) {
                     field("Username", hint: "root", text: $user)
                     Rectangle().fill(DS.rule.opacity(0.8)).frame(width: 0.5, height: 40)
@@ -52,7 +50,6 @@ struct SSHHostForm: View {
                     Text("Private key").tag(SSHHost.Auth.privateKey)
                 }
                 .pickerStyle(.segmented).padding(12)
-                RowDivider()
                 if auth == .password {
                     secretField("Password", text: $password)
                 } else {
@@ -79,7 +76,6 @@ struct SSHHostForm: View {
             }
             SettingsGroup(header: "Start command", footer: "If installed with nvm, you can enter the full path") {
                 field("Start command", hint: defaultDshLaunchCommand, text: $launchCommand, mono: true)
-                RowDivider()
                 field("Working directory (optional)", hint: "~/projects", text: $workingDirectory, mono: true)
             }
             if let existing {

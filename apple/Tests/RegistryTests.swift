@@ -66,7 +66,7 @@ import Testing
     }
 
     @Test func debugRegistriesKeepExistingCommandNames() {
-        #expect(Set(DebugPageRegistry.pages.keys) == Set([
+        #expect(Set(DebugPageRegistry.pages.keys).isSuperset(of: [
             "chat", "drawer",
             "settings", "notifications", "appearance", "language", "privacy", "diagnostics", "reply-preferences", "engine-parameters",
             "schedules", "usage", "agents", "files", "changes", "workspaces", "capabilities", "account", "providers", "model",

@@ -206,7 +206,6 @@ struct EngineFormPage: View {
                 }
             }.buttonStyle(.plain).disabled(!model.section.writable || meta["disabled"] as? Bool == true || model.saving)
         }
-        RowDivider()
     }
 }
 

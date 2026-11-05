@@ -34,7 +34,6 @@ struct WorkspacesPage: View {
                         Button("Rename") { rename = workspace; name = workspace.title }
                         Button("Remove workspace", role: .destructive) { deleting = workspace }
                     }
-                    RowDivider()
                 }
                 if chat.workspace.state.items.isEmpty { SettingsRow(title: "No workspaces yet") { EmptyView() } }
             }

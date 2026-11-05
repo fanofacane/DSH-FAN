@@ -31,9 +31,7 @@ struct PhoneSettingsView: View {
 
             SettingsGroup(header: "Confirmation", footer: "Calls, messages, sharing, reading the clipboard and the first run of each shortcut always ask.") {
                 SettingsChoiceRow(title: String(localized: "Ask every time"), selected: phone.mode == .ask) { phone.setMode(.ask) }
-                RowDivider()
                 SettingsChoiceRow(title: String(localized: "Allow within a task"), selected: phone.mode == .task) { phone.setMode(.task) }
-                RowDivider()
                 SettingsChoiceRow(title: String(localized: "Don't ask"), selected: phone.mode == .always) { phone.setMode(.always) }
             }
 
@@ -46,7 +44,6 @@ struct PhoneSettingsView: View {
                         .buttonStyle(.plain)
                         .accessibilityLabel(Text("Remove"))
                     }
-                    RowDivider(inset: 70)
                 }
                 HStack(spacing: 10) {
                     TextField("Shortcut name", text: $newShortcut)
@@ -64,13 +61,9 @@ struct PhoneSettingsView: View {
 
             SettingsGroup(header: "System permissions") {
                 permissionRow(DshGlyph.alarm, "Alarms", phone.capabilities["alarm"])
-                RowDivider(inset: 70)
                 permissionRow(AppIcon.calendar, "Calendar", phone.capabilities["calendar"])
-                RowDivider(inset: 70)
                 permissionRow(DshGlyph.listChecks, "Reminders", phone.capabilities["reminder"])
-                RowDivider(inset: 70)
                 permissionRow(DshGlyph.bell, "Notifications", phone.capabilities["notify"])
-                RowDivider(inset: 70)
                 permissionRow(DshGlyph.lightning, "Shortcuts app", phone.capabilities["shortcut"])
             }
             MistButton(title: "Open system settings", kind: .secondary) {

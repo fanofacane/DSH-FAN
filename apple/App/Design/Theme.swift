@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Mist Glass design system, ported from 原 Flutter 版 lib/ui/theme (palette.dart, accent.dart,
-// surfaces.dart, glass.dart, backdrop.dart, typography.dart, shapes.dart).
+// DSH Go: app/lib/ui/theme/{palette,accent,semantic_colors,surfaces,glass,backdrop,typography,shapes,motion,app_theme}.dart.
 // Portions derived from PiPilot (https://github.com/CikeSeven/pi_pilot), MIT,
 // Copyright (c) 2026 CikeSeven. See THIRD_PARTY_NOTICES.md.
 import SwiftUI
@@ -35,8 +34,6 @@ enum DS {
     // Page
     static let backdropTop = Color(light: 0xFFEBF1FE, dark: 0xFF1D222C)
     static let backdropBottom = Color(light: 0xFFF6F7FC, dark: 0xFF1B1C23)
-    static let glowPrimary = Color(light: 0xFFABC3FC, lightAlpha: 0.42, dark: 0xFF51679D, darkAlpha: 0.28)
-    static let glowSecondary = Color(light: 0xFFD5CBEB, lightAlpha: 0.38, dark: 0xFF514765, darkAlpha: 0.24)
     static let surface = Color(light: 0xFFF0F4FD, dark: 0xFF1C1F28)
     static let surfaceLow = Color(light: 0xFFF6F9FE, dark: 0xFF232730)
     static let surfaceContainer = Color(light: 0xFFEEF1F9, dark: 0xFF272C36)
@@ -66,6 +63,36 @@ enum DS {
     static let warn = Color(light: 0xFF936123, dark: 0xFFE6BD7C)
     static let warnContainer = Color(light: 0xFFF9E9CE, dark: 0xFF4C371D)
 
+
+    static let onDanger = Color(light: 0xFFFDF9F8, dark: 0xFF331513)
+    static let onDangerContainer = Color(light: 0xFF642724, dark: 0xFFF8D9D7)
+    static let onSuccessContainer = Color(light: 0xFF153F29, dark: 0xFFC9E7D4)
+    static let onWarnContainer = Color(light: 0xFF55350D, dark: 0xFFF4E2C3)
+    static let info = Color(light: 0xFF2971A7, dark: 0xFF8CBDE8)
+    static let infoContainer = Color(light: 0xFFDBECFC, dark: 0xFF253C4F)
+    static let onInfoContainer = Color(light: 0xFF123B5A, dark: 0xFFD1E4F4)
+    static let identity: [(fill: Color, ink: Color)] = [
+        (Color(light: 0xFFDAECFF, dark: 0xFF243A50), Color(light: 0xFF173F65, dark: 0xFFC5DEF8)),
+        (Color(light: 0xFFE9E6FF, dark: 0xFF38334F), Color(light: 0xFF3E3463, dark: 0xFFDBD6F7)),
+        (Color(light: 0xFFF9E1F3, dark: 0xFF472E42), Color(light: 0xFF562B4E, dark: 0xFFEFD0E7)),
+        (Color(light: 0xFFFFE2E0, dark: 0xFF4E2E2D), Color(light: 0xFF602A2A, dark: 0xFFF7D0CD)),
+        (Color(light: 0xFFF8E6D1, dark: 0xFF47341A), Color(light: 0xFF563500, dark: 0xFFEED7BB)),
+        (Color(light: 0xFFE0EFD8, dark: 0xFF2D3E24), Color(light: 0xFF2A4618, dark: 0xFFCEE2C4)),
+        (Color(light: 0xFFD3F1E9, dark: 0xFF174038), Color(light: 0xFF00483D, dark: 0xFFBCE5DB)),
+        (Color(light: 0xFFD1F0F8, dark: 0xFF153E47), Color(light: 0xFF004552, dark: 0xFFBAE3ED)),
+    ]
+
+    static func identityIndex(_ key: String) -> Int {
+        let hash = key.utf16.reduce(UInt32(0x811C9DC5)) { ($0 ^ UInt32($1)) &* 0x01000193 }
+        return Int(hash) % identity.count
+    }
+
+    static let capsuleTrack = Color(light: 0x0F1E232E, dark: 0x12FFFFFF)
+    static let searchFill = Color(light: 0x0D1E232E, dark: 0x12FFFFFF)
+    static let segmentThumb = Color(light: 0xFFFFFFFF, dark: 0x33FFFFFF)
+    static let switchTrack = Color(light: 0x381E232E, dark: 0x38E6E9F0)
+    static let switchKnob = Color(light: 0xFFFFFFFF, dark: 0xFFE6E9F0)
+
     // Code well
     static let codeWell = Color(light: 0xFFEDF0F6, dark: 0xFF14171E)
     static let codeWellHeader = Color(light: 0xFFE7EBF3, dark: 0xFF1A1E26)
@@ -79,30 +106,60 @@ enum DS {
     static let whale = Color(light: 0xFF4D6BFE, dark: 0xFF7A98FB)
 }
 
+/// Accent roles remain separate from the fixed identity and status colours.
+private struct AccentColors {
+    let seed: (UInt32, UInt32)
+    let container: (UInt32, UInt32)
+    let onContainer: (UInt32, UInt32)
+    let onSeedDark: UInt32
+    let glow: (UInt32, UInt32)
+    let haze: (UInt32, UInt32)
+
+    static let presets: [String: AccentColors] = [
+        "mist": AccentColors(seed: (0xFF4B67B4, 0xFF97B1F0),
+            container: (0xFFDEE8FF, 0xFF2E3C5F), onContainer: (0xFF213262, 0xFFD8E1F6),
+            onSeedDark: 0xFF121C34, glow: (0xFFABC3FC, 0xFF51679D), haze: (0xFFD5CBEB, 0xFF514765)),
+        "daiqing": AccentColors(seed: (0xFF236185, 0xFF8CB9D7),
+            container: (0xFFDBEAF5, 0xFF274152), onContainer: (0xFF123950, 0xFFD5E3ED),
+            onSeedDark: 0xFF0D1F2B, glow: (0xFFA2CAE5, 0xFF466E88), haze: (0xFFC7D0EC, 0xFF444C66)),
+        "dusk": AccentColors(seed: (0xFF726291, 0xFFB8ABD2),
+            container: (0xFFEAE5F4, 0xFF40394F), onContainer: (0xFF392F4C, 0xFFE2DEEC),
+            onSeedDark: 0xFF1F1A29, glow: (0xFFC8BDE1, 0xFF6D6284), haze: (0xFFE6C7D7, 0xFF5F4353)),
+        "turquoise": AccentColors(seed: (0xFF34766F, 0xFF8DBEB7),
+            container: (0xFFDBECE9, 0xFF274340), onContainer: (0xFF123D39, 0xFFD6E5E2),
+            onSeedDark: 0xFF0D211F, glow: (0xFFA3CEC8, 0xFF47726D), haze: (0xFFB9D7E3, 0xFF34525E)),
+        "amber": AccentColors(seed: (0xFF8D6636, 0xFFCCAC87),
+            container: (0xFFF2E6D9, 0xFF4C3A25), onContainer: (0xFF483011, 0xFFEADFD3),
+            onSeedDark: 0xFF271A0C, glow: (0xFFDCBE9D, 0xFF7F6343), haze: (0xFFEAC8C1, 0xFF64443D)),
+        "graphite": AccentColors(seed: (0xFF2C2E32, 0xFFE5E8ED),
+            container: (0xFFE3E6EC, 0xFF3B3D41), onContainer: (0xFF2C2E32, 0xFFDEE1E7),
+            onSeedDark: 0xFF191B1E, glow: (0xFFBBBEC3, 0xFF616368), haze: (0xFFCED1D6, 0xFF4A4D52)),
+        // Stored by earlier iOS builds.
+        "teal": AccentColors(seed: (0xFF286C6A, 0xFF84C9C4), container: (0xFFD4EEEA, 0xFF214B49),
+            onContainer: (0xFF174A48, 0xFFC2EAE5), onSeedDark: 0xFF0D211F,
+            glow: (0xFFA3CEC8, 0xFF47726D), haze: (0xFFB9D7E3, 0xFF34525E)),
+        "plum": AccentColors(seed: (0xFF78518B, 0xFFD2ADE5), container: (0xFFF0DFF7, 0xFF4C3359),
+            onContainer: (0xFF533265, 0xFFF0D9FA), onSeedDark: 0xFF1F1A29,
+            glow: (0xFFC8BDE1, 0xFF6D6284), haze: (0xFFE6C7D7, 0xFF5F4353)),
+    ]
+}
+
 /// Palette and reading scale flow through SwiftUI's environment, including sheets.
 struct DesignTheme {
     var palette = "mist"
     var readingScale: CGFloat = 1
-    var accent: Color {
-        switch palette {
-        case "teal": Color(light: 0xFF286C6A, dark: 0xFF84C9C4)
-        case "plum": Color(light: 0xFF78518B, dark: 0xFFD2ADE5)
-        default: Color(light: 0xFF4B67B4, dark: 0xFF97B1F0)
-        }
+
+    private var colors: AccentColors { AccentColors.presets[palette] ?? AccentColors.presets["mist"]! }
+    var accent: Color { Color(light: colors.seed.0, dark: colors.seed.1) }
+    var onAccent: Color { Color(light: 0xFFFFFFFF, dark: colors.onSeedDark) }
+    var accentCheck: Color { Color(argb: colors.seed.0) }
+    var accentContainer: Color { Color(light: colors.container.0, dark: colors.container.1) }
+    var onAccentContainer: Color { Color(light: colors.onContainer.0, dark: colors.onContainer.1) }
+    var glowPrimary: Color {
+        Color(light: colors.glow.0, lightAlpha: 0.42, dark: colors.glow.1, darkAlpha: 0.28)
     }
-    var accentContainer: Color {
-        switch palette {
-        case "teal": Color(light: 0xFFD4EEEA, dark: 0xFF214B49)
-        case "plum": Color(light: 0xFFF0DFF7, dark: 0xFF4C3359)
-        default: Color(light: 0xFFDEE8FF, dark: 0xFF2E3C5F)
-        }
-    }
-    var onAccentContainer: Color {
-        switch palette {
-        case "teal": Color(light: 0xFF174A48, dark: 0xFFC2EAE5)
-        case "plum": Color(light: 0xFF533265, dark: 0xFFF0D9FA)
-        default: Color(light: 0xFF213262, dark: 0xFFD8E1F6)
-        }
+    var glowSecondary: Color {
+        Color(light: colors.haze.0, lightAlpha: 0.38, dark: colors.haze.1, darkAlpha: 0.24)
     }
 }
 
@@ -130,12 +187,15 @@ enum Space {
 // MARK: Typography (typography.dart): system sans, two weights, mono for code only
 
 enum TextRole {
-    case display, headline, title, titleMedium, titleSmall, body, bodyMedium, bodySmall, label, labelMedium, labelSmall, eyebrow
+    case display, pageTitle, headline, hero, setting, title, titleMedium, titleSmall, body, bodyMedium, bodySmall, label, labelMedium, labelSmall, eyebrow
 
     var size: CGFloat {
         switch self {
         case .display: 28
+        case .pageTitle: 26
         case .headline: 22
+        case .hero: 20
+        case .setting: 15
         case .title: 18
         case .titleMedium, .body: 16
         case .titleSmall, .bodyMedium, .label: 14
@@ -146,7 +206,7 @@ enum TextRole {
     var weight: Font.Weight {
         switch self {
         case .display: .light
-        case .headline, .title, .titleMedium, .titleSmall, .label, .labelMedium, .eyebrow: .semibold
+        case .pageTitle, .headline, .hero, .title, .titleMedium, .titleSmall, .label, .labelMedium, .eyebrow: .semibold
         default: .regular
         }
     }
@@ -154,7 +214,9 @@ enum TextRole {
     var height: CGFloat {
         switch self {
         case .display: 1.25
-        case .headline: 1.3
+        case .pageTitle, .headline: 1.3
+        case .hero: 1.35
+        case .setting: 1.4
         case .title: 1.4
         case .titleMedium, .titleSmall: 1.45
         case .body: 1.65
@@ -180,6 +242,19 @@ private struct TypeStyle: ViewModifier {
             .lineSpacing(role.size * scale * (role.height - 1.2))
             .tracking(role == .eyebrow ? 0.8 : role == .labelMedium || role == .labelSmall ? 0.2 : 0)
     }
+}
+
+// MARK: Motion (motion.dart)
+
+enum AppMotion {
+    static let pressScale: CGFloat = 0.97
+    static let press = Animation.spring(duration: 0.15, bounce: 0)
+    static let quick = Animation.timingCurve(0.2, 0, 0, 1, duration: 0.16)
+    static let standard = Animation.timingCurve(0.2, 0, 0, 1, duration: 0.24)
+    static let collapse = Animation.timingCurve(0.645, 0.045, 0.355, 1, duration: 0.28)
+    static let glide = Animation.timingCurve(0.32, 0.72, 0, 1, duration: 0.34)
+    static let thumb = Animation.spring(duration: 0.32, bounce: 0.15)
+    static let breath = Animation.easeInOut(duration: 1.2).repeatForever(autoreverses: true)
 }
 
 enum Mono {
@@ -215,6 +290,7 @@ struct Glyph: View {
 // MARK: Backdrop (backdrop.dart): vertical mist gradient + two radial glows
 
 struct AppBackdrop: View {
+    @Environment(\.designTheme) private var theme
     var glow = true
     var body: some View {
         GeometryReader { geometry in
@@ -223,9 +299,9 @@ struct AppBackdrop: View {
             ZStack {
                 LinearGradient(colors: [DS.backdropTop, DS.backdropBottom], startPoint: .top, endPoint: .bottom)
                 if glow {
-                    RadialGradient(colors: [DS.glowPrimary, DS.glowPrimary.opacity(0)], center: .init(x: 0.92, y: 0),
+                    RadialGradient(colors: [theme.glowPrimary, theme.glowPrimary.opacity(0)], center: .init(x: 0.92, y: 0),
                                    startRadius: 0, endRadius: longest * 0.62)
-                    RadialGradient(colors: [DS.glowSecondary, DS.glowSecondary.opacity(0)], center: .init(x: 0, y: 1),
+                    RadialGradient(colors: [theme.glowSecondary, theme.glowSecondary.opacity(0)], center: .init(x: 0, y: 1),
                                    startRadius: 0, endRadius: longest * 0.55)
                 }
             }

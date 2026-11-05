@@ -47,10 +47,8 @@ struct EngineView: View {
                     if engine.safeModeOn { safeNotice.padding(.bottom, 22) }
                     SettingsGroup(header: "Startup") {
                         SettingsToggleRow(title: "Start when the app opens", isOn: $engine.autoStart)
-                        RowDivider()
                         SettingsToggleRow(title: "Safe mode automatically", subtitle: String(localized: "Turns on after repeated start failures"),
                                           isOn: Binding(get: { engine.status.autoSafe }, set: { engine.setAutoSafe($0) }))
-                        RowDivider()
                         Button { engine.startSafe() } label: {
                             SettingsRow(title: "Start in safe mode", subtitle: String(localized: "Without plugins, to troubleshoot startup"))
                         }
@@ -60,7 +58,6 @@ struct EngineView: View {
                     SettingsGroup(header: "Maintenance") {
                         if phase == .notInstalled || (phase == .error && engine.status.installedVersion == nil) {
                             Button { engine.install() } label: { SettingsRow(title: "Install runtime") }.buttonStyle(.plain)
-                            RowDivider()
                         }
                         Button { confirmReset = true } label: {
                             SettingsRow(title: "Reset runtime", subtitle: engine.status.installedVersion, titleColor: DS.danger) { EmptyView() }

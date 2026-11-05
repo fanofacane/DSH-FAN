@@ -33,10 +33,9 @@ struct DeepSeekAccountPage: View {
                 SettingsGroup {
                     SettingsRow(title: signedIn ? "Signed in" : "Signed out") { Image(systemName: "person.crop.circle").foregroundStyle(theme.accent) }
                     if let name = profile.name ?? profile.contact {
-                        RowDivider(); SettingsRow(title: "", verbatim: name) { EmptyView() }
+                        SettingsRow(title: "", verbatim: name) { EmptyView() }
                     }
                     if active {
-                        RowDivider()
                         SettingsRow(title: phaseTitle) { ProgressView() }
                     }
                 }

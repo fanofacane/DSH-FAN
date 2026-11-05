@@ -64,9 +64,17 @@ extension EnvironmentValues {
 /// Observe appearance inside a view so changes update descendants and presented sheets.
 struct AppAppearance: ViewModifier {
     @Environment(AppPreferences.self) private var preferences
+    private var usesFixture: Bool {
+        #if DEBUG
+        DebugPageRegistry.usesFixture
+        #else
+        false
+        #endif
+    }
+
     func body(content: Content) -> some View {
-        let theme = DesignTheme(palette: preferences.palette, readingScale: preferences.scale)
-        content.preferredColorScheme(preferences.colorScheme)
+        let theme = usesFixture ? DesignTheme() : DesignTheme(palette: preferences.palette, readingScale: preferences.scale)
+        content.preferredColorScheme(usesFixture ? nil : preferences.colorScheme)
             .environment(\.designTheme, theme)
             .tint(theme.accent)
     }

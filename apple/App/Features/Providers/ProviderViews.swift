@@ -13,7 +13,6 @@ struct ProviderSettingsPage: View {
             MistButton(title: "Add provider") { adding = true }.padding(.bottom, 16)
             SettingsGroup {
                 ForEach(Array(providers.enumerated()), id: \.offset) { index, provider in
-                    if index > 0 { RowDivider() }
                     NavigationLink {
                         if provider.provider == "deepseek-account" { DeepSeekAccountPage() }
                         else { ProviderEditor(provider: provider, sections: namespaces) }
@@ -88,9 +87,8 @@ struct ProviderEditor: View {
             SettingsGroup {
                 TextField("Provider ID", text: $route).disabled(provider != nil).textInputAutocapitalization(.never).autocorrectionDisabled().padding(16)
                 if custom {
-                    RowDivider(); TextField("Display name", text: $name).padding(16)
-                    RowDivider(); TextField("API base URL", text: $endpoint).textInputAutocapitalization(.never).autocorrectionDisabled().keyboardType(.URL).padding(16)
-                    RowDivider()
+                    TextField("Display name", text: $name).padding(16)
+                    TextField("API base URL", text: $endpoint).textInputAutocapitalization(.never).autocorrectionDisabled().keyboardType(.URL).padding(16)
                     Picker("Protocol", selection: $protocolName) {
                         if provider != nil { Text("Engine default").tag("catalog") }
                         ForEach(["openai-completions", "openai-responses", "anthropic-messages"], id: \.self) { Text(verbatim: $0).tag($0) }
@@ -98,7 +96,6 @@ struct ProviderEditor: View {
                     SettingsToggleRow(title: "Requires API key", isOn: $requiresKey)
                 }
                 if requiresKey {
-                    RowDivider()
                     SecureField("API key (leave blank to keep)", text: $key).textInputAutocapitalization(.never).autocorrectionDisabled().padding(16).disabled(!writableKey)
                     SettingsRow(title: configured ? "Key configured" : "No key yet") { EmptyView() }
                 }

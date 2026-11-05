@@ -21,7 +21,6 @@ struct RemoteHostsPage: View {
             if let active = hosts.activeHost {
                 SettingsGroup {
                     HostStatusRow(host: active)
-                    RowDivider()
                     HStack(spacing: 10) {
                         MistButton(title: "Reconnect", kind: .secondary) { Task { await chat.connection.connect(forceRestart: false) } }
                         MistButton(title: "Use this phone", kind: .secondary) {
@@ -38,7 +37,6 @@ struct RemoteHostsPage: View {
                         SettingsRow(glyph: AppIcon.sshHost, title: "", subtitle: host.address, verbatim: host.name) { SettingsChevron() }
                     }
                     .buttonStyle(.plain)
-                    RowDivider(inset: 70)
                 }
                 NavigationLink { SSHHostForm(existing: nil) } label: {
                     SettingsRow(glyph: AppIcon.add, tone: .neutral, title: "Add SSH host", subtitle: String(localized: "No third-party server"))

@@ -85,7 +85,6 @@ struct RelaySection: View {
                     .font(.system(size: 14, weight: .semibold)).foregroundStyle(DS.danger)
             }
             if relay.hosts.isEmpty {
-                RowDivider(inset: 70)
                 Button { Task { await relay.refreshHosts() } } label: {
                     SettingsRow(title: LocalizedStringKey(relay.hostsError ?? String(localized: "No hosts yet")),
                                 subtitle: relay.loadingHosts ? String(localized: "Loading") : nil) {
@@ -95,7 +94,6 @@ struct RelaySection: View {
                 .buttonStyle(.plain)
             }
             ForEach(relay.hosts) { host in
-                RowDivider(inset: 70)
                 Button { use(host) } label: { RelayHostRow(host: host, active: hosts.activeRelayId == host.id) }
                     .buttonStyle(.plain)
                     .disabled(!host.online && hosts.activeRelayId != host.id)

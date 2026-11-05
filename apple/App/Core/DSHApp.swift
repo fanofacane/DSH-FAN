@@ -86,6 +86,7 @@ struct RootView: View {
         .task {
             guard !AppLaunchPolicy.isUnitTestHost, onboarded || Self.skipOnboarding else { return }
             #if DEBUG
+            guard !DebugPageRegistry.usesFixture else { return }
             if AppSession.menuSmokeRequested || AppSession.featureSmokeName != nil { hosts.select(nil) } // This phone's engine.
             #endif
             engine.prepareOnLaunch()
@@ -117,6 +118,9 @@ struct RootView: View {
         }
         .sheet(item: Binding(get: { hosts.hostKeyPrompt }, set: { _ in })) { prompt in HostKeySheet(prompt: prompt) }
         .onChange(of: scenePhase) { _, value in
+            #if DEBUG
+            guard !DebugPageRegistry.usesFixture else { return }
+            #endif
             phone.setForeground(value == .active)
             notifications.setForeground(value, allowGrace: chat.hasRunningTasks)
             // iOS drops sockets in the background; bring a remote link back on return.

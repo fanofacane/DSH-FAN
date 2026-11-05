@@ -151,6 +151,16 @@
         }
       }
     },
+    "About you": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于你"
+          }
+        }
+      }
+    },
     "Accent color": {
       "localizations": {
         "zh-Hans": {
@@ -651,16 +661,6 @@
         }
       }
     },
-    "DSH Fan is an independent project that learned from DSH Go (AGPL-3.0) and iSH (GPL-3.0). It is open source under AGPL-3.0; the source code is at github.com/fanofacane/dsh-fan.": {
-      "localizations": {
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "DSH Fan 是参考学习 DSH Go（AGPL-3.0）与 iSH（GPL-3.0）后独立开发的项目，以 AGPL-3.0 开源，源代码见 github.com/fanofacane/dsh-fan。"
-          }
-        }
-      }
-    },
     "Cache reads": {
       "localizations": {
         "zh-Hans": {
@@ -737,6 +737,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "修改执行时间"
+          }
+        }
+      }
+    },
+    "Charts, comparisons and tappable options": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图表、对比卡和可点的选项"
           }
         }
       }
@@ -1341,6 +1351,16 @@
         }
       }
     },
+    "DSH Fan is an independent project that learned from DSH Go (AGPL-3.0) and iSH (GPL-3.0). It is open source under AGPL-3.0; the source code is at github.com/fanofacane/dsh-fan.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH Fan 是参考学习 DSH Go（AGPL-3.0）与 iSH（GPL-3.0）后独立开发的项目，以 AGPL-3.0 开源，源代码见 github.com/fanofacane/dsh-fan。"
+          }
+        }
+      }
+    },
     "DSH does not automatically upload diagnostic logs. Review every export before sharing it.": {
       "localizations": {
         "zh-Hans": {
@@ -1697,6 +1717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "完成"
+          }
+        }
+      }
+    },
+    "Don’t show again": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不再提示"
           }
         }
       }
@@ -3531,6 +3561,16 @@
         }
       }
     },
+    "Personalization": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "个性化"
+          }
+        }
+      }
+    },
     "Pet": {
       "localizations": {
         "zh-Hans": {
@@ -3581,12 +3621,12 @@
         }
       }
     },
-    "Plugins and phone control stay off in safe mode, including after restarts. Start normally when you're done troubleshooting." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "安全模式下插件和手机控制保持关闭，重启后也一样。排查完毕后请以正常模式启动。"
+    "Plugins and phone control stay off in safe mode, including after restarts. Start normally when you're done troubleshooting.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安全模式下插件和手机控制保持关闭，重启后也一样。排查完毕后请以正常模式启动。"
           }
         }
       }
@@ -4051,6 +4091,16 @@
         }
       }
     },
+    "Replies": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回答"
+          }
+        }
+      }
+    },
     "Reply preferences": {
       "localizations": {
         "zh-Hans": {
@@ -4381,12 +4431,12 @@
         }
       }
     },
-    "Safe mode is on" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "安全模式已开启"
+    "Safe mode is on": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "安全模式已开启"
           }
         }
       }
@@ -5001,12 +5051,12 @@
         }
       }
     },
-    "Start normally" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "以正常模式启动"
+    "Start normally": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "以正常模式启动"
           }
         }
       }
@@ -5391,12 +5441,12 @@
         }
       }
     },
-    "The local engine is in safe mode, so the model can't use phone control." : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本地引擎处于安全模式，模型暂时无法使用手机控制。"
+    "The local engine is in safe mode, so the model can't use phone control.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本地引擎处于安全模式，模型暂时无法使用手机控制。"
           }
         }
       }
@@ -6061,6 +6111,16 @@
         }
       }
     },
+    "Visual replies": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可视化回复"
+          }
+        }
+      }
+    },
     "Waiting for browser authorization": {
       "localizations": {
         "zh-Hans": {
@@ -6157,6 +6217,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "工作目录（可选）"
+          }
+        }
+      }
+    },
+    "Working style": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作方式"
           }
         }
       }

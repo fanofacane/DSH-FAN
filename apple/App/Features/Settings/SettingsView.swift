@@ -44,7 +44,6 @@ struct SettingsView: View {
         let entries = SettingsRegistry.entries(in: group, context: context)
         return SettingsGroup(header: LocalizedStringKey(group.rawValue)) {
             ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
-                if index > 0 { RowDivider(inset: entries[index - 1].dividerInset) }
                 SettingsLink(glyph: entry.glyph, tone: entry.tone, title: entry.title, subtitle: entry.subtitle(context)) {
                     entry.destination()
                 }
@@ -70,7 +69,6 @@ struct SettingsView: View {
                 .padding(16).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            RowDivider()
             NavigationLink { SettingsRegistry.engine.destination() } label: {
                 HStack(spacing: 12) {
                     Circle().fill(engine.status.phase == .running ? DS.success : DS.warn).frame(width: 8, height: 8)
@@ -143,14 +141,12 @@ struct ModelSettingsPage: View {
         SettingsPage(title: "Model") {
             SettingsGroup(header: "Default model") {
                 ForEach(Array(chat.connection.models.enumerated()), id: \.element.id) { index, model in
-                    if index > 0 { RowDivider() }
                     SettingsChoiceRow(title: model.name, selected: chat.connection.selectedModel == model) { chat.connection.selectedModel = model }
                 }
             }
             if let model = chat.connection.selectedModel, !model.efforts.isEmpty {
                 SettingsGroup(header: "Thinking", footer: "Deeper thinking answers harder questions better but takes longer.") {
                     ForEach(Array(model.efforts.enumerated()), id: \.element.id) { index, effort in
-                        if index > 0 { RowDivider() }
                         SettingsChoiceRow(title: effortTitle(effort), selected: (chat.connection.effort(for: model) ?? model.efforts[0].id) == effort.id) {
                             chat.connection.setEffort(effort.id, for: model)
                         }
@@ -168,7 +164,6 @@ struct PermissionSettingsPage: View {
             SettingsGroup(header: "New chats", footer: "iOS has no command sandbox for the engine, so full access is the default here; the app itself stays inside the iOS sandbox. Choose a stricter preset to approve actions yourself.") {
                 SettingsChoiceRow(title: String(localized: "Engine default"), selected: chat.control.permissionPreset == nil) { chat.control.permissionPreset = nil }
                 ForEach(chat.control.permissionPresets) { preset in
-                    RowDivider()
                     SettingsChoiceRow(title: preset.name, subtitle: preset.description, selected: chat.control.permissionPreset == preset.id) {
                         chat.control.permissionPreset = preset.id
                     }
@@ -189,9 +184,7 @@ struct PetSettingsPage: View {
             if pet.enabled {
                 SettingsGroup(header: "Size") {
                     SettingsChoiceRow(title: String(localized: "Small"), selected: pet.bodyHeight == 22) { pet.bodyHeight = 22 }
-                    RowDivider()
                     SettingsChoiceRow(title: String(localized: "Standard"), selected: pet.bodyHeight == 30) { pet.bodyHeight = 30 }
-                    RowDivider()
                     SettingsChoiceRow(title: String(localized: "Large"), selected: pet.bodyHeight == 40) { pet.bodyHeight = 40 }
                 }
             }
@@ -208,11 +201,9 @@ struct AboutPage: View {
                     Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "").foregroundStyle(DS.inkFaint)
                 }
                 if let dsh = engine.status.dshVersion {
-                    RowDivider()
                     SettingsRow(title: "DSH") { Text(dsh).foregroundStyle(DS.inkFaint) }
                 }
                 if let node = engine.status.nodeVersion {
-                    RowDivider()
                     SettingsRow(title: "Node.js") { Text(node).foregroundStyle(DS.inkFaint) }
                 }
             }
