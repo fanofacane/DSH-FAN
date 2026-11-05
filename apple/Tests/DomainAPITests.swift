@@ -4,6 +4,16 @@ import Testing
 @testable import DSHClient
 
 struct DomainAPITests {
+    @Test func promptUsesQueueByDefaultAndExplicitSteering() async throws {
+        let fixture = APITransportFixture(responses: ["session/prompt": [:]])
+        let client = DSHClient(carrier: fixture)
+        defer { client.close() }
+        try await client.prompt(sessionId: "s", text: "start")
+        try await client.prompt(sessionId: "s", text: "steer", mode: .steer)
+        let modes = fixture.calls.compactMap { ($0.args["request"] as? [String: Any])?["mode"] as? String }
+        #expect(modes == ["queue", "steer"])
+    }
+
     @Test func workspaceRecordsAndRequests() async throws {
         let fixture = APITransportFixture(responses: [
             "workspace/create": ["workspace": ["workspaceId": "w", "title": "Work", "path": "/work", "sessionIds": ["s"]]],

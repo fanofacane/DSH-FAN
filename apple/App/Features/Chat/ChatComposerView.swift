@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// DSH Go app/lib/ui/chat/{composer,chat_screen}.dart.
+import DSHClient
 import SwiftUI
 
 struct ChatComposerView: View {
@@ -13,18 +15,27 @@ struct ChatComposerView: View {
     let openImages: () -> Void
     let startDictation: () -> Void
     let submit: () -> Void
+    var openTrace: (TurnTrace) -> Void
+    var showsWorkspace = true
+    var previewFolded: Bool?
+    var previewTodoOpen = false
     var body: some View {
-        VStack(spacing: 8) {
-            Button { openWorkspace() } label: {
-                HStack(spacing: 6) {
-                    Image(systemName: "folder")
-                    Text(verbatim: chat.workspace.workingDirectoryLabel).lineLimit(1).truncationMode(.middle)
-                    Image(systemName: "chevron.down")
-                }.type(.bodySmall).foregroundStyle(DS.inkFaint)
-            }.buttonStyle(.plain).disabled(chat.transcript.busy).accessibilityLabel(Text("New chat location"))
+        VStack(spacing: RunLayout.dockGap) {
+            if showsWorkspace {
+                Button { openWorkspace() } label: {
+                    HStack(spacing: Space.xs) {
+                        Image(systemName: "folder")
+                        Text(verbatim: chat.workspace.workingDirectoryLabel).lineLimit(1).truncationMode(.middle)
+                        Image(systemName: "chevron.down")
+                    }.type(.bodySmall).foregroundStyle(DS.inkFaint)
+                }
+                .buttonStyle(.plain)
+                .disabled(chat.transcript.busy)
+                .accessibilityLabel(Text("New chat location"))
+            }
             ComposerPalette(text: $draft)
             SubagentDock()
-            TaskDock()
+            TaskDock(openTrace: openTrace, previewFolded: previewFolded, previewTodoOpen: previewTodoOpen)
             if let approval = chat.requests.currentApproval {
                 ApprovalCard(approval: approval)
             }
@@ -42,25 +53,25 @@ struct ChatComposerView: View {
                 HStack(alignment: .bottom, spacing: 8) {
                     Button { openImages() } label: {
                         Glyph(glyph: AppIcon.add, size: 22).foregroundStyle(DS.ink)
-                            .frame(width: 40, height: 40)
+                            .frame(width: RunLayout.composerButton, height: RunLayout.composerButton)
                             .background(DS.surfaceHigh.opacity(0.8), in: Circle())
                     }
                     .buttonStyle(.plain)
-                    .disabled(chat.transcript.busy)
+                    .disabled(chat.transcript.busy && !chat.transcript.canSteer)
                     .accessibilityLabel(Text("Add images"))
 
-                    TextField("Message DSH…", text: $draft, axis: .vertical)
+                    TextField(placeholder, text: $draft, axis: .vertical)
                         .type(.body)
                         .foregroundStyle(DS.ink)
                         .lineLimit(1...6)
                         .focused($composerFocused)
                         .padding(.vertical, 8)
-                        .frame(minHeight: 40)
+                        .frame(minHeight: RunLayout.composerButton)
 
                     sendKey
                 }
             }
-            .padding(8)
+            .padding(Space.xs)
             .glass(.chrome, radius: Radius.xl)
         }
         // Deepy stands on the topmost capsule above the input: the approval card
@@ -77,42 +88,58 @@ struct ChatComposerView: View {
             // Listening: tap to finish; the ring follows the microphone level.
             Button { voice.stop() } label: {
                 Glyph(glyph: AppIcon.stopGenerating, size: 16).foregroundStyle(DS.onAccent)
-                    .frame(width: 40, height: 40)
+                    .frame(width: RunLayout.composerButton, height: RunLayout.composerButton)
                     .background(theme.accent, in: Circle())
                     .overlay(Circle().stroke(theme.accent.opacity(0.35), lineWidth: 3 + CGFloat(voice.level) * 7))
                     .animation(.easeOut(duration: 0.1), value: voice.level)
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("Stop dictation"))
-        } else if preferences.voiceInputEnabled && !chat.transcript.busy && draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && images.isEmpty {
+        } else if showsWorkspace && preferences.voiceInputEnabled && !chat.transcript.busy && draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && images.isEmpty {
             Button { startDictation() } label: {
                 Glyph(glyph: AppIcon.voice, size: 20).foregroundStyle(DS.ink)
-                    .frame(width: 40, height: 40)
+                    .frame(width: RunLayout.composerButton, height: RunLayout.composerButton)
                     .background(DS.surfaceHigh, in: Circle())
             }
             .buttonStyle(.plain)
             .disabled(!chat.transcript.canSend)
             .accessibilityLabel(Text("Dictate"))
-        } else if chat.transcript.busy {
+        } else if chat.transcript.stopping || (chat.transcript.turnRunning && !hasContent) {
             Button { Task { await chat.transcript.stop() } } label: {
-                Glyph(glyph: AppIcon.stop, size: 18).foregroundStyle(DS.ink)
-                    .frame(width: 40, height: 40)
-                    .background(DS.surfaceHigh, in: Circle())
+                Group {
+                    if chat.transcript.stopping { ProgressView().tint(theme.onAccent) }
+                    else { Glyph(glyph: AppIcon.stopGenerating, size: 18).foregroundStyle(theme.onAccent) }
+                }
+                .frame(width: RunLayout.composerButton, height: RunLayout.composerButton)
+                .background(theme.accent, in: Circle())
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(Text("Stop"))
+            .disabled(chat.transcript.stopping || chat.transcript.sending)
+            .accessibilityLabel(Text(chat.transcript.stopping ? "Stopping" : "Stop generating"))
         } else {
-            let ready = chat.transcript.canSend && (!draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !images.isEmpty)
+            let ready = (chat.transcript.canSend || chat.transcript.canSteer) && hasContent
             Button(action: submit) {
-                Glyph(glyph: AppIcon.send, size: 20)
+                Glyph(glyph: chat.transcript.turnRunning ? AppIcon.steer : AppIcon.send, size: 20)
                     .foregroundStyle(ready ? DS.onAccent : DS.inkGhost)
-                    .frame(width: 40, height: 40)
+                    .frame(width: RunLayout.composerButton, height: RunLayout.composerButton)
                     .background(ready ? theme.accent : DS.surfaceHigh, in: Circle())
             }
             .buttonStyle(.plain)
             .disabled(!ready)
             .accessibilityLabel(Text("Send"))
         }
+    }
+
+    private var hasContent: Bool {
+        !draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !images.isEmpty
+    }
+
+    private var placeholder: LocalizedStringKey {
+        if chat.transcript.stopping { return "Stopping" }
+        if chat.requests.currentQuestion != nil { return "Needs your answer" }
+        if chat.requests.currentApproval != nil { return "Needs approval" }
+        if chat.transcript.turnRunning { return "Generating · Type to steer" }
+        return "Message DSH…"
     }
 
     private var imageTray: some View {

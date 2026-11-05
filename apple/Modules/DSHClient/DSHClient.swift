@@ -266,10 +266,12 @@ public final class DSHClient: @unchecked Sendable {
         try await rpc("session/selectModel", ["request": request])
     }
 
-    /// Queues a user message. Pair with `follow(sessionId:)` to read the reply.
+    public enum PromptMode: String, Sendable { case queue, steer }
+
+    /// Queues a new turn or sends a message into the running turn's next step.
     @discardableResult
     public func prompt(sessionId: String, text: String, images: [PromptImage] = [],
-                       requestId: String = UUID().uuidString) async throws -> String {
+                       requestId: String = UUID().uuidString, mode: PromptMode = .queue) async throws -> String {
         var content: [[String: Any]] = []
         if !text.isEmpty { content.append(["type": "text", "text": text]) }
         for image in images {
@@ -279,7 +281,7 @@ public final class DSHClient: @unchecked Sendable {
         }
         guard !content.isEmpty else { throw DSHError("E_EMPTY_PROMPT") }
         try await rpc("session/prompt", ["request": [
-            "requestId": requestId, "sessionId": sessionId, "mode": "queue",
+            "requestId": requestId, "sessionId": sessionId, "mode": mode.rawValue,
             "content": content, "clientTimeZone": TimeZone.current.identifier,
         ]])
         return requestId

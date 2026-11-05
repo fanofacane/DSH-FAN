@@ -18,7 +18,7 @@ public struct TurnTraceFold: Sendable {
         lastSeq = fact.id
         switch fact.kind {
         case "compaction/start": compactionStart = fact.time
-        case "compaction/end": compactionStart = nil
+        case "compaction/end", "turn/end": compactionStart = nil
         default: break
         }
         switch fact.detail {

@@ -26,6 +26,10 @@ import SwiftUI
     }
     static let pages: [String: @MainActor () -> AnyView] = [
         "run-chat": { AnyView(DebugRunPage(route: .chat)) },
+        "run-activity": { AnyView(DebugActivityGallery(levels: argument("-dsh-screen-fixture") == "levels")) },
+        "run-dock": { AnyView(DebugRunPage(route: .dock)) },
+        "run-dock-states": { AnyView(DebugDockGallery()) },
+        "run-goal": { AnyView(DebugRunPage(route: .goal)) },
         "run-diff": { AnyView(DebugRunPage(route: .diff)) },
         "chat": { AnyView(ChatView()) },
         "drawer": { AnyView(ChatView(drawerOpen: true)) },

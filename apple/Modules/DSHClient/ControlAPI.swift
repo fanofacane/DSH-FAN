@@ -8,6 +8,12 @@ public struct SessionControlState {
     private var baselineSeq: [String: Int] = [:]
     private var revisions: [String: [String: Int]] = [:]
     public init() {}
+    #if DEBUG
+    public mutating func applyFixture(_ data: Data) {
+        if let frame = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] { apply(frame) }
+    }
+    #endif
+
     mutating func apply(_ frame: [String: Any]) {
         if frame["type"] as? String == "baseline" {
             values = [:]; baselineSeq = [:]; revisions = [:]
@@ -47,7 +53,8 @@ public struct GoalState {
 public struct TodoItem: Sendable {
     public let content: String
     public let status: String?
-    init(_ row: [String: Any]) { content = row["content"] as? String ?? ""; status = row["status"] as? String }
+    init(_ row: [String: Any]) { self.init(content: row["content"] as? String ?? "", status: row["status"] as? String) }
+    public init(content: String, status: String?) { self.content = content; self.status = status }
 }
 /// The module retains unknown projection keys; App consumers see domain values.
 public struct SessionProjection {

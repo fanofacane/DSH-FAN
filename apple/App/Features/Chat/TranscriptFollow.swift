@@ -15,7 +15,7 @@ import Observation
                 }
             } catch {
                 if !Task.isCancelled, self.currentSessionId == id {
-                    self.turnRunning = false; self.draft = nil
+                    self.turnRunning = false; self.stopping = false; self.draft = nil
                     self.appendNotice(appErrorCode(error))
                 }
             }
@@ -46,15 +46,22 @@ import Observation
                 for fact in facts where fact.id > (runFacts.last?.id ?? -1) {
                     runFacts.append(fact)
                     traceFold.apply(fact)
+                    if hosts.isRemote {
+                        let sample = Date.now.timeIntervalSince(fact.time)
+                        if abs(sample) <= 3600 { clockSkew = min(clockSkew ?? sample, sample) }
+                    }
                 }
             }
         case .event(let record):
             apply(record)
         case .textDelta(let text):
+            tokenRate.add(text)
             editDraft { $0.text += text }
         case .reasoningDelta(let text):
+            tokenRate.add(text)
             editDraft { $0.reasoning += text }
         case .toolCallDelta(let id, let name, let delta):
+            tokenRate.add(delta)
             editDraft { item in
                 if let index = item.tools.firstIndex(where: { $0.id == id }) {
                     item.tools[index].arguments += delta
@@ -92,10 +99,10 @@ import Observation
                 }
             }
         case .turnStarted:
-            turnRunning = true
+            turnRunning = true; stopping = false; tokenRate = RunTokenRate()
         case .turnEnded(_, _, let reason):
             let wasRunning = turnRunning
-            turnRunning = false; draft = nil
+            turnRunning = false; stopping = false; draft = nil; tokenRate = RunTokenRate()
             let lastRetry = retrying; retrying = nil
             let normal: Set<String> = ["completed", "aborted", "forked", "unknown"]
             if let failure = lastFailure ?? (normal.contains(reason) ? nil : (lastRetry?.code ?? reason)), wasRunning || followReady {
@@ -134,6 +141,7 @@ import Observation
         releaseSnapshotWaiter()
         currentSessionId = nil; sessionModel = nil; sessionEffort = nil; followReady = false
         runFacts = []; traceFold = TurnTraceFold(); historyHasMore = false
-        turnRunning = false; lastSeq = -1; lastFailure = nil; events = []; retrying = nil
+        turnRunning = false; sending = false; stopping = false; clockSkew = nil; tokenRate = RunTokenRate()
+        lastSeq = -1; lastFailure = nil; events = []; retrying = nil
     }
 }

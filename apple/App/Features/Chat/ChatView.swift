@@ -105,7 +105,7 @@ struct ChatDetailView: View {
                 if !chat.connection.models.isEmpty && (!hosts.isRemote || chat.connection.state == .ready) {
                     ChatComposerView(draft: $draft, images: $images, composerFocused: $composerFocused, voice: voice,
                         openWorkspace: { workspacePicker = true }, openImages: { showPicker = true },
-                        startDictation: startDictation, submit: submit)
+                        startDictation: startDictation, submit: submit, openTrace: { _ in insights = true })
                 }
             }
         }
@@ -160,11 +160,15 @@ struct ChatDetailView: View {
     }
 
     private func submit() {
-        let text = draft, attachments = images.map(\.prompt)
-        draft = ""; images = []
+        let epoch = chat.transcript.sessionEpoch
         Task {
-            if text.hasPrefix("/"), attachments.isEmpty { await chat.transcript.executeCommand(text) }
-            else { await chat.transcript.send(text, images: attachments) }
+            guard epoch == chat.transcript.sessionEpoch else { return }
+            let steering = chat.transcript.turnRunning
+            guard steering ? chat.transcript.canSteer : chat.transcript.canSend else { return }
+            let text = draft, attachments = images.map(\.prompt)
+            draft = ""; images = []
+            if !steering, text.hasPrefix("/"), attachments.isEmpty { await chat.transcript.executeCommand(text) }
+            else { await chat.transcript.send(text, images: attachments, mode: steering ? .steer : .queue) }
         }
     }
 

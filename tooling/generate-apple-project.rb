@@ -169,7 +169,7 @@ resources = project.main_group.new_group('Resources', 'Resources')
 ['Phone/relay.cjs', 'Phone/phone.patch.yml', 'Phone/phone-ios-tools.json',
  # Mist Glass: Phosphor icon font (MIT), JetBrains Mono (OFL), whale tail.
  'Fonts/DshIcons.ttf', 'Fonts/JetBrainsMono-Regular.ttf', 'Fonts/JetBrainsMono-Medium.ttf',
- 'Fonts/JetBrainsMono-Bold.ttf', 'Images/whale_1.png'].each do |path|
+ 'Fonts/JetBrainsMono-Bold.ttf', *%w[1 2 3 4].map { |level| "Images/whale_#{level}.png" }].each do |path|
   app.resources_build_phase.add_file_reference(resources.new_reference(path), true)
 end
 # Pack manifests and sheets stay together so both targets can discover packs.

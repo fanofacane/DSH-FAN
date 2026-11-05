@@ -19,6 +19,9 @@ import Observation
         get { shared.turnRunning }
         set { shared.turnRunning = newValue }
     }
+    var stopping = false
+    var clockSkew: TimeInterval?
+    var tokenRate = RunTokenRate()
     var retrying: (retry: Int, max: Int?, code: String)?
     var incomingDraft: SharedDraft?
     var composerInsertion: String?
@@ -65,6 +68,9 @@ import Observation
     var sessions: [SessionSummary] { context.sessions }
     var busy: Bool { turnRunning || sending }
     var canSend: Bool { context.connection == .ready && selectedModel != nil && !busy && !loadingSession }
+    var canSteer: Bool {
+        context.connection == .ready && currentSessionId != nil && turnRunning && followReady && !sending && !stopping
+    }
     var currentTitle: String? { sessions.first { $0.id == currentSessionId }?.title }
     func setLoading(_ value: Bool) { loadingSession = value }
     func requestComposerFocus() { focusRequest += 1 }
@@ -100,27 +106,35 @@ import Observation
             appendNotice(appErrorCode(error))
         }
     }
-    func send(_ raw: String, images: [PromptImage] = []) async {
+    func send(_ raw: String, images: [PromptImage] = [], mode: DSHClient.PromptMode = .queue) async {
         let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard (!text.isEmpty || !images.isEmpty), canSend, let client, let model = selectedModel else { return }
+        let steering = mode == .steer
+        guard (!text.isEmpty || !images.isEmpty), steering ? canSteer : canSend, let client else { return }
+        let epoch = sessionEpoch
         sending = true
-        defer { sending = false }
-        lastFailure = nil
+        defer { if epoch == sessionEpoch { sending = false } }
+        if !steering { lastFailure = nil }
         let requestId = UUID().uuidString
         pending.append(ChatItem(id: "pending-" + requestId, role: .user, text: text,
                                 imageCount: images.count, state: .pending, requestId: requestId))
         do {
             let sessionId = try await ensureSession()
-            let effort = context.effort(for: model)
-            if sessionModel != model || sessionEffort != effort {
-                try await client.selectModel(sessionId: sessionId, model: model, reasoningEffort: effort)
-                sessionModel = model; sessionEffort = effort
+            guard epoch == sessionEpoch else { return }
+            if !steering, let model = selectedModel {
+                let effort = context.effort(for: model)
+                if sessionModel != model || sessionEffort != effort {
+                    try await client.selectModel(sessionId: sessionId, model: model, reasoningEffort: effort)
+                    guard epoch == sessionEpoch else { return }
+                    sessionModel = model; sessionEffort = effort
+                }
             }
             await waitForSnapshot()
-            turnRunning = true
-            try await client.prompt(sessionId: sessionId, text: text, images: images, requestId: requestId)
+            guard epoch == sessionEpoch else { return }
+            if !steering { turnRunning = true }
+            try await client.prompt(sessionId: sessionId, text: text, images: images, requestId: requestId, mode: mode)
         } catch {
-            turnRunning = false
+            guard epoch == sessionEpoch else { return }
+            if !steering { turnRunning = false; stopping = false }
             pending.removeAll { $0.requestId == requestId }
             appendNotice(appErrorCode(error))
         }

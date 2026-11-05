@@ -42,11 +42,6 @@ struct ChatMessageList: View {
                         rowView(row, bubbleWidth: bubbleWidth, spans: toolSpans)
                             .padding(.top, row.isUser && index > 0 ? Space.betweenTurns - Space.inTurn : 0)
                     }
-                    if let retry = chat.transcript.retrying, chat.transcript.turnRunning {
-                        RetryRow(retry: retry.retry, max: retry.max, code: retry.code).id("retrying")
-                    } else if chat.transcript.turnRunning && !items.contains(where: { $0.state == .streaming }) {
-                        WhaleTail(height: 22).opacity(0.7).id("working")
-                    }
                     Color.clear.frame(height: 8).id("bottom")
                 }
                 .padding(.horizontal, Space.gutter)
@@ -54,6 +49,7 @@ struct ChatMessageList: View {
                 .frame(maxWidth: .infinity)
             }
             .scrollDismissesKeyboard(.interactively)
+            .onAppear { if chat.transcript.turnRunning { proxy.scrollTo("bottom", anchor: .bottom) } }
             .onChange(of: items.last) { scrollToBottom(proxy) }
             .onChange(of: turns.last?.endSeq) { if turns.last?.endSeq != nil { scrollToBottom(proxy) } }
         }

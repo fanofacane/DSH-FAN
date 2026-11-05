@@ -161,7 +161,7 @@ import SwiftUI
         let running = chat.transcript.draft?.tools.filter { $0.result == nil } ?? []
         let activity: PetSignal.Activity = chat.transcript.busy
             ? ((!running.isEmpty || !(chat.transcript.draft?.text.isEmpty ?? true)) ? .working : .thinking) : .idle
-        let compact = chat.transcript.runFacts.last { $0.kind.hasPrefix("compaction/") }?.kind == "compaction/start"
+        let compact = chat.transcript.traceFold.compactionStart != nil
         let title: (String) -> String? = { id in chat.transcript.sessions.first { $0.id == id }?.title }
         let approvals = chat.requests.approvals.map { PetEvent(id: $0.id, kind: .approval, session: $0.sessionId,
                                                              title: title($0.sessionId), at: now) }

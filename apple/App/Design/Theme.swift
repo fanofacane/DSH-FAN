@@ -254,6 +254,15 @@ enum RunLayout {
     static let diffFontSize: CGFloat = 12
     static let diffNumberSize: CGFloat = 11
     static let diffLineHeight: CGFloat = 19.2
+    // DockMetrics / DockStackMetrics in DSH Go ui/chat/dock/.
+    static let dockHeight: CGFloat = 36
+    static let dockGap: CGFloat = 6
+    static let dockGlyph: CGFloat = 20
+    static let dockPeek: CGFloat = 6
+    static let dockShrink = 0.05
+    static let dockSwipe: CGFloat = 48
+    static let todoListMax: CGFloat = 196
+    static let composerButton: CGFloat = 36
 }
 
 // MARK: Typography (typography.dart): system sans, two weights, mono for code only

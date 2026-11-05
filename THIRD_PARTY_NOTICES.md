@@ -68,6 +68,6 @@ npm 的其他直接 / 传递依赖继续保留包内许可。lock 中含未分�
 |---|---|---|
 | DSH Go 鱼尾 / 气泡品牌标识 | `apple/App/Assets.xcassets/BrandGlyph.imageset/` | DSH Go 的品牌图形，暂作占位；正式发布前应换成 DSH Fan 自己的标识 |
 | Deepy 像素鲸鱼 | `apple/Resources/Pets/deepy-whale/` | DSH-TUI 吉祥物，宠物包只沿用 Clawd on Desk 的格式，不复制其代码 |
-| 鲸鱼尾巴 | `apple/Resources/Images/whale_1.png` | 含 DeepSeek 官方标识及其衍生图形的原素材，相关版权 / 商标归原权利人，不代表官方背书 |
+| 鲸鱼尾巴 | `apple/Resources/Images/whale_{1,2,3,4}.png` | 含 DeepSeek 官方标识及其衍生图形的原素材，相关版权 / 商标归原权利人，不代表官方背书 |
 
 这些鲸鱼形象属于 DSH-TUI 的非官方形象，与 DeepSeek 无关联。原作者官网、分享页、社群二维码与历史宣传素材已从仓库删除；删除不改变这些历史素材的权利条件，旧仓库历史中的副本不能移作自己发行产品的品牌。

@@ -309,12 +309,50 @@
         }
       }
     },
+    "%lld running": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "同时运行 %lld 项"
+          }
+        }
+      }
+    },
     "%lld s": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld 秒"
+          }
+        }
+      }
+    },
+    "%lld status bars stacked": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 条状态已叠起"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld status bar stacked"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld status bars stacked"
+                }
+              }
+            }
           }
         }
       }
@@ -471,12 +509,32 @@
         }
       }
     },
+    "1024, happy coding day": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1024，节日快乐"
+          }
+        }
+      }
+    },
     "192.168.1.20 or example.com": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "192.168.1.20 或 example.com"
+          }
+        }
+      }
+    },
+    "429. A breather, then retry": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "429 了，歇口气再来"
           }
         }
       }
@@ -491,6 +549,16 @@
         }
       }
     },
+    "A Christmas-only Easter egg": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圣诞限定彩蛋"
+          }
+        }
+      }
+    },
     "A DSH task stopped": {
       "localizations": {
         "zh-Hans": {
@@ -501,12 +569,72 @@
         }
       }
     },
+    "A little late-night hello": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深夜冒泡"
+          }
+        }
+      }
+    },
+    "A little pride in the work": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "劳动最光荣"
+          }
+        }
+      }
+    },
+    "A little stumble": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "摔了一跤"
+          }
+        }
+      }
+    },
+    "A little weekend chill": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末摸鱼中"
+          }
+        }
+      }
+    },
     "A remote host can keep working, but a suspended iOS app cannot receive new events or issue completion alerts. DSH does not provide server push notifications.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "远程主机可继续工作，但 iOS App 被挂起后无法接收新事件或发出完成通知。DSH 不提供服务端推送通知。"
+          }
+        }
+      }
+    },
+    "A slip of the keys": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手滑"
+          }
+        }
+      }
+    },
+    "A spark of an idea": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "闪个思路"
           }
         }
       }
@@ -587,6 +715,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "关于"
+          }
+        }
+      }
+    },
+    "About %lld tokens/s": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "约 %lld tokens/秒"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "About %lld token/s"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "About %lld tokens/s"
+                }
+              }
+            }
           }
         }
       }
@@ -881,6 +1037,16 @@
         }
       }
     },
+    "Ah, it’s coming to me": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯，来了来了"
+          }
+        }
+      }
+    },
     "Alarms": {
       "localizations": {
         "zh-Hans": {
@@ -921,6 +1087,16 @@
         }
       }
     },
+    "All aboard the thought train": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脑内跑火车"
+          }
+        }
+      }
+    },
     "All actions": {
       "localizations": {
         "zh-Hans": {
@@ -931,12 +1107,62 @@
         }
       }
     },
+    "All done": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部完成"
+          }
+        }
+      }
+    },
     "All features": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "全部功能"
+          }
+        }
+      }
+    },
+    "All green. Nice": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全绿，舒服"
+          }
+        }
+      }
+    },
+    "All in one flow": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一气呵成"
+          }
+        }
+      }
+    },
+    "All packages present": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "包都到齐了"
+          }
+        }
+      }
+    },
+    "All tests green": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试全绿"
           }
         }
       }
@@ -1131,6 +1357,36 @@
         }
       }
     },
+    "Almost done writing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "马上写完"
+          }
+        }
+      }
+    },
+    "Almost figured it out": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快盘清了"
+          }
+        }
+      }
+    },
+    "Almost there, promise": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "快好了，真的"
+          }
+        }
+      }
+    },
     "Always": {
       "localizations": {
         "zh-Hans": {
@@ -1161,6 +1417,26 @@
         }
       }
     },
+    "An Easter egg found you": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "彩蛋砸脸"
+          }
+        }
+      }
+    },
+    "An orange-tier drop": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出橙了"
+          }
+        }
+      }
+    },
     "Animations": {
       "localizations": {
         "zh-Hans": {
@@ -1177,6 +1453,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "只做动作，不冒气泡"
+          }
+        }
+      }
+    },
+    "Any moment now": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "马上马上"
           }
         }
       }
@@ -1381,6 +1667,16 @@
         }
       }
     },
+    "Attempt %lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 次"
+          }
+        }
+      }
+    },
     "Authorize in Safari. The engine receives the callback at 127.0.0.1 and stores the account grant.": {
       "localizations": {
         "zh-Hans": {
@@ -1541,6 +1837,16 @@
         }
       }
     },
+    "Blocked": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "受阻"
+          }
+        }
+      }
+    },
     "Blur": {
       "localizations": {
         "zh-Hans": {
@@ -1557,6 +1863,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "赠送余额"
+          }
+        }
+      }
+    },
+    "Brain cells firing away": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脑细胞在燃烧"
+          }
+        }
+      }
+    },
+    "Brain gears turning": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "大脑转起来了"
+          }
+        }
+      }
+    },
+    "Brainstorming": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脑内风暴中"
+          }
+        }
+      }
+    },
+    "Brainwaves incoming": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脑电波传输中"
+          }
+        }
+      }
+    },
+    "Brain’s brewing coffee": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脑子在煮咖啡"
+          }
+        }
+      }
+    },
+    "Brain’s working overtime": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脑子在冒烟"
           }
         }
       }
@@ -1627,6 +1993,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "日历"
+          }
+        }
+      }
+    },
+    "Calling the model…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "呼叫模型…"
           }
         }
       }
@@ -1969,6 +2345,16 @@
         }
       }
     },
+    "Choosing each word": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "字斟句酌"
+          }
+        }
+      }
+    },
     "Clear": {
       "localizations": {
         "zh-Hans": {
@@ -1985,6 +2371,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "清除目标"
+          }
+        }
+      }
+    },
+    "Clear goal?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除目标？"
           }
         }
       }
@@ -2035,6 +2431,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "请从多任务界面关闭 App 后重新打开，以完成操作。"
+          }
+        }
+      }
+    },
+    "Code can be spooky too": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "代码也会吓人"
+          }
+        }
+      }
+    },
+    "Code is true love": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "代码才是真爱"
+          }
+        }
+      }
+    },
+    "Code tonight, gifts await": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今晚写代码有礼物"
+          }
+        }
+      }
+    },
+    "Code’s out the door": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "代码出门了"
+          }
+        }
+      }
+    },
+    "Coding on Valentine’s Day too": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "情人节也在敲代码"
+          }
+        }
+      }
+    },
+    "Coding on our holiday too": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "程序员节也在写代码"
           }
         }
       }
@@ -2099,12 +2555,42 @@
         }
       }
     },
+    "Committed. Peace of mind": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "commit 一下，安心"
+          }
+        }
+      }
+    },
+    "Committed. Progress saved": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提交了，存个档"
+          }
+        }
+      }
+    },
     "Compact older conversation history": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "压缩较早的对话历史"
+          }
+        }
+      }
+    },
+    "Compacting context": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "压缩上下文"
           }
         }
       }
@@ -2729,6 +3215,16 @@
         }
       }
     },
+    "Critical hit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暴击了"
+          }
+        }
+      }
+    },
     "Cron expression": {
       "localizations": {
         "zh-Hans": {
@@ -2785,6 +3281,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "自定义渠道"
+          }
+        }
+      }
+    },
+    "Cute code only today": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天代码要写得可爱"
           }
         }
       }
@@ -3159,6 +3665,16 @@
         }
       }
     },
+    "Dependencies installed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "依赖装好了"
+          }
+        }
+      }
+    },
     "Diagnostics": {
       "localizations": {
         "zh-Hans": {
@@ -3259,6 +3775,16 @@
         }
       }
     },
+    "Dog": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "狗"
+          }
+        }
+      }
+    },
     "Don't ask": {
       "localizations": {
         "zh-Hans": {
@@ -3289,6 +3815,36 @@
         }
       }
     },
+    "Downloaded half the internet": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下载了半个互联网"
+          }
+        }
+      }
+    },
+    "Drafting it in my head": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我打个腹稿"
+          }
+        }
+      }
+    },
+    "Dragon": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "龙"
+          }
+        }
+      }
+    },
     "Dusk": {
       "localizations": {
         "zh-Hans": {
@@ -3315,6 +3871,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "更早的投递历史已由主机清理。"
+          }
+        }
+      }
+    },
+    "Easy request. Or is it?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这个需求很简单（不是）"
           }
         }
       }
@@ -3431,6 +3997,16 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "Editing file": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改"
           }
         }
       }
@@ -3645,6 +4221,16 @@
         }
       }
     },
+    "Even the stars are asleep": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "星星都睡了"
+          }
+        }
+      }
+    },
     "Every interval": {
       "localizations": {
         "zh-Hans": {
@@ -3681,6 +4267,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "运行方式"
+          }
+        }
+      }
+    },
+    "Expand status bars": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "展开状态条"
           }
         }
       }
@@ -3755,6 +4351,16 @@
         }
       }
     },
+    "Extra-round circles today": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天的圆格外圆"
+          }
+        }
+      }
+    },
     "Extracting": {
       "localizations": {
         "zh-Hans": {
@@ -3781,6 +4387,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "功能图标"
+          }
+        }
+      }
+    },
+    "Feeling the pressure": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "血压上来了"
           }
         }
       }
@@ -3835,6 +4451,36 @@
         }
       }
     },
+    "Find": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找"
+          }
+        }
+      }
+    },
+    "Finding the right words": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它在组织语言"
+          }
+        }
+      }
+    },
+    "Finding the words": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "组织语言中"
+          }
+        }
+      }
+    },
     "Finish signing in in your browser…": {
       "localizations": {
         "zh-Hans": {
@@ -3885,12 +4531,32 @@
         }
       }
     },
+    "First line of code this year": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新年第一行代码"
+          }
+        }
+      }
+    },
     "Fit": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "适配方式"
+          }
+        }
+      }
+    },
+    "Five minutes. Quite a project": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 分钟，大工程"
           }
         }
       }
@@ -3911,6 +4577,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "灵动动效"
+          }
+        }
+      }
+    },
+    "Fold the status bars": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "收起状态条"
           }
         }
       }
@@ -4015,12 +4691,92 @@
         }
       }
     },
+    "Generating": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "生成中"
+          }
+        }
+      }
+    },
+    "Generating · Type to steer": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "生成中 · 可直接插话"
+          }
+        }
+      }
+    },
     "Get started": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "开始"
+          }
+        }
+      }
+    },
+    "Getting deep into it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "盘得有点深"
+          }
+        }
+      }
+    },
+    "Getting somewhere": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有眉目了"
+          }
+        }
+      }
+    },
+    "Give me a second": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "给我一秒"
+          }
+        }
+      }
+    },
+    "Give me another shot": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再给我一次机会"
+          }
+        }
+      }
+    },
+    "Give me one song’s worth": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "给我一首歌的时间"
+          }
+        }
+      }
+    },
+    "Giving my brain a workout…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "烧脑中…"
           }
         }
       }
@@ -4041,6 +4797,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "玻璃渐变"
+          }
+        }
+      }
+    },
+    "Goal": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标"
           }
         }
       }
@@ -4085,6 +4851,26 @@
         }
       }
     },
+    "Goat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "羊"
+          }
+        }
+      }
+    },
+    "Going in circles…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "转圈圈…"
+          }
+        }
+      }
+    },
     "Good afternoon": {
       "localizations": {
         "zh-Hans": {
@@ -4125,6 +4911,16 @@
         }
       }
     },
+    "Got a little careless there": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这波大意了"
+          }
+        }
+      }
+    },
     "Graphite": {
       "localizations": {
         "zh-Hans": {
@@ -4145,6 +4941,16 @@
         }
       }
     },
+    "Half an hour. Time for some water?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "半小时了，喝口水吧"
+          }
+        }
+      }
+    },
     "Hand off to you": {
       "localizations": {
         "zh-Hans": {
@@ -4155,12 +4961,172 @@
         }
       }
     },
+    "Hang tight, nearly there": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "别急，快出结果了"
+          }
+        }
+      }
+    },
+    "Hang tight, retrying": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稍等，重试中"
+          }
+        }
+      }
+    },
+    "Happy 1024 Programmers’ Day": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1024 程序员节快乐"
+          }
+        }
+      }
+    },
+    "Happy April Fools’ Day": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "愚人节快乐"
+          }
+        }
+      }
+    },
+    "Happy Children’s Day": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儿童节快乐"
+          }
+        }
+      }
+    },
+    "Happy Christmas Eve": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "平安夜快乐"
+          }
+        }
+      }
+    },
+    "Happy Halloween": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "万圣节快乐"
+          }
+        }
+      }
+    },
+    "Happy Lunar New Year!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "春节快乐！"
+          }
+        }
+      }
+    },
+    "Happy New Year": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "元旦快乐"
+          }
+        }
+      }
+    },
+    "Happy New Year!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新年快乐！"
+          }
+        }
+      }
+    },
+    "Happy Spring Festival": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新春快乐"
+          }
+        }
+      }
+    },
+    "Happy π Day": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "π 节快乐"
+          }
+        }
+      }
+    },
     "Help and about": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "帮助与关于"
+          }
+        }
+      }
+    },
+    "Here on days off too": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "放假也陪你"
+          }
+        }
+      }
+    },
+    "Here on weekends too!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末也在！"
+          }
+        }
+      }
+    },
+    "Here with you for Christmas": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圣诞也陪你"
+          }
+        }
+      }
+    },
+    "Here’s to a great start": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开工大吉"
           }
         }
       }
@@ -4195,12 +5161,92 @@
         }
       }
     },
+    "Hit a hiccup": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出岔子了"
+          }
+        }
+      }
+    },
+    "Hmm… interesting": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯…有点意思"
+          }
+        }
+      }
+    },
+    "Hmm… let me break it down": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯…让我拆一下"
+          }
+        }
+      }
+    },
+    "Hmm… let me untangle this": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯…让我捋捋"
+          }
+        }
+      }
+    },
+    "Hmm… let that sink in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯…让我品品"
+          }
+        }
+      }
+    },
+    "Hmm… let’s tackle it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯…盘它"
+          }
+        }
+      }
+    },
+    "Hmm… there’s something here": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯…有点东西"
+          }
+        }
+      }
+    },
     "Horizontal position": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "水平位置"
+          }
+        }
+      }
+    },
+    "Horse": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "马"
           }
         }
       }
@@ -4385,6 +5431,16 @@
         }
       }
     },
+    "Ideas bubbling up": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "脑子冒泡泡"
+          }
+        }
+      }
+    },
     "If installed with nvm, you can enter the full path": {
       "localizations": {
         "zh-Hans": {
@@ -4401,6 +5457,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "确认主机重装或更换后，可在主机设置中重置指纹。\n已记住：%@\n这次收到：%@（%@）"
+          }
+        }
+      }
+    },
+    "If the moon’s up, I’m up": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "月亮不睡我不睡"
           }
         }
       }
@@ -4635,12 +5701,82 @@
         }
       }
     },
+    "Is the model awake yet?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型醒了么"
+          }
+        }
+      }
+    },
+    "It passed!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "过了过了"
+          }
+        }
+      }
+    },
+    "It says, “one moment”": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它说稍等"
+          }
+        }
+      }
+    },
+    "It worked yesterday": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "昨天还能跑"
+          }
+        }
+      }
+    },
+    "It works on my machine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我本地能跑啊"
+          }
+        }
+      }
+    },
+    "It’s Programmers’ Day": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天是程序员节"
+          }
+        }
+      }
+    },
     "It’s late": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "夜深了"
+          }
+        }
+      }
+    },
+    "Just kidding, no errors": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "骗你的，没报错"
           }
         }
       }
@@ -4695,6 +5831,26 @@
         }
       }
     },
+    "Keyboards are my roses": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "键盘就是玫瑰"
+          }
+        }
+      }
+    },
+    "Knocking once more": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再敲一次门"
+          }
+        }
+      }
+    },
     "Language": {
       "localizations": {
         "zh-Hans": {
@@ -4721,6 +5877,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "上次请求 token"
+          }
+        }
+      }
+    },
+    "Late-night brain, go easy": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "夜里脑子慢，谅解"
           }
         }
       }
@@ -4755,12 +5921,152 @@
         }
       }
     },
+    "Legendary drop!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金色传说！"
+          }
+        }
+      }
+    },
+    "Lemme take a look": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让我康康"
+          }
+        }
+      }
+    },
+    "Let me dig a little deeper": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让我再钻研下"
+          }
+        }
+      }
+    },
+    "Let me ponder that": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让我琢磨下"
+          }
+        }
+      }
+    },
+    "Let me sort this out": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让我理理"
+          }
+        }
+      }
+    },
+    "Let me take another pass": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让我再捋一捋"
+          }
+        }
+      }
+    },
+    "Let me tell you": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "娓娓道来"
+          }
+        }
+      }
+    },
+    "Let me think this through": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "嗯，让我细想想"
+          }
+        }
+      }
+    },
     "Lets the model set alarms, add calendar events and reminders, navigate, send notifications and run shortcuts you allow. iOS does not allow reading the screen or tapping in other apps.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "允许模型设置闹钟、添加日程和提醒、导航、发送通知，以及运行你允许的快捷指令。iOS 不允许读取屏幕或在其他 App 中点击。"
+          }
+        }
+      }
+    },
+    "Letting it stretch": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等它伸懒腰"
+          }
+        }
+      }
+    },
+    "Letting it warm up": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等它热身"
+          }
+        }
+      }
+    },
+    "Let’s see where this goes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让子弹飞一会"
+          }
+        }
+      }
+    },
+    "Let’s sort the logic first": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "先捋一下逻辑"
+          }
+        }
+      }
+    },
+    "Let’s try another way": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "换个姿势再来"
+          }
+        }
+      }
+    },
+    "Let’s work through this": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "盘一下盘一下"
           }
         }
       }
@@ -4925,12 +6231,42 @@
         }
       }
     },
+    "Looking into it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "排查一下"
+          }
+        }
+      }
+    },
+    "Looking solid": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稳了"
+          }
+        }
+      }
+    },
     "Low": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "低"
+          }
+        }
+      }
+    },
+    "Luck is on your side": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "欧皇降临"
           }
         }
       }
@@ -4951,6 +6287,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "设为默认"
+          }
+        }
+      }
+    },
+    "Making some room": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "腾地方中"
           }
         }
       }
@@ -5031,6 +6377,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "最大递归深度"
+          }
+        }
+      }
+    },
+    "Merry Christmas": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "圣诞快乐"
           }
         }
       }
@@ -5215,6 +6571,16 @@
         }
       }
     },
+    "Model: on my way": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型：来了来了"
+          }
+        }
+      }
+    },
     "Models": {
       "localizations": {
         "zh-Hans": {
@@ -5235,6 +6601,36 @@
         }
       }
     },
+    "Model’s meditating": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型在冥想"
+          }
+        }
+      }
+    },
+    "Model’s on its way": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型在路上了"
+          }
+        }
+      }
+    },
+    "Model’s taking a sip": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型在喝水"
+          }
+        }
+      }
+    },
     "Modified": {
       "localizations": {
         "zh-Hans": {
@@ -5245,12 +6641,32 @@
         }
       }
     },
+    "Monkey": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "猴"
+          }
+        }
+      }
+    },
     "More": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "更多"
+          }
+        }
+      }
+    },
+    "Mulling it over": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "琢磨中"
           }
         }
       }
@@ -5311,6 +6727,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "新建"
+          }
+        }
+      }
+    },
+    "New Year greetings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "过年好"
+          }
+        }
+      }
+    },
+    "New Year’s Eve": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跨年夜"
           }
         }
       }
@@ -5395,6 +6831,26 @@
         }
       }
     },
+    "New year, new bugs": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新的一年，新的 bug"
+          }
+        }
+      }
+    },
+    "Next card": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一张"
+          }
+        }
+      }
+    },
     "Next request estimate": {
       "localizations": {
         "zh-Hans": {
@@ -5405,12 +6861,52 @@
         }
       }
     },
+    "Next-level thinking": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这波在大气层"
+          }
+        }
+      }
+    },
+    "Next: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下一步：%@"
+          }
+        }
+      }
+    },
+    "Night owl champion online": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "熬夜冠军上线"
+          }
+        }
+      }
+    },
     "No chats yet": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "还没有对话"
+          }
+        }
+      }
+    },
+    "No date today?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天不约会？"
           }
         }
       }
@@ -5441,6 +6937,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "此主机未报告可编辑的参数。"
+          }
+        }
+      }
+    },
+    "No errors": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没报错"
           }
         }
       }
@@ -5585,12 +7091,32 @@
         }
       }
     },
+    "No text streaming": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有在出字"
+          }
+        }
+      }
+    },
     "No third-party server": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "不经过第三方服务器"
+          }
+        }
+      }
+    },
+    "No weekend shutdown": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末不关机"
           }
         }
       }
@@ -5715,6 +7241,16 @@
         }
       }
     },
+    "Now that’s a challenge": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这题有点东西"
+          }
+        }
+      }
+    },
     "OK": {
       "localizations": {
         "zh-Hans": {
@@ -5825,6 +7361,56 @@
         }
       }
     },
+    "One last thought this year": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今年最后一盘"
+          }
+        }
+      }
+    },
+    "One minute, still thinking": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 分钟，还在想"
+          }
+        }
+      }
+    },
+    "One moment, thinking": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稍等，在想"
+          }
+        }
+      }
+    },
+    "One stubborn test": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有个用例不服"
+          }
+        }
+      }
+    },
+    "One thought at a time": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "别催别催"
+          }
+        }
+      }
+    },
     "Online": {
       "localizations": {
         "zh-Hans": {
@@ -5895,6 +7481,16 @@
         }
       }
     },
+    "Oops": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "哎呀"
+          }
+        }
+      }
+    },
     "Open DSH to check its result.": {
       "localizations": {
         "zh-Hans": {
@@ -5961,6 +7557,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "打开授权页面"
+          }
+        }
+      }
+    },
+    "Open for the night shift": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深夜档营业"
           }
         }
       }
@@ -6065,6 +7671,16 @@
         }
       }
     },
+    "Organizing my backpack…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "整理背包中…"
+          }
+        }
+      }
+    },
     "Other answer": {
       "localizations": {
         "zh-Hans": {
@@ -6115,12 +7731,42 @@
         }
       }
     },
+    "Ox": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "牛"
+          }
+        }
+      }
+    },
+    "Packing up old chats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打包旧对话"
+          }
+        }
+      }
+    },
     "Paid credit": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "充值余额"
+          }
+        }
+      }
+    },
+    "Passed first try!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一次过！"
           }
         }
       }
@@ -6171,6 +7817,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "暂停目标"
+          }
+        }
+      }
+    },
+    "Paused": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已暂停"
           }
         }
       }
@@ -6365,6 +8021,16 @@
         }
       }
     },
+    "Pig": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "猪"
+          }
+        }
+      }
+    },
     "Pin": {
       "localizations": {
         "zh-Hans": {
@@ -6381,6 +8047,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "置顶"
+          }
+        }
+      }
+    },
+    "Pinpointing it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定位一下"
           }
         }
       }
@@ -6455,6 +8131,16 @@
         }
       }
     },
+    "Preparing the big move": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "憋大招中"
+          }
+        }
+      }
+    },
     "Preparing the runtime": {
       "localizations": {
         "zh-Hans": {
@@ -6481,6 +8167,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "预览：清晰的回复与易读的代码。"
+          }
+        }
+      }
+    },
+    "Previous card": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上一张"
           }
         }
       }
@@ -6525,6 +8221,16 @@
         }
       }
     },
+    "Progress saved": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "存档成功"
+          }
+        }
+      }
+    },
     "Prompt stored": {
       "localizations": {
         "zh-Hans": {
@@ -6565,12 +8271,62 @@
         }
       }
     },
+    "Pushed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "推上去了"
+          }
+        }
+      }
+    },
+    "Pushed. Off it goes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "push 完成，起飞"
+          }
+        }
+      }
+    },
     "Put a DeepSeek agent\nin your pocket": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "把 DeepSeek 智能体\n装进口袋"
+          }
+        }
+      }
+    },
+    "Putting ideas into words": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把想法写下来"
+          }
+        }
+      }
+    },
+    "Putting it in plain words": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "整理成人话"
+          }
+        }
+      }
+    },
+    "Putting my brain to work": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小脑瓜动一下"
           }
         }
       }
@@ -6605,12 +8361,32 @@
         }
       }
     },
+    "Quite a queue today": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "排队的人有点多"
+          }
+        }
+      }
+    },
     "Quote": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "引用"
+          }
+        }
+      }
+    },
+    "Rabbit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "兔"
           }
         }
       }
@@ -6643,12 +8419,52 @@
         }
       }
     },
+    "Rarity MAX": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "稀有度 MAX"
+          }
+        }
+      }
+    },
+    "Rat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鼠"
+          }
+        }
+      }
+    },
     "Rate limited, retrying": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "请求受限，正在重试"
+          }
+        }
+      }
+    },
+    "Rate limited. Taking a break": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "被限流了，缓缓再试"
+          }
+        }
+      }
+    },
+    "Reaching a higher plane": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我在修仙"
           }
         }
       }
@@ -6721,12 +8537,32 @@
         }
       }
     },
+    "Reading file": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读"
+          }
+        }
+      }
+    },
     "Reading text size": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "阅读字号"
+          }
+        }
+      }
+    },
+    "Ready for the new year": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "准备跨年"
           }
         }
       }
@@ -6801,6 +8637,36 @@
         }
       }
     },
+    "Red envelopes, please": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "红包拿来"
+          }
+        }
+      }
+    },
+    "Red light. Back to fixing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "红灯，再改改"
+          }
+        }
+      }
+    },
+    "Red. Let’s see what broke": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "红了，看看哪挂了"
+          }
+        }
+      }
+    },
     "Reduce motion": {
       "localizations": {
         "zh-Hans": {
@@ -6847,6 +8713,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "注册工作区"
+          }
+        }
+      }
+    },
+    "Reindeer delivering code": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "麋鹿送代码来了"
           }
         }
       }
@@ -7281,6 +9157,16 @@
         }
       }
     },
+    "Retrying": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试中"
+          }
+        }
+      }
+    },
     "Review agent": {
       "localizations": {
         "zh-Hans": {
@@ -7327,6 +9213,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "分享前请检查报告。"
+          }
+        }
+      }
+    },
+    "Rooster": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "鸡"
           }
         }
       }
@@ -7451,6 +9347,16 @@
         }
       }
     },
+    "Running tool": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跑"
+          }
+        }
+      }
+    },
     "Runs on device": {
       "localizations": {
         "zh-Hans": {
@@ -7507,6 +9413,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "SSH 主机"
+          }
+        }
+      }
+    },
+    "SSR! Rare Easter egg": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SSR！稀有彩蛋"
           }
         }
       }
@@ -7651,6 +9567,16 @@
         }
       }
     },
+    "Scratching my head…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "挠头…"
+          }
+        }
+      }
+    },
     "Search": {
       "localizations": {
         "zh-Hans": {
@@ -7711,6 +9637,16 @@
         }
       }
     },
+    "Search web": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜网页"
+          }
+        }
+      }
+    },
     "Search, images and video": {
       "localizations": {
         "zh-Hans": {
@@ -7745,6 +9681,46 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "Searching files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜"
+          }
+        }
+      }
+    },
+    "Searching my memory": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻翻脑子"
+          }
+        }
+      }
+    },
+    "Secret chat unlocked": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "触发隐藏对话"
+          }
+        }
+      }
+    },
+    "See you next year!": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "明年见！"
           }
         }
       }
@@ -7835,6 +9811,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "发送回答"
+          }
+        }
+      }
+    },
+    "Send subagent": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "派子代理"
           }
         }
       }
@@ -8059,6 +10045,16 @@
         }
       }
     },
+    "Show step stats": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看这一步的统计"
+          }
+        }
+      }
+    },
     "Showing recent history only.": {
       "localizations": {
         "zh-Hans": {
@@ -8259,6 +10255,16 @@
         }
       }
     },
+    "Sleepy, but I’ve got this": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "困了，但能行"
+          }
+        }
+      }
+    },
     "Small": {
       "localizations": {
         "zh-Hans": {
@@ -8269,12 +10275,42 @@
         }
       }
     },
+    "Snake": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "蛇"
+          }
+        }
+      }
+    },
+    "Sneaky weekend thinking": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末偷着盘"
+          }
+        }
+      }
+    },
     "Something went wrong": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "出错了"
+          }
+        }
+      }
+    },
+    "Something’s brewing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它在酝酿"
           }
         }
       }
@@ -8509,6 +10545,16 @@
         }
       }
     },
+    "Stay with me, almost there": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "别走，快了"
+          }
+        }
+      }
+    },
     "Step ended": {
       "localizations": {
         "zh-Hans": {
@@ -8525,6 +10571,94 @@
           "stringUnit": {
             "state": "translated",
             "value": "步骤开始"
+          }
+        }
+      }
+    },
+    "Still coding over New Year": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "过年还在写代码"
+          }
+        }
+      }
+    },
+    "Still going past midnight": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "过了零点照样肝"
+          }
+        }
+      }
+    },
+    "Still here after %lld hours": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已经 %lld 小时了"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Still here after %lld hour"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Still here after %lld hours"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Still in the queue": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还在排队"
+          }
+        }
+      }
+    },
+    "Still narrowing it down": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还在定位"
+          }
+        }
+      }
+    },
+    "Still on track": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思路没断"
+          }
+        }
+      }
+    },
+    "Still working on Labor Day": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "劳动节还在卷"
           }
         }
       }
@@ -8555,6 +10689,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "停止引擎"
+          }
+        }
+      }
+    },
+    "Stop generating": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止生成"
           }
         }
       }
@@ -8719,6 +10863,26 @@
         }
       }
     },
+    "Taking this idea for a jog": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小跑一下思路"
+          }
+        }
+      }
+    },
+    "Tapping away": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "敲字中"
+          }
+        }
+      }
+    },
     "Task instruction": {
       "localizations": {
         "zh-Hans": {
@@ -8769,6 +10933,16 @@
         }
       }
     },
+    "Ten minutes already": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已经十分钟了"
+          }
+        }
+      }
+    },
     "Termination grace period": {
       "localizations": {
         "zh-Hans": {
@@ -8779,12 +10953,62 @@
         }
       }
     },
+    "Tests failed. Looking into it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试挂了，排查一下"
+          }
+        }
+      }
+    },
     "Text size": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "字号"
+          }
+        }
+      }
+    },
+    "That didn’t run": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没跑通"
+          }
+        }
+      }
+    },
+    "That’s a tough one": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "难绷"
+          }
+        }
+      }
+    },
+    "That’s not right": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这不对"
+          }
+        }
+      }
+    },
+    "That’s not working": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不灵了"
           }
         }
       }
@@ -8835,6 +11059,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "对话及其记录会从这台设备上删除，无法恢复。"
+          }
+        }
+      }
+    },
+    "The chosen moment": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "天选时刻"
+          }
+        }
+      }
+    },
+    "The code says Happy New Year": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "代码也拜个年"
           }
         }
       }
@@ -8999,6 +11243,16 @@
         }
       }
     },
+    "The model just yawned": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "它打了个哈欠"
+          }
+        }
+      }
+    },
     "The model request timed out. Try again.": {
       "localizations": {
         "zh-Hans": {
@@ -9069,6 +11323,16 @@
         }
       }
     },
+    "There’s more to this": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "问题不简单"
+          }
+        }
+      }
+    },
     "There’s no earlier history to branch from": {
       "localizations": {
         "zh-Hans": {
@@ -9105,6 +11369,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "思考强度"
+          }
+        }
+      }
+    },
+    "Thinking into the small hours": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "凌晨还在盘"
+          }
+        }
+      }
+    },
+    "Thinking now": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考中"
+          }
+        }
+      }
+    },
+    "Thinking on Christmas Eve too": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "平安夜也在盘"
+          }
+        }
+      }
+    },
+    "Thinking, thinking": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "想呢想呢"
+          }
+        }
+      }
+    },
+    "Thirty seconds, still at it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "30 秒了，还在盘"
+          }
+        }
+      }
+    },
+    "This bug’s a prank, right?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这个 bug 是假的吧"
           }
         }
       }
@@ -9179,6 +11503,16 @@
         }
       }
     },
+    "This is a bit tricky": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确实有点绕"
+          }
+        }
+      }
+    },
     "This is a redacted snapshot of local engine logs. Automatic redaction is not a guarantee. Remove secrets and personal information before exporting.": {
       "localizations": {
         "zh-Hans": {
@@ -9195,6 +11529,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "这不是私钥文件，请选不带 .pub 的那个（例如 id_ed25519）"
+          }
+        }
+      }
+    },
+    "This one’s a little twisty…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这个有点绕…"
           }
         }
       }
@@ -9239,6 +11583,16 @@
         }
       }
     },
+    "This step %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这一步 %@"
+          }
+        }
+      }
+    },
     "This subtask is read-only.": {
       "localizations": {
         "zh-Hans": {
@@ -9265,6 +11619,66 @@
           "stringUnit": {
             "state": "translated",
             "value": "本周"
+          }
+        }
+      }
+    },
+    "Thought bubbles": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考泡泡"
+          }
+        }
+      }
+    },
+    "Thoughts loading": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思路加载中"
+          }
+        }
+      }
+    },
+    "Tidying up the context…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "收拾一下上下文…"
+          }
+        }
+      }
+    },
+    "Tidying up the layout": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "排个版"
+          }
+        }
+      }
+    },
+    "Tiger": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "虎"
+          }
+        }
+      }
+    },
+    "Time to get serious": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "这把我得认真"
           }
         }
       }
@@ -9359,12 +11773,32 @@
         }
       }
     },
+    "Took the scenic route": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "盘了一大圈"
+          }
+        }
+      }
+    },
     "Tool": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "工具"
+          }
+        }
+      }
+    },
+    "Tool combo x10": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具连击 x10"
           }
         }
       }
@@ -9419,6 +11853,36 @@
         }
       }
     },
+    "Tools x20, on a roll": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具 x20，停不下来"
+          }
+        }
+      }
+    },
+    "Tools x5, getting into it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具 x5，手感来了"
+          }
+        }
+      }
+    },
+    "Tools x50, working overtime": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工具 x50，劳模本模"
+          }
+        }
+      }
+    },
     "Top up on DeepSeek": {
       "localizations": {
         "zh-Hans": {
@@ -9445,6 +11909,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "本轮 %@，查看本轮轨迹"
+          }
+        }
+      }
+    },
+    "Transcending bedtime…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修仙中…"
+          }
+        }
+      }
+    },
+    "Trick or treat": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不给糖就捣蛋"
+          }
+        }
+      }
+    },
+    "Trimming my memory": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "给记忆瘦个身"
           }
         }
       }
@@ -9509,6 +12003,16 @@
         }
       }
     },
+    "Turned away. Backing off": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刚被拒了，退避一下"
+          }
+        }
+      }
+    },
     "Turns": {
       "localizations": {
         "zh-Hans": {
@@ -9535,6 +12039,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "松石"
+          }
+        }
+      }
+    },
+    "Typing away": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "码字中"
+          }
+        }
+      }
+    },
+    "UR drop": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UR 掉落"
           }
         }
       }
@@ -9919,12 +12443,32 @@
         }
       }
     },
+    "View image": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "看图"
+          }
+        }
+      }
+    },
     "View logs": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "查看日志"
+          }
+        }
+      }
+    },
+    "View web": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "看网页"
           }
         }
       }
@@ -9949,12 +12493,52 @@
         }
       }
     },
+    "Wait, I can picture it": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等下，有画面了"
+          }
+        }
+      }
+    },
+    "Waiting for a word…": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等它开口…"
+          }
+        }
+      }
+    },
     "Waiting for browser authorization": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "等待浏览器授权"
+          }
+        }
+      }
+    },
+    "Waiting for it to blink": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等它眨个眼"
+          }
+        }
+      }
+    },
+    "Waiting for the first words": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等它出字"
           }
         }
       }
@@ -9975,6 +12559,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "壁纸"
+          }
+        }
+      }
+    },
+    "Warming up my brain": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搓搓手想想"
+          }
+        }
+      }
+    },
+    "Watch out for prank errors": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小心假报错"
           }
         }
       }
@@ -10049,12 +12653,72 @@
         }
       }
     },
+    "Weekend bug fixing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末在修 bug"
+          }
+        }
+      }
+    },
+    "Weekend mode ON": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末模式 ON"
+          }
+        }
+      }
+    },
+    "Weekend-exclusive look": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末限定皮肤"
+          }
+        }
+      }
+    },
     "Weekly": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "每周"
+          }
+        }
+      }
+    },
+    "Well, that fell apart": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "裂开"
+          }
+        }
+      }
+    },
+    "Well, that went sideways": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻车了"
+          }
+        }
+      }
+    },
+    "We’re all kids at heart": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "谁还不是个宝宝"
           }
         }
       }
@@ -10239,12 +12903,42 @@
         }
       }
     },
+    "Wishing you a happy Year of the %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "祝你 %@ 年快乐"
+          }
+        }
+      }
+    },
     "Without plugins, to troubleshoot startup": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "不加载插件，排查启动问题"
+          }
+        }
+      }
+    },
+    "Words flowing like magic": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下笔如有神"
+          }
+        }
+      }
+    },
+    "Words flying onto the page": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "笔下生风"
           }
         }
       }
@@ -10259,6 +12953,16 @@
         }
       }
     },
+    "Worker mode: all in": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打工人打工魂"
+          }
+        }
+      }
+    },
     "Working directory (optional)": {
       "localizations": {
         "zh-Hans": {
@@ -10269,12 +12973,42 @@
         }
       }
     },
+    "Working on the weekend too?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周末也在卷？"
+          }
+        }
+      }
+    },
+    "Working on: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在：%@"
+          }
+        }
+      }
+    },
     "Working style": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "工作方式"
+          }
+        }
+      }
+    },
+    "Working through the logic": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在盘逻辑"
           }
         }
       }
@@ -10319,6 +13053,16 @@
         }
       }
     },
+    "Wrapping things up": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在收尾了"
+          }
+        }
+      }
+    },
     "Write": {
       "localizations": {
         "zh-Hans": {
@@ -10359,6 +13103,46 @@
         }
       }
     },
+    "Writing file": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写"
+          }
+        }
+      }
+    },
+    "Writing reply": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写回复中"
+          }
+        }
+      }
+    },
+    "Writing up a storm": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "奋笔疾书"
+          }
+        }
+      }
+    },
+    "Writing, writing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在写了在写了"
+          }
+        }
+      }
+    },
     "You approve actions": {
       "localizations": {
         "zh-Hans": {
@@ -10375,6 +13159,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "你可以选择模型能运行哪些快捷指令。"
+          }
+        }
+      }
+    },
+    "You found the hidden edition": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你发现了隐藏款"
           }
         }
       }
@@ -10405,6 +13199,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "首次连接时会请你核对指纹"
+          }
+        }
+      }
+    },
+    "You’re a night owl too?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你也是夜猫子呀"
           }
         }
       }
@@ -10525,6 +13329,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "结果"
+          }
+        }
+      }
+    },
+    "thinking.gif": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "思考.gif"
           }
         }
       }

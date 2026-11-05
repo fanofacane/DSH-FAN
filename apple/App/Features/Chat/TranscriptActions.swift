@@ -19,8 +19,17 @@ import Observation
         } catch { appendNotice(appErrorCode(error)) }
     }
     func stop() async {
-        guard let client, let currentSessionId else { return }
-        try? await client.cancel(sessionId: currentSessionId)
+        guard turnRunning, !stopping, let client, let currentSessionId else { return }
+        let epoch = sessionEpoch
+        stopping = true
+        do {
+            try await client.cancel(sessionId: currentSessionId)
+            // The durable turn end clears stopping, even if the RPC returns first.
+        } catch {
+            guard epoch == sessionEpoch, stopping else { return }
+            stopping = false
+            appendNotice(appErrorCode(error))
+        }
     }
     func quote(_ text: String) {
         composerInsertion = text.components(separatedBy: .newlines).map { "> " + $0 }.joined(separator: "\n") + "\n\n"

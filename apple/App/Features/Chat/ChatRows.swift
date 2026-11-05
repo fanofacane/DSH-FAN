@@ -89,8 +89,6 @@ struct ChatItemView: View {
                 if showsActions || footnote != nil {
                     ReplyActions(text: item.text, trace: footnote, open: openTrace) { menu }
                 }
-            } else if item.state == .streaming && item.tools.isEmpty && item.reasoning.isEmpty {
-                WhaleTail(height: 22).opacity(0.7)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -155,33 +153,6 @@ struct ChatItemView: View {
         case "session/fork-unavailable": String(localized: "Couldn’t branch the chat here")
         case "E_DELETE_UNSUPPORTED": String(localized: "This host can’t delete chats")
         default: String(localized: "Request failed: \(code)")
-        }
-    }
-}
-
-/// "Service busy, retrying (2/5)" while DSH retries a failed model request.
-struct RetryRow: View {
-    @Environment(\.designTheme) private var theme
-    let retry: Int
-    let max: Int?
-    let code: String
-
-    var body: some View {
-        HStack(spacing: 8) {
-            ProgressView().controlSize(.small)
-            Text(reason).type(.bodyMedium).foregroundStyle(DS.warn)
-            Text(max.map { "\(retry)/\($0)" } ?? "\(retry)").font(Mono.font(12, scale: theme.readingScale)).foregroundStyle(DS.inkFaint)
-        }
-        .padding(.horizontal, 12).padding(.vertical, 8)
-        .background(DS.warnContainer.opacity(0.6), in: Capsule())
-    }
-
-    private var reason: String {
-        switch code {
-        case "RATE_LIMIT": String(localized: "Rate limited, retrying")
-        case "TIMEOUT", "TRANSPORT": String(localized: "Network problem, retrying")
-        case "EMPTY_RESPONSE": String(localized: "Empty reply, retrying")
-        default: String(localized: "Model service busy, retrying")
         }
     }
 }
@@ -317,12 +288,13 @@ struct ToolRowView: View {
 /// Brand placeholder: replace before release (see THIRD_PARTY_NOTICES.md).
 struct WhaleTail: View {
     var height: CGFloat = 40
+    var tint: Color = DS.whale
     var body: some View {
         Group {
             if let image = UIImage(named: "whale_1.png") {
                 Image(uiImage: image.withRenderingMode(.alwaysTemplate))
                     .resizable().scaledToFit()
-                    .foregroundStyle(DS.whale)
+                    .foregroundStyle(tint)
             }
         }
         .frame(height: height)

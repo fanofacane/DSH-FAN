@@ -62,7 +62,7 @@ struct ChatHeaderView: View {
 
     private var status: (text: LocalizedStringKey, color: Color, textColor: Color) {
         if chat.requests.currentApproval != nil { return ("Waiting for you", DS.warn, DS.warn) }
-        if chat.transcript.busy { return ("Replying", theme.accent, DS.inkFaint) }
+        if chat.transcript.busy { return ("Generating", theme.accent, DS.inkFaint) }
         if let host = hosts.activeHost {
             return ("\(host.name)", chat.connection.state == .ready ? DS.success : hosts.state.color, DS.inkFaint)
         }
