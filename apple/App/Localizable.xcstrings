@@ -121,12 +121,32 @@
         }
       }
     },
+    "A DSH task stopped": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH 任务已停止"
+          }
+        }
+      }
+    },
     "A remote host can keep working, but a suspended iOS app cannot receive new events or issue completion alerts. DSH does not provide server push notifications.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "远程主机可继续工作，但 iOS App 被挂起后无法接收新事件或发出完成通知。DSH 不提供服务端推送通知。"
+          }
+        }
+      }
+    },
+    "A suspended app cannot receive new events from remote hosts.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App 被挂起时无法接收远程主机的新事件。"
           }
         }
       }
@@ -226,7 +246,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "强调色"
+            "value": "配色"
           }
         }
       }
@@ -371,6 +391,46 @@
         }
       }
     },
+    "Address": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "地址"
+          }
+        }
+      }
+    },
+    "Adds spring motion to buttons and segments.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让按钮和分段控件带有弹性动效。"
+          }
+        }
+      }
+    },
+    "Adjust position": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调整位置"
+          }
+        }
+      }
+    },
+    "Adjusts effects when iOS reports low power or high temperature.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS 进入低电量模式或设备过热时减少效果。"
+          }
+        }
+      }
+    },
     "Agent preset": {
       "localizations": {
         "zh-Hans": {
@@ -397,6 +457,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "闹钟"
+          }
+        }
+      }
+    },
+    "Alerts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒"
           }
         }
       }
@@ -471,6 +541,16 @@
         }
       }
     },
+    "Allow notifications in iOS Settings to receive alerts.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 iOS 设置中允许通知后即可收到提醒。"
+          }
+        }
+      }
+    },
     "Allow once": {
       "localizations": {
         "zh-Hans": {
@@ -497,6 +577,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "允许运行这条命令？"
+          }
+        }
+      }
+    },
+    "Allow upload": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "允许上传"
           }
         }
       }
@@ -541,12 +631,32 @@
         }
       }
     },
+    "Amber": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "琥珀"
+          }
+        }
+      }
+    },
     "An AI agent on your iPhone": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "装在 iPhone 里的 AI 智能体"
+          }
+        }
+      }
+    },
+    "Animations": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "动画"
           }
         }
       }
@@ -567,6 +677,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "随时随地，想go就Go！"
+          }
+        }
+      }
+    },
+    "App icon": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "桌面图标"
           }
         }
       }
@@ -597,6 +717,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "应用到草稿"
+          }
+        }
+      }
+    },
+    "Approval needed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要确认"
+          }
+        }
+      }
+    },
+    "Architecture": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "架构"
           }
         }
       }
@@ -721,6 +861,36 @@
         }
       }
     },
+    "Automatic": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动"
+          }
+        }
+      }
+    },
+    "Automatic redaction can miss private information. Remove it before sharing.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动脱敏可能遗漏私密信息。请在分享前移除这些内容。"
+          }
+        }
+      }
+    },
+    "Available on this device": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机可用"
+          }
+        }
+      }
+    },
     "Available with the local engine": {
       "localizations": {
         "zh-Hans": {
@@ -761,6 +931,16 @@
         }
       }
     },
+    "Background color": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "背景色"
+          }
+        }
+      }
+    },
     "Balance %@": {
       "localizations": {
         "zh-Hans": {
@@ -787,6 +967,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "基本信息"
+          }
+        }
+      }
+    },
+    "Black": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "黑色"
+          }
+        }
+      }
+    },
+    "Blur": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模糊"
           }
         }
       }
@@ -827,6 +1027,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "浏览工作目录"
+          }
+        }
+      }
+    },
+    "Bundled version": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "内置版本"
           }
         }
       }
@@ -901,6 +1111,16 @@
         }
       }
     },
+    "Center": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "居中"
+          }
+        }
+      }
+    },
     "Change excerpts": {
       "localizations": {
         "zh-Hans": {
@@ -927,6 +1147,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "修改执行时间"
+          }
+        }
+      }
+    },
+    "Chart": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图表"
           }
         }
       }
@@ -991,12 +1221,32 @@
         }
       }
     },
+    "Check engine status, connection and recent logs.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看引擎状态、连接和近期日志。"
+          }
+        }
+      }
+    },
     "Check what files and projects are in the workspace and give me a brief overview.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "看看工作区里现在有哪些文件和项目，简单介绍一下。"
+          }
+        }
+      }
+    },
+    "Checking the calendar": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看日历"
           }
         }
       }
@@ -1021,6 +1271,26 @@
         }
       }
     },
+    "Choose an image under 15 MB.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请选择小于 15 MB 的图片。"
+          }
+        }
+      }
+    },
+    "Choose how many visual effects DSH Fan uses.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择 DSH Fan 使用的视觉效果。"
+          }
+        }
+      }
+    },
     "Choose notification, photo, microphone and speech permissions in iOS Settings.": {
       "localizations": {
         "zh-Hans": {
@@ -1031,12 +1301,52 @@
         }
       }
     },
+    "Choose which events DSH Fan can notify you about.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择 DSH Fan 在哪些情况下提醒你。"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清空"
+          }
+        }
+      }
+    },
     "Clear goal": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "清除目标"
+          }
+        }
+      }
+    },
+    "Client": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "客户端"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭"
           }
         }
       }
@@ -1076,7 +1386,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "明暗模式"
+            "value": "明暗"
           }
         }
       }
@@ -1181,6 +1491,16 @@
         }
       }
     },
+    "Confirm": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "确认"
+          }
+        }
+      }
+    },
     "Confirmation": {
       "localizations": {
         "zh-Hans": {
@@ -1227,6 +1547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "连接上次使用的主机"
+          }
+        }
+      }
+    },
+    "Connected": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已连接"
           }
         }
       }
@@ -1481,6 +1811,26 @@
         }
       }
     },
+    "Couldn’t read this image.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法读取此图片。"
+          }
+        }
+      }
+    },
+    "Couldn’t read this license.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法读取此许可证。"
+          }
+        }
+      }
+    },
     "Couldn’t sign in": {
       "localizations": {
         "zh-Hans": {
@@ -1561,6 +1911,16 @@
         }
       }
     },
+    "Credentials and diagnostics": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "凭据与诊断"
+          }
+        }
+      }
+    },
     "Cron expression": {
       "localizations": {
         "zh-Hans": {
@@ -1577,6 +1937,46 @@
           "stringUnit": {
             "state": "translated",
             "value": "仅当前对话"
+          }
+        }
+      }
+    },
+    "Custom": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义"
+          }
+        }
+      }
+    },
+    "Custom color": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自定义颜色"
+          }
+        }
+      }
+    },
+    "DSH Fan does not collect anonymous usage statistics.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH Fan 不收集匿名使用统计。"
+          }
+        }
+      }
+    },
+    "DSH Fan is an independent iOS project informed by DSH Go and iSH.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH Fan 是参考 DSH Go 与 iSH 独立开发的 iOS 项目。"
           }
         }
       }
@@ -1701,6 +2101,16 @@
         }
       }
     },
+    "Data": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "数据"
+          }
+        }
+      }
+    },
     "DeepSeek API key": {
       "localizations": {
         "zh-Hans": {
@@ -1767,6 +2177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Deepy 小鲸鱼"
+          }
+        }
+      }
+    },
+    "Default": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "默认"
           }
         }
       }
@@ -1921,6 +2341,16 @@
         }
       }
     },
+    "Dictate a message using iOS speech recognition.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 iOS 语音识别听写消息。"
+          }
+        }
+      }
+    },
     "Dictation": {
       "localizations": {
         "zh-Hans": {
@@ -1931,12 +2361,42 @@
         }
       }
     },
+    "Dim": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "压暗"
+          }
+        }
+      }
+    },
+    "Disconnected": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未连接"
+          }
+        }
+      }
+    },
     "Display name": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "显示名称"
+          }
+        }
+      }
+    },
+    "Display refresh rate": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "屏幕刷新率"
           }
         }
       }
@@ -1977,6 +2437,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "不再提示"
+          }
+        }
+      }
+    },
+    "Dusk": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暮紫"
           }
         }
       }
@@ -2121,6 +2591,16 @@
         }
       }
     },
+    "Engine logs": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "引擎日志"
+          }
+        }
+      }
+    },
     "Engine parameters": {
       "localizations": {
         "zh-Hans": {
@@ -2221,6 +2701,16 @@
         }
       }
     },
+    "Error or stopped": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出错或被停下"
+          }
+        }
+      }
+    },
     "Every interval": {
       "localizations": {
         "zh-Hans": {
@@ -2241,6 +2731,26 @@
         }
       }
     },
+    "Example conversation": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "示例对话"
+          }
+        }
+      }
+    },
+    "Execution mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行方式"
+          }
+        }
+      }
+    },
     "Explore": {
       "localizations": {
         "zh-Hans": {
@@ -2257,6 +2767,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "看看工作区有什么"
+          }
+        }
+      }
+    },
+    "Export": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出"
+          }
+        }
+      }
+    },
+    "Export diagnostics": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导出诊断"
           }
         }
       }
@@ -2301,6 +2831,16 @@
         }
       }
     },
+    "Feature icons": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "功能图标"
+          }
+        }
+      }
+    },
     "Fetch models": {
       "localizations": {
         "zh-Hans": {
@@ -2327,6 +2867,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "文件"
+          }
+        }
+      }
+    },
+    "Fill": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "填满"
           }
         }
       }
@@ -2371,12 +2921,62 @@
         }
       }
     },
+    "Fit": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "适配方式"
+          }
+        }
+      }
+    },
+    "Flat two-tone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "扁平双色"
+          }
+        }
+      }
+    },
+    "Fluid motion": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "灵动动效"
+          }
+        }
+      }
+    },
+    "Follow performance mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随性能档位"
+          }
+        }
+      }
+    },
     "Follow system": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "跟随系统"
+          }
+        }
+      }
+    },
+    "Follow wallpaper": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "跟随壁纸"
           }
         }
       }
@@ -2397,6 +2997,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "来自 DSH-TUI"
+          }
+        }
+      }
+    },
+    "Full": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完整"
+          }
+        }
+      }
+    },
+    "Full access": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完全权限"
           }
         }
       }
@@ -2427,6 +3047,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "玻璃模糊"
+          }
+        }
+      }
+    },
+    "Glass gradient": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "玻璃渐变"
           }
         }
       }
@@ -2511,6 +3141,16 @@
         }
       }
     },
+    "Graphite": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "石墨"
+          }
+        }
+      }
+    },
     "Group by workspace": {
       "localizations": {
         "zh-Hans": {
@@ -2557,6 +3197,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "高"
+          }
+        }
+      }
+    },
+    "Horizontal position": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "水平位置"
           }
         }
       }
@@ -2761,6 +3411,16 @@
         }
       }
     },
+    "Image updated": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图片已更新"
+          }
+        }
+      }
+    },
     "Images and video": {
       "localizations": {
         "zh-Hans": {
@@ -2811,6 +3471,16 @@
         }
       }
     },
+    "Ink blue": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "黛青"
+          }
+        }
+      }
+    },
     "Input includes uncached input, cache reads and cache writes. No cost estimate is calculated.": {
       "localizations": {
         "zh-Hans": {
@@ -2857,6 +3527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "已安装"
+          }
+        }
+      }
+    },
+    "Installed version": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已安装版本"
           }
         }
       }
@@ -2961,6 +3641,16 @@
         }
       }
     },
+    "Keeps glass and motion effects enabled.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保留玻璃模糊和动效。"
+          }
+        }
+      }
+    },
     "Key configured": {
       "localizations": {
         "zh-Hans": {
@@ -3021,6 +3711,16 @@
         }
       }
     },
+    "Launch screen": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "启动画面"
+          }
+        }
+      }
+    },
     "Lets the model set alarms, add calendar events and reminders, navigate, send notifications and run shortcuts you allow. iOS does not allow reading the screen or tapping in other apps.": {
       "localizations": {
         "zh-Hans": {
@@ -3031,12 +3731,42 @@
         }
       }
     },
+    "License": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "许可证"
+          }
+        }
+      }
+    },
     "Light": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "浅色"
+          }
+        }
+      }
+    },
+    "Lighten": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提亮"
+          }
+        }
+      }
+    },
+    "Lightweight": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轻量"
           }
         }
       }
@@ -3057,6 +3787,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "限制"
+          }
+        }
+      }
+    },
+    "Line icons": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "线性图标"
+          }
+        }
+      }
+    },
+    "Live Activities": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "实时活动"
           }
         }
       }
@@ -3171,6 +3921,16 @@
         }
       }
     },
+    "Managed by iOS": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由 iOS 管理"
+          }
+        }
+      }
+    },
     "Max": {
       "localizations": {
         "zh-Hans": {
@@ -3211,12 +3971,32 @@
         }
       }
     },
+    "Microphone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "麦克风"
+          }
+        }
+      }
+    },
     "Microphone and speech recognition": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "麦克风与语音识别"
+          }
+        }
+      }
+    },
+    "Minimal geometry": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "极简几何"
           }
         }
       }
@@ -3691,6 +4471,16 @@
         }
       }
     },
+    "Notify me when DSH Fan is in the background.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DSH Fan 在后台时发送提醒。"
+          }
+        }
+      }
+    },
     "OK": {
       "localizations": {
         "zh-Hans": {
@@ -3757,6 +4547,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "启动"
+          }
+        }
+      }
+    },
+    "On-device model": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机语音模型"
+          }
+        }
+      }
+    },
+    "On-device recognition only": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅使用本机语音识别"
           }
         }
       }
@@ -3931,6 +4741,16 @@
         }
       }
     },
+    "Open-source licenses": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开源许可"
+          }
+        }
+      }
+    },
     "Opens DSH and asks the local agent in a new chat.": {
       "localizations": {
         "zh-Hans": {
@@ -4051,12 +4871,32 @@
         }
       }
     },
+    "Performance mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "性能档位"
+          }
+        }
+      }
+    },
     "Permissions": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "权限"
+          }
+        }
+      }
+    },
+    "Permissions used by each feature.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "各项功能用到的系统权限。"
           }
         }
       }
@@ -4147,6 +4987,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "手机控制"
+          }
+        }
+      }
+    },
+    "Photos": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "相册"
           }
         }
       }
@@ -4247,6 +5097,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在准备运行环境"
+          }
+        }
+      }
+    },
+    "Preview": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "预览"
           }
         }
       }
@@ -4361,6 +5221,16 @@
         }
       }
     },
+    "Question asked": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有问题待回答"
+          }
+        }
+      }
+    },
     "Quiet mode": {
       "localizations": {
         "zh-Hans": {
@@ -4457,6 +5327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "最近"
+          }
+        }
+      }
+    },
+    "Recognition": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "识别方式"
           }
         }
       }
@@ -4691,6 +5571,16 @@
         }
       }
     },
+    "Replace image": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更换图片"
+          }
+        }
+      }
+    },
     "Replace key": {
       "localizations": {
         "zh-Hans": {
@@ -4707,6 +5597,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "回答"
+          }
+        }
+      }
+    },
+    "Reply finished": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "回复完成"
           }
         }
       }
@@ -4811,6 +5711,16 @@
         }
       }
     },
+    "Respects Reduce Motion in iOS Settings.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遵循 iOS 设置中的「减弱动态效果」。"
+          }
+        }
+      }
+    },
     "Response format": {
       "localizations": {
         "zh-Hans": {
@@ -4891,12 +5801,32 @@
         }
       }
     },
+    "Review diagnostics": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查诊断内容"
+          }
+        }
+      }
+    },
     "Review or change planning mode": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "查看或调整计划模式"
+          }
+        }
+      }
+    },
+    "Review the report before sharing.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享前请检查报告。"
           }
         }
       }
@@ -5067,6 +5997,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "安全模式已开启"
+          }
+        }
+      }
+    },
+    "Saturday morning is free. We can start with a walk and keep the afternoon flexible.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "周六上午有空。可以先散步，下午留作机动时间。"
           }
         }
       }
@@ -5291,6 +6231,26 @@
         }
       }
     },
+    "Send anonymous usage statistics": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送匿名使用统计"
+          }
+        }
+      }
+    },
+    "Send answer": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发送回答"
+          }
+        }
+      }
+    },
     "Server address": {
       "localizations": {
         "zh-Hans": {
@@ -5391,12 +6351,42 @@
         }
       }
     },
+    "Share configuration": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享配置"
+          }
+        }
+      }
+    },
     "Share reviewed log": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "分享已检查的日志"
+          }
+        }
+      }
+    },
+    "Share theme, language and reading preferences. The export excludes conversations, credentials, hosts and photos.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享主题、语言和阅读偏好。导出内容仅包含这些界面设置。"
+          }
+        }
+      }
+    },
+    "Sharing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享"
           }
         }
       }
@@ -5427,6 +6417,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示"
+          }
+        }
+      }
+    },
+    "Show conversation progress on the Lock Screen and Dynamic Island.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在锁定屏幕和灵动岛显示对话进度。"
+          }
+        }
+      }
+    },
+    "Show live progress": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示实时进度"
+          }
+        }
+      }
+    },
+    "Show me a weekend plan.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "帮我安排一个周末计划。"
           }
         }
       }
@@ -5467,6 +6487,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "正在显示子任务的最近记录。"
+          }
+        }
+      }
+    },
+    "Shown behind the conversation and its drawer.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示在对话与会话抽屉后方。"
           }
         }
       }
@@ -5641,6 +6671,16 @@
         }
       }
     },
+    "Source repository": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "源码仓库"
+          }
+        }
+      }
+    },
     "Speech recognition": {
       "localizations": {
         "zh-Hans": {
@@ -5657,6 +6697,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "语音识别暂时不可用。"
+          }
+        }
+      }
+    },
+    "Speech recognition language": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别语言"
           }
         }
       }
@@ -5951,6 +7001,16 @@
         }
       }
     },
+    "System notifications are off": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统通知已关闭"
+          }
+        }
+      }
+    },
     "System permission": {
       "localizations": {
         "zh-Hans": {
@@ -5967,6 +7027,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "系统权限"
+          }
+        }
+      }
+    },
+    "System settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统设置"
           }
         }
       }
@@ -6161,6 +7231,16 @@
         }
       }
     },
+    "The image plays when DSH Fan opens, after the iOS launch screen.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开 DSH Fan 时，在 iOS 启动画面之后显示这张图片。"
+          }
+        }
+      }
+    },
     "The key is stored by DSH on the remote host and used only for model requests.": {
       "localizations": {
         "zh-Hans": {
@@ -6321,6 +7401,16 @@
         }
       }
     },
+    "This host may send conversation logs to DeepSeek. The setting applies to this host.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此主机可能会将对话日志发送到 DeepSeek。设置作用于当前主机。"
+          }
+        }
+      }
+    },
     "This host’s settings and the password and private key saved on this phone will be deleted. DSH and chats on the host stay.": {
       "localizations": {
         "zh-Hans": {
@@ -6457,6 +7547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "执行规则"
+          }
+        }
+      }
+    },
+    "Tinted": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "带底色"
           }
         }
       }
@@ -6631,6 +7731,16 @@
         }
       }
     },
+    "Turquoise": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "松石"
+          }
+        }
+      }
+    },
     "Unavailable": {
       "localizations": {
         "zh-Hans": {
@@ -6647,6 +7757,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "未缓存输入"
+          }
+        }
+      }
+    },
+    "Unknown": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未知"
           }
         }
       }
@@ -6681,12 +7801,42 @@
         }
       }
     },
+    "Upload chat logs to DeepSeek": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向 DeepSeek 上传对话日志"
+          }
+        }
+      }
+    },
+    "Upload chat logs to DeepSeek?": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "向 DeepSeek 上传对话日志？"
+          }
+        }
+      }
+    },
     "Usage and run info": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "用量与运行信息"
+          }
+        }
+      }
+    },
+    "Usage statistics": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用统计"
           }
         }
       }
@@ -6791,6 +7941,16 @@
         }
       }
     },
+    "Uses less blur and motion.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "减少模糊和动效。"
+          }
+        }
+      }
+    },
     "Using “%@”": {
       "localizations": {
         "zh-Hans": {
@@ -6827,6 +7987,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "版本"
+          }
+        }
+      }
+    },
+    "Vertical position": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "垂直位置"
           }
         }
       }
@@ -6911,6 +8081,16 @@
         }
       }
     },
+    "Wallpaper": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "壁纸"
+          }
+        }
+      }
+    },
     "Web": {
       "localizations": {
         "zh-Hans": {
@@ -6991,6 +8171,46 @@
         }
       }
     },
+    "When AI is waiting for your answer.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI 等待你的回答时。"
+          }
+        }
+      }
+    },
+    "When a command needs permission.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "命令需要权限时。"
+          }
+        }
+      }
+    },
+    "When a conversation fails or stops.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话失败或停止时。"
+          }
+        }
+      }
+    },
+    "When a conversation finishes a reply.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话完成一条回复时。"
+          }
+        }
+      }
+    },
     "When active": {
       "localizations": {
         "zh-Hans": {
@@ -7027,6 +8247,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "离开 DSH Fan 后"
+          }
+        }
+      }
+    },
+    "White": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "白色"
           }
         }
       }
@@ -7181,6 +8411,16 @@
         }
       }
     },
+    "Zoom": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "缩放"
+          }
+        }
+      }
+    },
     "dsh isn’t installed on the host. Install it and retry, or enter its full path as the start command.": {
       "localizations": {
         "zh-Hans": {
@@ -7227,6 +8467,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "语音识别和所需的语言数据由 iOS 管理。"
+          }
+        }
+      }
+    },
+    "iOS manages the display refresh rate.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "屏幕刷新率由 iOS 管理。"
+          }
+        }
+      }
+    },
+    "iOS manages the speech model. Network recognition may use Apple’s speech service.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音模型由 iOS 管理。联网识别可能使用 Apple 的语音服务。"
           }
         }
       }

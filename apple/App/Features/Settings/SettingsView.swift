@@ -240,30 +240,6 @@ struct PermissionSettingsPage: View {
     }
 }
 
-struct AboutPage: View {
-    @Environment(EngineModel.self) private var engine
-    var body: some View {
-        SettingsPage(title: "About DSH Fan") {
-            SettingsGroup {
-                SettingsRow(title: "Version") {
-                    Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "").foregroundStyle(DS.inkFaint)
-                }
-                if let dsh = engine.status.dshVersion {
-                    SettingsRow(title: "DSH") { Text(dsh).foregroundStyle(DS.inkFaint) }
-                }
-                if let node = engine.status.nodeVersion {
-                    SettingsRow(title: "Node.js") { Text(node).foregroundStyle(DS.inkFaint) }
-                }
-            }
-            SettingsGroup(header: "Open source") {
-                Text("DSH Fan is an independent project that learned from DSH Go (AGPL-3.0) and iSH (GPL-3.0). It is open source under AGPL-3.0; the source code is at github.com/fanofacane/dsh-fan.")
-                    .type(.bodyMedium).foregroundStyle(DS.inkMuted).padding(16)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
-    }
-}
-
 extension RuntimePhase {
     var titleResource: String.LocalizationValue {
         switch self {

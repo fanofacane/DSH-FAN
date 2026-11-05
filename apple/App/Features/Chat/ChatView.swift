@@ -25,7 +25,7 @@ struct ChatView: View {
         GeometryReader { geometry in
             let drawerWidth = min(320, geometry.size.width * 0.84)
             ZStack(alignment: .leading) {
-                AppBackdrop()
+                ConversationBackdrop()
                 ChatDetailView(openDrawer: { setDrawer(true) })
                 if !drawerOpen && preferences.quickPanelEnabled && !preferences.quickPanelItems.isEmpty {
                     Color.clear.frame(width: 20).contentShape(Rectangle())
@@ -69,6 +69,7 @@ struct ChatView: View {
 // MARK: Detail
 
 struct ChatDetailView: View {
+    @Environment(AppPreferences.self) private var preferences
     @Environment(AppSession.self) private var chat
     @Environment(HostStore.self) private var hosts
     @Environment(PetModel.self) private var pet
@@ -143,7 +144,8 @@ struct ChatDetailView: View {
         voiceBase = draft.trimmingCharacters(in: .whitespacesAndNewlines)
         Task {
             guard let audioSession else { return }
-            await voice.start(session: audioSession) { text in
+            let locale = preferences.voiceLocale == "system" ? Locale.current : Locale(identifier: preferences.voiceLocale)
+            await voice.start(session: audioSession, locale: locale, offlineOnly: preferences.voiceOfflineOnly) { text in
                 draft = voiceBase.isEmpty ? text : voiceBase + " " + text
             }
         }

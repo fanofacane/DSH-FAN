@@ -79,6 +79,7 @@ struct SegmentedPill<Value: Hashable>: View {
     let selection: Binding<Value>
     @ScaledMetric(relativeTo: .subheadline) private var labelSize: CGFloat = 13.5
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.designTheme) private var theme
     @Environment(\.appReduceMotion) private var reduceMotion
     @Environment(\.isEnabled) private var enabled
     @GestureState private var drag: CGFloat? = nil
@@ -104,7 +105,7 @@ struct SegmentedPill<Value: Hashable>: View {
                     .frame(width: width)
                     .padding(.vertical, inset)
                     .offset(x: inset + position * width)
-                    .animation(drag == nil && !reduceMotion ? AppMotion.thumb : nil, value: position)
+                    .animation(drag == nil && !reduceMotion ? (theme.fluidMotion ? AppMotion.thumb : AppMotion.standard) : nil, value: position)
                 HStack(spacing: 0) {
                     ForEach(Array(segments.enumerated()), id: \.element.id) { index, segment in
                         Button { select(index) } label: {

@@ -25,23 +25,107 @@ struct InterfaceSettingsPage: View {
     }
 }
 
+enum PerformanceMode: String, CaseIterable {
+    case auto, full, light
+
+    var isLightweight: Bool {
+        switch self {
+        case .auto:
+            let system = ProcessInfo.processInfo
+            return system.isLowPowerModeEnabled || system.thermalState == .serious || system.thermalState == .critical
+        case .full: return false
+        case .light: return true
+        }
+    }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .auto: "Automatic"
+        case .full: "Full"
+        case .light: "Lightweight"
+        }
+    }
+
+    var summary: String {
+        switch self {
+        case .auto: String(localized: "Adjusts effects when iOS reports low power or high temperature.")
+        case .full: String(localized: "Keeps glass and motion effects enabled.")
+        case .light: String(localized: "Uses less blur and motion.")
+        }
+    }
+}
+
 struct PerformanceSettingsPage: View {
     @Environment(AppPreferences.self) private var preferences
+    @State private var lightweight = false
+
     private var systemReduceMotion: Bool { UIAccessibility.isReduceMotionEnabled }
     private var systemReduceTransparency: Bool { UIAccessibility.isReduceTransparencyEnabled }
+    private var blur: Bool { preferences.useModeEffects ? !lightweight : preferences.glassBlur }
+    private var motion: Bool { preferences.useModeEffects ? !lightweight : !preferences.reduceMotion }
 
     var body: some View {
         @Bindable var preferences = preferences
         SettingsPage(title: "Performance") {
-            SettingsGroup(header: "Effects", footer: "Use fewer visual effects to reduce rendering work on your phone.") {
+            SettingsGroup(footer: "Choose how many visual effects DSH Fan uses.") {
+                ForEach(PerformanceMode.allCases, id: \.self) { mode in
+                    Button {
+                        preferences.performanceMode = mode
+                        lightweight = mode.isLightweight
+                    } label: {
+                        SettingsRow(title: mode.title, subtitle: mode.summary) {
+                            Image(systemName: preferences.performanceMode == mode ? "largecircle.fill.circle" : "circle")
+                                .font(.system(size: 22)).frame(width: 32).foregroundStyle(DS.inkMuted)
+                        }
+                    }.buttonStyle(SettingsPressStyle())
+                        .accessibilityAddTraits(preferences.performanceMode == mode ? .isSelected : [])
+                }
+            }.settingAnchor("performance-mode")
+            SettingsGroup(footer: "iOS manages the display refresh rate.") {
+                InfoRow(label: "Display refresh rate", value: String(localized: "System"))
+            }
+            SettingsGroup(header: "Effects") {
                 SettingsToggleRow(title: "Glass blur", isOn: Binding(
-                    get: { preferences.glassBlur && !systemReduceTransparency }, set: { preferences.glassBlur = $0 }
+                    get: { blur && !systemReduceTransparency }, set: { value in
+                        preserveEffects()
+                        preferences.glassBlur = value
+                    }
                 )).disabled(systemReduceTransparency).settingAnchor("glass-blur")
-                SettingsToggleRow(title: "Reduce motion", isOn: Binding(
-                    get: { preferences.reduceMotion || systemReduceMotion }, set: { preferences.reduceMotion = $0 }
-                )).disabled(systemReduceMotion && !preferences.reduceMotion).settingAnchor("reduce-motion")
+                SettingsToggleRow(title: "Animations", subtitle: String(localized: "Respects Reduce Motion in iOS Settings."),
+                                  isOn: Binding(get: { motion && !systemReduceMotion }, set: { value in
+                    preserveEffects()
+                    preferences.reduceMotion = !value
+                })).disabled(systemReduceMotion).settingAnchor("reduce-motion")
+                if motion && !systemReduceMotion {
+                    SettingsToggleRow(title: "Fluid motion", subtitle: String(localized: "Adds spring motion to buttons and segments."),
+                                      isOn: $preferences.fluidMotion)
+                }
+                if !preferences.useModeEffects {
+                    Button { preferences.useModeEffects = true } label: {
+                        SettingsRow(title: "Follow performance mode") { EmptyView() }
+                    }.buttonStyle(SettingsPressStyle())
+                }
             }
         }
+        .onAppear {
+            #if DEBUG
+            if DebugPageRegistry.argument("-dsh-screen-fixture") == "lightweight" { preferences.performanceMode = .light }
+            #endif
+            lightweight = preferences.performanceMode.isLightweight
+        }
+        .onReceive(NotificationCenter.default.publisher(for: ProcessInfo.thermalStateDidChangeNotification)) { _ in
+            lightweight = preferences.performanceMode.isLightweight
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .NSProcessInfoPowerStateDidChange)) { _ in
+            lightweight = preferences.performanceMode.isLightweight
+        }
+    }
+
+    private func preserveEffects() {
+        guard preferences.useModeEffects else { return }
+        preferences.glassBlur = blur
+        preferences.reduceMotion = !motion
+        preferences.useModeEffects = false
     }
 }
 
@@ -69,16 +153,57 @@ struct BackgroundSettingsPage: View {
 
 struct VoiceSettingsPage: View {
     @Environment(AppPreferences.self) private var preferences
+    @State private var showLanguages = false
+
+    private var locale: Locale { preferences.voiceLocale == "system" ? .current : Locale(identifier: preferences.voiceLocale) }
+    private var language: String { Locale.current.localizedString(forIdentifier: locale.identifier) ?? locale.identifier }
+    private var offlineStatus: String {
+        #if DEBUG
+        if let fixture = DebugPageRegistry.usesFixture ? DebugPageRegistry.argument("-dsh-screen-fixture") : nil {
+            return String(localized: fixture == "ready" ? "Available on this device" : "Managed by iOS")
+        }
+        #endif
+        return String(localized: SFSpeechRecognizer(locale: locale)?.supportsOnDeviceRecognition == true
+                      ? "Available on this device" : "Managed by iOS")
+    }
+
     var body: some View {
         @Bindable var preferences = preferences
-        SettingsPage(title: "Voice input") {
-            SettingsGroup(header: "Dictation", footer: "iOS manages speech recognition and any language data it needs.") {
+        SettingsPage(title: "Voice input", subtitle: "Dictate a message using iOS speech recognition.") {
+            SettingsGroup {
                 SettingsToggleRow(glyph: AppIcon.voice, title: "Voice input", isOn: $preferences.voiceInputEnabled)
                     .settingAnchor("voice-enabled")
             }
+            SettingsGroup(header: "Recognition",
+                          footer: "iOS manages the speech model. Network recognition may use Apple’s speech service.") {
+                Button { showLanguages = true } label: {
+                    SettingsRow(title: "Speech recognition language", value: language)
+                }.buttonStyle(SettingsPressStyle()).settingAnchor("voice-language")
+                InfoRow(label: "On-device model", value: offlineStatus)
+                SettingsToggleRow(title: "On-device recognition only", isOn: $preferences.voiceOfflineOnly)
+                    .settingAnchor("voice-offline")
+            }
+            .disabled(!preferences.voiceInputEnabled)
             SettingsGroup(header: "System permissions") {
                 SettingsLink(glyph: AppIcon.systemAccess, title: "Microphone and speech recognition") { SystemAccessPage() }
             }
+        }
+        .sheet(isPresented: $showLanguages) {
+            SettingsSheet(title: "Speech recognition language", locked: true) {
+                ScrollView {
+                    SheetGroup {
+                        SettingsChoiceRow(title: String(localized: "Follow system"), selected: preferences.voiceLocale == "system") {
+                            preferences.voiceLocale = "system"; showLanguages = false
+                        }
+                        ForEach(SFSpeechRecognizer.supportedLocales().map(\.identifier).sorted(), id: \.self) { id in
+                            SettingsChoiceRow(title: Locale.current.localizedString(forIdentifier: id) ?? id,
+                                              selected: preferences.voiceLocale == id) {
+                                preferences.voiceLocale = id; showLanguages = false
+                            }
+                        }
+                    }
+                }
+            }.presentationDetents([.medium, .large])
         }
     }
 }
@@ -97,18 +222,32 @@ struct SystemAccessPage: View {
     }
 
     var body: some View {
-        SettingsPage(title: "System permissions") {
-            SettingsGroup(header: "Access on this iPhone",
+        SettingsPage(title: "System permissions", subtitle: "Permissions used by each feature.") {
+            SettingsGroup(header: "Notifications",
                           footer: "iOS asks for each permission when you first use its feature. Review or change your choices in Settings.") {
-                ForEach(permissions) { permission in
-                    SettingsRow(glyph: permission.glyph, title: permission.title, value: permission.state) { EmptyView() }
-                }
+                permissionRows([AppIcon.notifications])
+            }
+            SettingsGroup(header: "Phone control") {
+                permissionRows([.calendar, .listChecks, AppIcon.image])
+            }
+            SettingsGroup(header: "Voice input") {
+                permissionRows([AppIcon.voice, .chatCircle])
             }
             MistButton(title: "Open iOS Settings", kind: .secondary) {
                 if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
             }
         }
         .task(id: scenePhase) { await refresh() }
+    }
+
+    private func permissionRows(_ glyphs: [DshGlyph]) -> some View {
+        ForEach(permissions.filter { glyphs.contains($0.glyph) }) { permission in
+            Button {
+                if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }
+            } label: {
+                SettingsRow(glyph: permission.glyph, title: permission.title, value: permission.state)
+            }.buttonStyle(SettingsPressStyle())
+        }
     }
 
     private func refresh() async {

@@ -168,6 +168,7 @@ struct MarkdownView: View {
 }
 
 private struct MarkdownBlockView: View {
+    @Environment(AppPreferences.self) private var preferences
     @Environment(\.designTheme) private var theme
     @Environment(AppSession.self) private var chat
     let block: MarkdownBlock
@@ -188,7 +189,11 @@ private struct MarkdownBlockView: View {
         case .paragraph(let text):
             Text(MarkdownParser.inline(text, theme: theme)).type(.body)
         case .code(let language, let text):
-            CodeBlockView(language: language, code: text)
+            if preferences.visualReplies, language.lowercased() == "dsh-ui", let node = VisualReply.decode(text) {
+                VisualReplyView(node: node)
+            } else {
+                CodeBlockView(language: language, code: text)
+            }
         case .quote(let text):
             HStack(alignment: .top, spacing: 10) {
                 RoundedRectangle(cornerRadius: 1.5).fill(DS.rule).frame(width: 3)

@@ -114,6 +114,31 @@ private struct AccentColors {
     let onSeedDark: UInt32
     let glow: (UInt32, UInt32)
     let haze: (UInt32, UInt32)
+    var hue = 266.0
+    var chroma = 1.0
+
+    static func custom(_ argb: UInt32) -> AccentColors {
+        let pick = OKLabTone(argb: argb)
+        let c = min(0.13, pick.chroma)
+        let h = pick.hue
+        let k = min(1, c / 0.1255)
+        let hue = h * 180 / .pi
+        let chroma = 0.8 * k
+        func tone(_ l: Double, _ ratio: Double) -> OKLabTone { .init(lightness: l, chroma: c * ratio, hue: h) }
+        let l = min(0.6, max(0.3, pick.lightness))
+        let onDark = tone(0.231, 0.39).argb
+        let light = tone(l, 1).guarded(surface: OKLabTone.retint(0xFFDFE4EE, hue: hue, chroma: chroma),
+                                       foreground: 0xFFFFFFFF, dark: false)
+        let dark = tone(min(0.93, l + 0.234), 0.76).guarded(
+            surface: OKLabTone.retint(0xFF343944, hue: hue, chroma: chroma), foreground: onDark, dark: true)
+        return AccentColors(seed: (light, dark),
+            container: (tone(0.93, 0.26).argb, tone(0.361, 0.51).argb),
+            onContainer: (tone(0.33, 0.70).argb, tone(0.909, 0.24).argb), onSeedDark: onDark,
+            glow: (tone(0.819, 0.68).argb, tone(0.52, 0.72).argb),
+            haze: (OKLabTone(lightness: 0.86, chroma: 0.045 * k, hue: h + 33 * .pi / 180).argb,
+                   OKLabTone(lightness: 0.42, chroma: 0.05 * k, hue: h + 33 * .pi / 180).argb),
+            hue: hue, chroma: chroma)
+    }
 
     static let presets: [String: AccentColors] = [
         "mist": AccentColors(seed: (0xFF4B67B4, 0xFF97B1F0),
@@ -121,19 +146,19 @@ private struct AccentColors {
             onSeedDark: 0xFF121C34, glow: (0xFFABC3FC, 0xFF51679D), haze: (0xFFD5CBEB, 0xFF514765)),
         "daiqing": AccentColors(seed: (0xFF236185, 0xFF8CB9D7),
             container: (0xFFDBEAF5, 0xFF274152), onContainer: (0xFF123950, 0xFFD5E3ED),
-            onSeedDark: 0xFF0D1F2B, glow: (0xFFA2CAE5, 0xFF466E88), haze: (0xFFC7D0EC, 0xFF444C66)),
+            onSeedDark: 0xFF0D1F2B, glow: (0xFFA2CAE5, 0xFF466E88), haze: (0xFFC7D0EC, 0xFF444C66), hue: 238, chroma: 0.9),
         "dusk": AccentColors(seed: (0xFF726291, 0xFFB8ABD2),
             container: (0xFFEAE5F4, 0xFF40394F), onContainer: (0xFF392F4C, 0xFFE2DEEC),
-            onSeedDark: 0xFF1F1A29, glow: (0xFFC8BDE1, 0xFF6D6284), haze: (0xFFE6C7D7, 0xFF5F4353)),
+            onSeedDark: 0xFF1F1A29, glow: (0xFFC8BDE1, 0xFF6D6284), haze: (0xFFE6C7D7, 0xFF5F4353), hue: 295, chroma: 0.85),
         "turquoise": AccentColors(seed: (0xFF34766F, 0xFF8DBEB7),
             container: (0xFFDBECE9, 0xFF274340), onContainer: (0xFF123D39, 0xFFD6E5E2),
-            onSeedDark: 0xFF0D211F, glow: (0xFFA3CEC8, 0xFF47726D), haze: (0xFFB9D7E3, 0xFF34525E)),
+            onSeedDark: 0xFF0D211F, glow: (0xFFA3CEC8, 0xFF47726D), haze: (0xFFB9D7E3, 0xFF34525E), hue: 190, chroma: 0.7),
         "amber": AccentColors(seed: (0xFF8D6636, 0xFFCCAC87),
             container: (0xFFF2E6D9, 0xFF4C3A25), onContainer: (0xFF483011, 0xFFEADFD3),
-            onSeedDark: 0xFF271A0C, glow: (0xFFDCBE9D, 0xFF7F6343), haze: (0xFFEAC8C1, 0xFF64443D)),
+            onSeedDark: 0xFF271A0C, glow: (0xFFDCBE9D, 0xFF7F6343), haze: (0xFFEAC8C1, 0xFF64443D), hue: 75, chroma: 0.75),
         "graphite": AccentColors(seed: (0xFF2C2E32, 0xFFE5E8ED),
             container: (0xFFE3E6EC, 0xFF3B3D41), onContainer: (0xFF2C2E32, 0xFFDEE1E7),
-            onSeedDark: 0xFF191B1E, glow: (0xFFBBBEC3, 0xFF616368), haze: (0xFFCED1D6, 0xFF4A4D52)),
+            onSeedDark: 0xFF191B1E, glow: (0xFFBBBEC3, 0xFF616368), haze: (0xFFCED1D6, 0xFF4A4D52), hue: 262, chroma: 0.25),
         // Stored by earlier iOS builds.
         "teal": AccentColors(seed: (0xFF286C6A, 0xFF84C9C4), container: (0xFFD4EEEA, 0xFF214B49),
             onContainer: (0xFF174A48, 0xFFC2EAE5), onSeedDark: 0xFF0D211F,
@@ -148,9 +173,29 @@ private struct AccentColors {
 struct DesignTheme {
     var palette = "mist"
     var readingScale: CGFloat = 1
-    var glassBlur = true
+    var glassBlur: Bool
+    var fluidMotion: Bool
+    private let colors: AccentColors
 
-    private var colors: AccentColors { AccentColors.presets[palette] ?? AccentColors.presets["mist"]! }
+    init(palette: String = "mist", readingScale: CGFloat = 1, glassBlur: Bool = true,
+         customAccent: UInt32? = nil, fluidMotion: Bool = true) {
+        self.palette = palette
+        self.readingScale = readingScale
+        self.glassBlur = glassBlur
+        self.fluidMotion = fluidMotion
+        colors = customAccent.map(AccentColors.custom) ?? AccentColors.presets[palette] ?? AccentColors.presets["mist"]!
+    }
+
+    var backdropTop: Color { neutral(0xFFEBF1FE, 0xFF1D222C) }
+    var backdropBottom: Color { neutral(0xFFF6F7FC, 0xFF1B1C23) }
+    var ink: Color { neutral(0xFF1E232E, 0xFFE6E9F0) }
+    var inkMuted: Color { neutral(0xFF4F5562, 0xFFB6BBC5) }
+    var inkFaint: Color { neutral(0xFF646974, 0xFF9A9EA9) }
+
+    private func neutral(_ light: UInt32, _ dark: UInt32) -> Color {
+        Color(light: OKLabTone.retint(light, hue: colors.hue, chroma: colors.chroma),
+              dark: OKLabTone.retint(dark, hue: colors.hue, chroma: colors.chroma))
+    }
     var accent: Color { Color(light: colors.seed.0, dark: colors.seed.1) }
     var onAccent: Color { Color(light: 0xFFFFFFFF, dark: colors.onSeedDark) }
     var accentCheck: Color { Color(argb: colors.seed.0) }
@@ -303,7 +348,7 @@ struct AppBackdrop: View {
             let size = geometry.size
             let longest = max(size.width, size.height)
             ZStack {
-                LinearGradient(colors: [DS.backdropTop, DS.backdropBottom], startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: [theme.backdropTop, theme.backdropBottom], startPoint: .top, endPoint: .bottom)
                 if glow {
                     RadialGradient(colors: [theme.glowPrimary, theme.glowPrimary.opacity(0)], center: .init(x: 0.92, y: 0),
                                    startRadius: 0, endRadius: longest * 0.62)

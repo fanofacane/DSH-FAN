@@ -231,7 +231,7 @@ def extension(project, name, folder, plist, bundle_suffix, entitlements, extra_r
   end
   target
 end
-theme_refs = shared_refs + %w[Theme.swift Glyphs.swift].map { |name| app_refs.find { |ref| ref.path == name } }
+theme_refs = shared_refs + %w[Theme.swift AccentMath.swift Glyphs.swift].map { |name| app_refs.find { |ref| ref.path == name } }
 widgets = extension(project, 'DSHWidgets', 'Extensions/Widgets', 'Extensions/Widgets/Info.plist', 'widgets', nil, theme_refs)
 widgets.resources_build_phase.add_file_reference(pet_pack, true)
 

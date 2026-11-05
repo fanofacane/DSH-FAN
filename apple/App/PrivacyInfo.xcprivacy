@@ -7,7 +7,9 @@
      metadata (stat/fstat) and elapsed-time clock (mach_absolute_time) for files
      in the app container; the free-space check before installing the runtime.
      The system permissions overview reads authorization states locally.
-     Live Activities use a bundled pose and turn status, with no server updates. -->
+     Live Activities use a bundled pose and turn status, with no server updates.
+     Photos selected through the system picker are processed and stored in the
+     app container. Voice input uses Speech and the existing microphone access. -->
 <plist version="1.0">
 <dict>
 	<key>NSPrivacyTracking</key>

@@ -5,12 +5,11 @@ import SwiftUI
 struct PersonalizationPage: View {
     @Environment(HostStore.self) private var hosts
     @Environment(EngineModel.self) private var engine
+    @Environment(AppPreferences.self) private var preferences
     @State private var summary: String?
-    #if DEBUG
-    @State private var exampleVisualReplies = true
-    #endif
 
     var body: some View {
+        @Bindable var preferences = preferences
         SettingsPage(title: "Personalization") {
             if !hosts.isRemote {
                 SettingsGroup(header: "About you") {
@@ -19,14 +18,12 @@ struct PersonalizationPage: View {
                     }
                 }
             }
-            #if DEBUG
-            if DebugPageRegistry.usesFixture {
+            if !hosts.isRemote {
                 SettingsGroup(header: "Replies") {
                     SettingsToggleRow(title: "Visual replies", subtitle: String(localized: "Charts, comparisons and tappable options"),
-                                      isOn: $exampleVisualReplies)
+                                      isOn: $preferences.visualReplies).settingAnchor("visual-replies")
                 }
             }
-            #endif
             SettingsGroup(header: "Working style") {
                 SettingsLink(title: "Agent presets") { AgentPresetsPage() }
             }

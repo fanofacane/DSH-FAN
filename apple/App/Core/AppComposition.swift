@@ -20,6 +20,8 @@ import UserNotifications
     let relay: RelayStore
     let notifications: TaskNotifications
     let activity = TurnActivityController()
+    let appearanceImages = AppearanceImages()
+    let icons: AlternateIconController
     let audioSession: AVAudioSession
     let photoLibrary: PHPhotoLibrary
 
@@ -51,6 +53,15 @@ import UserNotifications
         intents = IntentInbox.shared
         // UIKit, audio, photos and AlarmKit provide process-wide system services.
         let application = UIApplication.shared
+        icons = AlternateIconController(application: application)
+        #if DEBUG
+        if DebugPageRegistry.usesFixture, DebugPageRegistry.argument("-dsh-screen-fixture") == "custom" {
+            appearanceImages.seedPreview()
+            preferences.wallpaperOn = true
+            preferences.launchImageOn = true
+            preferences.launchFill = DebugPageRegistry.argument("-dsh-screen-fit") != "center"
+        }
+        #endif
         audioSession = AVAudioSession.sharedInstance()
         photoLibrary = PHPhotoLibrary.shared()
         let alarms: PhoneAlarms
@@ -85,6 +96,8 @@ extension EnvironmentValues {
 /// Observe appearance inside a view so changes update descendants and presented sheets.
 struct AppAppearance: ViewModifier {
     @Environment(AppPreferences.self) private var preferences
+    @Environment(AppearanceImages.self) private var images
+    @State private var lightweight = PerformanceMode.auto.isLightweight
     private var usesFixture: Bool {
         #if DEBUG
         DebugPageRegistry.usesFixture
@@ -94,10 +107,21 @@ struct AppAppearance: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        let theme = usesFixture ? DesignTheme() : DesignTheme(palette: preferences.palette, readingScale: preferences.scale, glassBlur: preferences.glassBlur)
+        let lightweight = preferences.performanceMode == .auto ? self.lightweight : preferences.performanceMode == .light
+        let blur = preferences.useModeEffects ? !lightweight : preferences.glassBlur
+        let motion = preferences.useModeEffects ? lightweight : preferences.reduceMotion
+        let custom = preferences.palette == "wallpaper" ? images.wallpaperAccent : preferences.palette == "custom" ? preferences.customAccent : nil
+        let theme = DesignTheme(palette: preferences.palette, readingScale: preferences.scale, glassBlur: blur,
+                                customAccent: custom, fluidMotion: preferences.fluidMotion && !lightweight)
         content.preferredColorScheme(usesFixture ? nil : preferences.colorScheme)
             .environment(\.designTheme, theme)
-            .environment(\.appReduceMotion, usesFixture || preferences.reduceMotion)
+            .environment(\.appReduceMotion, usesFixture || motion)
             .tint(theme.accent)
+            .onReceive(NotificationCenter.default.publisher(for: ProcessInfo.thermalStateDidChangeNotification)) { _ in
+                self.lightweight = PerformanceMode.auto.isLightweight
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .NSProcessInfoPowerStateDidChange)) { _ in
+                self.lightweight = PerformanceMode.auto.isLightweight
+            }
     }
 }

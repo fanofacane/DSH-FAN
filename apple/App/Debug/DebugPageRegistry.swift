@@ -28,6 +28,13 @@ import SwiftUI
         "drawer": { AnyView(ChatView(drawerOpen: true)) },
         "settings": { AnyView(SettingsView()) },
         "notifications": { AnyView(NavigationStack { TaskNotificationSettingsPage() }) },
+        "app-icon-picker": { AnyView(SettingsGroup { AlternateIconPicker() }.padding(.horizontal, Space.lg)) },
+        "launch-section": { AnyView(SettingsGroup { AppearanceImageSection(kind: .launch) }.padding(.horizontal, Space.lg)) },
+        "wallpaper-section": { AnyView(SettingsGroup { AppearanceImageSection(kind: .wallpaper) }.padding(.horizontal, Space.lg)) },
+        "wallpaper-editor": { AnyView(NavigationStack { WallpaperEditorPage() }) },
+        "wallpaper-preview": { AnyView(WallpaperPreviewPage()) },
+        "diagnostics-export": { AnyView(DiagnosticReviewSheet(snapshot: "[system] Engine is running.")) },
+        "licenses": { AnyView(NavigationStack { OpenSourceLicensesPage() }) },
         "appearance": { AnyView(NavigationStack { AppearanceSettingsPage() }) },
         "language": { AnyView(SettingsView(initial: SettingsLocation("settings", anchor: "language"))) },
         "settings-search": { AnyView(SettingsView(initial: SettingsLocation("search"))) },
@@ -80,6 +87,8 @@ private struct DebugScreenshotPage: View {
     @Environment(PhoneController.self) private var phone
     @Environment(PetModel.self) private var pet
     @Environment(AppPreferences.self) private var preferences
+    @Environment(AppearanceImages.self) private var images
+    @Environment(AlternateIconController.self) private var icons
     @Environment(TaskNotifications.self) private var notifications
     @Environment(RelayStore.self) private var relay
     @Environment(\.designTheme) private var theme
@@ -100,6 +109,7 @@ private struct DebugScreenshotPage: View {
                     .environment(session).environment(engine).environment(hosts)
                     .environment(phone).environment(pet).environment(preferences)
                     .environment(notifications).environment(relay)
+                    .environment(images).environment(icons)
                     .environment(\.designTheme, theme)
                     .environment(\.appReduceMotion, true)
                     .environment(\.dynamicTypeSize, capturedTypeSize)

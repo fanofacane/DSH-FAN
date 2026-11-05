@@ -24,10 +24,12 @@ struct SettingsPage<Content: View>: View {
     var showsBack = true
     var showsTitle = true
     var backAction: (() -> Void)?
+    var subtitle: LocalizedStringKey?
     @ViewBuilder let content: () -> Content
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.settingsTarget) private var target
+    @Environment(\.designTheme) private var theme
     @Environment(\.appReduceMotion) private var reduceMotion
     @State private var revealedTarget: String?
     @State private var offset: CGFloat = 0
@@ -43,8 +45,12 @@ struct SettingsPage<Content: View>: View {
                 VStack(alignment: .leading, spacing: 0) {
                     if top > 0 { Color.clear.frame(height: top) }
                     if showsTitle {
-                        Text(title).settingsType(.pageTitle)
-                            .accessibilityAddTraits(.isHeader)
+                        VStack(alignment: .leading, spacing: Space.xs) {
+                            Text(title).settingsType(.pageTitle).accessibilityAddTraits(.isHeader)
+                            if let subtitle {
+                                Text(subtitle).settingsType(.bodyMedium).foregroundStyle(DS.inkMuted)
+                            }
+                        }
                             .padding(.horizontal, Space.sm)
                             .padding(.top, 6)
                             .padding(.bottom, Space.xl)
@@ -57,7 +63,7 @@ struct SettingsPage<Content: View>: View {
                     }
                     content()
                 }
-                .foregroundStyle(DS.ink)
+                .foregroundStyle(theme.ink)
                 .padding(.horizontal, Space.gutter)
                 .padding(.bottom, Space.xxxl)
                 .frame(maxWidth: Space.readingWidth)
@@ -240,15 +246,16 @@ struct SettingsLineIcon: View {
 }
 
 struct SettingsRow<Trailing: View>: View {
+    @Environment(\.designTheme) private var theme
     var glyph: DshGlyph?
     var tone: TileTone = .ai
     let title: LocalizedStringKey
     var subtitle: String?
-    var titleColor: Color = DS.ink
+    var titleColor: Color?
     var verbatim: String?
     var tinted = false
     var value: String?
-    var valueColor: Color = DS.inkMuted
+    var valueColor: Color?
     @ViewBuilder var trailing: () -> Trailing
 
     var body: some View {
@@ -262,15 +269,15 @@ struct SettingsRow<Trailing: View>: View {
             }
             VStack(alignment: .leading, spacing: 1) {
                 Group { if let verbatim { Text(verbatim: verbatim) } else { Text(title) } }
-                    .settingsType(.setting).foregroundStyle(tone.isDanger ? DS.danger : titleColor)
+                    .settingsType(.setting).foregroundStyle(tone.isDanger ? DS.danger : (titleColor ?? theme.ink))
                 if let subtitle, !subtitle.isEmpty {
-                    Text(subtitle).settingsType(.bodySmall).foregroundStyle(DS.inkFaint)
+                    Text(subtitle).settingsType(.bodySmall).foregroundStyle(theme.inkFaint)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             if let value, !value.isEmpty {
-                Text(value).monospacedDigit().settingsType(.bodyMedium).foregroundStyle(valueColor)
+                Text(value).monospacedDigit().settingsType(.bodyMedium).foregroundStyle(valueColor ?? theme.inkMuted)
                     .multilineTextAlignment(.trailing).lineLimit(2).padding(.leading, Space.md).layoutPriority(1)
             }
             trailing()

@@ -94,10 +94,11 @@ import Observation
                 appendNotice(failure)
             }
             lastFailure = nil
-            if followReady, wasRunning, reason == "completed", let session = currentSessionId {
+            if followReady, wasRunning, let session = currentSessionId, reason == "completed" || reason == "aborted" || !normal.contains(reason) {
+                let kind: TaskNotifications.Kind = reason == "completed" ? .reply : .failed
                 let host = self.hosts.activeHost?.id
                 Task {
-                    await self.notifications.notify(.reply, eventId: session + "-" + String(record.seq), sessionId: session, hostId: host)
+                    await self.notifications.notify(kind, eventId: session + "-" + String(record.seq), sessionId: session, hostId: host)
                     if !self.context.hasRunningTasks { self.notifications.finishGrace() }
                 }
             }

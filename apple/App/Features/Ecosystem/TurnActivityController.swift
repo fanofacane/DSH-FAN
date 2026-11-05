@@ -12,20 +12,20 @@ import SwiftUI
     private var wasBusy = false
     private var running = false
 
-    func run(with chat: AppSession, pet: PetModel) async {
+    func run(with chat: AppSession, pet: PetModel, preferences: AppPreferences) async {
         guard !running else { return }
         running = true
         defer { running = false }
         activity = Turn.activities.first { $0.activityState == .active || $0.activityState == .stale }
         last = activity?.content.state
         while !Task.isCancelled {
-            await tick(chat, pet: pet)
+            await tick(chat, pet: pet, showTurn: preferences.showLiveActivity)
             do { try await Task.sleep(for: .seconds(1)) } catch { return }
         }
     }
 
-    private func tick(_ chat: AppSession, pet: PetModel) async {
-        let busy = chat.transcript.busy
+    private func tick(_ chat: AppSession, pet: PetModel, showTurn: Bool) async {
+        let busy = showTurn && chat.transcript.busy
         defer { wasBusy = busy }
         if let activity, activity.activityState == .dismissed || activity.activityState == .ended {
             if activity.activityState == .dismissed && last?.pet != nil {

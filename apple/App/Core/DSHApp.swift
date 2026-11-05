@@ -28,6 +28,8 @@ struct DSHApp: App {
             }
                 .modifier(AppAppearance())
                 .environment(composition.preferences)
+                .environment(composition.appearanceImages)
+                .environment(composition.icons)
                 .environment(composition.notifications)
                 .environment(\.audioSession, composition.audioSession)
                 .environment(\.photoLibrary, composition.photoLibrary)
@@ -63,6 +65,7 @@ struct RootView: View {
     @Environment(\.appReduceMotion) private var reduceMotion
     @AppStorage("app.onboarded") private var onboarded = false
     @State private var settingsLink: SettingsLocation?
+    @State private var firstFrame = true
 
     var body: some View {
         Group {
@@ -85,6 +88,16 @@ struct RootView: View {
                 EnginePreparingView()
             }
             #endif
+        }
+        .overlay {
+            if firstFrame && showsFirstFrame {
+                LaunchArtwork().transition(.opacity)
+                    .task {
+                        do { try await Task.sleep(for: .milliseconds(reduceMotion ? 120 : 450)) } catch { return }
+                        withAnimation(reduceMotion ? nil : AppMotion.quick) { firstFrame = false }
+                    }
+                    .accessibilityHidden(true)
+            }
         }
         .task {
             guard !AppLaunchPolicy.isUnitTestHost, onboarded || Self.skipOnboarding else { return }
@@ -146,7 +159,7 @@ struct RootView: View {
             #if DEBUG
             guard !DebugPageRegistry.usesFixture else { return }
             #endif
-            await activity.run(with: chat, pet: pet)
+            await activity.run(with: chat, pet: pet, preferences: preferences)
         }
         .task {
             #if DEBUG
@@ -176,6 +189,13 @@ struct RootView: View {
                 chat.connection.disconnect()
             }
         }
+    }
+
+    private var showsFirstFrame: Bool {
+        #if DEBUG
+        if DebugPageRegistry.requestedName != nil || Self.skipOnboarding { return false }
+        #endif
+        return true
     }
 
     @MainActor private static var phoneSmokeStarted = false

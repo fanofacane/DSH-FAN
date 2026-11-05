@@ -19,18 +19,20 @@ struct HelpSettingsPage: View {
 }
 
 struct AllSettingsFeaturesPage: View {
+    @Environment(AppPreferences.self) private var preferences
+    private var tinted: Bool { preferences.featureIconStyle != "line" }
     var body: some View {
         SettingsPage(title: "All features") {
             SettingsGroup(header: "Work") {
-                SettingsLink(glyph: .folder, title: "Workspaces") { WorkspacesPage() }
-                SettingsLink(glyph: .calendar, title: "Scheduled tasks") { SchedulesPage() }
-                SettingsLink(glyph: AppIcon.history, title: "Run insights") { RunInsightsPage() }
-                SettingsLink(glyph: AppIcon.profile, title: "Agent presets") { AgentPresetsPage() }
+                SettingsLink(glyph: .folder, title: "Workspaces", tinted: tinted) { WorkspacesPage() }
+                SettingsLink(glyph: .calendar, title: "Scheduled tasks", tinted: tinted) { SchedulesPage() }
+                SettingsLink(glyph: AppIcon.history, title: "Run insights", tinted: tinted) { RunInsightsPage() }
+                SettingsLink(glyph: AppIcon.profile, title: "Agent presets", tinted: tinted) { AgentPresetsPage() }
             }
             SettingsGroup(header: "Capabilities") {
-                SettingsLink(glyph: AppIcon.phoneControl, title: "Phone control") { PhoneSettingsView() }
-                SettingsLink(glyph: AppIcon.webSearch, title: "Web search") { CapabilitySettingsPage(kind: .search) }
-                SettingsLink(glyph: AppIcon.generateMedia, title: "Images and video") { CapabilitySettingsPage(kind: .media) }
+                SettingsLink(glyph: AppIcon.phoneControl, title: "Phone control", tinted: tinted) { PhoneSettingsView() }
+                SettingsLink(glyph: AppIcon.webSearch, title: "Web search", tinted: tinted) { CapabilitySettingsPage(kind: .search) }
+                SettingsLink(glyph: AppIcon.generateMedia, title: "Images and video", tinted: tinted) { CapabilitySettingsPage(kind: .media) }
             }
         }
     }

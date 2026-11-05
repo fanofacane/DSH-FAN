@@ -26,12 +26,12 @@ final class VoiceInput {
     var isActive: Bool { state == .starting || state == .listening }
 
     /// Starts dictation; `onText` receives the whole utterance so far.
-    func start(session: AVAudioSession, onText: @escaping (String) -> Void) async {
+    func start(session: AVAudioSession, locale: Locale = .current, offlineOnly: Bool = false, onText: @escaping (String) -> Void) async {
         guard !isActive else { return }
         state = .starting
         guard await Self.authorize() else { state = .denied; return }
-        let recognizer = SFSpeechRecognizer(locale: Locale.current) ?? SFSpeechRecognizer()
-        guard let recognizer, recognizer.isAvailable else { state = .unavailable; return }
+        let recognizer = SFSpeechRecognizer(locale: locale)
+        guard let recognizer, recognizer.isAvailable, !offlineOnly || recognizer.supportsOnDeviceRecognition else { state = .unavailable; return }
         do {
             self.session = session
             try session.setCategory(.record, mode: .measurement, options: .duckOthers)

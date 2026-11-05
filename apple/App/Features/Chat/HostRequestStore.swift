@@ -31,13 +31,13 @@ import Observation
             if !approvals.contains(where: { $0.id == value.id }) {
                 approvals.append(value)
                 let host = self.hosts.activeHost?.id
-                Task { await self.notifications.notify(.attention, eventId: value.id, sessionId: value.sessionId, hostId: host) }
+                Task { await self.notifications.notify(.approval, eventId: value.id, sessionId: value.sessionId, hostId: host) }
             }
         case .question(let value):
             if !questions.contains(where: { $0.id == value.id }) {
                 questions.append(value)
                 let host = self.hosts.activeHost?.id
-                Task { await self.notifications.notify(.attention, eventId: value.id, sessionId: value.sessionId, hostId: host) }
+                Task { await self.notifications.notify(.question, eventId: value.id, sessionId: value.sessionId, hostId: host) }
             }
         case .cancelled(let id):
             approvals.removeAll { $0.id == id }; questions.removeAll { $0.id == id }
