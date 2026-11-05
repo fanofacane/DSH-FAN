@@ -28,7 +28,7 @@
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "580F3303B073422ED634792E1042C7F5"
+               BlueprintIdentifier = "2974E298C029A82A001B890D8740A98F"
                BuildableName = "DSHTests.xctest"
                BlueprintName = "DSHTests"
                ReferencedContainer = "container:DSH.xcodeproj">
@@ -56,7 +56,7 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "580F3303B073422ED634792E1042C7F5"
+               BlueprintIdentifier = "2974E298C029A82A001B890D8740A98F"
                BuildableName = "DSHTests.xctest"
                BlueprintName = "DSHTests"
                ReferencedContainer = "container:DSH.xcodeproj">

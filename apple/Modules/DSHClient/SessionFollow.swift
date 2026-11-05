@@ -44,8 +44,13 @@ extension DSHClient {
         switch value["type"] as? String {
         case "snapshot":
             let raw = value["records"] as? [[String: Any]] ?? []
-            let records = raw.compactMap { LogEvent.parse($0["event"]) }
-            return [.timeline(raw.compactMap { RunFact($0["event"]) }, replace: true),
+            let decoded = raw.compactMap { frame -> (LogEvent, RunFact?)? in
+                let event = frame["event"]
+                guard let record = LogEvent.parse(event) else { return nil }
+                return (record, RunFact(event, log: record))
+            }
+            let records = decoded.map(\.0)
+            return [.timeline(decoded.compactMap(\.1), replace: true),
                     .snapshot(records, hasMore: value["hasMore"] as? Bool == true)]
         case "assistant-stream":
             guard let frame = value["frame"] as? [String: Any], frame["type"] as? String == "chunk",
@@ -67,10 +72,12 @@ extension DSHClient {
             }
             return []
         case "event":
-            var events: [ChatEvent] = []
-            if let fact = RunFact(value["event"]) { events.append(.timeline([fact], replace: false)) }
-            if let record = LogEvent.parse(value["event"]) { events.append(.event(record)) }
-            return events
+            let event = value["event"]
+            guard let record = LogEvent.parse(event) else { return [] }
+            if let fact = RunFact(event, log: record) {
+                return [.timeline([fact], replace: false), .event(record)]
+            }
+            return [.event(record)]
         default:
             return []
         }

@@ -6,10 +6,13 @@ public struct TextChange: Sendable, Equatable {
     public init(before: String?, after: String) { self.before = before; self.after = after }
     /// The coordinates are within the tool excerpt, not the whole file.
     public var lines: [String] {
-        let new = after.components(separatedBy: "\n")
+        let new = after.isEmpty ? [] : after.components(separatedBy: "\n")
         guard let before else { return new.map { "+" + $0 } }
-        let old = before.components(separatedBy: "\n")
-        guard old.count <= 2000, new.count <= 2000 else { return ["-" + before, "+" + after] }
+        let old = before.isEmpty ? [] : before.components(separatedBy: "\n")
+        let cells = old.count.multipliedReportingOverflow(by: new.count)
+        guard !cells.overflow, cells.partialValue <= 400 * 400 else {
+            return old.map { "-" + $0 } + new.map { "+" + $0 }
+        }
         let difference = new.difference(from: old)
         var removed = Set<Int>(), inserted = Set<Int>()
         for change in difference {
@@ -25,15 +28,33 @@ public struct TextChange: Sendable, Equatable {
         return output
     }
 }
+struct FileReadWindow: Sendable, Equatable {
+    let firstLine: Int
+    var lines: [String]
+}
+
 public struct ToolPresentation: Sendable, Equatable {
     public let changes: [TextChange]
     public let created: Bool
+    let readWindow: FileReadWindow?
     public init(_ value: Any?) {
         let meta = value as? [String: Any] ?? [:]
         created = meta["operation"] as? String == "create"
+        readWindow = Self.readWindow(meta["lines"])
         changes = (meta["diffs"] as? [[String: Any]] ?? []).compactMap {
             guard let after = $0["newText"] as? String else { return nil }
             return TextChange(before: $0["oldText"] as? String, after: after)
         }
+    }
+
+    private static func readWindow(_ raw: Any?) -> FileReadWindow? {
+        guard let rows = raw as? [[String: Any]], let first = tokenCount(rows.first?["number"]), first > 0 else { return nil }
+        var lines: [String] = []
+        for row in rows {
+            guard let number = tokenCount(row["number"]), number - first == lines.count,
+                  let text = row["text"] as? String else { break }
+            lines.append(text)
+        }
+        return lines.isEmpty ? nil : FileReadWindow(firstLine: first, lines: lines)
     }
 }

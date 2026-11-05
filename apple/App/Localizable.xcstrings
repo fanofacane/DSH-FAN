@@ -131,6 +131,16 @@
         }
       }
     },
+    "%lld s": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 秒"
+          }
+        }
+      }
+    },
     "%lld tool call(s)": {
       "localizations": {
         "zh-Hans": {
@@ -141,12 +151,52 @@
         }
       }
     },
+    "%lldh %@m": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 小时 %@ 分"
+          }
+        }
+      }
+    },
+    "%lldm %@s": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 分 %@ 秒"
+          }
+        }
+      }
+    },
+    "0 s": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "0 秒"
+          }
+        }
+      }
+    },
     "192.168.1.20 or example.com": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "192.168.1.20 或 example.com"
+          }
+        }
+      }
+    },
+    "<0.1 s": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "<0.1 秒"
           }
         }
       }
@@ -267,6 +317,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "关于你"
+          }
+        }
+      }
+    },
+    "About ¥%@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "约 ¥%@"
           }
         }
       }
@@ -8867,6 +8927,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "未缓存输入"
+          }
+        }
+      }
+    },
+    "Under ¥0.01": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不到 ¥0.01"
           }
         }
       }

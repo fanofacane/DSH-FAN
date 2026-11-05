@@ -38,8 +38,16 @@ import Observation
             for record in records { apply(record) }
             followReady = true; releaseSnapshotWaiter()
         case .timeline(let facts, let replace):
-            if replace { runFacts = facts }
-            else { runFacts += facts.filter { fact in !runFacts.contains { $0.id == fact.id } } }
+            if replace {
+                runFacts = facts.sorted { $0.id < $1.id }
+                traceFold = TurnTraceFold()
+                for fact in runFacts { traceFold.apply(fact) }
+            } else {
+                for fact in facts where fact.id > (runFacts.last?.id ?? -1) {
+                    runFacts.append(fact)
+                    traceFold.apply(fact)
+                }
+            }
         case .event(let record):
             apply(record)
         case .textDelta(let text):
@@ -125,7 +133,7 @@ import Observation
         followTask?.cancel(); followTask = nil
         releaseSnapshotWaiter()
         currentSessionId = nil; sessionModel = nil; sessionEffort = nil; followReady = false
-        runFacts = []; historyHasMore = false
+        runFacts = []; traceFold = TurnTraceFold(); historyHasMore = false
         turnRunning = false; lastSeq = -1; lastFailure = nil; events = []; retrying = nil
     }
 }

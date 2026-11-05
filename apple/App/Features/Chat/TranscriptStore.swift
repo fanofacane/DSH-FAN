@@ -12,6 +12,8 @@ import Observation
     }
     var items: [ChatItem] { committed + pending + (draft.map { [$0] } ?? []) }
     var runFacts: [RunFact] = []
+    var traceFold = TurnTraceFold()
+    var turnTraces: [TurnTrace] { traceFold.turns }
     var historyHasMore = false
     var turnRunning: Bool {
         get { shared.turnRunning }
