@@ -4,28 +4,59 @@ import DSHRuntime
 import Observation
 import SwiftUI
 
+// DSH Go: app/lib/state/settings_state.dart and ui/settings/search/settings_search_page.dart.
 @Observable final class AppPreferences {
-    var appearance = UserDefaults.standard.string(forKey: "ui.appearance") ?? "system" {
-        didSet { UserDefaults.standard.set(appearance, forKey: "ui.appearance") }
-    }
-    var palette = UserDefaults.standard.string(forKey: "ui.palette") ?? "mist" {
-        didSet { UserDefaults.standard.set(palette, forKey: "ui.palette") }
-    }
-    var textScale = UserDefaults.standard.object(forKey: "ui.textScale") as? Double ?? 1 {
-        didSet { UserDefaults.standard.set(textScale, forKey: "ui.textScale") }
-    }
-    var remoteImages = UserDefaults.standard.object(forKey: "privacy.remoteImages") as? Bool ?? true {
-        didSet { UserDefaults.standard.set(remoteImages, forKey: "privacy.remoteImages") }
-    }
-    var language = UserDefaults.standard.string(forKey: "ui.language") ?? "system" {
+    private let defaults: UserDefaults
+    var appearance: String { didSet { defaults.set(appearance, forKey: "ui.appearance") } }
+    var palette: String { didSet { defaults.set(palette, forKey: "ui.palette") } }
+    var textScale: Double { didSet { defaults.set(textScale, forKey: "ui.textScale") } }
+    var remoteImages: Bool { didSet { defaults.set(remoteImages, forKey: "privacy.remoteImages") } }
+    var foldCompletedTurns: Bool { didSet { defaults.set(foldCompletedTurns, forKey: "ui.foldCompletedTurns") } }
+    var reduceMotion: Bool { didSet { defaults.set(reduceMotion, forKey: "ui.reduceMotion") } }
+    var glassBlur: Bool { didSet { defaults.set(glassBlur, forKey: "ui.glassBlur") } }
+    var voiceInputEnabled: Bool { didSet { defaults.set(voiceInputEnabled, forKey: "ui.voiceInput") } }
+    var quickPanelEnabled: Bool { didSet { defaults.set(quickPanelEnabled, forKey: "ui.quickPanel") } }
+    var quickPanelItems: [QuickPanelItem] { didSet { defaults.set(quickPanelItems.map(\.rawValue), forKey: "ui.quickPanel.items") } }
+    var language: String {
         didSet {
-            UserDefaults.standard.set(language, forKey: "ui.language")
-            if language == "system" { UserDefaults.standard.removeObject(forKey: "AppleLanguages") }
-            else { UserDefaults.standard.set([language], forKey: "AppleLanguages") }
+            defaults.set(language, forKey: "ui.language")
+            if language == "system" { defaults.removeObject(forKey: "AppleLanguages") }
+            else { defaults.set([language], forKey: "AppleLanguages") }
         }
     }
+    private(set) var recentSettingsSearches: [String] {
+        didSet { defaults.set(recentSettingsSearches, forKey: "settings_search.recent") }
+    }
+
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        appearance = defaults.string(forKey: "ui.appearance") ?? "system"
+        palette = defaults.string(forKey: "ui.palette") ?? "mist"
+        textScale = defaults.object(forKey: "ui.textScale") as? Double ?? 1
+        remoteImages = defaults.object(forKey: "privacy.remoteImages") as? Bool ?? true
+        foldCompletedTurns = defaults.object(forKey: "ui.foldCompletedTurns") as? Bool ?? true
+        reduceMotion = defaults.bool(forKey: "ui.reduceMotion")
+        glassBlur = defaults.object(forKey: "ui.glassBlur") as? Bool ?? true
+        voiceInputEnabled = defaults.object(forKey: "ui.voiceInput") as? Bool ?? true
+        quickPanelEnabled = defaults.bool(forKey: "ui.quickPanel")
+        let savedItems = defaults.stringArray(forKey: "ui.quickPanel.items")?.compactMap(QuickPanelItem.init(rawValue:))
+        var seen: Set<QuickPanelItem> = []
+        quickPanelItems = (savedItems ?? QuickPanelItem.allCases).filter { seen.insert($0).inserted }
+        language = defaults.string(forKey: "ui.language") ?? "system"
+        recentSettingsSearches = Array((defaults.stringArray(forKey: "settings_search.recent") ?? []).prefix(5))
+    }
+
+    func rememberSettingsSearch(_ query: String) {
+        let term = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !term.isEmpty else { return }
+        recentSettingsSearches = Array(([term] + recentSettingsSearches.filter { $0 != term }).prefix(5))
+    }
+
     var colorScheme: ColorScheme? { appearance == "dark" ? .dark : appearance == "light" ? .light : nil }
-    var scale: CGFloat { CGFloat(min(1.3, max(0.9, textScale))) }
+    var scale: CGFloat { CGFloat(min(1.3, max(0.9, textScale.isFinite ? textScale : 1))) }
+    var textScaleChoice: Double {
+        [0.9, 1, 1.15, 1.3].min { abs($0 - Double(scale)) < abs($1 - Double(scale)) } ?? 1
+    }
 }
 
 struct AppearanceSettingsPage: View {
@@ -33,34 +64,21 @@ struct AppearanceSettingsPage: View {
     @Environment(AppPreferences.self) private var preferences
     var body: some View {
         @Bindable var preferences = preferences
-        SettingsPage(title: "Interface") {
-            SettingsGroup(header: "Appearance") {
+        SettingsPage(title: "Theme") {
+            SettingsGroup(header: "Color mode") {
                 SettingsChoiceRow(title: "Follow system", selected: preferences.appearance == "system") { preferences.appearance = "system" }
                 SettingsChoiceRow(title: "Light", selected: preferences.appearance == "light") { preferences.appearance = "light" }
                 SettingsChoiceRow(title: "Dark", selected: preferences.appearance == "dark") { preferences.appearance = "dark" }
-            }
+            }.settingAnchor("theme-mode")
             SettingsGroup(header: "Accent color") {
                 SettingsChoiceRow(title: "Mist blue", selected: preferences.palette == "mist") { preferences.palette = "mist" }
                 SettingsChoiceRow(title: "Teal", selected: preferences.palette == "teal") { preferences.palette = "teal" }
                 SettingsChoiceRow(title: "Plum", selected: preferences.palette == "plum") { preferences.palette = "plum" }
-            }
+            }.settingAnchor("accent")
             SettingsGroup(header: "Reading text size", footer: "Applies to body text and code. Navigation controls keep their standard size.") {
                 Slider(value: $preferences.textScale, in: 0.9...1.3, step: 0.1).tint(theme.accent).padding(16)
                     .accessibilityLabel("Reading text size")
                 Text("Preview: a clear answer with readable code.").type(.body).foregroundStyle(DS.ink).padding(16)
-            }
-        }
-    }
-}
-
-struct LanguageSettingsPage: View {
-    @Environment(AppPreferences.self) private var preferences
-    var body: some View {
-        SettingsPage(title: "Language") {
-            SettingsGroup(footer: "Close and reopen DSH to apply the language change.") {
-                SettingsChoiceRow(title: "Follow system", selected: preferences.language == "system") { preferences.language = "system" }
-                SettingsChoiceRow(title: "English", selected: preferences.language == "en") { preferences.language = "en" }
-                SettingsChoiceRow(title: "Simplified Chinese", selected: preferences.language == "zh-Hans") { preferences.language = "zh-Hans" }
             }
         }
     }
@@ -76,7 +94,7 @@ struct ReplyPreferencesPage: View {
     @State private var saving = false
     @State private var error: String?
     var body: some View {
-        SettingsPage(title: "Reply preferences") {
+        SettingsPage(title: "Personal preferences") {
             SettingsGroup(footer: "Personal instructions are stored in this phone’s shared AGENTS.md. Start a new conversation after saving. Do not enter credentials here.") {
                 if hosts.isRemote { SettingsRow(title: "Reply preferences are available for this phone’s engine only.") { EmptyView() } }
                 else { TextEditor(text: $text).font(Mono.font(scale: theme.readingScale)).frame(minHeight: 250).scrollContentBackground(.hidden).padding(12).disabled(!loaded || saving) }
@@ -106,9 +124,9 @@ struct PrivacySettingsPage: View {
     @Environment(AppPreferences.self) private var preferences
     var body: some View {
         @Bindable var preferences = preferences
-        SettingsPage(title: "Privacy") {
+        SettingsPage(title: "Privacy and sharing") {
             SettingsGroup(footer: "External image hosts receive your network request. Turn this off to load each external image only when you choose.") {
-                SettingsToggleRow(title: "Load external message images", isOn: $preferences.remoteImages)
+                SettingsToggleRow(title: "Load external message images", isOn: $preferences.remoteImages).settingAnchor("remote-images")
             }
             SettingsGroup {
                 Text("Model credentials stay in the selected engine’s credential store. Remote connection secrets are stored in iOS Keychain.").type(.bodyMedium).foregroundStyle(DS.ink).padding(16)

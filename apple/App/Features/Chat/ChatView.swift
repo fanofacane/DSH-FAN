@@ -8,6 +8,9 @@ import PhotosUI
 import SwiftUI
 
 struct ChatView: View {
+    @Environment(AppPreferences.self) private var preferences
+    @State private var showQuickPanel = false
+    @State private var quickDestination: SettingsLocation?
     @Environment(AppSession.self) private var chat
     @State private var drawerOpen = false
     @State private var showSettings = false
@@ -24,6 +27,16 @@ struct ChatView: View {
             ZStack(alignment: .leading) {
                 AppBackdrop()
                 ChatDetailView(openDrawer: { setDrawer(true) })
+                if !drawerOpen && preferences.quickPanelEnabled && !preferences.quickPanelItems.isEmpty {
+                    Color.clear.frame(width: 20).contentShape(Rectangle())
+                        .gesture(DragGesture(minimumDistance: 25).onEnded { value in
+                            if value.translation.width < -44 && abs(value.translation.height) < -value.translation.width {
+                                showQuickPanel = true
+                            }
+                        })
+                        .accessibilityHidden(true)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
                 if drawerOpen {
                     DS.scrim.ignoresSafeArea()
                         .onTapGesture { setDrawer(false) }
@@ -38,6 +51,13 @@ struct ChatView: View {
         }
         .fullScreenCover(isPresented: $showSettings) { SettingsView() }
         .fullScreenCover(isPresented: $showRemote) { SettingsView(startAtRemote: true) }
+        .fullScreenCover(item: $quickDestination) { SettingsView(initial: $0) }
+        .sheet(isPresented: $showQuickPanel) {
+            QuickPanelSheet(items: preferences.quickPanelItems) { item in
+                showQuickPanel = false
+                quickDestination = SettingsLocation(item.rawValue)
+            }
+        }
     }
 
     private func setDrawer(_ open: Bool) {

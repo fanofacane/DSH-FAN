@@ -31,6 +31,16 @@
         }
       }
     },
+    "%lld host(s)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 台"
+          }
+        }
+      }
+    },
     "%lld image(s)": {
       "localizations": {
         "zh-Hans": {
@@ -47,6 +57,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld 行"
+          }
+        }
+      }
+    },
+    "%lld tool call(s)": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 次工具调用"
           }
         }
       }
@@ -167,6 +187,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "强调色"
+          }
+        }
+      }
+    },
+    "Access on this iPhone": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机权限"
           }
         }
       }
@@ -337,6 +367,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "通知不包含对话内容、工具参数或凭据。"
+          }
+        }
+      }
+    },
+    "All features": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部功能"
           }
         }
       }
@@ -541,6 +581,16 @@
         }
       }
     },
+    "Ask AI about “%@”": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "问 AI「%@」"
+          }
+        }
+      }
+    },
     "Ask DSH": {
       "localizations": {
         "zh-Hans": {
@@ -601,12 +651,62 @@
         }
       }
     },
+    "Available with the local engine": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅本机引擎可用"
+          }
+        }
+      }
+    },
     "Back": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "返回"
+          }
+        }
+      }
+    },
+    "Background": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "后台运行"
+          }
+        }
+      }
+    },
+    "Background activity": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "后台运行"
+          }
+        }
+      }
+    },
+    "Balance %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "余额 %@"
+          }
+        }
+      }
+    },
+    "Balance unavailable": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "暂时无法读取余额"
           }
         }
       }
@@ -721,6 +821,16 @@
         }
       }
     },
+    "Capabilities": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "能力"
+          }
+        }
+      }
+    },
     "Change excerpts": {
       "localizations": {
         "zh-Hans": {
@@ -757,6 +867,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "对话"
+          }
+        }
+      }
+    },
+    "Chat text size": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话字号"
           }
         }
       }
@@ -847,6 +967,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "请从多任务界面关闭 App 后重新打开，以完成操作。"
+          }
+        }
+      }
+    },
+    "Collapse steps when done": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成后收起过程"
+          }
+        }
+      }
+    },
+    "Color mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "明暗模式"
           }
         }
       }
@@ -1461,6 +1601,16 @@
         }
       }
     },
+    "Dark mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "深色模式"
+          }
+        }
+      }
+    },
     "DeepSeek API key": {
       "localizations": {
         "zh-Hans": {
@@ -1681,6 +1831,16 @@
         }
       }
     },
+    "Dictation": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "听写"
+          }
+        }
+      }
+    },
     "Display name": {
       "localizations": {
         "zh-Hans": {
@@ -1787,6 +1947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "编辑主机"
+          }
+        }
+      }
+    },
+    "Effects": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "效果"
           }
         }
       }
@@ -1981,6 +2151,16 @@
         }
       }
     },
+    "Explore": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "探索"
+          }
+        }
+      }
+    },
     "Explore workspace": {
       "localizations": {
         "zh-Hans": {
@@ -1997,6 +2177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "外部图片主机会收到网络请求。关闭后，每张外部图片都需手动选择加载。"
+          }
+        }
+      }
+    },
+    "Extra large": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "特大"
           }
         }
       }
@@ -2111,12 +2301,32 @@
         }
       }
     },
+    "General": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "通用"
+          }
+        }
+      }
+    },
     "Get started": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "开始"
+          }
+        }
+      }
+    },
+    "Glass blur": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "玻璃模糊"
           }
         }
       }
@@ -2207,6 +2417,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "按工作区分组"
+          }
+        }
+      }
+    },
+    "Help and about": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "帮助与关于"
           }
         }
       }
@@ -2347,6 +2567,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "已取消信任主机"
+          }
+        }
+      }
+    },
+    "Hosts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主机"
+          }
+        }
+      }
+    },
+    "How it works": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "运行方式"
           }
         }
       }
@@ -2531,6 +2771,16 @@
         }
       }
     },
+    "Interface mode": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "界面模式"
+          }
+        }
+      }
+    },
     "Interrupt subtask": {
       "localizations": {
         "zh-Hans": {
@@ -2567,6 +2817,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "夜深了"
+          }
+        }
+      }
+    },
+    "Keep DSH Fan open while the local engine is working.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本机引擎工作时，请保持 DSH Fan 在前台。"
           }
         }
       }
@@ -2657,6 +2917,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "浅色"
+          }
+        }
+      }
+    },
+    "Limited access": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有限访问"
           }
         }
       }
@@ -2821,6 +3091,16 @@
         }
       }
     },
+    "Microphone and speech recognition": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "麦克风与语音识别"
+          }
+        }
+      }
+    },
     "Mist blue": {
       "localizations": {
         "zh-Hans": {
@@ -2921,6 +3201,16 @@
         }
       }
     },
+    "Models": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型"
+          }
+        }
+      }
+    },
     "Models (one ID per line)": {
       "localizations": {
         "zh-Hans": {
@@ -2941,6 +3231,16 @@
         }
       }
     },
+    "Native": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原生"
+          }
+        }
+      }
+    },
     "Network problem, retrying": {
       "localizations": {
         "zh-Hans": {
@@ -2957,6 +3257,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "新对话"
+          }
+        }
+      }
+    },
+    "New chat default": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新对话默认"
           }
         }
       }
@@ -3111,6 +3421,16 @@
         }
       }
     },
+    "No settings found": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有找到相关设置"
+          }
+        }
+      }
+    },
     "No third-party server": {
       "localizations": {
         "zh-Hans": {
@@ -3176,7 +3496,7 @@
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "尚未申请"
+            "value": "尚未请求"
           }
         }
       }
@@ -3431,6 +3751,16 @@
         }
       }
     },
+    "Open with a left swipe": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左滑打开"
+          }
+        }
+      }
+    },
     "Open workspace files": {
       "localizations": {
         "zh-Hans": {
@@ -3457,6 +3787,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "会新开一个对话"
+          }
+        }
+      }
+    },
+    "Or enter an API key": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "或填写 API Key"
           }
         }
       }
@@ -3541,6 +3881,16 @@
         }
       }
     },
+    "Performance": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "性能"
+          }
+        }
+      }
+    },
     "Permissions": {
       "localizations": {
         "zh-Hans": {
@@ -3557,6 +3907,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "个人指令保存在本机共享的 AGENTS.md 中。保存后请新建对话，不要在此输入凭据。"
+          }
+        }
+      }
+    },
+    "Personal preferences": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "个人偏好"
           }
         }
       }
@@ -3641,6 +4001,16 @@
         }
       }
     },
+    "Popular searches": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "常用"
+          }
+        }
+      }
+    },
     "Port": {
       "localizations": {
         "zh-Hans": {
@@ -3717,6 +4087,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "隐私"
+          }
+        }
+      }
+    },
+    "Privacy and sharing": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隐私与分享"
           }
         }
       }
@@ -3871,12 +4251,32 @@
         }
       }
     },
+    "Recent searches": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近"
+          }
+        }
+      }
+    },
     "Reconnect": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "重新连接"
+          }
+        }
+      }
+    },
+    "Reduce motion": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "减少动画"
           }
         }
       }
@@ -3917,6 +4317,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "注册工作区"
+          }
+        }
+      }
+    },
+    "Related settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "相关设置"
           }
         }
       }
@@ -4251,6 +4661,16 @@
         }
       }
     },
+    "Restricted": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "受限"
+          }
+        }
+      }
+    },
     "Resume goal": {
       "localizations": {
         "zh-Hans": {
@@ -4577,6 +4997,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "搜索服务商"
+          }
+        }
+      }
+    },
+    "Search settings": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索设置"
           }
         }
       }
@@ -4971,6 +5401,16 @@
         }
       }
     },
+    "Speech recognition": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别"
+          }
+        }
+      }
+    },
     "Speech recognition isn’t available right now.": {
       "localizations": {
         "zh-Hans": {
@@ -5221,6 +5661,26 @@
         }
       }
     },
+    "Swipe left from the right edge of the chat.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在对话里从屏幕右缘向左滑。"
+          }
+        }
+      }
+    },
+    "Swipe-left shortcuts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "左滑快捷入口"
+          }
+        }
+      }
+    },
     "Switch host": {
       "localizations": {
         "zh-Hans": {
@@ -5237,6 +5697,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "切换权限档位"
+          }
+        }
+      }
+    },
+    "System": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "系统"
           }
         }
       }
@@ -5307,6 +5777,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "青绿"
+          }
+        }
+      }
+    },
+    "Text size": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "字号"
           }
         }
       }
@@ -5421,6 +5901,26 @@
         }
       }
     },
+    "The host can keep working. DSH Fan reconnects when you return.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "远程主机可继续工作，返回 DSH Fan 后会重新连接。"
+          }
+        }
+      }
+    },
+    "The iOS app uses the native interface for local and remote conversations.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS App 的本机和远程对话均使用原生界面。"
+          }
+        }
+      }
+    },
     "The key is stored by DSH on the remote host and used only for model requests.": {
       "localizations": {
         "zh-Hans": {
@@ -5507,6 +6007,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "回复达到了长度上限。"
+          }
+        }
+      }
+    },
+    "Theme": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主题"
           }
         }
       }
@@ -5971,6 +6481,16 @@
         }
       }
     },
+    "Use fewer visual effects to reduce rendering work on your phone.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "减少视觉效果可降低手机的渲染开销。"
+          }
+        }
+      }
+    },
     "Use for new chats": {
       "localizations": {
         "zh-Hans": {
@@ -6121,6 +6641,16 @@
         }
       }
     },
+    "Voice input": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音输入"
+          }
+        }
+      }
+    },
     "Waiting for browser authorization": {
       "localizations": {
         "zh-Hans": {
@@ -6161,6 +6691,16 @@
         }
       }
     },
+    "Web search": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "联网搜索"
+          }
+        }
+      }
+    },
     "Weekly": {
       "localizations": {
         "zh-Hans": {
@@ -6177,6 +6717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "你想问什么？"
+          }
+        }
+      }
+    },
+    "What it lists": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "显示的入口"
           }
         }
       }
@@ -6201,12 +6751,32 @@
         }
       }
     },
+    "When you leave DSH Fan": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "离开 DSH Fan 后"
+          }
+        }
+      }
+    },
     "Without plugins, to troubleshoot startup": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "不加载插件，排查启动问题"
+          }
+        }
+      }
+    },
+    "Work": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "工作"
           }
         }
       }
@@ -6281,6 +6851,16 @@
         }
       }
     },
+    "Write only": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仅写入"
+          }
+        }
+      }
+    },
     "Write text to the clipboard": {
       "localizations": {
         "zh-Hans": {
@@ -6341,6 +6921,16 @@
         }
       }
     },
+    "iOS asks for each permission when you first use its feature. Review or change your choices in Settings.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "首次使用功能时，iOS 会请求相应权限。你可以在系统设置查看或更改授权。"
+          }
+        }
+      }
+    },
     "iOS background limits": {
       "localizations": {
         "zh-Hans": {
@@ -6361,12 +6951,32 @@
         }
       }
     },
+    "iOS manages speech recognition and any language data it needs.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别和所需的语言数据由 iOS 管理。"
+          }
+        }
+      }
+    },
     "iOS may suspend DSH within seconds of leaving the app. A running turn can request a short extension, often around 30 seconds; the system decides the actual time.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "离开 App 后，iOS 可能在数秒内挂起 DSH。运行中的任务可申请短暂延长，通常约 30 秒，实际时间由系统决定。"
+          }
+        }
+      }
+    },
+    "iOS may suspend the app in the background.": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iOS 可能会在后台挂起 App。"
           }
         }
       }

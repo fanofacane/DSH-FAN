@@ -5,10 +5,12 @@ import DSHClient
 import SwiftUI
 
 struct ChatItemView: View {
+    @Environment(AppPreferences.self) private var preferences
     @Environment(AppSession.self) private var chat
     let item: ChatItem
     let maxBubbleWidth: CGFloat
     @State private var selecting = false
+    @State private var processOpen = false
 
     var body: some View {
         switch item.role {
@@ -77,11 +79,23 @@ struct ChatItemView: View {
 
     private var assistant: some View {
         VStack(alignment: .leading, spacing: Space.inTurn) {
-            if !item.reasoning.isEmpty {
-                ThinkingRow(text: item.reasoning, streaming: item.state == .streaming && item.text.isEmpty)
+            if preferences.foldCompletedTurns && item.state != .streaming && (!item.reasoning.isEmpty || !item.tools.isEmpty) {
+                Button { processOpen.toggle() } label: {
+                    HStack(spacing: Space.sm) {
+                        IconTile(glyph: .check)
+                        Text(processLabel).type(.bodyMedium).lineLimit(1)
+                        Spacer()
+                        Glyph(glyph: processOpen ? .caretUp : .caretDown, size: 14)
+                    }.foregroundStyle(DS.inkMuted).contentShape(Rectangle())
+                }.buttonStyle(.plain)
+                ExpandReveal(open: processOpen) {
+                    VStack(alignment: .leading, spacing: Space.inTurn) { process }
+                        .padding(.leading, Space.sm)
+                }
+            } else {
+                process
             }
             attachmentImages
-            ForEach(item.tools) { tool in ToolRowView(tool: tool) }
             if !item.text.isEmpty {
                 MarkdownView(source: item.text)
             } else if item.state == .streaming && item.tools.isEmpty && item.reasoning.isEmpty {
@@ -89,6 +103,18 @@ struct ChatItemView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    @ViewBuilder private var process: some View {
+        if !item.reasoning.isEmpty {
+            ThinkingRow(text: item.reasoning, streaming: item.state == .streaming && item.text.isEmpty)
+        }
+        ForEach(item.tools) { tool in ToolRowView(tool: tool) }
+    }
+
+    private var processLabel: String {
+        [String(localized: "Completed"), item.tools.isEmpty ? String(localized: "Thinking") :
+            String(localized: "\(item.tools.count) tool call(s)")].joined(separator: " · ")
     }
 
     @ViewBuilder private var notice: some View {

@@ -14,7 +14,7 @@ struct PersonalizationPage: View {
         SettingsPage(title: "Personalization") {
             if !hosts.isRemote {
                 SettingsGroup(header: "About you") {
-                    SettingsLink(title: "Reply preferences", subtitle: summary ?? String(localized: "Not set")) {
+                    SettingsLink(title: "Personal preferences", subtitle: summary ?? String(localized: "Not set")) {
                         ReplyPreferencesPage()
                     }
                 }

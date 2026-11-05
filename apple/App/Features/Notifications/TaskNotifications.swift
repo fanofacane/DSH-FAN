@@ -80,11 +80,11 @@ struct TaskNotificationSettingsPage: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
     var body: some View {
-        SettingsPage(title: "Notifications and background") {
+        SettingsPage(title: "Notifications") {
             SettingsGroup {
                 SettingsToggleRow(title: "Task notifications", isOn: Binding(get: { notifications.enabled }, set: { value in
                     if value { Task { await notifications.enable() } } else { notifications.enabled = false }
-                }))
+                })).settingAnchor("notifications-enabled")
                 SettingsRow(title: "System permission", subtitle: permissionLabel) { EmptyView() }
                 Button {
                     if let url = URL(string: UIApplication.openSettingsURLString) { openURL(url) }

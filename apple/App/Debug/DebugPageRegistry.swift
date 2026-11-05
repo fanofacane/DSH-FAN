@@ -29,7 +29,17 @@ import SwiftUI
         "settings": { AnyView(SettingsView()) },
         "notifications": { AnyView(NavigationStack { TaskNotificationSettingsPage() }) },
         "appearance": { AnyView(NavigationStack { AppearanceSettingsPage() }) },
-        "language": { AnyView(NavigationStack { LanguageSettingsPage() }) },
+        "language": { AnyView(SettingsView(initial: SettingsLocation("settings", anchor: "language"))) },
+        "settings-search": { AnyView(SettingsView(initial: SettingsLocation("search"))) },
+        "interface": { AnyView(NavigationStack { InterfaceSettingsPage() }) },
+        "voice": { AnyView(NavigationStack { VoiceSettingsPage() }) },
+        "performance": { AnyView(NavigationStack { PerformanceSettingsPage() }) },
+        "background": { AnyView(NavigationStack { BackgroundSettingsPage() }) },
+        "system-access": { AnyView(NavigationStack { SystemAccessPage() }) },
+        "help": { AnyView(NavigationStack { HelpSettingsPage() }) },
+        "features": { AnyView(NavigationStack { AllSettingsFeaturesPage() }) },
+        "web-search": { AnyView(NavigationStack { CapabilitySettingsPage(kind: .search) }) },
+        "media": { AnyView(NavigationStack { CapabilitySettingsPage(kind: .media) }) },
         "personalization": { AnyView(NavigationStack { PersonalizationPage() }) },
         "privacy": { AnyView(NavigationStack { PrivacySettingsPage() }) },
         "diagnostics": { AnyView(NavigationStack { DiagnosticsSettingsPage() }) },
@@ -78,6 +88,7 @@ private struct DebugScreenshotPage: View {
     var body: some View {
         if let viewport = DebugPageRegistry.viewport {
             let scheme = DebugPageRegistry.captureScheme
+            let capturedTypeSize = DebugPageRegistry.argument("-dsh-screen-text") == "large" ? DynamicTypeSize.accessibility2 : typeSize
             DebugPageCapture(name: name, size: viewport, scheme: scheme, content: AnyView(
                 content
                     .safeAreaPadding(.top, 32).safeAreaPadding(.bottom, 24)
@@ -87,7 +98,8 @@ private struct DebugScreenshotPage: View {
                     .environment(phone).environment(pet).environment(preferences)
                     .environment(notifications).environment(relay)
                     .environment(\.designTheme, theme)
-                    .environment(\.dynamicTypeSize, typeSize)
+                    .environment(\.appReduceMotion, true)
+                    .environment(\.dynamicTypeSize, capturedTypeSize)
                     .environment(\.colorScheme, scheme)
             ))
             .ignoresSafeArea()

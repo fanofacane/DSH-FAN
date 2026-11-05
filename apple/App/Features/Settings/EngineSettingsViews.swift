@@ -4,22 +4,38 @@ import Observation
 import SwiftUI
 
 struct CapabilitySettingsPage: View {
+    enum Kind { case all, search, media }
+    var kind: Kind = .all
+
+    private var title: LocalizedStringKey {
+        switch kind {
+        case .all: "Search, images and video"
+        case .search: "Web search"
+        case .media: "Images and video"
+        }
+    }
+    private func includes(_ id: String) -> Bool {
+        let search = ["web", "web-search-deepseek", "web-deepseek-api", "web-fetch-http"].contains(id)
+        let media = ["media", "dsh-media"].contains(id)
+        switch kind {
+        case .all: return search || media
+        case .search: return search
+        case .media: return media
+        }
+    }
     @Environment(AppSession.self) private var chat
     @State private var sections: [EngineNamespace] = []
     @State private var error: String?
     var body: some View {
-        SettingsPage(title: "Search, images and video") {
+        SettingsPage(title: title) {
             SettingsGroup {
                 ForEach(sections) { section in
                     NavigationLink { EngineFormPage(model: EngineFormModel(section), displayTitle: capabilityTitle(section.id)) } label: {
                         SettingsRow(title: LocalizedStringKey(capabilityTitle(section.id)), subtitle: nil)
                     }.buttonStyle(.plain)
                 }
-                if !sections.contains(where: { $0.id.contains("media") }), chat.connection.state == .ready, error == nil {
-                    SettingsRow(title: "Images and video", subtitle: String(localized: "Install a media plugin on this host to configure generation.")) { EmptyView() }
-                }
                 if sections.isEmpty && chat.connection.state == .ready && error == nil {
-                    SettingsRow(title: "These capabilities are not installed on this host.") { EmptyView() }
+                    SettingsRow(title: "No editable parameters reported by this host.") { EmptyView() }
                 }
             }
             if let error { Text("Request failed: \(error)").type(.bodySmall).foregroundStyle(DS.danger) }
@@ -27,10 +43,7 @@ struct CapabilitySettingsPage: View {
         .task(id: chat.connection.state) {
             guard chat.connection.state == .ready else { return }
             do {
-                sections = try await chat.connection.settingsAPI.describe().filter {
-                    ["web", "web-search-deepseek", "web-deepseek-api", "web-fetch-http", "dsh-media", "media"].contains($0.id)
-                        || $0.id.contains("media")
-                }
+                sections = try await chat.connection.settingsAPI.describe().filter { includes($0.id) }
                 error = nil
             } catch { self.error = (error as? DSHError)?.code ?? "E_TRANSPORT" }
         }

@@ -148,6 +148,7 @@ private struct AccentColors {
 struct DesignTheme {
     var palette = "mist"
     var readingScale: CGFloat = 1
+    var glassBlur = true
 
     private var colors: AccentColors { AccentColors.presets[palette] ?? AccentColors.presets["mist"]! }
     var accent: Color { Color(light: colors.seed.0, dark: colors.seed.1) }
@@ -164,7 +165,12 @@ struct DesignTheme {
 }
 
 private struct DesignThemeKey: EnvironmentKey { static let defaultValue = DesignTheme() }
+private struct AppReduceMotionKey: EnvironmentKey { static let defaultValue = false }
 extension EnvironmentValues {
+    var appReduceMotion: Bool {
+        get { self[AppReduceMotionKey.self] || accessibilityReduceMotion }
+        set { self[AppReduceMotionKey.self] = newValue }
+    }
     var designTheme: DesignTheme {
         get { self[DesignThemeKey.self] }
         set { self[DesignThemeKey.self] = newValue }
@@ -348,6 +354,7 @@ struct GlassBackground<S: InsettableShape>: ViewModifier {
     let tier: GlassTier
     let shape: S
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.designTheme) private var theme
     @Environment(\.colorScheme) private var scheme
 
     func body(content: Content) -> some View {
@@ -355,7 +362,7 @@ struct GlassBackground<S: InsettableShape>: ViewModifier {
         content
             .background {
                 ZStack {
-                    if style.blur && !reduceTransparency { shape.fill(.ultraThinMaterial) }
+                    if style.blur && !reduceTransparency && theme.glassBlur { shape.fill(.ultraThinMaterial) }
                     shape.fill(style.fill)
                 }
                 .shadow(color: style.shadow ? DS.shadowInk.opacity(scheme == .dark ? 0.35 : 0.08) : .clear, radius: 12, y: 8)

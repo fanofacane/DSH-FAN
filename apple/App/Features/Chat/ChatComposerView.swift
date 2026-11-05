@@ -2,6 +2,7 @@
 import SwiftUI
 
 struct ChatComposerView: View {
+    @Environment(AppPreferences.self) private var preferences
     @Environment(\.designTheme) private var theme
     @Environment(AppSession.self) private var chat
     @Binding var draft: String
@@ -83,7 +84,7 @@ struct ChatComposerView: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("Stop dictation"))
-        } else if !chat.transcript.busy && draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && images.isEmpty {
+        } else if preferences.voiceInputEnabled && !chat.transcript.busy && draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && images.isEmpty {
             Button { startDictation() } label: {
                 Glyph(glyph: AppIcon.voice, size: 20).foregroundStyle(DS.ink)
                     .frame(width: 40, height: 40)

@@ -5,34 +5,59 @@ import Testing
 @testable import DSH
 
 @MainActor struct RegistryTests {
-    @Test func settingsKeepOrderAndLocalAccountBoundary() throws {
-        let local = SettingsContext()
-        #expect(SettingsRegistry.sections == [.ai, .connection, .abilities, .about])
-        #expect(SettingsRegistry.entries(in: .ai, context: local).map(\.id) == ["reply-preferences", "agents", "account", "providers", "model", "permissions"])
-        #expect(SettingsRegistry.entries(in: .connection, context: local).map(\.id) == ["workspaces", "remote"])
-        #expect(SettingsRegistry.entries(in: .abilities, context: local).map(\.id) == ["notifications", "schedules", "capabilities", "phone", "pet"])
-        #expect(SettingsRegistry.entries(in: .about, context: local).map(\.id) == ["appearance", "language", "privacy", "diagnostics", "engine-parameters", "about"])
-        var remote = local; remote.isRemote = true
-        let remoteAI = SettingsRegistry.entries(in: .ai, context: remote).map(\.id)
-        #expect(remoteAI == ["reply-preferences", "agents", "providers", "model", "permissions"])
-        #expect(Set(SettingsRegistry.entries.map(\.id)).count == SettingsRegistry.entries.count)
-        let indented = SettingsRegistry.entries.filter { $0.dividerInset == 70 }.map(\.id)
-        #expect(indented == ["model", "phone"])
+    @Test func settingsKeepGroupOrderAndLocalAccountBoundary() throws {
+        #expect(SettingsSection.allCases == [.ai, .abilities, .appearance, .general, .hosts, .help])
+        #expect(SettingsRegistry.entries(in: .ai).map(\.id) == ["providers", "permissions", "personalization"])
+        #expect(SettingsRegistry.entries(in: .abilities).map(\.id) == ["phone", "web-search", "media"])
+        #expect(SettingsRegistry.entries(in: .appearance).map(\.id) == ["appearance", "pet"])
+        #expect(SettingsRegistry.entries(in: .general).map(\.id) == ["interface", "notifications", "voice", "performance", "background", "system-access", "privacy"])
+        #expect(SettingsRegistry.entries(in: .hosts).map(\.id) == ["engine", "remote", "engine-parameters"])
+        #expect(SettingsRegistry.entries(in: .help).map(\.id) == ["help", "diagnostics", "about"])
+        #expect(try #require(SettingsRegistry.entry("account")).localOnly)
+        #expect(try #require(SettingsRegistry.entry("reply-preferences")).localOnly)
+        #expect(Set(SettingsIndex.spots.map(\.id)).count == SettingsIndex.spots.count)
     }
 
-    @Test func settingsSubtitlesUseCurrentContext() throws {
-        var context = SettingsContext(modelSubtitle: "model · effort", presetName: "preset", remoteSubtitle: "host", version: "1.2.3")
-        func subtitle(_ id: String) throws -> String? {
-            try #require(SettingsRegistry.entries.first { $0.id == id }).subtitle(context)
+    @Test func settingsSearchRanksBilingualTitlesAndSynonyms() {
+        let spots = SettingsIndex.spots
+        let hits = SettingsIndex.search(" 别问我 ", in: spots)
+        #expect(hits.first?.spot.id == "permissions")
+        #expect(hits.first?.synonym == "别问我")
+        #expect(hits.dropFirst().first?.spot.location == SettingsLocation("permissions", anchor: "default-permission"))
+        #expect(SettingsIndex.search("ＡＰＩ　ＫＥＹ", in: spots).first?.spot.id == "key")
+        #expect(SettingsIndex.search("隐私与分享", in: spots).first?.spot.id == "privacy")
+        #expect(SettingsIndex.search("　 ", in: spots).isEmpty)
+        #expect(SettingsIndex.location(forLink: "models") == SettingsLocation("providers"))
+        #expect(SettingsIndex.location(forLink: "unknown") == nil)
+    }
+
+    @Test func settingsSegmentFitsAtMeasuredBoundary() {
+        #expect(SegmentRowLayout.fitsInline(title: 90, pill: 190, available: 296))
+        #expect(!SegmentRowLayout.fitsInline(title: 90, pill: 190, available: 295.9))
+        #expect(!SegmentRowLayout.fitsInline(title: 180, pill: 190, available: 330))
+    }
+
+    @Test func preferencesPersistSearchAndLayoutSettings() throws {
+        let suite = "DSHSettingsTests." + UUID().uuidString
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        defaults.set(1.1, forKey: "ui.textScale")
+        let first = AppPreferences(defaults: defaults)
+        #expect(first.scale == 1.1)
+        #expect(first.textScaleChoice == 1.15)
+        first.textScale = 1.3
+        first.foldCompletedTurns = false
+        first.glassBlur = false
+        first.quickPanelItems = [.agents, .schedules]
+        for word in ["dark", "permissions", "text", "privacy", "background", "speech", "  text  "] {
+            first.rememberSettingsSearch(word)
         }
-        #expect(try subtitle("model") == "model · effort")
-        #expect(try subtitle("permissions") == "preset")
-        #expect(try subtitle("remote") == "host")
-        #expect(try subtitle("about") == "1.2.3")
-        #expect(try subtitle("phone") == String(localized: "Off"))
-        context.phoneEnabled = true; context.petEnabled = true
-        #expect(try subtitle("phone") == String(localized: "On"))
-        #expect(try subtitle("pet") == String(localized: "Deepy the whale"))
+        let second = AppPreferences(defaults: defaults)
+        #expect(second.textScale == 1.3)
+        #expect(!second.foldCompletedTurns)
+        #expect(!second.glassBlur)
+        #expect(second.quickPanelItems == [.agents, .schedules])
+        #expect(second.recentSettingsSearches == ["text", "speech", "background", "privacy", "permissions"])
     }
 
     @Test func toolFamiliesPreserveLabelsIconsAndSummaries() {

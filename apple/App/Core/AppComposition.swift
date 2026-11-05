@@ -9,7 +9,7 @@ import UserNotifications
 
 /// The app's composition root. Features receive these instances or narrow protocols.
 @MainActor final class AppComposition: HostLinkEvents {
-    let preferences = AppPreferences()
+    let preferences: AppPreferences
     let runtime: any EngineControlling
     let intents: IntentInbox
     let engine: EngineModel
@@ -24,6 +24,16 @@ import UserNotifications
     let photoLibrary: PHPhotoLibrary
 
     init() {
+        #if DEBUG
+        if DebugPageRegistry.usesFixture, let defaults = UserDefaults(suiteName: "DSHGoldenFixture") {
+            defaults.removePersistentDomain(forName: "DSHGoldenFixture")
+            preferences = AppPreferences(defaults: defaults)
+        } else {
+            preferences = AppPreferences()
+        }
+        #else
+        preferences = AppPreferences()
+        #endif
         // iSH owns one process-wide kernel; only composition selects its concrete runtime.
         let runtime = RuntimeEngine.shared
         // App Intents are created by the OS; their callback inbox must be the same instance.
@@ -73,9 +83,10 @@ struct AppAppearance: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        let theme = usesFixture ? DesignTheme() : DesignTheme(palette: preferences.palette, readingScale: preferences.scale)
+        let theme = usesFixture ? DesignTheme() : DesignTheme(palette: preferences.palette, readingScale: preferences.scale, glassBlur: preferences.glassBlur)
         content.preferredColorScheme(usesFixture ? nil : preferences.colorScheme)
             .environment(\.designTheme, theme)
+            .environment(\.appReduceMotion, usesFixture || preferences.reduceMotion)
             .tint(theme.accent)
     }
 }

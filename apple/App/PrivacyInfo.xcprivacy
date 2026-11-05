@@ -5,7 +5,8 @@
      the engine runs on the device and talks only to services the person sets up.
      Required-reason APIs: app settings (UserDefaults); the iSH kernel's file
      metadata (stat/fstat) and elapsed-time clock (mach_absolute_time) for files
-     in the app container; the free-space check before installing the runtime. -->
+     in the app container; the free-space check before installing the runtime.
+     The system permissions overview reads authorization states locally. -->
 <plist version="1.0">
 <dict>
 	<key>NSPrivacyTracking</key>

@@ -79,7 +79,7 @@ struct SegmentedPill<Value: Hashable>: View {
     let selection: Binding<Value>
     @ScaledMetric(relativeTo: .subheadline) private var labelSize: CGFloat = 13.5
     @Environment(\.colorScheme) private var scheme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.appReduceMotion) private var reduceMotion
     @Environment(\.isEnabled) private var enabled
     @GestureState private var drag: CGFloat? = nil
     @State private var ticks = 0
@@ -168,7 +168,7 @@ struct SearchCapsule: View {
                 query = ""
                 focused = true
             } label: {
-                Glyph(glyph: AppIcon.close, size: 18).frame(width: 44, height: 44).contentShape(Rectangle())
+                Image(systemName: "xmark.circle.fill").font(.system(size: 16)).frame(width: 44, height: 44).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityLabel(Text("Clear"))
@@ -214,7 +214,7 @@ struct StatusDot: View {
     let tone: StatusTone
     var size: CGFloat = 8
     @Environment(\.designTheme) private var theme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.appReduceMotion) private var reduceMotion
     @State private var dimmed = false
 
     var body: some View {
@@ -235,7 +235,7 @@ struct StatusChip: View {
     let label: LocalizedStringKey
     @Environment(\.designTheme) private var theme
     @Environment(\.colorScheme) private var scheme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.appReduceMotion) private var reduceMotion
 
     private var ink: Color {
         switch tone {
@@ -271,7 +271,7 @@ struct CapsuleChoiceChip: View {
         Button(action: action) {
             Text(label).font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(selected ? DS.surface : DS.inkMuted)
-                .padding(.horizontal, 12).frame(minHeight: 32)
+                .padding(.horizontal, 12).frame(minHeight: 28)
                 .background(selected ? DS.ink : DS.searchFill, in: Capsule())
         }
         .buttonStyle(SettingsPressStyle(scales: true))

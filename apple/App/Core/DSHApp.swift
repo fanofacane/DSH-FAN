@@ -60,6 +60,7 @@ struct RootView: View {
     let activity: TurnActivityController
     @Environment(\.scenePhase) private var scenePhase
     @AppStorage("app.onboarded") private var onboarded = false
+    @State private var settingsLink: SettingsLocation?
 
     var body: some View {
         Group {
@@ -116,6 +117,12 @@ struct RootView: View {
                 }
             }
         }
+        .onOpenURL { url in
+            guard url.scheme == DSHLink.scheme, url.host == "open",
+                  url.pathComponents.count == 2, let id = url.pathComponents.last else { return }
+            settingsLink = SettingsIndex.location(forLink: id)
+        }
+        .fullScreenCover(item: $settingsLink) { SettingsView(initial: $0) }
         .sheet(item: Binding(get: { hosts.hostKeyPrompt }, set: { _ in })) { prompt in HostKeySheet(prompt: prompt) }
         .onChange(of: scenePhase) { _, value in
             #if DEBUG

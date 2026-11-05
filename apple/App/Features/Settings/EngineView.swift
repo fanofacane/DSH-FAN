@@ -48,7 +48,7 @@ struct EngineView: View {
                     SettingsGroup(header: "Startup") {
                         SettingsToggleRow(title: "Start when the app opens", isOn: $engine.autoStart)
                         SettingsToggleRow(title: "Safe mode automatically", subtitle: String(localized: "Turns on after repeated start failures"),
-                                          isOn: Binding(get: { engine.status.autoSafe }, set: { engine.setAutoSafe($0) }))
+                                          isOn: Binding(get: { engine.status.autoSafe }, set: { engine.setAutoSafe($0) })).settingAnchor("engine-safe")
                         Button { engine.startSafe() } label: {
                             SettingsRow(title: "Start in safe mode", subtitle: String(localized: "Without plugins, to troubleshoot startup"))
                         }

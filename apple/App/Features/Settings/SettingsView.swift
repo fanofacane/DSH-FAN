@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Settings hub and pages in the Mist Glass style (原 Flutter 版 lib/ui/settings).
+// DSH Go: app/lib/ui/settings/settings_screen.dart and ui/engine/engine_status.dart.
 import DSHClient
 import DSHRuntime
 import SwiftUI
@@ -10,96 +10,163 @@ struct SettingsView: View {
     @Environment(PhoneController.self) private var phone
     @Environment(PetModel.self) private var pet
     @Environment(HostStore.self) private var hosts
+    @Environment(AppPreferences.self) private var preferences
+    @Environment(TaskNotifications.self) private var notifications
     @Environment(\.dismiss) private var dismiss
-    /// Opened from the host switcher: push the remote hosts page.
-    var startAtRemote = false
-    @State private var path = NavigationPath()
+
+    @State private var path: [SettingsLocation]
+
+    init(startAtRemote: Bool = false, initial: SettingsLocation? = nil) {
+        _path = State(initialValue: initial.map { [$0] } ?? (startAtRemote ? [SettingsLocation("remote")] : []))
+    }
+    @State private var personalPreferencesSet: Bool?
+
+    private var fixture: String? {
+        #if DEBUG
+        return DebugPageRegistry.usesFixture ? DebugPageRegistry.argument("-dsh-screen-fixture") : nil
+        #else
+        return nil
+        #endif
+    }
 
     var body: some View {
         NavigationStack(path: $path) {
-            SettingsPage(title: "Settings", showsBack: false) {
-                headerCard
-                ForEach(SettingsRegistry.sections) { group in
-                    settingsGroup(group)
+            hub(target: nil, close: { dismiss() })
+            .navigationDestination(for: SettingsLocation.self) { location in
+                if location.page == "search" {
+                    SettingsSearchPage(context: context, open: { path.append($0) }, ask: fixture != nil || chat.connection.state == .ready ? ask : nil)
+                } else if location.page == "settings" {
+                    hub(target: location.anchor, close: nil)
+                } else {
+                    SettingsRegistry.destination(location)
                 }
             }
-            .overlay(alignment: .topTrailing) {
-                GlassIconButton(glyph: AppIcon.close, label: "Done") { dismiss() }
-                    .padding(.trailing, 12).padding(.top, 4)
-            }
-            .navigationDestination(for: String.self) { SettingsRegistry.destination($0) }
         }
-        .onAppear { if startAtRemote && path.isEmpty { path.append("remote") } }
+        .task(id: chat.connection.state == .ready ? chat.connection.generation : -1) {
+            guard fixture == nil, !hosts.isRemote, engine.status.phase == .running else {
+                personalPreferencesSet = nil
+                return
+            }
+            let summary = try? await engine.runtime.replyPreferences()
+            guard !Task.isCancelled else { return }
+            personalPreferencesSet = summary.map { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        }
         .sheet(item: Binding(get: { hosts.hostKeyPrompt }, set: { _ in })) { prompt in HostKeySheet(prompt: prompt) }
     }
 
-    private var context: SettingsContext {
-        SettingsContext(isRemote: hosts.isRemote, modelSubtitle: modelSubtitle, presetName: presetName,
-                        remoteSubtitle: hosts.activeHost.map { String(localized: "Using “\($0.name)”") } ?? String(localized: "This phone"),
-                        phoneEnabled: phone.enabled, petEnabled: pet.enabled,
-                        version: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String)
-    }
-
-    private func settingsGroup(_ group: SettingsSection) -> some View {
-        let entries = SettingsRegistry.entries(in: group, context: context)
-        return SettingsGroup(header: LocalizedStringKey(group.rawValue)) {
-            ForEach(Array(entries.enumerated()), id: \.element.id) { index, entry in
-                SettingsLink(glyph: entry.glyph, tone: entry.tone, title: entry.title, subtitle: entry.subtitle(context)) {
-                    entry.destination()
-                }
-            }
-        }
-    }
-
-    /// Account card: key status, then the engine line (settings_signed_in golden).
-    private var headerCard: some View {
-        VStack(spacing: 0) {
-            NavigationLink { SettingsRegistry.key.destination() } label: {
-                HStack(spacing: 16) {
-                    Glyph(glyph: AppIcon.apiKey, size: 26).foregroundStyle(DS.dusk)
-                        .frame(width: 52, height: 52).background(DS.duskContainer, in: Circle())
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(verbatim: "DeepSeek API").font(.system(size: 17, weight: .semibold)).foregroundStyle(DS.ink)
-                        Text(chat.connection.keyConfigured ? "Key configured" : "No key yet").font(.system(size: 14))
-                            .foregroundStyle(chat.connection.keyConfigured ? DS.inkMuted : DS.warn)
+    private func hub(target: String?, close: (() -> Void)?) -> some View {
+        SettingsPage(title: "Settings", backAction: close) {
+                Button { path.append(SettingsLocation("search")) } label: {
+                    SearchCapsuleShape {
+                        Text("Search settings").frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    Spacer()
-                    SettingsChevron()
                 }
-                .padding(16).contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-            NavigationLink { SettingsRegistry.engine.destination() } label: {
-                HStack(spacing: 12) {
-                    Circle().fill(engine.status.phase == .running ? DS.success : DS.warn).frame(width: 8, height: 8)
-                        .frame(width: 52)
-                    Text(engineLine).font(.system(size: 13)).foregroundStyle(DS.inkMuted).lineLimit(1)
-                    Spacer()
-                    SettingsChevron()
+                .buttonStyle(SettingsPressStyle(scales: true))
+                .padding(.bottom, Space.lg)
+                SettingsOverview(fixture: fixture, open: open)
+                ForEach(SettingsSection.allCases) { group in
+                    settingsGroup(group, context: context)
                 }
-                .padding(.horizontal, 16).padding(.vertical, 12).contentShape(Rectangle())
+                BrandMark(size: 18)
+                    .opacity(0.35).frame(maxWidth: .infinity).padding(.top, Space.sm)
             }
-            .buttonStyle(.plain)
+        .environment(\.settingsTarget, target)
+    }
+
+    private var context: SettingsContext {
+        if let fixture {
+            return SettingsContext(isRemote: fixture == "remote-only", hostName: fixture == "remote-only" ? "实验室服务器" : nil,
+                                   savedHostCount: fixture == "full" || fixture == "remote-only" ? 1 : 0,
+                                   presetName: fixture == "full" ? String(localized: "Full access") : nil,
+                                   presetRisk: fixture == "full", personalPreferencesSet: fixture == "remote-only" ? nil : false,
+                                   appearanceName: String(localized: "Follow system"), version: "1.0.11")
         }
-        .glass(.card, radius: Radius.lg)
-        .padding(.bottom, 22)
+        let preset = chat.control.permissionPreset ?? chat.control.enginePermissionDefault
+        return SettingsContext(isRemote: hosts.isRemote, hostName: hosts.activeHost?.name, savedHostCount: hosts.hosts.count,
+                               presetName: chat.control.permissionPresets.first { $0.id == preset }?.name,
+                               presetRisk: ["auto", "danger-full-access"].contains(preset),
+                               personalPreferencesSet: hosts.isRemote ? nil : personalPreferencesSet,
+                               phoneEnabled: phone.enabled, petName: pet.enabled ? String(localized: "Deepy the whale") : nil,
+                               appearanceName: appearanceName, notificationsEnabled: notifications.enabled,
+                               version: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String)
     }
 
-    private var engineLine: String {
-        var parts = [String(localized: "Local engine"), String(localized: engine.status.phase.titleResource)]
-        if let dsh = engine.status.dshVersion { parts.append("DSH \(dsh)") }
-        return parts.joined(separator: " · ")
+    private var appearanceName: String {
+        switch preferences.appearance {
+        case "light": String(localized: "Light")
+        case "dark": String(localized: "Dark")
+        default: String(localized: "Follow system")
+        }
     }
 
-    private var modelSubtitle: String? {
-        guard let model = chat.connection.selectedModel else { return nil }
-        let effort = chat.connection.effort(for: model).flatMap { id in model.efforts.first { $0.id == id } }
-        return [ChatHeaderView.shortName(model.name), effort.map { effortTitle($0) }].compactMap { $0 }.joined(separator: " · ")
+    @ViewBuilder private func settingsGroup(_ group: SettingsSection, context: SettingsContext) -> some View {
+        SettingsGroup(header: LocalizedStringKey(group.rawValue)) {
+            ForEach(SettingsRegistry.entries(in: group)) { entry in
+                if group == .appearance && entry.id == "pet" {
+                    ChatReadingSettingsRows(tone: group.tone)
+                }
+                if group == .general && entry.id == "notifications" {
+                    LanguageSettingsRow(tone: group.tone)
+                }
+                Button { open(entry.id) } label: {
+                    if entry.id == "engine" {
+                        let status = SettingsEngineStatus(phase: fixture == "remote-only" ? .notInstalled : fixture != nil ? .running : engine.status.phase,
+                                                          safe: fixture == nil && engine.safeModeOn)
+                        SettingsRow(glyph: entry.glyph, tone: group.tone, title: entry.title, tinted: true) {
+                            HStack(spacing: Space.xs) {
+                                StatusChip(tone: status.tone, label: LocalizedStringKey(status.label))
+                                SettingsChevron()
+                            }
+                        }
+                    } else {
+                        SettingsRow(glyph: entry.glyph, tone: group.tone, title: entry.title,
+                                    tinted: true, value: entry.value(context), valueColor: context.presetRisk && entry.id == "permissions" ? DS.warn : DS.inkMuted)
+                    }
+                }
+                .buttonStyle(SettingsPressStyle())
+            }
+        }
     }
 
-    private var presetName: String? {
-        let id = chat.control.permissionPreset ?? chat.control.enginePermissionDefault
-        return chat.control.permissionPresets.first { $0.id == id }?.name
+    private func open(_ id: String) { path.append(SettingsLocation(id)) }
+
+    private func ask(_ query: String) {
+        guard fixture == nil else { return }
+        chat.transcript.newChat()
+        chat.transcript.incomingDraft = SharedDraft(text: query, images: [])
+        dismiss()
+    }
+}
+
+struct ChatReadingSettingsRows: View {
+    let tone: TileTone
+    var tinted = true
+    @Environment(AppPreferences.self) private var preferences
+
+    var body: some View {
+        @Bindable var preferences = preferences
+        SettingsSegmentRow(glyph: AppIcon.textSize, tone: tone, tinted: tinted, title: "Chat text size",
+                           segments: [.init(0.9, String(localized: "Small")), .init(1, String(localized: "Standard")),
+                                      .init(1.15, String(localized: "Large")), .init(1.3, String(localized: "Extra large"))],
+                           selection: Binding(get: { preferences.textScaleChoice }, set: { preferences.textScale = $0 }))
+            .settingAnchor("chat-text-size")
+        SettingsToggleRow(glyph: AppIcon.foldTurns, tone: tone, title: "Collapse steps when done",
+                          tinted: tinted, isOn: $preferences.foldCompletedTurns)
+            .settingAnchor("fold-turns")
+    }
+}
+
+struct LanguageSettingsRow: View {
+    let tone: TileTone
+    var tinted = true
+    @Environment(AppPreferences.self) private var preferences
+
+    var body: some View {
+        @Bindable var preferences = preferences
+        SettingsSegmentRow(glyph: AppIcon.translate, tone: tone, tinted: tinted, title: "Language",
+                           segments: [.init("system", String(localized: "System")), .init("zh-Hans", "中文"), .init("en", "English")],
+                           selection: $preferences.language)
+            .settingAnchor("language")
     }
 }
 
@@ -168,7 +235,7 @@ struct PermissionSettingsPage: View {
                         chat.control.permissionPreset = preset.id
                     }
                 }
-            }
+            }.settingAnchor("default-permission")
         }
     }
 }

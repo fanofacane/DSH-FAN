@@ -188,7 +188,7 @@ struct RiskNoticeSheet: View {
 struct ExpandReveal<Content: View>: View {
     let open: Bool
     @ViewBuilder let content: () -> Content
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.appReduceMotion) private var reduceMotion
 
     var body: some View {
         VStack(spacing: 0) {

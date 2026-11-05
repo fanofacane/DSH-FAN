@@ -23,16 +23,20 @@ struct SettingsPage<Content: View>: View {
     let title: LocalizedStringKey
     var showsBack = true
     var showsTitle = true
+    var backAction: (() -> Void)?
     @ViewBuilder let content: () -> Content
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.settingsTarget) private var target
+    @Environment(\.appReduceMotion) private var reduceMotion
+    @State private var revealedTarget: String?
     @State private var offset: CGFloat = 0
     @State private var headerHeight: CGFloat = 60
     @Namespace private var scroll
 
     var body: some View {
         let top = showsBack ? SettingsMetrics.bar : 0
-        let barTitle = showsTitle ? min(1, max(0, (offset - headerHeight * 0.4) / 20)) : 1
+        let barTitle = min(1, max(0, (offset - headerHeight * 0.4) / 20))
 
         ScrollViewReader { proxy in
             ScrollView {
@@ -80,6 +84,13 @@ struct SettingsPage<Content: View>: View {
             .scrollIndicators(.hidden)
             .onPreferenceChange(SettingsScrollOffset.self) { offset = $0 }
             .onPreferenceChange(SettingsHeaderHeight.self) { headerHeight = max(40, $0) }
+            .onPreferenceChange(SettingsAnchorReady.self) { anchor in
+                guard let anchor, anchor == target, anchor != revealedTarget else { return }
+                revealedTarget = anchor
+                withAnimation(reduceMotion ? nil : AppMotion.standard) {
+                    proxy.scrollTo(anchor, anchor: UnitPoint(x: 0.5, y: 1.0 / 3.0))
+                }
+            }
             #if DEBUG
             .task {
                 if DebugPageRegistry.scrollOffset != nil { proxy.scrollTo("settings-debug-scroll", anchor: .top) }
@@ -113,7 +124,9 @@ struct SettingsPage<Content: View>: View {
                     .frame(height: top)
                     .frame(maxWidth: .infinity)
                 HStack {
-                    GlassIconButton(glyph: AppIcon.back, label: "Back", size: SettingsMetrics.barButton) { dismiss() }
+                    GlassIconButton(glyph: AppIcon.back, label: "Back", size: SettingsMetrics.barButton) {
+                        if let backAction { backAction() } else { dismiss() }
+                    }
                     Spacer()
                 }
                 .padding(.horizontal, Space.floatInset)
@@ -149,9 +162,10 @@ private struct SettingsTypeStyle: ViewModifier {
 }
 
 struct SheetGroup<Content: View>: View {
+    var rowGap: CGFloat = Space.xxs
     @ViewBuilder let content: () -> Content
     var body: some View {
-        VStack(spacing: Space.xxs, content: content)
+        VStack(spacing: rowGap, content: content)
             .frame(maxWidth: .infinity)
             .padding(.vertical, Space.xs)
             .clipShape(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous))
@@ -162,6 +176,7 @@ struct SheetGroup<Content: View>: View {
 struct SettingsGroup<Content: View>: View {
     var header: LocalizedStringKey?
     var footer: LocalizedStringKey?
+    var rowGap: CGFloat = Space.xxs
     @ViewBuilder let content: () -> Content
 
     var body: some View {
@@ -171,7 +186,7 @@ struct SettingsGroup<Content: View>: View {
                     .padding(.horizontal, Space.sm)
                     .accessibilityAddTraits(.isHeader)
             }
-            SheetGroup(content: content)
+            SheetGroup(rowGap: rowGap, content: content)
             if let footer {
                 Text(footer).settingsType(.bodySmall).foregroundStyle(DS.inkFaint)
                     .padding(.horizontal, Space.sm)
@@ -233,6 +248,7 @@ struct SettingsRow<Trailing: View>: View {
     var verbatim: String?
     var tinted = false
     var value: String?
+    var valueColor: Color = DS.inkMuted
     @ViewBuilder var trailing: () -> Trailing
 
     var body: some View {
@@ -255,7 +271,7 @@ struct SettingsRow<Trailing: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .layoutPriority(1)
             if let value, !value.isEmpty {
-                Text(value).monospacedDigit().settingsType(.bodyMedium).foregroundStyle(DS.inkMuted)
+                Text(value).monospacedDigit().settingsType(.bodyMedium).foregroundStyle(valueColor)
                     .multilineTextAlignment(.trailing).lineLimit(2).padding(.leading, Space.md)
             }
             trailing()
@@ -271,8 +287,8 @@ struct SettingsRow<Trailing: View>: View {
 
 extension SettingsRow where Trailing == SettingsChevron {
     init(glyph: DshGlyph? = nil, tone: TileTone = .ai, title: LocalizedStringKey, subtitle: String? = nil,
-         tinted: Bool = false, value: String? = nil) {
-        self.init(glyph: glyph, tone: tone, title: title, subtitle: subtitle, tinted: tinted, value: value) { SettingsChevron() }
+         tinted: Bool = false, value: String? = nil, valueColor: Color = DS.inkMuted) {
+        self.init(glyph: glyph, tone: tone, title: title, subtitle: subtitle, tinted: tinted, value: value, valueColor: valueColor) { SettingsChevron() }
     }
 }
 
@@ -347,7 +363,7 @@ struct SettingsToggleRow: View {
 }
 
 private struct SettingsRowToggleStyle: ToggleStyle {
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.appReduceMotion) private var reduceMotion
     @State private var clicks = 0
 
     func makeBody(configuration: Configuration) -> some View {
@@ -422,7 +438,7 @@ struct MistToggleStyle: ToggleStyle {
 
 struct SettingsPressStyle: ButtonStyle {
     var scales = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.appReduceMotion) private var reduceMotion
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
