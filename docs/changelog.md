@@ -22,3 +22,15 @@ DSH Fan is a new project built after studying DSH Go and iSH; its history starts
 
 - 当前功能：流式对话、会话管理、本机 DSH 引擎（iSH）、SSH 与自建 DSH Remote 远程连接、手机系统操作、快捷指令、小组件、实时活动与 Deepy 桌宠。
 - Current features: streaming chat, session management, the local DSH engine (iSH), SSH and self-hosted DSH Remote connections, phone actions, Shortcuts, widgets, Live Activities and the Deepy desktop pet.
+
+- 设置首页改为六组，支持简中和英文搜索、同义词、最近查询与跳转高亮。统一设置页行高、分组、深浅色和无障碍文字布局。
+- Settings now has six groups with Simplified Chinese and English search, synonyms, recent queries and row highlighting. The settings screens share row sizing, grouping, light and dark colors, and accessible text layout.
+
+- 宠物按主题包加载，支持三档尺寸、输入框栖息、拖动、情绪气泡与安静模式。实时活动可展示宠物表情。
+- Pets load from theme packs and support three sizes, a composer perch, dragging, mood bubbles and quiet mode. Live Activities can show a pet pose.
+
+- 增加自定义强调色、静态壁纸和首帧预览，更新通知、语音、后台与系统权限说明。诊断导出支持先编辑和检查日志。
+- Added custom accents, still wallpapers and first-frame previews. Updated notifications, voice, background and system-permission settings. Diagnostics can be edited and reviewed before export.
+
+- 更新模型渠道、Agent 预设和引擎表单。引擎设置支持按字段类型编辑、校验和恢复默认值，保存沿用主机 revision。手机操控增加首次启用披露、快捷指令规则和本次运行的操作记录。
+- Updated model providers, agent presets and engine forms. Engine settings offer typed editing, validation and reset to inherited values with host revision checks. Phone control adds a first-use disclosure, shortcut rules and an activity history for the current app session.
