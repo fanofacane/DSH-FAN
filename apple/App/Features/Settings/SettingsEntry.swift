@@ -61,7 +61,7 @@ enum SettingsSection: String, CaseIterable, Identifiable {
         SettingsEntry("privacy", title: "Privacy", group: .about, order: 2) { PrivacySettingsPage() },
         SettingsEntry("diagnostics", title: "Diagnostics", group: .about, order: 3) { DiagnosticsSettingsPage() },
         SettingsEntry("engine-parameters", title: "Engine parameters", group: .about, order: 4) { EngineParametersPage() },
-        SettingsEntry("about", title: "About DSH", glyph: AppIcon.info, tone: .neutral, group: .about, order: 5, subtitle: { $0.version }) { AboutPage() },
+        SettingsEntry("about", title: "About DSH Fan", glyph: AppIcon.info, tone: .neutral, group: .about, order: 5, subtitle: { $0.version }) { AboutPage() },
     ]
     static func destination(_ id: String) -> AnyView { entries.first { $0.id == id }?.destination() ?? AnyView(EmptyView()) }
     static var sections: [SettingsSection] { SettingsSection.allCases.filter { $0 != .header } }

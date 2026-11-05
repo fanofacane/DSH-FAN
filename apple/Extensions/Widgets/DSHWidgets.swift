@@ -48,7 +48,7 @@ struct AskWidgetView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "sparkles")
                     VStack(alignment: .leading) {
-                        Text(verbatim: "DSH").font(.headline)
+                        Text(verbatim: "DSH Fan").font(.headline)
                         Text("Ask anything").font(.caption)
                     }
                 }
@@ -56,7 +56,7 @@ struct AskWidgetView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack(spacing: 6) {
                         Image(systemName: "sparkles").foregroundStyle(DesignTheme().accent)
-                        Text(verbatim: "DSH").font(.system(size: 15, weight: .semibold)).tracking(0.6).foregroundStyle(DS.ink)
+                        Text(verbatim: "DSH Fan").font(.system(size: 15, weight: .semibold)).tracking(0.6).foregroundStyle(DS.ink)
                     }
                     Spacer(minLength: 0)
                     Text("Ask anything").font(.system(size: family == .systemMedium ? 22 : 18, weight: .light)).foregroundStyle(DS.ink)
@@ -151,7 +151,7 @@ struct LockScreenTurnView: View {
                 }
             }
             Spacer(minLength: 0)
-            Text(verbatim: "DSH").font(.system(size: 12, weight: .semibold)).tracking(0.6).foregroundStyle(DS.inkFaint)
+            Text(verbatim: "DSH Fan").font(.system(size: 12, weight: .semibold)).tracking(0.6).foregroundStyle(DS.inkFaint)
         }
         .padding(16)
     }

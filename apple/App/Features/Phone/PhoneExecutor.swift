@@ -193,7 +193,7 @@ final class PhoneExecutor: NSObject, MFMessageComposeViewControllerDelegate {
         var selected: URL?
         var name = "Apple 地图"
         let amapMode = ["walk": "2", "transit": "1", "ride": "3"][mode] ?? "0"
-        let amapItems = [URLQueryItem(name: "sourceApplication", value: "DSH"), URLQueryItem(name: "dname", value: query),
+        let amapItems = [URLQueryItem(name: "sourceApplication", value: "DSH Fan"), URLQueryItem(name: "dname", value: query),
                          URLQueryItem(name: "dlat", value: lat.map { String($0) }), URLQueryItem(name: "dlon", value: lng.map { String($0) }),
                          URLQueryItem(name: "dev", value: "0"), URLQueryItem(name: "t", value: amapMode)]
         if preferred != "apple", preferred != "baidu", let candidate = url("iosamap", host: "path", amapItems), application.canOpenURL(candidate) {
@@ -201,7 +201,7 @@ final class PhoneExecutor: NSObject, MFMessageComposeViewControllerDelegate {
         }
         let baiduMode = ["walk": "walking", "transit": "transit", "ride": "riding"][mode] ?? "driving"
         let baiduItems = [URLQueryItem(name: "destination", value: hasCoordinate ? "latlng:\(lat!),\(lng!)|name:\(query)" : query),
-                          URLQueryItem(name: "coord_type", value: "gcj02"), URLQueryItem(name: "mode", value: baiduMode), URLQueryItem(name: "src", value: "DSH")]
+                          URLQueryItem(name: "coord_type", value: "gcj02"), URLQueryItem(name: "mode", value: baiduMode), URLQueryItem(name: "src", value: "DSH Fan")]
         if selected == nil, preferred != "apple", let candidate = url("baidumap", host: "map", path: "/direction", baiduItems), application.canOpenURL(candidate) {
             selected = candidate; name = "百度地图"
         }
@@ -309,7 +309,7 @@ final class PhoneExecutor: NSObject, MFMessageComposeViewControllerDelegate {
                 return reply("闹钟权限未获允许，请用户在系统设置授权。", ok: false)
             }
             guard enabled, operation == ticket else { return reply("闹钟操作已取消。", ok: false) }
-            let title = args["message"]?.string ?? "DSH"
+            let title = args["message"]?.string ?? "DSH Fan"
             let alert = AlarmPresentation.Alert(title: LocalizedStringResource(stringLiteral: title),
                                                 stopButton: AlarmButton(text: LocalizedStringResource(stringLiteral: stopTitle),
                                                                         textColor: .white, systemImageName: "stop.circle"))

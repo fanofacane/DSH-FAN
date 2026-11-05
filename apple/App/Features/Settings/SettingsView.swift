@@ -202,7 +202,7 @@ struct PetSettingsPage: View {
 struct AboutPage: View {
     @Environment(EngineModel.self) private var engine
     var body: some View {
-        SettingsPage(title: "About DSH") {
+        SettingsPage(title: "About DSH Fan") {
             SettingsGroup {
                 SettingsRow(title: "Version") {
                     Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "").foregroundStyle(DS.inkFaint)

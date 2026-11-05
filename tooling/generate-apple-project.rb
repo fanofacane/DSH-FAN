@@ -185,7 +185,7 @@ app.build_configurations.each do |config|
   s['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] = ['$(inherited)', 'DSH_MAIN_APP'] + (config.name == 'Debug' ? ['DEBUG'] : [])
   s['PRODUCT_BUNDLE_IDENTIFIER'] = BUNDLE_ID
   s['PRODUCT_NAME'] = 'DSH'
-  s['INFOPLIST_KEY_CFBundleDisplayName'] = 'DSH'
+  s['INFOPLIST_KEY_CFBundleDisplayName'] = 'DSH Fan'
   s['INFOPLIST_KEY_UILaunchScreen_Generation'] = 'YES'
   s['INFOPLIST_KEY_UIApplicationSceneManifest_Generation'] = 'YES'
   s['INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone'] = 'UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight'
@@ -223,7 +223,7 @@ def extension(project, name, folder, plist, bundle_suffix, entitlements, extra_r
     s['PRODUCT_BUNDLE_IDENTIFIER'] = "#{BUNDLE_ID}.#{bundle_suffix}"
     s['PRODUCT_NAME'] = name
     s['INFOPLIST_FILE'] = plist
-    s['INFOPLIST_KEY_CFBundleDisplayName'] = 'DSH'
+    s['INFOPLIST_KEY_CFBundleDisplayName'] = 'DSH Fan'
     s['SKIP_INSTALL'] = 'YES'
     s['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
     s['CODE_SIGN_ENTITLEMENTS'] = entitlements if entitlements

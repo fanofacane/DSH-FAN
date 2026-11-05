@@ -36,7 +36,7 @@ struct SessionDrawer: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 BrandMark(size: 30)
-                Text(verbatim: "DSH").font(.system(size: 20, weight: .semibold)).tracking(0.6).foregroundStyle(DS.ink)
+                Text(verbatim: "DSH Fan").font(.system(size: 20, weight: .semibold)).tracking(0.6).foregroundStyle(DS.ink)
                 Spacer()
                 Button { chat.transcript.newChat(); close() } label: {
                     HStack(spacing: 6) {

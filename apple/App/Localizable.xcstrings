@@ -141,12 +141,12 @@
         }
       }
     },
-    "About DSH": {
+    "About DSH Fan": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "关于 DSH"
+            "value": "关于 DSH Fan"
           }
         }
       }
@@ -3611,12 +3611,12 @@
         }
       }
     },
-    "Port 3080 is in use by another app.": {
+    "Port 3080 is in use by another app, such as an older DSH app. Close that app, then start the engine again.": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "端口 3080 已被其他 App 占用。"
+            "value": "端口 3080 已被其他 App（例如旧版 DSH）占用。请先关闭那个 App，再启动引擎。"
           }
         }
       }

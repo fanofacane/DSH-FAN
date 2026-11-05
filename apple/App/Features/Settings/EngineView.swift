@@ -221,7 +221,7 @@ struct EngineView: View {
     private func errorText(_ code: String) -> String {
         switch code {
         case "E_RESTART_REQUIRED": String(localized: "Close the app from the app switcher and open it again to finish.")
-        case "EADDRINUSE": String(localized: "Port 3080 is in use by another app.")
+        case "EADDRINUSE": String(localized: "Port 3080 is in use by another app, such as an older DSH app. Close that app, then start the engine again.")
         case "ENOSPC": String(localized: "Not enough free storage to install the runtime.")
         case "ENOMEM": String(localized: "The engine ran out of memory.")
         case "E_START_TIMEOUT": String(localized: "The engine did not start in time.")

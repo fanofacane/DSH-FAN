@@ -434,7 +434,7 @@ python3 tooling/apple-smoke.py t13 chat menu   # 指定用例
 - **DSH Remote 不再有默认服务器**（2026-11-04）：去掉 `dsh.r2049.cn`，用户填写自建服务器地址后登录。
 - **插件 / 插件市场不做**（2026-11-04）：上架合规，引擎层禁用插件管理器（负责联网安装的部分）。以后的插件走方案 A：随 App 打包 + 用户后台开关，见 T16。
 - **Flutter / 安卓版已按用户阶段 3 授权删除**；旧实现可在 上游 DSH Go 仓库 查看。
-- **品牌**（App 图标、显示名、Bundle ID `io.github.fanofacane.dsh`）暂不改，遇到需要时问用户。
+- **品牌**：显示名已按用户决定改为 DSH Fan（2026-11-05）；App 图标、品牌图形与 Bundle ID `io.github.fanofacane.dsh` 暂不改，遇到需要时问用户。
 
 ## 7. 已知限制 / 待验证
 

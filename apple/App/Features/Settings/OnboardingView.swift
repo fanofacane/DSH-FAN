@@ -42,7 +42,7 @@ struct OnboardingView: View {
                     .frame(width: 260, height: 260)
                 BrandMark(size: 92)
             }
-            Text(verbatim: "DSH").font(.system(size: 18, weight: .semibold)).tracking(5).foregroundStyle(DS.inkFaint)
+            Text(verbatim: "DSH FAN").font(.system(size: 18, weight: .semibold)).tracking(5).foregroundStyle(DS.inkFaint)
                 .padding(.top, 6)
             Text("Put a DeepSeek agent\nin your pocket")
                 .font(.system(size: 34, weight: .light)).foregroundStyle(DS.ink)
