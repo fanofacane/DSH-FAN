@@ -4,8 +4,6 @@
 
 DSH Fan is a new native iOS (SwiftUI) project. It runs the bundled DeepSeek Harness (DSH) engine on an iPhone / iPad, or connects to your own computer / server through SSH or a self-hosted DSH Remote relay.
 
-It is not an iOS port of DSH Go. It is an independent project built after studying [DSH Go](https://github.com/ccch1mneyyy/dsh-go) and [iSH](https://github.com/ish-app/ish), maintained at [fanofacane/dsh-fan](https://github.com/fanofacane/dsh-fan).
-
 **Direction**: the features are still basic. Development will head two ways:
 
 - **Phone assistant**: get things done on your phone through public iOS capabilities (calendar, reminders, alarms, Shortcuts, notifications and more).
