@@ -24,6 +24,7 @@ import Testing
         #expect(hits.first?.spot.id == "permissions")
         #expect(hits.first?.synonym == "别问我")
         #expect(hits.dropFirst().first?.spot.location == SettingsLocation("permissions", anchor: "default-permission"))
+        #expect(hits.dropFirst(2).first?.spot.location == SettingsLocation("phone", anchor: "phone-confirm"))
         #expect(SettingsIndex.search("ＡＰＩ　ＫＥＹ", in: spots).first?.spot.id == "key")
         #expect(SettingsIndex.search("隐私与分享", in: spots).first?.spot.id == "privacy")
         #expect(SettingsIndex.search("　 ", in: spots).isEmpty)

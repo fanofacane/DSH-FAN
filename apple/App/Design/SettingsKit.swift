@@ -403,7 +403,7 @@ struct SettingsChoiceRow: View {
     }
 }
 
-private struct MistSwitch: View {
+struct MistSwitch: View {
     let isOn: Bool
     @Environment(\.designTheme) private var theme
     @Environment(\.isEnabled) private var enabled

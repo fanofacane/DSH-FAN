@@ -7,6 +7,7 @@ import Observation
     private let shared: PermissionSessionState
     var state = SessionControlState()
     var error: String?
+    private(set) var permissionError: String?
     private(set) var permissionPresets: [PermissionPreset] {
         get { shared.permissionPresets }
         set { shared.permissionPresets = newValue }
@@ -18,7 +19,7 @@ import Observation
     static let iosDefaultPreset = "danger-full-access"
     var permissionPreset: String? {
         get { shared.permissionPreset }
-        set { shared.permissionPreset = newValue; prefs.set(newValue, forKey: "chat.permissionPreset") }
+        set { shared.permissionPreset = newValue; prefs.set(newValue ?? "", forKey: "chat.permissionPreset") }
     }
     private let prefs = UserDefaults.standard
     private var controlTask: Task<Void, Never>?
@@ -28,13 +29,21 @@ import Observation
     init(context: SessionContext) {
         self.context = context; shared = context.permissionState
         // The iOS sandbox already confines the engine; preserve the iOS default preset.
-        if prefs.object(forKey: "chat.permissionPreset") == nil { prefs.set(Self.iosDefaultPreset, forKey: "chat.permissionPreset") }
-        permissionPreset = prefs.string(forKey: "chat.permissionPreset")
+        let saved = prefs.string(forKey: "chat.permissionPreset") ?? Self.iosDefaultPreset
+        permissionPreset = saved.isEmpty ? nil : saved
     }
     var projection: SessionProjection { context.currentSessionId.flatMap { state.values[$0] } ?? SessionProjection() }
     func resetFeed() { controlTask?.cancel(); controlTask = nil; state = SessionControlState() }
     func loadPermissions(_ client: DSHClient) async {
-        if let presets = try? await client.permissionPresets() { permissionPresets = presets.options; enginePermissionDefault = presets.defaultPreset }
+        let generation = context.generation
+        permissionPresets = []; enginePermissionDefault = ""; permissionError = nil
+        do {
+            let presets = try await client.permissionPresets()
+            guard generation == context.generation else { return }
+            permissionPresets = presets.options; enginePermissionDefault = presets.defaultPreset
+        } catch {
+            if generation == context.generation { permissionError = appErrorCode(error) }
+        }
     }
     func startControl(_ client: DSHClient, generation: Int) {
         controlTask?.cancel(); state = SessionControlState(); error = nil

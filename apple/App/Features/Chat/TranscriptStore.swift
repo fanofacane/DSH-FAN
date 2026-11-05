@@ -76,6 +76,7 @@ import Observation
     func newChat() {
         closeSession()
         committed = []; pending = []; draft = nil
+        actions?.useNewChatDefault()
     }
     func open(_ session: SessionSummary) async {
         guard let client, session.id != currentSessionId else { return }

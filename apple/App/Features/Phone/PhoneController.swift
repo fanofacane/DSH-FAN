@@ -15,6 +15,14 @@ struct PhonePrompt: Identifiable, Equatable {
     let allowTask: Bool
 }
 
+struct PhoneActionEvent: Identifiable {
+    enum Outcome { case completed, submitted, denied, cancelled, failed }
+    let id = UUID()
+    let kind: String
+    let date = Date()
+    let outcome: Outcome
+}
+
 /// Launch data handed to the runtime worker (engine launch hook).
 private final class LaunchBox: @unchecked Sendable {
     private let lock = NSLock()
@@ -36,6 +44,7 @@ final class PhoneController {
     private(set) var capabilities: [String: String] = [:]
     private(set) var lastError: String?
     private(set) var available = true
+    private(set) var actionHistory: [PhoneActionEvent] = []
 
     private let executor: PhoneExecutor
     private let runtime: any EngineControlling
@@ -243,6 +252,11 @@ final class PhoneController {
         guard foreground else { return PhoneToolOutput("App 当前不在前台。请用户返回 App 后重试。", isError: true) }
         calling = true
         defer { calling = false }
+        var outcome: PhoneActionEvent.Outcome = .failed
+        // Capability queries have no system side effects. History keeps only the tool kind,
+        // time and disposition, never arguments, shortcut names or system results.
+        let listingShortcuts = name == "shortcut" && args["name"]?.string == nil
+        defer { if !listingShortcuts { recordAction(name, outcome) } }
         let ticket = generation
         let taskScope = scope
         let listener = context.onCancel { [weak self] in Task { @MainActor in
@@ -251,21 +265,33 @@ final class PhoneController {
         defer { context.removeListener(listener) }
 
         let policy = safety.check(name: name, args: arguments.values, mode: mode, shortcuts: shortcuts, trustedScope: taskScope)
-        if let denied = policy.denied { return PhoneToolOutput(denied, isError: true) }
+        if let denied = policy.denied {
+            outcome = .denied
+            return PhoneToolOutput(denied, isError: true)
+        }
         if policy.confirm {
             let choice = await confirm(name, args, allowTask: policy.allowTask)
-            if choice == .reject { return PhoneToolOutput("用户拒绝或确认已过期。请停止该操作，不要换一种方式绕过。", isError: true) }
+            if choice == .reject {
+                outcome = context.cancelled || ticket != generation || !foreground ? .cancelled : .denied
+                return PhoneToolOutput("用户拒绝或确认已过期。请停止该操作，不要换一种方式绕过。", isError: true)
+            }
             if choice == .task, let taskScope, taskScope == scope, policy.allowTask { safety.waive(taskScope) }
         }
         if context.cancelled || ticket != generation || !enabled || !foreground {
+            outcome = .cancelled
             return PhoneToolOutput("手机操作已取消，请回到 App 后重试。", isError: true)
         }
         if name == "shortcut", let shortcut = args["name"]?.string, !shortcuts.contains(shortcut) {
+            outcome = .denied
             return PhoneToolOutput("该快捷指令已移出白名单。", isError: true)
         }
-        if name == "handoff" { return PhoneToolOutput("用户已选择继续。请继续任务；无法观察用户操作结果，请勿臆测。") }
+        if name == "handoff" {
+            outcome = .completed
+            return PhoneToolOutput("用户已选择继续。请继续任务；无法观察用户操作结果，请勿臆测。")
+        }
 
         let result = await executor.run(name, args)
+        if result.ok { outcome = result.deferred == nil ? .completed : .submitted }
         if result.ok, name == "shortcut", let shortcut = args["name"]?.string { safety.shortcutCompleted(shortcut) }
         lastError = result.ok ? nil : "E_PHONE_ACTION"
         await refreshCapabilities()
@@ -281,6 +307,12 @@ final class PhoneController {
             }
         }
         return PhoneToolOutput(result.text, isError: !result.ok, afterSend: after)
+    }
+
+    private func recordAction(_ name: String, _ outcome: PhoneActionEvent.Outcome) {
+        guard ["open", "intent", "notify", "clipboard", "shortcut", "handoff"].contains(name) else { return }
+        actionHistory.insert(PhoneActionEvent(kind: name, outcome: outcome), at: 0)
+        if actionHistory.count > 100 { actionHistory.removeLast() }
     }
 
     private static func argumentsData(_ args: [String: JSONValue]) throws -> Data {

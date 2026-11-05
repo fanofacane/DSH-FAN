@@ -27,6 +27,7 @@ import Observation
         do {
             guard let actions else { throw DSHError("E_NOT_CONNECTED") }
             let session = try await actions.ensureSession()
+            guard epoch == generation else { throw DSHError("E_STALE_CONNECTION") }
             try await api().select(agentId: session, agentPreset: id)
             guard epoch == generation else { throw DSHError("E_STALE_CONNECTION") }
         } catch {

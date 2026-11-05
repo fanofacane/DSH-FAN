@@ -12,6 +12,8 @@ import Observation
     private(set) var keyConfigured = false
     private(set) var keyWritable = true
     private(set) var keyError: String?
+    private(set) var newChatDefault: ModelOption?
+    private var newChatDefaultRevision: Int?
     private(set) var models: [ModelOption] {
         get { shared.models }
         set { shared.models = newValue }
@@ -47,6 +49,7 @@ import Observation
     func connect(forceRestart: Bool = false) async {
         guard state != .connecting else { return }
         state = .connecting
+        newChatDefault = nil; newChatDefaultRevision = nil
         generation += 1
         let generation = generation
         actions?.closeSession()
@@ -72,6 +75,14 @@ import Observation
             guard generation == self.generation else { return }
             state = .ready
             Task { await actions?.connectionReady() }
+            Task {
+                // Older Hosts may not expose these settings. The catalog still supplies the legacy default.
+                let settings = try? await SettingsAPI(client: fresh).describe()
+                guard generation == self.generation else { return }
+                if let section = settings?.first(where: { $0.id == "agent-default-model" }) {
+                    updateNewChatDefault(from: section)
+                }
+            }
         } catch {
             guard generation == self.generation else { return }
             if let failure = error as? LinkFailure { state = .failed(failure.code) } else { state = .failed(appErrorCode(error)) }
@@ -79,6 +90,7 @@ import Observation
     }
     func disconnect() {
         generation += 1
+        newChatDefault = nil; newChatDefaultRevision = nil
         actions?.resetFeeds()
         self.phone.hostConnectionChanged()
         actions?.closeSession()
@@ -87,6 +99,7 @@ import Observation
     }
     func linkLost() {
         generation += 1
+        newChatDefault = nil; newChatDefaultRevision = nil
         actions?.resetFeeds()
         actions?.closeSession()
         client?.close(); client = nil
@@ -128,6 +141,21 @@ import Observation
         actions?.newChat()
         keyConfigured = (try? await client.credentialState().configured) ?? false
         try? await reloadModels()
+    }
+    func updateNewChatDefault(from section: EngineNamespace) {
+        guard newChatDefaultRevision.map({ section.revision >= $0 }) ?? true else { return }
+        newChatDefaultRevision = section.revision
+        newChatDefault = nil
+        guard section.value["rememberLastSelection"] as? Bool == false,
+              let provider = section.value["provider"] as? String, let modelID = section.value["model"] as? String,
+              var model = models.first(where: { $0.provider == provider && $0.model == modelID }) else { return }
+        if let effort = section.value["reasoningEffort"] as? String, model.efforts.contains(where: { $0.id == effort }) {
+            model.defaultEffort = effort
+        }
+        newChatDefault = model
+    }
+    func useNewChatDefault() {
+        if let newChatDefault, models.contains(newChatDefault) { selectedModel = newChatDefault }
     }
     func requireClient() throws -> DSHClient {
         guard let client else { throw DSHError("E_NOT_CONNECTED") }; return client

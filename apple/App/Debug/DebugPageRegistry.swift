@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 #if DEBUG
+import DSHClient
 import SwiftUI
 
 @MainActor enum DebugPageRegistry {
@@ -44,6 +45,8 @@ import SwiftUI
         "background": { AnyView(NavigationStack { BackgroundSettingsPage() }) },
         "system-access": { AnyView(NavigationStack { SystemAccessPage() }) },
         "help": { AnyView(NavigationStack { HelpSettingsPage() }) },
+        "skills": { AnyView(NavigationStack { FeatureCatalogPage(kind: .skills) }) },
+        "jobs": { AnyView(NavigationStack { FeatureCatalogPage(kind: .jobs) }) },
         "features": { AnyView(NavigationStack { AllSettingsFeaturesPage() }) },
         "web-search": { AnyView(NavigationStack { CapabilitySettingsPage(kind: .search) }) },
         "media": { AnyView(NavigationStack { CapabilitySettingsPage(kind: .media) }) },
@@ -51,18 +54,56 @@ import SwiftUI
         "privacy": { AnyView(NavigationStack { PrivacySettingsPage() }) },
         "diagnostics": { AnyView(NavigationStack { DiagnosticsSettingsPage() }) },
         "reply-preferences": { AnyView(NavigationStack { ReplyPreferencesPage() }) },
+        "engine-shell": { AnyView(NavigationStack { EngineNamespacePage(id: .shell) }) },
+        "engine-agent-loop": { AnyView(NavigationStack { EngineNamespacePage(id: .agentLoop) }) },
+        "engine-subagent": { AnyView(NavigationStack { EngineNamespacePage(id: .subagent) }) },
+        "engine-general": { AnyView(NavigationStack { EngineNamespacePage(id: .general) }) },
+        "engine-number": {
+            let section = DebugEngineSettings.sections.first { $0.id == "bash-sandbox" }
+            return AnyView(Group {
+                if let section, let node = EngineSchema(section.schema).fields(section.schema)["timeoutMs"] {
+                    EngineFieldEditor(model: EngineFormModel(section), path: ["timeoutMs"], node: node)
+                }
+            })
+        },
         "engine-parameters": { AnyView(NavigationStack { EngineParametersPage() }) },
         "schedules": { AnyView(NavigationStack { SchedulesPage() }) },
         "usage": { AnyView(NavigationStack { RunInsightsPage() }) },
+        "agent-preset": { AnyView(NavigationStack {
+            AgentPresetPage(preset: AgentPreset(id: "default", name: "Standard agent", isDefault: true),
+                            defaults: nil, generation: 0, onChange: {})
+        }) },
         "agents": { AnyView(NavigationStack { AgentPresetsPage() }) },
         "files": { AnyView(NavigationStack { WorkspaceFilesHome() }) },
         "changes": { AnyView(NavigationStack { ChangesPage() }) },
         "workspaces": { AnyView(NavigationStack { WorkspacesPage() }) },
         "capabilities": { AnyView(NavigationStack { CapabilitySettingsPage() }) },
         "account": { AnyView(NavigationStack { DeepSeekAccountPage() }) },
+        "provider-detail": { AnyView(NavigationStack {
+            ProviderDetailPage(provider: DebugProviderSettings.example, namespaces: DebugProviderSettings.sections, onSave: {})
+        }) },
+        "provider-form": { AnyView(NavigationStack {
+            ProviderEditor(provider: DebugProviderSettings.example, sections: DebugProviderSettings.sections)
+        }) },
+        "provider-model": { AnyView(ProviderModelEditor(original: ["id": "example/model", "name": "Example model",
+                                                                  "contextWindow": 131_072, "maxTokens": 8192],
+                                                        reservedIDs: [], apply: { _ in })) },
         "providers": { AnyView(NavigationStack { ProviderSettingsPage() }) },
         "model": { AnyView(NavigationStack { ModelSettingsPage() }) },
         "permissions": { AnyView(NavigationStack { PermissionSettingsPage() }) },
+        "phone-confirm": { AnyView(NavigationStack { PhoneConfirmModePage() }) },
+        "phone-rules": { AnyView(NavigationStack { PhoneRulesPage() }) },
+        "phone-actions": { AnyView(NavigationStack { PhoneActionLogPage() }) },
+        "phone-disclosure": { AnyView(PhoneDisclosureSheet {}) },
+        "safe-mode": {
+            AnyView(NavigationStack {
+                SettingsPage(title: "Safe mode") {
+                    if let status = DebugEngineSettings.status {
+                        SettingsGroup { SafeModeSettingsRows(status: status) }.disabled(true)
+                    }
+                }
+            })
+        },
         "phone": { AnyView(NavigationStack { PhoneSettingsView() }) },
         "pet-preview": { AnyView(DebugPetPage()) },
         "pet-overlay": { AnyView(AppBackdrop().overlay(alignment: .top) { PetOutsideSection().padding(Space.lg) }) },

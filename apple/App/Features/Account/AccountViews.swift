@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// DSH Go: app/lib/ui/account/account_page.dart.
 import DSHClient
 import SafariServices
 import SwiftUI
@@ -17,7 +18,15 @@ struct DeepSeekAccountPage: View {
     @State private var browser: AccountBrowserDestination?
     @State private var openedAttempt: String?
     @State private var confirmSignOut = false
-    private var signedIn: Bool { view.status == "credential-stored" }
+    private var fixture: String? {
+        #if DEBUG
+        if DebugPageRegistry.usesFixture { return DebugPageRegistry.argument("-dsh-screen-fixture") }
+        #endif
+        return nil
+    }
+    private var signedIn: Bool { fixture == "signed-in" || view.status == "credential-stored" }
+    private var remote: Bool { fixture == "remote" || hosts.isRemote }
+    private var displayName: String? { fixture == "signed-in" ? "Example" : profile.name ?? profile.contact }
     private var attempt: AccountAttempt { view.attempt }
     private var phase: String { attempt.phase ?? "" }
     private var active: Bool { ["initializing", "waiting-browser", "exchanging", "committing"].contains(phase) }
@@ -27,19 +36,27 @@ struct DeepSeekAccountPage: View {
     }
     var body: some View {
         SettingsPage(title: "DeepSeek account") {
-            if hosts.isRemote {
-                Text("Account sign-in is available only on this phone’s engine.").type(.bodyMedium).foregroundStyle(DS.inkMuted)
-            } else {
+            if remote {
                 SettingsGroup {
-                    SettingsRow(title: signedIn ? "Signed in" : "Signed out") { Image(systemName: "person.crop.circle").foregroundStyle(theme.accent) }
-                    if let name = profile.name ?? profile.contact {
-                        SettingsRow(title: "", verbatim: name) { EmptyView() }
-                    }
-                    if active {
-                        SettingsRow(title: phaseTitle) { ProgressView() }
-                    }
+                    SettingsRow(glyph: AppIcon.remoteHost, title: "Remote host",
+                                subtitle: String(localized: "Account sign-in is available only on this phone’s engine.")) { EmptyView() }
                 }
-                if !wallets.isEmpty {
+            } else {
+                OverviewCard(title: displayName.map { Text(verbatim: $0) } ?? Text("DeepSeek"),
+                             subtitle: Text(signedIn ? "Signed in" : "Signed out")) {
+                    SettingsIcon(glyph: AppIcon.profile, size: 52)
+                } accessory: {
+                    if active { ProgressView() }
+                    else { StatusDot(tone: signedIn ? .ok : .idle) }
+                } footer: {
+                    if active { OverviewFooter(tone: .busy, text: Text(phaseTitle)) }
+                }
+                if fixture == "signed-in" {
+                    SettingsGroup(header: "Account balance") {
+                        InfoRow(label: "Paid credit", value: "¥28.50")
+                        InfoRow(label: "Bonus credit", value: "¥10.00")
+                    }
+                } else if !wallets.isEmpty {
                     SettingsGroup(header: "Account balance") {
                         ForEach(Array(wallets.enumerated()), id: \.offset) { _, wallet in
                             SettingsRow(title: wallet.bonus ? "Bonus credit" : "Paid credit",
@@ -63,10 +80,16 @@ struct DeepSeekAccountPage: View {
                     Text("Authorize in Safari. The engine receives the callback at 127.0.0.1 and stores the account grant.")
                         .type(.bodySmall).foregroundStyle(DS.inkFaint).padding(.top, 12)
                 }
-                NavigationLink { KeySettingsPage() } label: { SettingsRow(title: "Use an API key instead") }.buttonStyle(.plain).padding(.top, 16)
+                SettingsGroup {
+                    SettingsLink(glyph: AppIcon.configure, title: "Use an API key instead") { KeySettingsPage() }
+                }.padding(.top, Space.lg)
             }
         }
-        .task(id: chat.connection.state) { if chat.connection.state == .ready && !hosts.isRemote { await watch() } }
+        .task(id: "\(chat.connection.generation)-\(chat.connection.state == .ready)") {
+            guard fixture == nil, chat.connection.state == .ready, !remote else { return }
+            await watch()
+        }
+        .disabled(fixture != nil)
         .sheet(item: $browser) { destination in AccountSafari(url: destination.url).ignoresSafeArea() }
         .confirmationDialog("Sign out of the DeepSeek account?", isPresented: $confirmSignOut, titleVisibility: .visible) {
             Button("Sign out", role: .destructive) { Task { await signOut() } }
@@ -105,14 +128,15 @@ struct DeepSeekAccountPage: View {
         if !active && !signedIn { browser = nil }
     }
     private func watch() async {
-        while !Task.isCancelled {
+        let generation = chat.connection.generation
+        while !Task.isCancelled && generation == chat.connection.generation {
             do {
                 let frames = try await chat.connection.accountAPI.watch()
                 for try await frame in frames {
-                    guard !Task.isCancelled else { return }
+                    guard !Task.isCancelled, generation == chat.connection.generation else { return }
                     error = nil; await accept(frame)
                 }
-            } catch { if !Task.isCancelled { self.error = (error as? DSHError)?.code ?? "E_TRANSPORT" } }
+            } catch { if !Task.isCancelled, generation == chat.connection.generation { self.error = appErrorCode(error) } }
             do { try await Task.sleep(nanoseconds: 2_000_000_000) } catch { return }
         }
     }

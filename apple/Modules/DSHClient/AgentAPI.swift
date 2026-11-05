@@ -9,6 +9,11 @@ public struct AgentPreset: Sendable {
     public let isDefault: Bool
     /// Presence was significant to the original selection logic, including JSON null.
     public let hasBrokenField: Bool
+    public init(id: String, name: String, description: String? = nil, isDefault: Bool = false) {
+        var row: [String: Any] = ["id": id, "name": name, "isDefault": isDefault]
+        row["description"] = description
+        self.init(row)
+    }
     init(_ row: [String: Any]) {
         id = row["id"] as? String; name = row["name"] as? String
         description = row["description"] as? String; broken = row["broken"] as? String

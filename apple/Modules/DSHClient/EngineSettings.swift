@@ -8,6 +8,9 @@ public struct EngineNamespace: Identifiable {
     public let writable: Bool
     public let value: [String: Any]
     public let schema: [String: Any]
+    public let base: [String: Any]?
+    public let user: [String: Any]?
+    public let secretFields: [[String]]
     public let secretPaths: [[String]]
     public init(_ map: [String: Any], writable: Bool = true) {
         id = map["ns"] as? String ?? ""
@@ -15,7 +18,11 @@ public struct EngineNamespace: Identifiable {
         self.writable = writable
         value = map["value"] as? [String: Any] ?? [:]
         schema = map["schema"] as? [String: Any] ?? [:]
-        secretPaths = (map["secrets"] as? [[String: Any]] ?? []).filter { $0["set"] as? Bool == true }.compactMap { $0["path"] as? [String] }
+        base = map["base"] as? [String: Any]
+        user = map["user"] as? [String: Any]
+        let secrets = map["secrets"] as? [[String: Any]] ?? []
+        secretFields = secrets.compactMap { $0["path"] as? [String] }
+        secretPaths = secrets.filter { $0["set"] as? Bool == true }.compactMap { $0["path"] as? [String] }
     }
     public static func parse(_ response: Any?) -> [EngineNamespace] {
         let envelope = response as? [String: Any] ?? [:]
@@ -37,8 +44,10 @@ public struct EngineSchema {
         var node = raw, meta = raw["meta"] as? [String: Any] ?? [:]
         for _ in 0..<8 {
             if node["type"] as? String == "union" {
-                let members = (node["list"] as? [Any] ?? []).map(resolve).filter { !(($0["type"] as? String == "const") && ($0["value"] == nil || $0["value"] is NSNull)) }
+                let all = (node["list"] as? [Any] ?? []).map(resolve)
+                let members = all.filter { !(($0["type"] as? String == "const") && ($0["value"] == nil || $0["value"] is NSNull)) }
                 guard members.count == 1, members[0]["type"] as? String != "const" else { break }
+                if members.count != all.count { meta["nullable"] = true }
                 node = members[0]
             } else {
                 guard ["transform", "lazy"].contains(node["type"] as? String ?? ""), let inner = node["inner"] else { break }
@@ -76,8 +85,12 @@ public struct EngineSchema {
         case "object", "intersect": return fields(node).mapValues { defaultValue($0, depth: depth + 1) }
         case "dict": return [String: Any]()
         case "array": return [Any]()
+        case "tuple":
+            return (node["list"] as? [Any] ?? []).map { defaultValue(resolve($0), depth: depth + 1) }
         case "boolean": return false
-        case "number": return 0
+        case "number": return (node["meta"] as? [String: Any])?["min"] ?? 0
+        case "bitset": return 0
+        case "any": return NSNull()
         default: return ""
         }
     }

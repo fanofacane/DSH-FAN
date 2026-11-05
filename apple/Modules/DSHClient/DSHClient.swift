@@ -22,6 +22,10 @@ public struct ModelOption: Identifiable, Hashable, Sendable {
     /// Selectable reasoning efforts (`off`, `low`, `high`, `max` for DeepSeek).
     public var efforts: [ReasoningEffort] = []
     public var defaultEffort: String?
+    public init(provider: String, model: String, name: String, efforts: [ReasoningEffort] = [], defaultEffort: String? = nil) {
+        self.provider = provider; self.model = model; self.name = name
+        self.efforts = efforts; self.defaultEffort = defaultEffort
+    }
     public var id: String { provider + "/" + model }
     public static func == (a: ModelOption, b: ModelOption) -> Bool { a.id == b.id }
     public func hash(into hasher: inout Hasher) { hasher.combine(id) }

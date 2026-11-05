@@ -1,105 +1,118 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// DSH Go: app/lib/ui/engine_settings/{engine_settings_page,schema_form,field_row}.dart and ui/settings/media/.
 import DSHClient
 import Observation
 import SwiftUI
 
-struct CapabilitySettingsPage: View {
-    enum Kind { case all, search, media }
-    var kind: Kind = .all
-
-    private var title: LocalizedStringKey {
-        switch kind {
-        case .all: "Search, images and video"
-        case .search: "Web search"
-        case .media: "Images and video"
-        }
-    }
-    private func includes(_ id: String) -> Bool {
-        let search = ["web", "web-search-deepseek", "web-deepseek-api", "web-fetch-http"].contains(id)
-        let media = ["media", "dsh-media"].contains(id)
-        switch kind {
-        case .all: return search || media
-        case .search: return search
-        case .media: return media
-        }
-    }
-    @Environment(AppSession.self) private var chat
-    @State private var sections: [EngineNamespace] = []
-    @State private var error: String?
-    var body: some View {
-        SettingsPage(title: title) {
-            SettingsGroup {
-                ForEach(sections) { section in
-                    NavigationLink { EngineFormPage(model: EngineFormModel(section), displayTitle: capabilityTitle(section.id)) } label: {
-                        SettingsRow(title: LocalizedStringKey(capabilityTitle(section.id)), subtitle: nil)
-                    }.buttonStyle(.plain)
-                }
-                if sections.isEmpty && chat.connection.state == .ready && error == nil {
-                    SettingsRow(title: "No editable parameters reported by this host.") { EmptyView() }
-                }
-            }
-            if let error { Text("Request failed: \(error)").type(.bodySmall).foregroundStyle(DS.danger) }
-        }
-        .task(id: chat.connection.state) {
-            guard chat.connection.state == .ready else { return }
-            do {
-                sections = try await chat.connection.settingsAPI.describe().filter { includes($0.id) }
-                error = nil
-            } catch { self.error = (error as? DSHError)?.code ?? "E_TRANSPORT" }
-        }
-    }
-    private func capabilityTitle(_ ns: String) -> String {
-        if ns.contains("media") { return String(localized: "Images and video") }
-        if ns == "web" { return String(localized: "Search and fetch providers") }
-        if ns == "web-deepseek-api" { return String(localized: "DeepSeek Search API") }
-        if ns == "web-search-deepseek" { return String(localized: "DeepSeek Messages search") }
-        return String(localized: "Web fetch")
-    }
-}
-
 @MainActor @Observable final class EngineFormModel {
     var section: EngineNamespace
     var draft: [String: Any] // 引擎 schema 表单定义任意字段，保留其动态值。
-    var changes: [[String]: Any] = [:]
+    private(set) var changes: [[String]: Any] = [:]
+    private(set) var resets: Set<[String]> = []
     var error: String?
-    var saving = false
-    init(_ section: EngineNamespace) { self.section = section; draft = section.value }
-    var schema: EngineSchema { EngineSchema(section.schema) }
-    func value(_ path: [String]) -> Any? {
-        path.reduce(draft as Any?) { current, key in
-            if let map = current as? [String: Any] { return map[key] } // 引擎 schema 表单定义任意字段，保留其动态值。
-            if let list = current as? [Any], let index = Int(key), list.indices.contains(index) { return list[index] }
-            return nil
-        }
+    private(set) var saving = false
+    let generation: Int?
+
+    init(_ section: EngineNamespace, generation: Int? = nil) {
+        self.section = section
+        self.generation = generation
+        draft = section.value
     }
+
+    var hasEdits: Bool { !changes.isEmpty || !resets.isEmpty }
+    var schema: EngineSchema { EngineSchema(section.schema) }
+    func value(_ path: [String]) -> Any? { engineValue(path, in: draft) }
+    func modified(_ path: [String]) -> Bool { engineValue(path, in: section.user) != nil }
+
+    func containsSecret(_ path: [String]) -> Bool {
+        section.secretFields.contains { $0.starts(with: path) || path.starts(with: $0) }
+    }
+
     func set(_ path: [String], _ value: Any) {
-        guard !section.secretPaths.contains(where: { $0.count > path.count && $0.starts(with: path) }) else {
+        guard !saving, section.writable, !path.isEmpty else { return }
+        guard !containsSecret(path) else {
             error = "E_SETTINGS_HIDDEN_SECRET"; return
         }
-        func replacing(_ current: Any?, _ rest: ArraySlice<String>) -> Any {
-            guard let key = rest.first else { return value }
-            if var list = current as? [Any], let index = Int(key), list.indices.contains(index) {
-                list[index] = replacing(list[index], rest.dropFirst()); return list
-            }
-            var map = current as? [String: Any] ?? [:] // 引擎 schema 表单定义任意字段，保留其动态值。
-            map[key] = replacing(map[key], rest.dropFirst()); return map
-        }
-        draft = replacing(draft, path[...]) as? [String: Any] ?? draft // 引擎 schema 表单定义任意字段，保留其动态值。
+        if engineValueEqual(self.value(path), value) { return }
+        draft = replacing(draft, path[...], with: value) as? [String: Any] ?? draft
+        resets = Set(resets.filter { !$0.starts(with: path) })
         if let ancestor = changes.keys.first(where: { path.starts(with: $0) }) {
             changes[ancestor] = self.value(ancestor) ?? NSNull()
         } else {
             for child in Array(changes.keys) where child.starts(with: path) { changes[child] = nil }
-            changes[path] = value
+            let hasReset = resets.contains { path.starts(with: $0) }
+            changes[path] = !hasReset && engineValueEqual(engineValue(path, in: section.value), value) ? nil : value
         }
     }
+    func restore(_ path: [String]) {
+        guard !saving, section.writable, !containsSecret(path), modified(path) else { return }
+        draft = replacing(draft, path[...], with: engineValue(path, in: section.base)) as? [String: Any] ?? draft
+        if let ancestor = changes.keys.first(where: { $0 != path && path.starts(with: $0) }) {
+            changes[ancestor] = value(ancestor)
+        } else {
+            for key in Array(changes.keys) where key.starts(with: path) { changes[key] = nil }
+            if !resets.contains(where: { path.starts(with: $0) }) {
+                resets = Set(resets.filter { !$0.starts(with: path) })
+                resets.insert(path)
+            }
+        }
+    }
+
+    private func replacing(_ current: Any?, _ path: ArraySlice<String>, with value: Any?) -> Any? {
+        guard let key = path.first else { return value }
+        if var list = current as? [Any], let index = Int(key), list.indices.contains(index) {
+            list[index] = replacing(list[index], path.dropFirst(), with: value) ?? NSNull()
+            return list
+        }
+        var map = current as? [String: Any] ?? [:]
+        map[key] = replacing(map[key], path.dropFirst(), with: value)
+        return map
+    }
+
+    func discardEdits() {
+        guard !saving else { return }
+        draft = section.value
+        changes = [:]
+        resets = []
+    }
+
+    private func rules(at path: [String]) -> EngineFieldRules? {
+        var node = schema.effective(schema.root)
+        for key in path {
+            let rules = EngineFieldRules(schema: schema, node: node)
+            if rules.locked || rules.hidden || rules.secret { return nil }
+            if rules.collection && rules.type != "tuple" { node = rules.inner }
+            else if let field = schema.fields(node)[key] { node = field }
+            else { return nil }
+        }
+        let rules = EngineFieldRules(schema: schema, node: node)
+        return rules.locked || rules.hidden || rules.secret ? nil : rules
+    }
+
     func save(_ chat: AppSession) async {
-        saving = true; error = nil; defer { saving = false }
+        guard !saving, hasEdits, section.writable else { return }
+        guard changes.allSatisfy({ path, value in
+            guard let rules = rules(at: path) else { return false }
+            return rules.valid(value)
+        }) else { error = "E_SETTINGS_INVALID_DRAFT"; return }
+        let generation = chat.connection.generation
+        guard self.generation == nil || self.generation == generation else { error = "E_SETTINGS_HOST_CHANGED"; return }
+        saving = true
+        error = nil
+        defer { saving = false }
         do {
-            let ops = changes.keys.sorted { $0.joined(separator: "/") < $1.joined(separator: "/") }.map { ["op": "set", "path": $0, "value": changes[$0]!] }
-            let response = try await chat.connection.settingsAPI.mutate(ns: section.id, expectedRevision: section.revision, ops: ops, writable: section.writable)
+            let writes: [[String: Any]] = changes.keys.sorted { $0.lexicographicallyPrecedes($1) }.compactMap { path in
+                changes[path].map { ["op": "set", "path": path, "value": $0] }
+            }
+            let unsets: [[String: Any]] = resets.sorted { $0.lexicographicallyPrecedes($1) }.map { ["op": "unset", "path": $0] }
+            let response = try await chat.connection.settingsAPI.mutate(ns: section.id, expectedRevision: section.revision,
+                                                                         ops: unsets + writes, writable: section.writable)
+            guard generation == chat.connection.generation else { throw DSHError("E_SETTINGS_HOST_CHANGED") }
             guard response.id == section.id else { throw DSHError("E_SETTINGS_RESPONSE") }
-            section = response; draft = section.value; changes = [:]
-        } catch { self.error = (error as? DSHError)?.code ?? "E_TRANSPORT" }
+            section = response
+            saving = false
+            discardEdits()
+        } catch { self.error = appErrorCode(error) }
     }
 }
 
@@ -107,49 +120,86 @@ struct EngineFormPage: View {
     @Environment(\.designTheme) private var theme
     @Environment(AppSession.self) private var chat
     @State var model: EngineFormModel
-    var displayTitle: String? = nil
+    var displayTitle: LocalizedStringKey? = nil
     var path: [String] = []
     var node: [String: Any]? = nil // 引擎 schema 表单定义任意字段，保留其动态值。
+    var beforeFields: AnyView? = nil
+    var afterFields: AnyView? = nil
+    var inheritedLock = false
     @State private var addKey = false
     @State private var key = ""
     @State private var editing: EngineFieldDestination?
     private var resolved: [String: Any] { model.schema.effective(node ?? model.schema.root) } // 引擎 schema 表单定义任意字段，保留其动态值。
     private var type: String { resolved["type"] as? String ?? "" }
     private var fields: [String: [String: Any]] { model.schema.fields(resolved) } // 引擎 schema 表单定义任意字段，保留其动态值。
-    private var title: String { path.last.map(fieldTitle) ?? displayTitle ?? model.section.id }
+    private var title: LocalizedStringKey {
+        if let key = path.last { return LocalizedStringKey(fieldTitle(key)) }
+        return displayTitle ?? LocalizedStringKey(model.section.id)
+    }
+    @State private var showDocumentation = false
+    @State private var expanded: Set<String> = []
+    private var orderedKeys: [String] {
+        let known: [String]
+        switch model.section.id {
+        case "bash-sandbox", "pwsh-sandbox": known = ["timeoutMs", "maxOutputBytes", "maxTimeoutMs", "maxSpillBytes", "graceMs"]
+        case "subagent": known = ["maxDepth", "maxActiveSubagents", "maxActive"]
+        case "web-search-deepseek", "web-deepseek-api": return ["apiKey", "baseURL", "maxUses", "count"].filter { fields[$0] != nil }
+        default: known = mediaCatalog(in: model.section) != nil || ["media", "dsh-media"].contains(model.section.id)
+            ? ["defaults", "services", "limits"] : []
+        }
+        return known.filter { fields[$0] != nil } + fields.keys.filter { !known.contains($0) }.sorted()
+    }
+    private var readOnly: Bool { inheritedLock || !model.section.writable }
     private var mediaPresets: [[String: Any]] { // 引擎 schema 表单定义任意字段，保留其动态值。
-        let extra = (resolved["meta"] as? [String: Any])?["extra"] as? [String: Any] // 引擎 schema 表单定义任意字段，保留其动态值。
-        // 远程主机可能仍装着上游 dsh-media（旧命名空间 dsh-go），新名优先、旧名兜底。
-        let catalog = (extra?["dsh-fan/media/catalog"] ?? extra?["dsh-go/media/catalog"]) as? [String: Any]
-        return catalog?["presets"] as? [[String: Any]] ?? [] // 引擎 schema 表单定义任意字段，保留其动态值。
+        guard path == ["services"] else { return [] }
+        return mediaCatalog(in: model.section)?["presets"] as? [[String: Any]] ?? []
     }
     var body: some View {
-        SettingsPage(title: LocalizedStringKey(title)) {
-            SettingsGroup {
-                if type == "object" || type == "intersect" {
-                    ForEach(fields.keys.sorted(), id: \.self) { key in
-                        let child = fields[key] ?? [:]
-                        if (child["meta"] as? [String: Any])?["hidden"] as? Bool != true { field(key, node: child) } // 引擎 schema 表单定义任意字段，保留其动态值。
+        SettingsPage(title: title) {
+            beforeFields
+            if (type == "object" || type == "intersect") && path.isEmpty && model.section.id.hasSuffix("-sandbox") {
+                let primary = ["timeoutMs", "maxOutputBytes"]
+                SettingsGroup {
+                    ForEach(orderedKeys.filter { primary.contains($0) }, id: \.self) { key in
+                        field(key, node: fields[key] ?? [:])
                     }
-                } else if type == "array" {
-                    let list = model.value(path) as? [Any] ?? []
-                    ForEach(list.indices, id: \.self) { index in
-                        field(String(index), node: model.schema.resolve(resolved["inner"] ?? [:]))
-                            .contextMenu { Button("Remove", role: .destructive) { remove(String(index)) } }
+                }
+                SettingsGroup(header: "More") {
+                    ForEach(orderedKeys.filter { !primary.contains($0) }, id: \.self) { key in
+                        field(key, node: fields[key] ?? [:])
                     }
-                } else if type == "dict" {
-                    ForEach((model.value(path) as? [String: Any] ?? [:]).keys.sorted(), id: \.self) { key in // 引擎 schema 表单定义任意字段，保留其动态值。
-                        field(key, node: model.schema.resolve(resolved["inner"] ?? [:]))
-                            .contextMenu { Button("Remove", role: .destructive) { remove(key) } }
+                }
+            } else {
+                SettingsGroup(header: fieldsTitle) {
+                    if type == "object" || type == "intersect" {
+                        ForEach(orderedKeys, id: \.self) { key in field(key, node: fields[key] ?? [:]) }
+                    } else if type == "array" {
+                        let list = model.value(path) as? [Any] ?? []
+                        ForEach(list.indices, id: \.self) { index in
+                            field(String(index), node: model.schema.resolve(resolved["inner"] ?? [:]))
+                                .contextMenu {
+                                    Button("Remove", role: .destructive) { remove(String(index)) }
+                                        .disabled(readOnly || model.containsSecret(path))
+                                }
+                        }
+                    } else if type == "dict" {
+                        ForEach((model.value(path) as? [String: Any] ?? [:]).keys.sorted(), id: \.self) { key in
+                            field(key, node: model.schema.resolve(resolved["inner"] ?? [:]))
+                                .contextMenu {
+                                    Button("Remove", role: .destructive) { remove(key) }.disabled(readOnly || model.containsSecret(path))
+                                }
+                        }
+                    } else {
+                        SettingsRow(title: "This setting format is not supported.") { EmptyView() }
                     }
-                } else { SettingsRow(title: "This setting format is not supported.") { EmptyView() } }
+                }
             }
             if !mediaPresets.isEmpty && type == "array" {
                 Menu("Add service from catalog") {
                     ForEach(Array(mediaPresets.enumerated()), id: \.offset) { _, preset in
                         Button(presetLabel(preset)) { addPreset(preset) }
                     }
-                }.foregroundStyle(theme.accent).padding(.bottom, 16)
+                }.foregroundStyle(theme.accent).disabled(readOnly || model.saving || model.containsSecret(path)).padding(.bottom, 16)
             }
             if type == "array" || type == "dict" {
                 MistButton(title: "Add item", kind: .secondary) {
@@ -159,15 +209,35 @@ struct EngineFormPage: View {
                         var list = model.value(path) as? [Any] ?? []
                         list.append(model.schema.defaultValue(inner)); model.set(path, list)
                     }
-                }.disabled(!model.section.writable || model.saving).padding(.bottom, 16)
+                }.disabled(readOnly || model.saving || model.containsSecret(path)).padding(.bottom, 16)
             }
             if let error = model.error { Text("Request failed: \(error)").type(.bodySmall).foregroundStyle(DS.danger).padding(.bottom, 12) }
-            MistButton(title: "Save changes", busy: model.saving) { Task { await model.save(chat) } }
-                .disabled(model.changes.isEmpty || !model.section.writable || model.saving)
-            if !model.section.writable { Text("This host’s settings are read-only.").type(.bodySmall).foregroundStyle(DS.inkFaint) }
+            if model.hasEdits || model.saving {
+                MistButton(title: "Save changes", busy: model.saving) { Task { await model.save(chat) } }
+                    .disabled(readOnly || model.saving)
+            }
+            if !model.section.writable { Text("This host’s settings are read-only.").settingsType(.bodySmall).foregroundStyle(DS.inkFaint) }
+            if !fields.isEmpty {
+                MistButton(title: "Field descriptions", kind: .secondary) { showDocumentation = true }.padding(.top, Space.md)
+            }
+            afterFields.padding(.top, Space.xl)
+        }
+        .sheet(isPresented: $showDocumentation) {
+            SettingsSheet(title: "Field descriptions", locked: true) {
+                ScrollView {
+                    SheetGroup {
+                        ForEach(orderedKeys, id: \.self) { key in
+                            let field = EngineFieldRules(schema: model.schema, node: fields[key] ?? [:])
+                            if !field.hidden {
+                                SettingsRow(title: LocalizedStringKey(field.title ?? fieldTitle(key)), subtitle: field.description) { EmptyView() }
+                            }
+                        }
+                    }
+                }
+            }.presentationDetents([.large])
         }
         .sheet(item: $editing) { destination in
-            EngineFieldEditor(model: model, path: destination.path, node: destination.node)
+            EngineFieldEditor(model: model, path: destination.path, node: destination.node, readOnly: readOnly)
         }
         .alert("Add item", isPresented: $addKey) {
             TextField("Name", text: $key)
@@ -179,6 +249,15 @@ struct EngineFormPage: View {
             }.disabled(key.isEmpty || (model.value(path) as? [String: Any])?[key] != nil) // 引擎 schema 表单定义任意字段，保留其动态值。
         }
     }
+    private var fieldsTitle: LocalizedStringKey? {
+        guard path.isEmpty else { return nil }
+        switch model.section.id {
+        case "subagent": return "Delegation limits"
+        case "web-search-deepseek", "web-deepseek-api": return "DeepSeek"
+        default: return nil
+        }
+    }
+
     private func presetLabel(_ preset: [String: Any]) -> String { // 引擎 schema 表单定义任意字段，保留其动态值。
         if Locale.preferredLanguages.first?.hasPrefix("zh") == false { return preset["labelEn"] as? String ?? preset["label"] as? String ?? "" }
         return preset["label"] as? String ?? preset["id"] as? String ?? ""
@@ -201,98 +280,92 @@ struct EngineFormPage: View {
             map[key] = nil; model.set(path, map)
         }
     }
-    @ViewBuilder private func field(_ key: String, node raw: [String: Any]) -> some View { // 引擎 schema 表单定义任意字段，保留其动态值。
-        let child = model.schema.effective(raw), next = path + [key]
-        let kind = child["type"] as? String ?? ""
-        let meta = child["meta"] as? [String: Any] ?? [:] // 引擎 schema 表单定义任意字段，保留其动态值。
-        let label = EngineSchema.localized(meta["title"]) ?? fieldTitle(key)
-        let detail = EngineSchema.localized(meta["description"])
-        if ["object", "intersect", "array", "dict"].contains(kind) {
-            NavigationLink { EngineFormPage(model: model, path: next, node: child) } label: {
-                SettingsRow(title: "", subtitle: detail, verbatim: label) { SettingsChevron() }
-            }.buttonStyle(.plain)
-        } else {
-            Button { editing = EngineFieldDestination(path: next, node: child) } label: {
-                SettingsRow(title: "", subtitle: detail, verbatim: label) {
-                    Text(verbatim: meta["role"] as? String == "secret" ? "••••" : displayValue(model.value(next)))
-                        .type(.bodySmall).foregroundStyle(DS.inkFaint).lineLimit(2)
+    @ViewBuilder private func field(_ key: String, node raw: [String: Any]) -> some View {
+        let next = path + [key]
+        let rules = EngineFieldRules(schema: model.schema, node: model.schema.effective(raw))
+        if !rules.hidden {
+            if rules.collapsed && rules.group {
+                Button {
+                    if !expanded.insert(key).inserted { expanded.remove(key) }
+                } label: {
+                    SettingsRow(title: LocalizedStringKey(rules.title ?? fieldTitle(key)), subtitle: rules.description) {
+                        Glyph(glyph: expanded.contains(key) ? .caretUp : .caretDown, size: 16)
+                    }
+                }.buttonStyle(SettingsPressStyle())
+                ExpandReveal(open: expanded.contains(key)) {
+                    VStack(spacing: Space.xxs) {
+                        let children = model.schema.fields(rules.node)
+                        ForEach(children.keys.sorted(), id: \.self) { child in
+                            valueRow(next + [child], key: child,
+                                     rules: EngineFieldRules(schema: model.schema, node: children[child] ?? [:]))
+                        }
+                    }.padding(.leading, Space.sm)
                 }
-            }.buttonStyle(.plain).disabled(!model.section.writable || meta["disabled"] as? Bool == true || model.saving)
+            } else {
+                valueRow(next, key: key, rules: rules)
+            }
         }
     }
-}
 
-private struct EngineFieldDestination: Identifiable {
-    var id: String { path.joined(separator: "/") }
-    let path: [String]
-    let node: [String: Any] // 引擎 schema 表单定义任意字段，保留其动态值。
-}
-private struct EngineFieldEditor: View {
-    @Environment(\.dismiss) private var dismiss
-    @Bindable var model: EngineFormModel
-    let path: [String]
-    let node: [String: Any] // 引擎 schema 表单定义任意字段，保留其动态值。
-    @State private var text = ""
-    @State private var bool = false
-    @State private var error = false
-    @State private var showCredential = false
-    private var kind: String { node["type"] as? String ?? "" }
-    private var secret: Bool { (node["meta"] as? [String: Any])?["role"] as? String == "secret" } // 引擎 schema 表单定义任意字段，保留其动态值。
-    private var credentialReference: String? {
-        let parent = Array(path.dropLast())
-        for key in ["credentialRef", "keyRef", "apiKeyEnv"] {
-            if let ref = model.value(parent + [key]) as? String, !ref.isEmpty { return ref }
+    @ViewBuilder private func valueRow(_ next: [String], key: String, rules: EngineFieldRules) -> some View {
+        if !rules.hidden {
+            let secret = rules.secret || model.section.secretFields.contains(next)
+            let locked = rules.locked || readOnly
+            let label = LocalizedStringKey(rules.title ?? fieldTitle(key))
+            let detail = locked ? String(localized: "Read-only on this host") : rules.description
+            let value = model.value(next)
+            if !secret && rules.type == "boolean" {
+                SettingsToggleRow(title: label, subtitle: detail, isOn: Binding(
+                    get: { model.value(next) as? Bool ?? false },
+                    set: { model.set(next, $0) }
+                ))
+                .disabled(locked || model.saving)
+                .settingAnchor(spotID(next))
+            } else if !secret && (rules.group || ["array", "dict"].contains(rules.type)) {
+                SettingsLink(title: label, subtitle: detail, value: collectionSummary(value)) {
+                    EngineFormPage(model: model, displayTitle: label, path: next, node: rules.node, inheritedLock: locked)
+                }
+                .settingAnchor(spotID(next))
+            } else {
+                Button { editing = EngineFieldDestination(path: next, node: rules.node) } label: {
+                    SettingsRow(title: label, subtitle: detail,
+                                value: secret ? (model.section.secretPaths.contains(next) ? "••••" : String(localized: "Not set"))
+                                              : rules.containsSecret() ? nil : fieldSummary(value, key: key, rules: rules)) {
+                        if model.modified(next) && !secret && !locked {
+                            Text("Modified").settingsType(.labelMedium)
+                                .foregroundStyle(DS.inkMuted).padding(.horizontal, Space.sm)
+                                .background(DS.searchFill, in: Capsule())
+                        }
+                        SettingsChevron()
+                    }
+                }
+                .buttonStyle(SettingsPressStyle())
+                .disabled(readOnly && secret || model.saving || (!secret && (rules.containsSecret() || model.containsSecret(next))))
+                .settingAnchor(spotID(next))
+            }
         }
+    }
+
+    private func spotID(_ path: [String]) -> String {
+        if path == ["timeoutMs"], model.section.id.hasSuffix("-sandbox") { return "command-timeout" }
+        return model.section.id + "." + path.joined(separator: ".")
+    }
+
+    private func collectionSummary(_ value: Any?) -> String? {
+        if let list = value as? [Any] { return String(localized: "\(list.count) item(s)") }
         return nil
     }
-    private var isCredentialReference: Bool {
-        (node["meta"] as? [String: Any])?["role"] as? String == "credential-ref" || ["keyRef", "apiKeyEnv", "credentialRef"].contains(path.last ?? "") // 引擎 schema 表单定义任意字段，保留其动态值。
-    }
-    private var constants: [Any]? { model.schema.constants(node) }
-    var body: some View {
-        NavigationStack {
-            SettingsPage(title: LocalizedStringKey(fieldTitle(path.last ?? "")), showsBack: false) {
-                SettingsGroup {
-                    if kind == "boolean" { Toggle("Enabled", isOn: $bool).padding(16) }
-                    else if let constants {
-                        Picker("Value", selection: $text) {
-                            ForEach(Array(constants.enumerated()), id: \.offset) { index, value in
-                                Text(verbatim: displayValue(value)).tag(String(index))
-                            }
-                        }.pickerStyle(.wheel)
-                    } else if secret {
-                        if credentialReference != nil {
-                            Button("Configure referenced key") { showCredential = true }.padding(16)
-                        } else { Text("Configure this secret using its engine plugin.").padding(16) }
-                    } else if kind == "string" || kind == "number" {
-                        TextField("Value", text: $text, axis: .vertical).textInputAutocapitalization(.never).autocorrectionDisabled().padding(16)
-                            .keyboardType(kind == "number" ? .numbersAndPunctuation : .default)
-                    } else { Text("This setting format is not supported.").padding(16) }
-                }
-                if error { Text("Enter a valid value.").type(.bodySmall).foregroundStyle(DS.danger) }
-                if !secret { MistButton(title: "Apply to draft") {
-                    let value: Any
-                    if kind == "boolean" { value = bool }
-                    else if let constants, let index = Int(text), constants.indices.contains(index) { value = constants[index] }
-                    else if kind == "number" {
-                        guard let number = Double(text), number.isFinite else { error = true; return }; value = number
-                    } else { value = text }
-                    model.set(path, value); text = ""; dismiss()
-                }.disabled(!["boolean", "string", "number", "const", "union"].contains(kind)) }
-                if isCredentialReference, !secret, !text.isEmpty {
-                    MistButton(title: "Configure referenced key", kind: .secondary) { showCredential = true }.padding(.top, 12)
-                }
-            }
-            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
+
+    private func fieldSummary(_ value: Any?, key: String, rules: EngineFieldRules) -> String? {
+        if rules.type == "bitset", let number = value as? Int {
+            let selected = rules.bits.keys.sorted().filter { number & (rules.bits[$0] ?? 0) != 0 }
+            return selected.isEmpty ? String(localized: "None") : selected.joined(separator: " · ")
         }
-        .onAppear {
-            let value = model.value(path)
-            bool = value as? Bool ?? false
-            if let constants { text = String(constants.firstIndex { displayValue($0) == displayValue(value) } ?? 0) }
-            else { text = secret ? "" : displayValue(value) }
+        if let collection = collectionSummary(value) { return collection }
+        if let number = value as? NSNumber, rules.type == "number" {
+            return engineNumberLabel(number.doubleValue, key: key)
         }
-        .onDisappear { text = "" }
-        .sheet(isPresented: $showCredential) { CredentialKeyEditor(reference: secret ? credentialReference ?? "" : text) }
+        return displayValue(value)
     }
 }
 
@@ -304,6 +377,7 @@ struct CredentialKeyEditor: View {
     @State private var key = ""
     @State private var error: String?
     @State private var busy = false
+    @State private var hostGeneration: Int?
     var body: some View {
         NavigationStack {
             SettingsPage(title: "API key", showsBack: false) {
@@ -311,6 +385,7 @@ struct CredentialKeyEditor: View {
                 SecureField("API key", text: $key).textInputAutocapitalization(.never).autocorrectionDisabled().padding(16).glass(.card)
                 if let error { Text("Request failed: \(error)").type(.bodySmall).foregroundStyle(DS.danger) }
                 MistButton(title: "Save", busy: busy) {
+                    guard hostGeneration == chat.connection.generation else { error = "E_SETTINGS_HOST_CHANGED"; return }
                     busy = true
                     Task {
                         do { try await chat.connection.credentialsAPI.set(ref: reference, value: key); key = ""; dismiss() }
@@ -319,20 +394,28 @@ struct CredentialKeyEditor: View {
                     }
                 }.disabled(key.isEmpty || busy).padding(.top, 12)
             }.toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
-        }.onDisappear { key = "" }
+        }.onAppear { hostGeneration = chat.connection.generation }.onDisappear { key = "" }
     }
 }
 
-private func displayValue(_ value: Any?) -> String {
+func displayValue(_ value: Any?) -> String {
     guard let value, !(value is NSNull) else { return "" }
     if let text = value as? String { return text }
     return String(describing: value)
 }
-private func fieldTitle(_ key: String) -> String {
+func fieldTitle(_ key: String) -> String {
     switch key {
     case "apiKey": String(localized: "API key")
     case "keyRef", "apiKeyEnv": String(localized: "API key reference")
     case "baseURL", "baseUrl": String(localized: "API base URL")
+    case "timeoutMs": String(localized: "Command timeout")
+    case "maxOutputBytes": String(localized: "Output limit")
+    case "maxTimeoutMs": String(localized: "Max requested timeout")
+    case "maxSpillBytes": String(localized: "Spill file limit")
+    case "graceMs": String(localized: "Termination grace period")
+    case "maxDepth": String(localized: "Maximum recursion depth")
+    case "maxActive", "maxActiveSubagents": String(localized: "Max active subagents")
+    case "maxParallelToolCalls": String(localized: "Max parallel tool calls")
     case "searchProvider": String(localized: "Search provider")
     case "fetchProvider": String(localized: "Fetch provider")
     case "maxUses", "count": String(localized: "Search limit")
@@ -353,4 +436,17 @@ private func fieldTitle(_ key: String) -> String {
     case "provider": String(localized: "Provider ID")
     default: key
     }
+}
+
+func engineNumberLabel(_ value: Double, key: String) -> String {
+    if key.hasSuffix("Ms") {
+        if value >= 60_000 && value.truncatingRemainder(dividingBy: 60_000) == 0 {
+            return String(localized: "\((value / 60_000).formatted()) min")
+        }
+        return String(localized: "\((value / 1000).formatted(.number.precision(.fractionLength(0...3)))) s")
+    }
+    if key.hasSuffix("Bytes"), let bytes = Int64(exactly: value) {
+        return ByteCountFormatter.string(fromByteCount: bytes, countStyle: .binary)
+    }
+    return value.formatted()
 }

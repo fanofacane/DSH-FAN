@@ -224,22 +224,6 @@ struct ModelSettingsPage: View {
     }
 }
 
-struct PermissionSettingsPage: View {
-    @Environment(AppSession.self) private var chat
-    var body: some View {
-        SettingsPage(title: "Permissions") {
-            SettingsGroup(header: "New chats", footer: "iOS has no command sandbox for the engine, so full access is the default here; the app itself stays inside the iOS sandbox. Choose a stricter preset to approve actions yourself.") {
-                SettingsChoiceRow(title: String(localized: "Engine default"), selected: chat.control.permissionPreset == nil) { chat.control.permissionPreset = nil }
-                ForEach(chat.control.permissionPresets) { preset in
-                    SettingsChoiceRow(title: preset.name, subtitle: preset.description, selected: chat.control.permissionPreset == preset.id) {
-                        chat.control.permissionPreset = preset.id
-                    }
-                }
-            }.settingAnchor("default-permission")
-        }
-    }
-}
-
 extension RuntimePhase {
     var titleResource: String.LocalizationValue {
         switch self {

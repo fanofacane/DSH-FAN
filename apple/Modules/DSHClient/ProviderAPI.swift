@@ -15,7 +15,12 @@ public struct ConfigurableProvider: Sendable {
         settingsPath = row["settingsPath"] as? [String]; defaultBaseURL = row["defaultBaseURL"] as? String
         declared = row["declared"] as? Bool == true
     }
-    public init(provider: String, displayName: String) { self.init(["provider": provider, "displayName": displayName]) }
+    public init(provider: String, displayName: String, settingsNs: String? = nil, defaultBaseURL: String? = nil) {
+        var row: [String: Any] = ["provider": provider, "displayName": displayName]
+        row["settingsNs"] = settingsNs
+        row["defaultBaseURL"] = defaultBaseURL
+        self.init(row)
+    }
 }
 public struct RegisteredProvider: Sendable {
     public let id: String?
@@ -26,6 +31,7 @@ public struct DiscoveredModel {
     public let id: String?
     /// This is a value for the engine's dynamic provider-settings schema, not a fixed app model.
     public let settingsSpec: [String: Any]
+    public init(id: String, name: String) { self.init(["id": id, "name": name]) }
     init(_ row: [String: Any]) {
         id = row["id"] as? String
         var spec: [String: Any] = ["id": row["id"] ?? ""]

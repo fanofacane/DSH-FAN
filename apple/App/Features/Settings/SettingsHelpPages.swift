@@ -19,10 +19,17 @@ struct HelpSettingsPage: View {
 }
 
 struct AllSettingsFeaturesPage: View {
+    @Environment(AppSession.self) private var chat
     @Environment(AppPreferences.self) private var preferences
     private var tinted: Bool { preferences.featureIconStyle != "line" }
     var body: some View {
-        SettingsPage(title: "All features") {
+        SettingsPage(title: "All features", subtitle: "Tools for the current chat and this app") {
+            SettingsGroup(header: "Current chat") {
+                SettingsRow(glyph: AppIcon.profile, title: "Conversation", subtitle: chat.transcript.currentTitle
+                            ?? String(localized: "Open a chat to view its features."), tinted: tinted) { EmptyView() }
+                SettingsLink(glyph: .sparkle, title: "Skills", tinted: tinted) { FeatureCatalogPage(kind: .skills) }
+                SettingsLink(glyph: AppIcon.terminal, title: "Background jobs", tinted: tinted) { FeatureCatalogPage(kind: .jobs) }
+            }
             SettingsGroup(header: "Work") {
                 SettingsLink(glyph: .folder, title: "Workspaces", tinted: tinted) { WorkspacesPage() }
                 SettingsLink(glyph: .calendar, title: "Scheduled tasks", tinted: tinted) { SchedulesPage() }

@@ -8,6 +8,7 @@ import DSHClient
     func setTranscriptLoading(_ value: Bool)
     func ensureSession() async throws -> String
     func appendNotice(_ code: String)
+    func useNewChatDefault()
     func selectModel(_ model: ModelOption?)
     func didOpenSession(_ session: SessionSummary)
     func insertSession(_ session: SessionSummary)
@@ -33,6 +34,7 @@ extension AppSession: SessionActions, ConnectionLifecycle {
     func setTranscriptLoading(_ value: Bool) { transcript.setLoading(value) }
     func ensureSession() async throws -> String { try await transcript.ensureSession() }
     func appendNotice(_ code: String) { transcript.appendNotice(code) }
+    func useNewChatDefault() { connection.useNewChatDefault() }
     func selectModel(_ model: ModelOption?) { connection.selectedModel = model }
     func didOpenSession(_ session: SessionSummary) { workspace.didOpen(session) }
     func insertSession(_ session: SessionSummary) { sessionList.insert(session) }
