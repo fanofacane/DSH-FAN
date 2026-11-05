@@ -40,6 +40,13 @@ extension DSHClient {
         }
     }
 
+    #if DEBUG
+    public static func decodeFollowFixture(_ data: Data) -> [ChatEvent] {
+        guard let frame = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return [] }
+        return decode(frame)
+    }
+    #endif
+
     static func decode(_ value: [String: Any]) -> [ChatEvent] {
         switch value["type"] as? String {
         case "snapshot":

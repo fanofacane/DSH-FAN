@@ -9,6 +9,9 @@ struct ToolRow: Identifiable, Equatable {
     var result: String?
     var failed = false
     var presentation = ToolPresentation(nil)
+
+    var args: [String: JSONValue] { (try? JSONValue(data: Data(arguments.utf8)).object) ?? [:] }
+    var family: ToolFamily { ToolFamily(name: name, operation: args["command"]?.string) }
 }
 
 struct ChatItem: Identifiable, Equatable {

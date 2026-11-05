@@ -5,12 +5,14 @@ import DSHClient
 import SwiftUI
 
 struct ChatItemView: View {
-    @Environment(AppPreferences.self) private var preferences
     @Environment(AppSession.self) private var chat
     let item: ChatItem
     let maxBubbleWidth: CGFloat
     @State private var selecting = false
-    @State private var processOpen = false
+    var toolSpans: [String: TraceSpan] = [:]
+    var showsActions = false
+    var footnote: TurnTrace?
+    var openTrace: (TurnTrace) -> Void = { _ in }
 
     var body: some View {
         switch item.role {
@@ -78,26 +80,15 @@ struct ChatItemView: View {
     }
 
     private var assistant: some View {
-        VStack(alignment: .leading, spacing: Space.inTurn) {
-            if preferences.foldCompletedTurns && item.state != .streaming && (!item.reasoning.isEmpty || !item.tools.isEmpty) {
-                Button { processOpen.toggle() } label: {
-                    HStack(spacing: Space.sm) {
-                        IconTile(glyph: .check)
-                        Text(processLabel).type(.bodyMedium).lineLimit(1)
-                        Spacer()
-                        Glyph(glyph: processOpen ? .caretUp : .caretDown, size: 14)
-                    }.foregroundStyle(DS.inkMuted).contentShape(Rectangle())
-                }.buttonStyle(.plain)
-                ExpandReveal(open: processOpen) {
-                    VStack(alignment: .leading, spacing: Space.inTurn) { process }
-                        .padding(.leading, Space.sm)
-                }
-            } else {
-                process
-            }
+        VStack(alignment: .leading, spacing: 0) {
+            process
             attachmentImages
             if !item.text.isEmpty {
                 MarkdownView(source: item.text)
+                    .padding(.top, !item.reasoning.isEmpty || !item.tools.isEmpty ? Space.sm : 0)
+                if showsActions || footnote != nil {
+                    ReplyActions(text: item.text, trace: footnote, open: openTrace) { menu }
+                }
             } else if item.state == .streaming && item.tools.isEmpty && item.reasoning.isEmpty {
                 WhaleTail(height: 22).opacity(0.7)
             }
@@ -109,12 +100,31 @@ struct ChatItemView: View {
         if !item.reasoning.isEmpty {
             ThinkingRow(text: item.reasoning, streaming: item.state == .streaming && item.text.isEmpty)
         }
-        ForEach(item.tools) { tool in ToolRowView(tool: tool) }
+        let groups = toolGroups
+        ForEach(groups, id: \.first?.id) { group in
+            if group.count >= 3 {
+                ChatToolBatch(tools: group, spans: toolSpans,
+                              live: item.state == .streaming || group.contains { toolSpans[$0.id]?.open == true })
+            } else {
+                ForEach(group) { ToolRowView(tool: $0, span: toolSpans[$0.id]) }
+            }
+        }
     }
 
-    private var processLabel: String {
-        [String(localized: "Completed"), item.tools.isEmpty ? String(localized: "Thinking") :
-            String(localized: "\(item.tools.count) tool call(s)")].joined(separator: " · ")
+    private var toolGroups: [[ToolRow]] {
+        var groups: [[ToolRow]] = []
+        var batch: [ToolRow] = []
+        for tool in item.tools {
+            let waiting = toolSpans[tool.id]?.kind == .approval
+            if tool.name == "ask_user_question" || waiting {
+                if !batch.isEmpty { groups.append(batch); batch = [] }
+                groups.append([tool])
+            } else {
+                batch.append(tool)
+            }
+        }
+        if !batch.isEmpty { groups.append(batch) }
+        return groups
     }
 
     @ViewBuilder private var notice: some View {
@@ -217,6 +227,7 @@ struct ThinkingRow: View {
                 }
             }
             .buttonStyle(.plain)
+            .frame(minHeight: RunLayout.processHeight)
             if open {
                 Text(text)
                     .type(.bodySmall).foregroundStyle(DS.inkMuted)
@@ -240,7 +251,7 @@ struct IconTile: View {
     var body: some View {
         Glyph(glyph: glyph, size: 14)
             .foregroundStyle(tint)
-            .frame(width: 24, height: 24)
+            .frame(width: RunLayout.processLead, height: RunLayout.processLead)
             .background(fill, in: RoundedRectangle(cornerRadius: Radius.xs, style: .continuous))
     }
 }
@@ -249,10 +260,11 @@ struct IconTile: View {
 struct ToolRowView: View {
     @Environment(\.designTheme) private var theme
     let tool: ToolRow
+    var span: TraceSpan?
     @State private var open = false
 
     var body: some View {
-        let presentation = ToolPresenterRegistry.present(tool, args: args, theme: theme)
+        let presentation = ToolPresenterRegistry.present(tool, args: tool.args, theme: theme)
         VStack(alignment: .leading, spacing: 8) {
             Button { withAnimation(.snappy) { open.toggle() } } label: {
                 HStack(spacing: 8) {
@@ -263,14 +275,21 @@ struct ToolRowView: View {
                         Text(presentation.summary).font(Mono.font(13, scale: theme.readingScale)).foregroundStyle(DS.inkFaint).lineLimit(1).truncationMode(.tail)
                     }
                     Spacer(minLength: 4)
-                    if tool.result == nil {
-                        ProgressView().controlSize(.mini)
-                    } else if tool.failed {
-                        Text("Failed").type(.labelSmall).foregroundStyle(DS.danger)
+                    if span?.kind == .approval {
+                        Glyph(glyph: AppIcon.warning, size: 14).foregroundStyle(DS.warn)
+                    } else if tool.failed || span?.failed == true {
+                        Glyph(glyph: AppIcon.error, size: 14).foregroundStyle(DS.danger)
+                    } else if span?.cutShort == true {
+                        Glyph(glyph: AppIcon.stopped, size: 14).foregroundStyle(DS.inkFaint)
+                    } else if tool.result == nil {
+                        ProgressView().controlSize(.mini).tint(theme.accent)
+                    } else if let counts = editCounts {
+                        DiffCounts(added: counts.added, removed: counts.removed)
                     }
                 }
             }
             .buttonStyle(.plain)
+            .frame(minHeight: RunLayout.processHeight)
             if open {
                 if !tool.arguments.isEmpty { CodeBlockView(language: "arguments", code: prettyArguments) }
                 if let result = tool.result { CodeBlockView(language: String(localized: "result"), code: String(result.prefix(4000))) }
@@ -278,12 +297,16 @@ struct ToolRowView: View {
         }
     }
 
-    private var args: [String: JSONValue] {
-        (try? JSONValue(data: Data(tool.arguments.utf8)))?.object ?? [:]
+    private var editCounts: (added: Int, removed: Int)? {
+        let changes = tool.presentation.changes
+        guard !changes.isEmpty else { return nil }
+        let lines = changes.flatMap(\.lines)
+        return (lines.filter { $0.hasPrefix("+") }.count, lines.filter { $0.hasPrefix("-") }.count)
     }
 
     private var prettyArguments: String {
         let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let args = tool.args
         guard let data = try? encoder.encode(args),
               !args.isEmpty else { return tool.arguments }
         return String(decoding: data, as: UTF8.self)

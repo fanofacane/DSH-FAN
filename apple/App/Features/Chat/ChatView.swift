@@ -97,7 +97,7 @@ struct ChatDetailView: View {
                 } else if chat.connection.models.isEmpty {
                     ScrollView { KeySetupCard().padding(.horizontal, Space.gutter).padding(.top, 88) }
                 } else {
-                    ChatMessageList(width: geometry.size.width)
+                    ChatMessageList(width: geometry.size.width) { _ in insights = true }
                 }
                 ChatHeaderView(openDrawer: openDrawer, files: $files, agents: $agents, insights: $insights, schedules: $schedules)
             }

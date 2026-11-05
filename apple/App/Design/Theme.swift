@@ -97,6 +97,12 @@ enum DS {
     static let codeWell = Color(light: 0xFFEDF0F6, dark: 0xFF14171E)
     static let codeWellHeader = Color(light: 0xFFE7EBF3, dark: 0xFF1A1E26)
     static let codeWellBorder = Color(light: 0xFFDBDEE5, dark: 0xFF2F333A)
+    // Diff roles from DSH Go ui/theme/semantic_colors.dart.
+    static let diffAddFill = Color(light: 0xFFDCF4E3, dark: 0xFF1C3424)
+    static let diffAddInk = Color(light: 0xFF1F613C, dark: 0xFF98D5AC)
+    static let diffDeleteFill = Color(light: 0xFFFFE4E2, dark: 0xFF422423)
+    static let diffDeleteInk = Color(light: 0xFF923A37, dark: 0xFFF2A7A1)
+    static let lineNumber = Color(light: 0xFF7D8088, dark: 0xFF71747D)
     static let codeComment = Color(light: 0xFF636975, dark: 0xFF868C97)
 
     /// Shadow base: cool ink in light, near-black in dark.
@@ -233,6 +239,21 @@ enum Space {
     static let xl: CGFloat = 20, xxl: CGFloat = 24, xxxl: CGFloat = 32
     static let gutter: CGFloat = 16, inTurn: CGFloat = 8, betweenTurns: CGFloat = 24
     static let readingWidth: CGFloat = 720, floatInset: CGFloat = 12
+}
+
+// Chat run geometry from stream_row.dart, turn_footnote.dart, change_card.dart and diff_page.dart.
+enum RunLayout {
+    static let processLead: CGFloat = 24
+    static let processHeight: CGFloat = 32
+    static let processIndent = processLead + Space.sm
+    static let actionSize: CGFloat = 36
+    static let footnoteSize: CGFloat = 12
+    static let fileRowHeight: CGFloat = 40
+    static let fileChipHeight: CGFloat = 36
+    static let pageBarHeight: CGFloat = 56
+    static let diffFontSize: CGFloat = 12
+    static let diffNumberSize: CGFloat = 11
+    static let diffLineHeight: CGFloat = 19.2
 }
 
 // MARK: Typography (typography.dart): system sans, two weights, mono for code only

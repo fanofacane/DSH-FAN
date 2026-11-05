@@ -170,6 +170,9 @@ struct RootView: View {
         .onChange(of: reduceMotion, initial: true) { _, reduced in pet.reducesMotion = reduced }
         .sheet(item: Binding(get: { phone.prompt }, set: { _ in })) { prompt in PhoneConfirmSheet(prompt: prompt) }
         .onChange(of: engine.status.phase) { _, phase in
+            #if DEBUG
+            guard !DebugPageRegistry.usesFixture else { return }
+            #endif
             // A remote host does not depend on this phone's engine.
             guard !AppLaunchPolicy.isUnitTestHost, !hosts.isRemote else { return }
             if phase == .running {

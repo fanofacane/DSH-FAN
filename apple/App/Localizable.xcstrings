@@ -51,6 +51,44 @@
         }
       }
     },
+    "%lld added, %lld removed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新增 %1$lld 行，删除 %2$lld 行"
+          }
+        }
+      }
+    },
+    "%lld agent calls": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "调用子代理 %lld 次"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld agent call"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld agent calls"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld allowed shortcut(s)": {
       "localizations": {
         "zh-Hans": {
@@ -101,6 +139,34 @@
         }
       }
     },
+    "%lld files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 个文件"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld file"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld files"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld host(s)": {
       "localizations": {
         "zh-Hans": {
@@ -121,12 +187,124 @@
         }
       }
     },
+    "%lld items": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 项"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld item"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld items"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld lines": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld 行"
+          }
+        }
+      }
+    },
+    "%lld messages": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 条消息"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld message"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld messages"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld more files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "还有 %lld 个文件"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld more file"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld more files"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld other tools": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他工具 %lld 次"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld other tool"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld other tools"
+                }
+              }
+            }
           }
         }
       }
@@ -141,12 +319,124 @@
         }
       }
     },
+    "%lld steps": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 步"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld step"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld steps"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld thoughts": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 段思考"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld thought"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld thoughts"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "%lld tool call(s)": {
       "localizations": {
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld 次工具调用"
+          }
+        }
+      }
+    },
+    "%lld tool calls": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 次工具调用"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tool call"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld tool calls"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld web calls": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "联网 %lld 次"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld web call"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld web calls"
+                }
+              }
+            }
           }
         }
       }
@@ -1431,6 +1721,44 @@
         }
       }
     },
+    "Changed %lld files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改动了 %lld 个文件"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Changed %lld file"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Changed %lld files"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Changes this turn": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮改动"
+          }
+        }
+      }
+    },
     "Changing this setting can restart the local engine.": {
       "localizations": {
         "zh-Hans": {
@@ -1721,6 +2049,16 @@
         }
       }
     },
+    "Collapsed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已收起"
+          }
+        }
+      }
+    },
     "Color mode": {
       "localizations": {
         "zh-Hans": {
@@ -1797,6 +2135,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "完成目标"
+          }
+        }
+      }
+    },
+    "Completed": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已完成"
           }
         }
       }
@@ -2127,6 +2475,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "全部复制"
+          }
+        }
+      }
+    },
+    "Copy patch": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制补丁"
+          }
+        }
+      }
+    },
+    "Copy path": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制路径"
           }
         }
       }
@@ -2961,6 +3329,16 @@
         }
       }
     },
+    "Edit %lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 次修改"
+          }
+        }
+      }
+    },
     "Edit and resend": {
       "localizations": {
         "zh-Hans": {
@@ -2997,6 +3375,62 @@
           "stringUnit": {
             "state": "translated",
             "value": "编辑渠道"
+          }
+        }
+      }
+    },
+    "Edited %lld files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改了 %lld 个文件"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Edited %lld file"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Edited %lld files"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Edited %lld times": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "修改 %lld 次"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Edited %lld time"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Edited %lld times"
+                }
+              }
+            }
           }
         }
       }
@@ -3247,6 +3681,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "运行方式"
+          }
+        }
+      }
+    },
+    "Expanded": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已展开"
           }
         }
       }
@@ -3517,6 +3961,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "来自 DSH-TUI"
+          }
+        }
+      }
+    },
+    "From line %lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 行起"
           }
         }
       }
@@ -3907,6 +4361,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "怎么停止"
+          }
+        }
+      }
+    },
+    "Hunk %lld": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "第 %lld 处"
           }
         }
       }
@@ -4841,6 +5305,16 @@
         }
       }
     },
+    "New": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建"
+          }
+        }
+      }
+    },
     "New chat": {
       "localizations": {
         "zh-Hans": {
@@ -4901,6 +5375,16 @@
         }
       }
     },
+    "New file": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新建文件"
+          }
+        }
+      }
+    },
     "New secret value": {
       "localizations": {
         "zh-Hans": {
@@ -4937,6 +5421,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "还没有投递记录"
+          }
+        }
+      }
+    },
+    "No diff to display": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "空文件，没有可显示的改动"
           }
         }
       }
@@ -5651,6 +6145,26 @@
         }
       }
     },
+    "Patch copied": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已复制补丁"
+          }
+        }
+      }
+    },
+    "Path copied": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已复制路径"
+          }
+        }
+      }
+    },
     "Pause goal": {
       "localizations": {
         "zh-Hans": {
@@ -6101,6 +6615,34 @@
         }
       }
     },
+    "Ran %lld commands": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "执行 %lld 条命令"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Ran %lld command"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Ran %lld commands"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Rate limited, retrying": {
       "localizations": {
         "zh-Hans": {
@@ -6117,6 +6659,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "读取"
+          }
+        }
+      }
+    },
+    "Read %lld files": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "读了 %lld 个文件"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Read %lld file"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Read %lld files"
+                }
+              }
+            }
           }
         }
       }
@@ -7147,6 +7717,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "搜索、图像与视频"
+          }
+        }
+      }
+    },
+    "Searched %lld times": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "搜索 %lld 次"
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Searched %lld time"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Searched %lld times"
+                }
+              }
+            }
           }
         }
       }
@@ -8731,6 +9329,16 @@
         }
       }
     },
+    "Tokens not reported": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用量未报告"
+          }
+        }
+      }
+    },
     "Too many requests": {
       "localizations": {
         "zh-Hans": {
@@ -8831,6 +9439,16 @@
         }
       }
     },
+    "Trajectory: %@": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本轮 %@，查看本轮轨迹"
+          }
+        }
+      }
+    },
     "Trust and connect": {
       "localizations": {
         "zh-Hans": {
@@ -8857,6 +9475,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "轮次结束"
+          }
+        }
+      }
+    },
+    "Turn off line wrapping": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不换行"
           }
         }
       }
@@ -8977,6 +9605,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "主机上的 DSH 或远程插件需要更新"
+          }
+        }
+      }
+    },
+    "Update to-dos": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新待办"
+          }
+        }
+      }
+    },
+    "Updated to-dos": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更新了待办"
           }
         }
       }
@@ -9247,6 +9895,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "通过 SSH 或 DSH Remote"
+          }
+        }
+      }
+    },
+    "View changes": {
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "查看改动"
           }
         }
       }

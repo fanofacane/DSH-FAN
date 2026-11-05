@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
+// DSH Go app/lib/ui/chat/{tool_view,run_info}.dart.
 import DSHClient
 import SwiftUI
 
@@ -28,6 +29,7 @@ enum ToolPresenterRegistry {
         WriteToolPresenter(names: ["edit", "str_replace_editor"], label: "Edit"),
         SearchToolPresenter(),
         WebToolPresenter(),
+        TodoToolPresenter(),
         PhoneToolPresenter(),
     ]
     static func present(_ tool: ToolRow, args: [String: JSONValue], theme: DesignTheme) -> ToolCardPresentation {
@@ -50,7 +52,7 @@ struct ReadToolPresenter: ToolPresenter {
     func matches(_ name: String) -> Bool { ["read", "read_image"].contains(name) }
     func present(_ tool: ToolRow, args: [String: JSONValue], theme: DesignTheme) -> ToolCardPresentation {
         ToolCardPresentation(style: ToolStyle(label: "Read", glyph: .fileText, tint: theme.accent, fill: theme.accentContainer),
-                         summary: args["file_path"]?.string ?? args["path"]?.string ?? "")
+                         summary: toolDisplayPath(args))
     }
 }
 
@@ -59,8 +61,10 @@ struct WriteToolPresenter: ToolPresenter {
     let label: String
     func matches(_ name: String) -> Bool { names.contains(name) }
     func present(_ tool: ToolRow, args: [String: JSONValue], theme: DesignTheme) -> ToolCardPresentation {
-        ToolCardPresentation(style: ToolStyle(label: label, glyph: AppIcon.edit, tint: DS.warn, fill: DS.warnContainer),
-                         summary: args["file_path"]?.string ?? args["path"]?.string ?? "")
+        if tool.family == .read { return ReadToolPresenter().present(tool, args: args, theme: theme) }
+        let verb = args["command"]?.string == "create" ? "Write" : label
+        return ToolCardPresentation(style: ToolStyle(label: verb, glyph: AppIcon.edit, tint: DS.warn, fill: DS.warnContainer),
+                                    summary: toolDisplayPath(args))
     }
 }
 
@@ -68,7 +72,8 @@ struct SearchToolPresenter: ToolPresenter {
     func matches(_ name: String) -> Bool { ["grep", "glob"].contains(name) }
     func present(_ tool: ToolRow, args: [String: JSONValue], theme: DesignTheme) -> ToolCardPresentation {
         var summary = args["pattern"]?.string ?? ""
-        if tool.name == "grep", let path = args["path"]?.string, !path.isEmpty { summary += " · " + path }
+        let path = toolDisplayPath(args)
+        if tool.name == "grep", !path.isEmpty { summary += " · " + path }
         return ToolCardPresentation(style: ToolStyle(label: "Search", glyph: AppIcon.search, tint: DS.dusk, fill: DS.duskContainer), summary: summary)
     }
 }
@@ -80,6 +85,15 @@ struct WebToolPresenter: ToolPresenter {
             ? (args["url"]?.string ?? "").replacingOccurrences(of: #"^https?://"#, with: "", options: .regularExpression)
             : args["query"]?.string ?? ""
         return ToolCardPresentation(style: ToolStyle(label: "Web", glyph: .globeHemisphereWest, tint: theme.accent, fill: theme.accentContainer), summary: summary)
+    }
+}
+
+struct TodoToolPresenter: ToolPresenter {
+    func matches(_ name: String) -> Bool { name == "todo_write" }
+    func present(_ tool: ToolRow, args: [String: JSONValue], theme: DesignTheme) -> ToolCardPresentation {
+        let count = args["todos"]?.array?.count
+        return ToolCardPresentation(style: ToolStyle(label: "Update to-dos", glyph: AppIcon.todo, tint: DS.success, fill: DS.successContainer),
+                                    summary: count.map { String(localized: "\($0) items") } ?? "")
     }
 }
 
@@ -105,3 +119,10 @@ struct DefaultToolPresenter: ToolPresenter {
 }
 
 private func toolOneLine(_ text: String) -> String { text.split(whereSeparator: \.isWhitespace).joined(separator: " ") }
+
+
+private func toolDisplayPath(_ args: [String: JSONValue]) -> String {
+    let path = args["file_path"]?.string ?? args["path"]?.string ?? ""
+    let prefix = "/root/workspace/"
+    return path.hasPrefix(prefix) ? String(path.dropFirst(prefix.count)) : path
+}

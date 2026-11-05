@@ -25,6 +25,8 @@ import SwiftUI
         argument("-dsh-screen-appearance") == "dark" ? .dark : .light
     }
     static let pages: [String: @MainActor () -> AnyView] = [
+        "run-chat": { AnyView(DebugRunPage(route: .chat)) },
+        "run-diff": { AnyView(DebugRunPage(route: .diff)) },
         "chat": { AnyView(ChatView()) },
         "drawer": { AnyView(ChatView(drawerOpen: true)) },
         "settings": { AnyView(SettingsView()) },
